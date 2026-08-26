@@ -1,0 +1,36 @@
+{
+  "evaluation_id": "EXP-001-test",
+  "evaluated_at_utc": "2026-08-26T06:07:32.482423+00:00",
+  "weights": "/Users/sayemuddin/Desktop/research_helmet/models/checkpoints/EXP-001/best.pt",
+  "dataset_yaml": "/Users/sayemuddin/Desktop/research_helmet/configs/dataset.yaml",
+  "split": "test",
+  "parameters": {
+    "imgsz": 640,
+    "conf": 0.25,
+    "iou": 0.7,
+    "device": "auto"
+  },
+  "overall_metrics": {
+    "precision": 0.8688,
+    "recall": 0.856559,
+    "f1": 0.862636,
+    "map50": 0.834244,
+    "map50_95": 0.413501
+  },
+  "per_class_metrics": {
+    "no_helmet": {
+      "precision": 0.859054,
+      "recall": 0.841323,
+      "f1": 0.850096,
+      "map50": 0.817737,
+      "map50_95": 0.401519
+    },
+    "helmet": {
+      "precision": 0.878546,
+      "recall": 0.871795,
+      "f1": 0.875157,
+      "map50": 0.850751,
+      "map50_95": 0.425482
+    }
+  }
+}

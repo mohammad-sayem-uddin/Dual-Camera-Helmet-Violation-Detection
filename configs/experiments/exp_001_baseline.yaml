@@ -1,0 +1,50 @@
+# ==============================================================================
+# EXP-001: YOLOv8 Research Baseline for Motorcycle Helmet Violation Detection
+# ==============================================================================
+
+# Experiment Identity & Provenance
+experiment_id: "EXP-001"
+description: "YOLOv8 nano baseline detector on the integrated 2-class dataset (no_helmet vs helmet)."
+dataset_yaml: "configs/dataset.yaml"
+dataset_version: "kawke_dibona_v1"
+model: "yolov8n.pt"
+pretrained: true
+
+# Core Training Hyperparameters
+imgsz: 640
+batch: 16
+epochs: 50
+patience: 25
+optimizer: "auto"        # Auto-selects SGD or AdamW with cosine lr schedule
+learning_rate: null      # Null defaults to Ultralytics baseline (lr0=0.01 for SGD)
+lrf: 0.01                # Final learning rate fraction (lr0 * lrf)
+momentum: 0.937
+weight_decay: 0.0005
+warmup_epochs: 3.0
+warmup_momentum: 0.8
+warmup_bias_lr: 0.1
+
+# Reproducibility & Hardware
+seed: 42
+deterministic: true
+device: "auto"           # Automatically selects Apple Silicon MPS, CUDA GPU, or CPU
+workers: 4
+save_period: 10          # Save periodic checkpoints every 10 epochs
+
+# Baseline Online Augmentation Policy (Tailored for Traffic Scenes)
+# Note: Heavy rotations, mixup, and vertical flips are disabled to preserve realistic
+# motorcycle upright orientation and sharp helmet boundary localization.
+augmentation_params:
+  hsv_h: 0.015           # Hue adjustment
+  hsv_s: 0.7             # Saturation adjustment
+  hsv_v: 0.4             # Brightness/value adjustment
+  degrees: 0.0           # Upright motorcycle orientation preserved
+  translate: 0.1         # Translation +/- 10%
+  scale: 0.5             # Scale jitter (0.5 to 1.5x)
+  shear: 0.0             # Shear disabled
+  perspective: 0.0       # Perspective distortion disabled
+  flipud: 0.0            # No upside-down motorcycles
+  fliplr: 0.5            # Horizontal flip (left/right traffic symmetry)
+  mosaic: 1.0            # Mosaic augmentation enabled for multi-scale context
+  mixup: 0.0             # Mixup disabled to protect small helmet feature contrast
+  copy_paste: 0.0        # Copy-paste disabled for baseline

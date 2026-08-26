@@ -1,0 +1,8 @@
+path: 'data/processed/v1_group_split'
+train: 'train/images'
+val: 'val/images'
+test: 'test/images'
+nc: 2
+names:
+  0: no_helmet
+  1: helmet

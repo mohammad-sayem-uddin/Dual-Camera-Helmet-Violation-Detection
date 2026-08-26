@@ -1,0 +1,16 @@
+# Template only; do not run until the dataset and split are audited.
+experiment_id: EXP-001
+notes: "Baseline template; not executed."
+model: yolov8n.pt
+dataset_yaml: configs/dataset.yaml
+imgsz: 640
+batch: 16
+epochs: 50
+learning_rate: null
+optimizer: auto
+seed: 0
+device: auto
+patience: 100
+augmentation: default_ultralytics
+# Optional Ultralytics overrides, for example: {mosaic: 1.0, fliplr: 0.5}
+augmentation_params: {}

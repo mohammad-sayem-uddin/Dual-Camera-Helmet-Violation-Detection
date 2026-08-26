@@ -1,0 +1,54 @@
+{
+  "dataset_root": "/Users/sayemuddin/Desktop/research_helmet/data/processed/v1_group_split",
+  "total_images": 5547,
+  "readable_images": 5547,
+  "corrupted_images": 0,
+  "total_label_files": 5547,
+  "annotated_images": 5540,
+  "empty_label_files": 7,
+  "images_without_annotations": 0,
+  "orphan_annotations": 0,
+  "annotation_issues": 0,
+  "total_objects": 8248,
+  "class_counts": {
+    "0": 4888,
+    "1": 3360
+  },
+  "dimension_distribution": {
+    "640x640": 5547
+  },
+  "exact_duplicate_groups": 0,
+  "splits": {
+    "test": {
+      "images": 837,
+      "annotated_images": 837,
+      "empty_labels": 0,
+      "objects": 1115,
+      "class_counts": {
+        "0": 717,
+        "1": 398
+      }
+    },
+    "train": {
+      "images": 3873,
+      "annotated_images": 3866,
+      "empty_labels": 7,
+      "objects": 5792,
+      "class_counts": {
+        "0": 3426,
+        "1": 2366
+      }
+    },
+    "val": {
+      "images": 837,
+      "annotated_images": 837,
+      "empty_labels": 0,
+      "objects": 1341,
+      "class_counts": {
+        "0": 745,
+        "1": 596
+      }
+    }
+  },
+  "issues": []
+}

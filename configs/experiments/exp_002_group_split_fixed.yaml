@@ -1,0 +1,48 @@
+# ==============================================================================
+# EXP-002-FIXED: YOLOv8 on True Zero-Leakage Sequence-Exclusive Video Split
+# ==============================================================================
+
+# Experiment Identity & Provenance
+experiment_id: "EXP-002-FIXED"
+description: "YOLOv8 nano detector trained on audited sequence-isolated group split (169 atomic video groups, strictly 0.0% sequence overlap)."
+dataset_yaml: "configs/dataset_group_split_fixed.yaml"
+dataset_version: "v1_group_split_fixed"
+model: "yolov8n.pt"
+pretrained: true
+
+# Core Training Hyperparameters
+imgsz: 640
+batch: 16
+epochs: 50
+patience: 25
+optimizer: "auto"
+learning_rate: null
+lrf: 0.01
+momentum: 0.937
+weight_decay: 0.0005
+warmup_epochs: 3.0
+warmup_momentum: 0.8
+warmup_bias_lr: 0.1
+
+# Reproducibility & Hardware
+seed: 42
+deterministic: true
+device: "auto"
+workers: 4
+save_period: 10
+
+# Online Augmentation Policy (Identical to EXP-001 for Controlled Comparison)
+augmentation_params:
+  hsv_h: 0.015
+  hsv_s: 0.7
+  hsv_v: 0.4
+  degrees: 0.0
+  translate: 0.1
+  scale: 0.5
+  shear: 0.0
+  perspective: 0.0
+  flipud: 0.0
+  fliplr: 0.5
+  mosaic: 1.0
+  mixup: 0.0
+  copy_paste: 0.0

@@ -1,0 +1,11 @@
+# Active Research Dataset Configuration
+# Points to the integrated Kawke Dibona Motorcycle Helmet Dataset v1
+path: data/annotated/kawke_dibona_v1
+train: train/images
+val: valid/images
+test: test/images
+
+nc: 2
+names:
+  0: no_helmet
+  1: helmet

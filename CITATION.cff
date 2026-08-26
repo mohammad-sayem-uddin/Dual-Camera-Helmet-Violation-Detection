@@ -1,0 +1,16 @@
+cff-version: 1.2.0
+message: "If you use this research software or dataset methodology, please cite it as below."
+authors:
+  - family-names: "Uddin"
+    given-names: "Mohammad Sayem"
+title: "Dual-Camera Helmet Violation Detection: A Context-Aware Spatial-Temporal Computer Vision Framework"
+version: 0.1.0
+date-released: 2026-08-26
+url: "https://github.com/mohammad-sayem-uddin/Dual-Camera-Helmet-Violation-Detection"
+keywords:
+  - computer vision
+  - object detection
+  - temporal data leakage
+  - video dataset splitting
+  - motorcycle helmet violation detection
+  - dual-camera verification

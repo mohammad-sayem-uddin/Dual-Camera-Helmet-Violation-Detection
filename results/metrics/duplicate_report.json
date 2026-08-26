@@ -1,0 +1,23 @@
+{
+  "images_checked": 5547,
+  "unique_sha256_hashes": 5547,
+  "exact_duplicate_groups": 0,
+  "exact_duplicate_files": [],
+  "video_sequence_groups_detected": 169,
+  "cross_split_sequence_leakage": {
+    "train_valid_overlap_count": 127,
+    "train_test_overlap_count": 125,
+    "sample_leaked_sequences": [
+      "20260522_163554",
+      "20260522_163614",
+      "20260522_163653",
+      "20260522_163703",
+      "20260522_164245",
+      "20260522_164342",
+      "20260522_182053",
+      "20260522_182317",
+      "20260522_182523",
+      "20260522_182747"
+    ]
+  }
+}

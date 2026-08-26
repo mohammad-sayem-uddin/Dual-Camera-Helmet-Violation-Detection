@@ -1,0 +1,86 @@
+# ==============================================================================
+# Git Ignore Rules: Dual-Camera Helmet Violation Detection Research
+# ==============================================================================
+
+# Python Bytecode & Compilation Artifacts
+__pycache__/
+*.py[cod]
+*$py.class
+*.pyo
+*.pyd
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+.coverage
+htmlcov/
+*.coverage.*
+
+# Virtual Environments
+.venv/
+venv/
+env/
+ENV/
+env.bak/
+venv.bak/
+
+# Operating System Files
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+Thumbs.db
+
+# IDE & Editor Configurations
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# Environment & Secret Files
+.env
+.env.*
+!.env.example
+
+# Large ML Model Weights & Checkpoints
+*.pt
+*.pth
+*.onnx
+*.engine
+*.tflite
+*.mlmodel
+*.ckpt
+*.h5
+*.pb
+*.weights
+*.bin
+yolov8*.pt
+
+# Datasets (Images, Annotations, Processed Artifacts)
+# Note: Reproducibility metadata in data/metadata/ and data/splits/ is preserved
+data/annotated/
+data/processed/
+data/raw/*.jpg
+data/raw/*.png
+data/raw/*.mp4
+data/raw/*.avi
+
+# Generated Training Dumps, Evaluation Runs & Batch Visualizations
+results/evaluation/
+results/plots/
+results/confusion_matrices/
+experiments/**/training/
+experiments/**/weights/
+models/checkpoints/
+models/final/
+results/predictions/
+
+# Preserve Directory Architecture with .gitkeep
+!models/.gitkeep
+!results/.gitkeep
+!experiments/.gitkeep
+!data/raw/.gitkeep
+!data/metadata/.gitkeep
+!data/splits/.gitkeep

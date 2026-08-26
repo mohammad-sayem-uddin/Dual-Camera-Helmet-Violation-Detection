@@ -1,0 +1,10 @@
+{
+  "experiment_id": "EXP-001",
+  "total_epochs_trained": 50,
+  "best_epoch": 40,
+  "best_map50": 0.86311,
+  "best_map50_95": 0.38737,
+  "final_precision": 0.8381,
+  "final_recall": 0.84998,
+  "overfitting_assessment": "None detected. Validation loss steadily declined alongside training loss."
+}

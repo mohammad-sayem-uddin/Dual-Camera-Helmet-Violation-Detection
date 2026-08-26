@@ -1,0 +1,27 @@
+TrafficVision-AI Research Notes
+===============================
+
+IMPLEMENTED
+-----------
+- A standalone Python workspace was created for motorcycle helmet-detection research and model experimentation.
+- It has no dependency on the Flask/React application or its application-facing ml/ modules.
+- Read-only future tools are available for paired-YOLO dataset inspection, duplicate reporting, group-exclusive splitting, YOLO training, evaluation, and training-history visualization.
+- Inspection and duplicate tools report issues but never delete, move, or edit source data.
+
+DATASET PENDING
+---------------
+- No annotated data, statistics, split, experiment, result, or historical checkpoint was copied into this workspace.
+- Add the future annotated dataset under data/annotated/. Confirm its final layout and annotation format before use.
+- Provisional expected classes, subject to confirmation: no_helmet (0), helmet (1).
+
+RESEARCH PLAN
+-------------
+- Current objective: robust motorcycle helmet detection as the core detector for the planned integrated dual-camera violation-detection research direction.
+- Before splitting, identify video/sequence/source groups and duplicates. Each group must wholly belong to train, validation, or test to prevent leakage from neighbouring frames.
+- Audit label validity and class balance before creating a versioned split.
+- Record real experiments as EXP-001, EXP-002, etc., including config, dataset/split version, model, hyperparameters, seed, history, metrics, checkpoints, and notes.
+
+FUTURE EXPERIMENT
+-----------------
+- Establish the baseline only after data audit and reviewed group-based splitting.
+- Rider-vehicle association, confidence-aware temporal verification, and dual-camera synchronization are future work and are not implemented here.
