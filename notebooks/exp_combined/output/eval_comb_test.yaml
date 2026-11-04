@@ -1,0 +1,7 @@
+path: /kaggle/working/combined_test_dataset
+train: images/val
+val: images/val
+names:
+  0: no_helmet
+  1: helmet
+nc: 2

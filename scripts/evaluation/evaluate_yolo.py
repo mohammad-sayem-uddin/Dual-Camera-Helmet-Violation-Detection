@@ -85,6 +85,7 @@ def main() -> None:
         conf=args.conf,
         iou=args.iou,
         device=resolved_device,
+        workers=0,
         plots=True,
         project=str(eval_output_dir.parent),
         name=eval_output_dir.name,

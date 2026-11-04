@@ -1,0 +1,160 @@
+{
+  "experiment": "EXP-NEW",
+  "timestamp": "2026-11-04T17:24:11Z",
+  "checkpoint": "/kaggle/input/datasets/allfaz/exp-new-weights/best.pt",
+  "evaluations": {
+    "new_held_out_test": {
+      "evaluation_name": "New Held-Out Test Set (280 images)",
+      "overall": {
+        "precision": 0.9729,
+        "recall": 0.918,
+        "f1": 0.9447,
+        "map50": 0.9615,
+        "map50_95": 0.722
+      },
+      "per_class": {
+        "no_helmet": {
+          "class_id": 0,
+          "precision": 0.9817,
+          "recall": 0.8881,
+          "f1": 0.9325,
+          "map50": 0.9445,
+          "map50_95": 0.6711
+        },
+        "helmet": {
+          "class_id": 1,
+          "precision": 0.9642,
+          "recall": 0.9479,
+          "f1": 0.956,
+          "map50": 0.9785,
+          "map50_95": 0.7729
+        }
+      },
+      "confusion_matrix": [
+        [
+          254.0,
+          3.0,
+          814.0
+        ],
+        [
+          8.0,
+          278.0,
+          364.0
+        ],
+        [
+          6.0,
+          3.0,
+          0.0
+        ]
+      ],
+      "speed_ms": {
+        "preprocess": 0.89,
+        "inference": 5.35,
+        "loss": 0.0,
+        "postprocess": 0.88
+      }
+    },
+    "old_held_out_test": {
+      "evaluation_name": "Old Held-Out Test Set (829 images)",
+      "overall": {
+        "precision": 0.3384,
+        "recall": 0.1015,
+        "f1": 0.1562,
+        "map50": 0.0808,
+        "map50_95": 0.016
+      },
+      "per_class": {
+        "no_helmet": {
+          "class_id": 0,
+          "precision": 0.2749,
+          "recall": 0.075,
+          "f1": 0.1178,
+          "map50": 0.0493,
+          "map50_95": 0.0084
+        },
+        "helmet": {
+          "class_id": 1,
+          "precision": 0.4018,
+          "recall": 0.1281,
+          "f1": 0.1942,
+          "map50": 0.1124,
+          "map50_95": 0.0237
+        }
+      },
+      "confusion_matrix": [
+        [
+          102.0,
+          42.0,
+          1094.0
+        ],
+        [
+          20.0,
+          175.0,
+          897.0
+        ],
+        [
+          478.0,
+          353.0,
+          0.0
+        ]
+      ],
+      "speed_ms": {
+        "preprocess": 0.71,
+        "inference": 5.3,
+        "loss": 0.0,
+        "postprocess": 0.62
+      }
+    },
+    "combined_held_out_test": {
+      "evaluation_name": "Combined Held-Out Test Set (1,109 images)",
+      "overall": {
+        "precision": 0.8317,
+        "recall": 0.3429,
+        "f1": 0.4856,
+        "map50": 0.3947,
+        "map50_95": 0.2512
+      },
+      "per_class": {
+        "no_helmet": {
+          "class_id": 0,
+          "precision": 0.8295,
+          "recall": 0.3088,
+          "f1": 0.45,
+          "map50": 0.3495,
+          "map50_95": 0.2172
+        },
+        "helmet": {
+          "class_id": 1,
+          "precision": 0.8338,
+          "recall": 0.377,
+          "f1": 0.5193,
+          "map50": 0.4399,
+          "map50_95": 0.2852
+        }
+      },
+      "confusion_matrix": [
+        [
+          356.0,
+          45.0,
+          1908.0
+        ],
+        [
+          28.0,
+          453.0,
+          1261.0
+        ],
+        [
+          484.0,
+          356.0,
+          0.0
+        ]
+      ],
+      "speed_ms": {
+        "preprocess": 0.82,
+        "inference": 4.88,
+        "loss": 0.0,
+        "postprocess": 0.72
+      }
+    }
+  }
+}

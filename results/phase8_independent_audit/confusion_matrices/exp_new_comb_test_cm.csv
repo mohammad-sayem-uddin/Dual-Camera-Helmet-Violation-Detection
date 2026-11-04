@@ -1,0 +1,4 @@
+,True: no_helmet (0),True: helmet (1),True: background (FP)
+Pred: no_helmet (0),356.0,45.0,1908.0
+Pred: helmet (1),28.0,453.0,1261.0
+Pred: background (Missed/FN),484.0,356.0,0.0

@@ -1,0 +1,10 @@
+path: /kaggle/input/datasets/allfaz/helmet-dataset-expansion-v2
+train: images/train
+val: images/val
+test: images/test
+
+names:
+  0: no_helmet
+  1: helmet
+
+nc: 2

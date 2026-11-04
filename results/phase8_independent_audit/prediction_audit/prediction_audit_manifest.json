@@ -1,0 +1,166 @@
+{
+  "audit_description": "Visual Prediction Artifacts for Phase 8 Verification",
+  "evaluations": {
+    "exp_002_fixed_old_test": {
+      "count": 3,
+      "files": [
+        {
+          "file_name": "val_batch0_pred.jpg",
+          "path": "results/phase8_independent_audit/prediction_audit/exp_002_fixed_old_test/val_batch0_pred.jpg",
+          "size_bytes": 694738,
+          "sha256": "9ae475b230ec54e0545b1a524b550c632b7a54aaa5ba50786edd7fd455cc1a69"
+        },
+        {
+          "file_name": "val_batch1_pred.jpg",
+          "path": "results/phase8_independent_audit/prediction_audit/exp_002_fixed_old_test/val_batch1_pred.jpg",
+          "size_bytes": 692459,
+          "sha256": "cbb2cf7f0d700b3e4369929ca3b6090ee8e096c53ef538118e701af1e96c5c23"
+        },
+        {
+          "file_name": "val_batch2_pred.jpg",
+          "path": "results/phase8_independent_audit/prediction_audit/exp_002_fixed_old_test/val_batch2_pred.jpg",
+          "size_bytes": 708675,
+          "sha256": "3af1dc636e139e767b899acd7d5465532345c2de40dfdc1d9c304add11267f55"
+        }
+      ]
+    },
+    "exp_combined_comb_test": {
+      "count": 3,
+      "files": [
+        {
+          "file_name": "val_batch0_pred.jpg",
+          "path": "results/phase8_independent_audit/prediction_audit/exp_combined_comb_test/val_batch0_pred.jpg",
+          "size_bytes": 861146,
+          "sha256": "35c9ad14b85de8901fa188b65ec506545f22c24fd12e2a4e13b8b4c0b83d7fca"
+        },
+        {
+          "file_name": "val_batch1_pred.jpg",
+          "path": "results/phase8_independent_audit/prediction_audit/exp_combined_comb_test/val_batch1_pred.jpg",
+          "size_bytes": 892554,
+          "sha256": "1f9c43b0bf367244ce59141ec3a4afa4eb7a7374bc65f2165508299ff308e513"
+        },
+        {
+          "file_name": "val_batch2_pred.jpg",
+          "path": "results/phase8_independent_audit/prediction_audit/exp_combined_comb_test/val_batch2_pred.jpg",
+          "size_bytes": 970144,
+          "sha256": "ec4a8eb7afaeff2dc06c1b7dba336af0fb8742e21dd5ba259fce1f58ca319970"
+        }
+      ]
+    },
+    "exp_combined_new_test": {
+      "count": 3,
+      "files": [
+        {
+          "file_name": "val_batch0_pred.jpg",
+          "path": "results/phase8_independent_audit/prediction_audit/exp_combined_new_test/val_batch0_pred.jpg",
+          "size_bytes": 946999,
+          "sha256": "48cbffff825cd3de3b762c2bb80047119e152cec0744c5c179bd774aa5772d7a"
+        },
+        {
+          "file_name": "val_batch1_pred.jpg",
+          "path": "results/phase8_independent_audit/prediction_audit/exp_combined_new_test/val_batch1_pred.jpg",
+          "size_bytes": 893449,
+          "sha256": "0b2d2766c17791326423d4d88f6cf4fecacf0f2fff11e64a56c0d4b36c6e3957"
+        },
+        {
+          "file_name": "val_batch2_pred.jpg",
+          "path": "results/phase8_independent_audit/prediction_audit/exp_combined_new_test/val_batch2_pred.jpg",
+          "size_bytes": 970535,
+          "sha256": "e0b90788314d17fb54ab0922a60d9ee4c0d7f8cdc25fbaf468a1639c58212792"
+        }
+      ]
+    },
+    "exp_combined_old_test": {
+      "count": 3,
+      "files": [
+        {
+          "file_name": "val_batch0_pred.jpg",
+          "path": "results/phase8_independent_audit/prediction_audit/exp_combined_old_test/val_batch0_pred.jpg",
+          "size_bytes": 834042,
+          "sha256": "9f1791bd4f261c534f8722d46a25488d9e7e11a8d4d4c0c4b7b14296dfd2c7d3"
+        },
+        {
+          "file_name": "val_batch1_pred.jpg",
+          "path": "results/phase8_independent_audit/prediction_audit/exp_combined_old_test/val_batch1_pred.jpg",
+          "size_bytes": 772071,
+          "sha256": "b514d87c6f516eb2e8f02b9fddcc0b1dfa3f94f43bd1bcb3cf5e77ff09903409"
+        },
+        {
+          "file_name": "val_batch2_pred.jpg",
+          "path": "results/phase8_independent_audit/prediction_audit/exp_combined_old_test/val_batch2_pred.jpg",
+          "size_bytes": 694660,
+          "sha256": "127e58bf6ca9611fb60d8a408f34941d6b7e468fb9b03fc326f763ad73049fac"
+        }
+      ]
+    },
+    "exp_new_comb_test": {
+      "count": 3,
+      "files": [
+        {
+          "file_name": "val_batch0_pred.jpg",
+          "path": "results/phase8_independent_audit/prediction_audit/exp_new_comb_test/val_batch0_pred.jpg",
+          "size_bytes": 823645,
+          "sha256": "cb53375d499966f69d5009885b6c7e416b2c3dca7fa57c1bf57b89ab085b6bc2"
+        },
+        {
+          "file_name": "val_batch1_pred.jpg",
+          "path": "results/phase8_independent_audit/prediction_audit/exp_new_comb_test/val_batch1_pred.jpg",
+          "size_bytes": 893515,
+          "sha256": "1ae3b35a195402ddb270e56b0f42a953b720bccd12ebccff3d7adeb0db276923"
+        },
+        {
+          "file_name": "val_batch2_pred.jpg",
+          "path": "results/phase8_independent_audit/prediction_audit/exp_new_comb_test/val_batch2_pred.jpg",
+          "size_bytes": 968680,
+          "sha256": "0b5add46bf9ca0b162127ea16848fc179b84bc2bb97edc3f5fd76475e78718b7"
+        }
+      ]
+    },
+    "exp_new_new_test": {
+      "count": 3,
+      "files": [
+        {
+          "file_name": "val_batch0_pred.jpg",
+          "path": "results/phase8_independent_audit/prediction_audit/exp_new_new_test/val_batch0_pred.jpg",
+          "size_bytes": 943658,
+          "sha256": "2e162e90791f15b5094961cfc8f08880d74074883a3ca3d1799b8d98b6e49a10"
+        },
+        {
+          "file_name": "val_batch1_pred.jpg",
+          "path": "results/phase8_independent_audit/prediction_audit/exp_new_new_test/val_batch1_pred.jpg",
+          "size_bytes": 894200,
+          "sha256": "6428fa8725d3b9549250597ab3a3e330eddaa6f0b62f24dd7421190e1e4dfd05"
+        },
+        {
+          "file_name": "val_batch2_pred.jpg",
+          "path": "results/phase8_independent_audit/prediction_audit/exp_new_new_test/val_batch2_pred.jpg",
+          "size_bytes": 969007,
+          "sha256": "67389b1980e1bd0f0a753ac82362f2f23d4ab924a265ffaf3649cbd4f4407218"
+        }
+      ]
+    },
+    "exp_new_old_test": {
+      "count": 3,
+      "files": [
+        {
+          "file_name": "val_batch0_pred.jpg",
+          "path": "results/phase8_independent_audit/prediction_audit/exp_new_old_test/val_batch0_pred.jpg",
+          "size_bytes": 794971,
+          "sha256": "d092c1363cb45905a999508ee5c03f4d822d202d665fead7729b9cd7c8c1f4f8"
+        },
+        {
+          "file_name": "val_batch1_pred.jpg",
+          "path": "results/phase8_independent_audit/prediction_audit/exp_new_old_test/val_batch1_pred.jpg",
+          "size_bytes": 751862,
+          "sha256": "ade31d7458bae78e0ba7ea45341726c01b8002b27e78fccdf9abd61d37b0fbd0"
+        },
+        {
+          "file_name": "val_batch2_pred.jpg",
+          "path": "results/phase8_independent_audit/prediction_audit/exp_new_old_test/val_batch2_pred.jpg",
+          "size_bytes": 674656,
+          "sha256": "64fcc8476163b6841adc9bf21e9e15698c6d659bd9ed07aad3249f70c625f564"
+        }
+      ]
+    }
+  }
+}

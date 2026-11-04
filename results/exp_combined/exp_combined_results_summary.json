@@ -1,0 +1,193 @@
+{
+  "experiment_name": "EXP-COMBINED",
+  "timestamp": "2026-11-04T18:31:34Z",
+  "hardware": {
+    "device_count": 2,
+    "device_name": "Tesla T4",
+    "total_vram_gb": 14.56
+  },
+  "training_config": {
+    "model": "yolov8n.pt",
+    "initialization": "official_coco_pretrained",
+    "dataset": "combined_old_and_new",
+    "train_images": 5151,
+    "val_images": 1128,
+    "imgsz": 640,
+    "batch": 32,
+    "optimizer": "AdamW",
+    "lr0": 0.001667,
+    "weight_decay": 0.0005,
+    "momentum": 0.9,
+    "seed": 42,
+    "max_epochs": 50,
+    "patience": 20,
+    "epochs_completed": 50,
+    "training_duration_seconds": 3356.65,
+    "training_duration_minutes": 55.94,
+    "average_epoch_seconds": 67.13,
+    "peak_vram_gb": 3.61,
+    "total_experiment_duration_seconds": 3531.94
+  },
+  "validation_best_epoch": {
+    "epoch": 34,
+    "precision": 0.867,
+    "recall": 0.8582,
+    "map50": 0.8963,
+    "map50_95": 0.5207
+  },
+  "evaluations": {
+    "new_held_out_test": {
+      "evaluation_name": "New Held-Out Test Set (280 images)",
+      "overall": {
+        "precision": 0.9693,
+        "recall": 0.9051,
+        "f1": 0.9361,
+        "map50": 0.9602,
+        "map50_95": 0.704
+      },
+      "per_class": {
+        "no_helmet": {
+          "class_id": 0,
+          "precision": 0.9643,
+          "recall": 0.8769,
+          "f1": 0.9185,
+          "map50": 0.9446,
+          "map50_95": 0.6524
+        },
+        "helmet": {
+          "class_id": 1,
+          "precision": 0.9743,
+          "recall": 0.9334,
+          "f1": 0.9534,
+          "map50": 0.9758,
+          "map50_95": 0.7556
+        }
+      },
+      "confusion_matrix": [
+        [
+          256.0,
+          3.0,
+          1864.0
+        ],
+        [
+          8.0,
+          279.0,
+          796.0
+        ],
+        [
+          4.0,
+          2.0,
+          0.0
+        ]
+      ],
+      "speed_ms": {
+        "preprocess": 0.83,
+        "inference": 5.41,
+        "loss": 0.0,
+        "postprocess": 1.33
+      }
+    },
+    "old_held_out_test": {
+      "evaluation_name": "Old Held-Out Test Set (829 images)",
+      "overall": {
+        "precision": 0.7702,
+        "recall": 0.7296,
+        "f1": 0.7493,
+        "map50": 0.7517,
+        "map50_95": 0.3179
+      },
+      "per_class": {
+        "no_helmet": {
+          "class_id": 0,
+          "precision": 0.7924,
+          "recall": 0.6872,
+          "f1": 0.7361,
+          "map50": 0.7399,
+          "map50_95": 0.3008
+        },
+        "helmet": {
+          "class_id": 1,
+          "precision": 0.7479,
+          "recall": 0.7719,
+          "f1": 0.7597,
+          "map50": 0.7634,
+          "map50_95": 0.3351
+        }
+      },
+      "confusion_matrix": [
+        [
+          524.0,
+          24.0,
+          4098.0
+        ],
+        [
+          60.0,
+          536.0,
+          5738.0
+        ],
+        [
+          16.0,
+          10.0,
+          0.0
+        ]
+      ],
+      "speed_ms": {
+        "preprocess": 0.77,
+        "inference": 5.24,
+        "loss": 0.0,
+        "postprocess": 0.82
+      }
+    },
+    "combined_held_out_test": {
+      "evaluation_name": "Combined Held-Out Test Set (1,109 images)",
+      "overall": {
+        "precision": 0.8357,
+        "recall": 0.7856,
+        "f1": 0.8099,
+        "map50": 0.8437,
+        "map50_95": 0.471
+      },
+      "per_class": {
+        "no_helmet": {
+          "class_id": 0,
+          "precision": 0.8431,
+          "recall": 0.7465,
+          "f1": 0.7919,
+          "map50": 0.8201,
+          "map50_95": 0.4314
+        },
+        "helmet": {
+          "class_id": 1,
+          "precision": 0.8283,
+          "recall": 0.8247,
+          "f1": 0.8265,
+          "map50": 0.8673,
+          "map50_95": 0.5106
+        }
+      },
+      "confusion_matrix": [
+        [
+          780.0,
+          27.0,
+          5962.0
+        ],
+        [
+          68.0,
+          815.0,
+          6534.0
+        ],
+        [
+          20.0,
+          12.0,
+          0.0
+        ]
+      ],
+      "speed_ms": {
+        "preprocess": 0.86,
+        "inference": 4.63,
+        "loss": 0.0,
+        "postprocess": 0.97
+      }
+    }
+  }
+}

@@ -1,0 +1,31 @@
+{
+  "timestamp": "2026-11-04T09:15:00Z",
+  "old_dataset": {
+    "name": "kawke_dibona_v1 (EXP-002-FIXED)",
+    "total_images": 5547,
+    "splits": {
+      "train": 3866,
+      "val": 852,
+      "test": 829
+    },
+    "unique_groups": 169,
+    "internal_exact_duplicates": 0
+  },
+  "new_dataset": {
+    "name": "helmet_dataset_expansion_v2",
+    "total_images": 1841,
+    "splits": {
+      "train": 1285,
+      "val": 276,
+      "test": 280
+    },
+    "unique_groups": 565,
+    "internal_exact_duplicates": 0
+  },
+  "cross_dataset_leakage": {
+    "exact_sha256_duplicates": 0,
+    "perceptual_near_duplicates_dist_le_2": 0,
+    "shared_sequence_groups": 0,
+    "details_perceptual": []
+  }
+}

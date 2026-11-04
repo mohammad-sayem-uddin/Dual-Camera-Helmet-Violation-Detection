@@ -84,3 +84,9 @@ results/predictions/
 !data/raw/.gitkeep
 !data/metadata/.gitkeep
 !data/splits/.gitkeep
+
+# Additional Local Raw Dataset Folders
+Motorcyle dataset/
+data/helmet_dataset_expansion/
+notebooks/**/combined_test_dataset/
+*.cache

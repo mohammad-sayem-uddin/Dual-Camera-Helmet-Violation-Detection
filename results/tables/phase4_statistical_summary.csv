@@ -1,0 +1,6 @@
+Metric,EXP-003 (Mean ± Std),EXP-002-FIXED (Mean ± Std),Mean Paired Diff,95% Student-t CI,95% Bootstrap CI,Paired t-test,Wilcoxon Signed-Rank,Cohen's d
+mAP@0.50,0.8256,0.6601,+0.1655,N/A,N/A,N/A,N/A,N/A
+mAP@0.50:0.95,0.3941,0.2797,+0.1144,N/A,N/A,N/A,N/A,N/A
+Precision,0.8544,0.7584,+0.0960,N/A,N/A,N/A,N/A,N/A
+Recall,0.8508,0.6999,+0.1509,N/A,N/A,N/A,N/A,N/A
+F1-Score,0.8526,0.7275,+0.1251,N/A,N/A,N/A,N/A,N/A

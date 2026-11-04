@@ -1,0 +1,115 @@
+{
+  "audit_metadata": {
+    "auditor": "Senior Computer Vision Research Scientist & Independent ML Auditor",
+    "phase": "Phase 8 Independent Experimental Validation",
+    "status": "VERIFIED_LEAKAGE_FREE",
+    "timestamp": "2026-11-04"
+  },
+  "datasets": {
+    "new_mobile_expansion_v2": {
+      "train": {
+        "images": 1285,
+        "unique_hashes": 1285,
+        "labels": 1285,
+        "no_helmet": 1236,
+        "helmet": 1348,
+        "total_instances": 2584
+      },
+      "val": {
+        "images": 276,
+        "unique_hashes": 276,
+        "labels": 276,
+        "no_helmet": 203,
+        "helmet": 394,
+        "total_instances": 597
+      },
+      "test": {
+        "images": 280,
+        "unique_hashes": 280,
+        "labels": 280,
+        "no_helmet": 268,
+        "helmet": 284,
+        "total_instances": 552
+      },
+      "internal_split_leakage": {
+        "train_vs_val": 0,
+        "train_vs_test": 0,
+        "val_vs_test": 0
+      }
+    },
+    "old_cctv_v1_fixed": {
+      "train": {
+        "images": 3866,
+        "unique_hashes": 3866,
+        "labels": 3866,
+        "no_helmet": 3634,
+        "helmet": 2236,
+        "total_instances": 5870
+      },
+      "val": {
+        "images": 852,
+        "unique_hashes": 852,
+        "labels": 852,
+        "no_helmet": 654,
+        "helmet": 554,
+        "total_instances": 1208
+      },
+      "test": {
+        "images": 829,
+        "unique_hashes": 829,
+        "labels": 829,
+        "no_helmet": 600,
+        "helmet": 570,
+        "total_instances": 1170
+      },
+      "internal_split_leakage": {
+        "train_vs_val": 0,
+        "train_vs_test": 0,
+        "val_vs_test": 0
+      }
+    },
+    "combined_multi_domain": {
+      "train": {
+        "images": 5151,
+        "unique_hashes": 5151,
+        "no_helmet": 4870,
+        "helmet": 3584,
+        "total_instances": 8454
+      },
+      "val": {
+        "images": 1128,
+        "unique_hashes": 1128,
+        "no_helmet": 857,
+        "helmet": 948,
+        "total_instances": 1805
+      },
+      "test": {
+        "images": 1109,
+        "unique_hashes": 1109,
+        "no_helmet": 868,
+        "helmet": 854,
+        "total_instances": 1722
+      },
+      "cross_population_leakage": {
+        "new_test_vs_old_test_overlap": 0,
+        "combined_train_vs_combined_test_overlap": 0,
+        "combined_val_vs_combined_test_overlap": 0,
+        "combined_train_vs_combined_val_overlap": 0
+      }
+    }
+  },
+  "sequence_integrity": {
+    "old_cctv_sequences": {
+      "total_video_groups": 169,
+      "train_sequences": 118,
+      "val_sequences": 26,
+      "test_sequences": 25,
+      "sequence_overlap_percentage": 0.0,
+      "verified_source": "experiments/EXP-002-FIXED/EXPERIMENT_SUMMARY.md"
+    },
+    "new_mobile_sequences": {
+      "verified_split_policy": "source_video_isolated_or_stratified_deduped",
+      "overlap_percentage": 0.0
+    }
+  }
+}

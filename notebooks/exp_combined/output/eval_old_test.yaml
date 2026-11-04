@@ -1,0 +1,7 @@
+path: /kaggle/input/datasets/allfaz/old-dataset-v1-fixed
+train: test/images
+val: test/images
+names:
+  0: no_helmet
+  1: helmet
+nc: 2

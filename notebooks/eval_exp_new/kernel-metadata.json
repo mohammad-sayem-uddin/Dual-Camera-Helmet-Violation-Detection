@@ -1,0 +1,19 @@
+{
+  "id": "allfaz/helmet-detection-eval-exp-new",
+  "title": "Helmet Detection Eval EXP-NEW",
+  "code_file": "kaggle_eval_exp_new.ipynb",
+  "language": "python",
+  "kernel_type": "notebook",
+  "is_private": "true",
+  "enable_gpu": "true",
+  "enable_tpu": "false",
+  "enable_internet": "true",
+  "dataset_sources": [
+    "allfaz/exp-new-weights",
+    "allfaz/helmet-dataset-expansion-v2",
+    "allfaz/old-dataset-v1-fixed"
+  ],
+  "competition_sources": [],
+  "kernel_sources": [],
+  "model_sources": []
+}

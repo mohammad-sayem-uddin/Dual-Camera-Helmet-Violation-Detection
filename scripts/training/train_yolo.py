@@ -20,6 +20,9 @@ def main() -> None:
     parser = argparse.ArgumentParser(description="Train YOLOv8 and record complete experiment metadata.")
     parser.add_argument("--config", required=True, help="Path to experiment YAML configuration file")
     parser.add_argument("--dry-run", action="store_true", help="Validate configuration and paths without starting training")
+    parser.add_argument("--resume", action="store_true", help="Resume training from existing last.pt checkpoint")
+    parser.add_argument("--seed", type=int, default=None, help="Override random seed")
+    parser.add_argument("--experiment-id", default=None, help="Override experiment ID (for multi-seed output naming)")
     parser.add_argument("--device", default=None, help="Override device (e.g. 'mps', 'cuda:0', 'cpu', 'auto')")
     parser.add_argument("--epochs", type=int, default=None, help="Override number of epochs")
     parser.add_argument("--batch", type=int, default=None, help="Override batch size")
@@ -37,6 +40,10 @@ def main() -> None:
         parser.error(f"Config is missing required keys: {', '.join(missing_keys)}")
 
     # CLI Overrides
+    if args.seed is not None:
+        config["seed"] = args.seed
+    if args.experiment_id is not None:
+        config["experiment_id"] = args.experiment_id
     if args.device is not None:
         config["device"] = args.device
     if args.epochs is not None:
@@ -51,8 +58,10 @@ def main() -> None:
     if not dataset_yaml.exists():
         parser.error(f"Dataset YAML does not exist: {dataset_yaml}")
 
-    if experiment_dir.exists() and not args.dry_run:
-        parser.error(f"Experiment directory already exists: {experiment_dir}. Use a new experiment_id.")
+    if experiment_dir.exists() and not args.dry_run and not args.resume:
+        parser.error(f"Experiment directory already exists: {experiment_dir}. Use a new experiment_id or specify --resume.")
+    if args.resume and not (experiment_dir / "training" / "weights" / "last.pt").exists():
+        parser.error(f"Cannot resume: {experiment_dir / 'training' / 'weights' / 'last.pt'} does not exist.")
 
     print("=" * 70)
     print(f"EXPERIMENT INITIALIZATION: {experiment_id}")
@@ -134,23 +143,50 @@ def main() -> None:
         "mps_available": hasattr(torch.backends, "mps") and torch.backends.mps.is_available(),
     }
 
+    start_time = time.perf_counter()
+    initial_duration = 0.0
+    initial_started_at = datetime.now(UTC).isoformat()
+    if args.resume:
+        # Check if existing results.csv has time column or existing metadata
+        metadata_file = experiment_dir / "run_metadata.json"
+        if metadata_file.exists():
+            try:
+                old_meta = json.loads(metadata_file.read_text(encoding="utf-8"))
+                initial_started_at = old_meta.get("started_at_utc", initial_started_at)
+                initial_duration = float(old_meta.get("duration_seconds", 0.0))
+            except Exception:
+                pass
+        results_csv = experiment_dir / "training" / "results.csv"
+        if initial_duration == 0.0 and results_csv.exists():
+            try:
+                import pandas as pd
+                df = pd.read_csv(results_csv)
+                df.columns = [c.strip() for c in df.columns]
+                if "time" in df.columns and len(df) > 0:
+                    initial_duration = float(df["time"].iloc[-1])
+            except Exception:
+                pass
+        last_weights = experiment_dir / "training" / "weights" / "last.pt"
+        print(f"Resuming YOLOv8 training from '{last_weights}' on device '{train_kwargs['device']}'...")
+        model = YOLO(str(last_weights))
+        results = model.train(resume=True)
+    else:
+        print(f"Starting YOLOv8 training on device '{train_kwargs['device']}'...")
+        model = YOLO(config["model"])
+        results = model.train(**train_kwargs)
+
+    session_duration = round(time.perf_counter() - start_time, 2)
+    total_duration = round(initial_duration + session_duration, 2)
+
     metadata = {
         "experiment_id": experiment_id,
-        "started_at_utc": datetime.now(UTC).isoformat(),
+        "started_at_utc": initial_started_at,
         "environment": env_metadata,
         "config": config,
         "training_arguments": train_kwargs,
+        "duration_seconds": total_duration,
+        "finished_at_utc": datetime.now(UTC).isoformat()
     }
-
-    start_time = time.perf_counter()
-    print(f"Starting YOLOv8 training on device '{train_kwargs['device']}'...")
-    
-    model = YOLO(config["model"])
-    results = model.train(**train_kwargs)
-    
-    duration = round(time.perf_counter() - start_time, 2)
-    metadata["duration_seconds"] = duration
-    metadata["finished_at_utc"] = datetime.now(UTC).isoformat()
 
     # Save run metadata
     (experiment_dir / "run_metadata.json").write_text(json.dumps(metadata, indent=2), encoding="utf-8")
@@ -169,7 +205,7 @@ def main() -> None:
 
     print("\n" + "=" * 70)
     print(f"TRAINING COMPLETE: {experiment_id}")
-    print(f"Duration: {duration}s")
+    print(f"Duration: {total_duration}s")
     print(f"Experiment Artifacts: {experiment_dir}")
     print("=" * 70)
 

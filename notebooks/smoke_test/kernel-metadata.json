@@ -1,0 +1,18 @@
+{
+  "id": "allfaz/helmet-detection-smoke-test",
+  "title": "Helmet Detection Smoke Test",
+  "code_file": "kaggle_smoke_test.ipynb",
+  "language": "python",
+  "kernel_type": "notebook",
+  "is_private": "true",
+  "enable_gpu": "true",
+  "enable_tpu": "false",
+  "enable_internet": "true",
+  "dataset_sources": [
+    "allfaz/helmet-dataset-expansion-v2",
+    "allfaz/old-dataset-v1-fixed"
+  ],
+  "competition_sources": [],
+  "kernel_sources": [],
+  "model_sources": []
+}
