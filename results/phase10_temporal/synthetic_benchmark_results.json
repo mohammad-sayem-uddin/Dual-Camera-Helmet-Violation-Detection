@@ -1,0 +1,1148 @@
+{
+  "simple_voting": {
+    "stable_helmet": {
+      "scenario": "Consistent helmeted rider (30 frames)",
+      "aggregator_method": "simple_voting",
+      "metrics": {
+        "total_tracks": 1,
+        "total_alerts": 0,
+        "true_alerts": 0,
+        "false_alerts": 0,
+        "alert_precision": 1.0,
+        "alert_recall": 1.0,
+        "avg_confirmation_delay_frames": 0.0,
+        "avg_confirmation_delay_seconds": 0.0,
+        "state_stability_score": 1.0,
+        "abstention_rate": 0.0968,
+        "occlusion_recovery_rate": 1.0
+      },
+      "summary": {
+        "total_frames_processed": 30,
+        "total_tracks_created": 1,
+        "active_tracks": 1,
+        "dead_tracks": 0,
+        "total_alerts_emitted": 0,
+        "state_distribution": {
+          "UNKNOWN": 0,
+          "HELMET_CONFIRMED": 1,
+          "NO_HELMET_SUSPECTED": 0,
+          "NO_HELMET_CONFIRMED": 0,
+          "TEMPORARILY_OCCLUDED": 0,
+          "TRACK_LOST": 0
+        },
+        "configuration": {
+          "detection_conf_threshold": 0.25,
+          "iou_match_threshold": 0.3,
+          "aggregator_method": "simple_voting",
+          "sliding_window_size": 10,
+          "violation_alert_threshold": 0.65,
+          "min_confirmation_frames": 5
+        }
+      },
+      "alerts": []
+    },
+    "stable_violation": {
+      "scenario": "Consistent non-helmeted rider (30 frames)",
+      "aggregator_method": "simple_voting",
+      "metrics": {
+        "total_tracks": 1,
+        "total_alerts": 1,
+        "true_alerts": 1,
+        "false_alerts": 0,
+        "alert_precision": 1.0,
+        "alert_recall": 1.0,
+        "avg_confirmation_delay_frames": 5.0,
+        "avg_confirmation_delay_seconds": 0.167,
+        "state_stability_score": 1.0,
+        "abstention_rate": 0.0968,
+        "occlusion_recovery_rate": 1.0
+      },
+      "summary": {
+        "total_frames_processed": 30,
+        "total_tracks_created": 1,
+        "active_tracks": 1,
+        "dead_tracks": 0,
+        "total_alerts_emitted": 1,
+        "state_distribution": {
+          "UNKNOWN": 0,
+          "HELMET_CONFIRMED": 0,
+          "NO_HELMET_SUSPECTED": 0,
+          "NO_HELMET_CONFIRMED": 1,
+          "TEMPORARILY_OCCLUDED": 0,
+          "TRACK_LOST": 0
+        },
+        "configuration": {
+          "detection_conf_threshold": 0.25,
+          "iou_match_threshold": 0.3,
+          "aggregator_method": "simple_voting",
+          "sliding_window_size": 10,
+          "violation_alert_threshold": 0.65,
+          "min_confirmation_frames": 5
+        }
+      },
+      "alerts": [
+        {
+          "alert_id": "VIOLATION-1-4-D2BE5A",
+          "track_id": 1,
+          "frame_index": 4,
+          "timestamp_seconds": 0.13,
+          "bbox": [
+            140.0,
+            160.0,
+            195.0,
+            235.0
+          ],
+          "violation_confidence": 1.0,
+          "observation_count": 5,
+          "evidence_summary": {
+            "consecutive_violation_frames": 5,
+            "aggregated_confidence": {
+              "no_helmet": 1.0,
+              "helmet": 0.0
+            },
+            "state_history": [
+              "UNKNOWN",
+              "UNKNOWN",
+              "UNKNOWN",
+              "NO_HELMET_SUSPECTED",
+              "NO_HELMET_SUSPECTED",
+              "NO_HELMET_CONFIRMED"
+            ],
+            "raw_detection_confidence": 0.9
+          }
+        }
+      ]
+    },
+    "fp_burst_on_compliant": {
+      "scenario": "Helmeted rider subjected to 2-frame noise burst of false no_helmet",
+      "aggregator_method": "simple_voting",
+      "metrics": {
+        "total_tracks": 1,
+        "total_alerts": 0,
+        "true_alerts": 0,
+        "false_alerts": 0,
+        "alert_precision": 1.0,
+        "alert_recall": 1.0,
+        "avg_confirmation_delay_frames": 0.0,
+        "avg_confirmation_delay_seconds": 0.0,
+        "state_stability_score": 1.0,
+        "abstention_rate": 0.0968,
+        "occlusion_recovery_rate": 1.0
+      },
+      "summary": {
+        "total_frames_processed": 30,
+        "total_tracks_created": 1,
+        "active_tracks": 1,
+        "dead_tracks": 0,
+        "total_alerts_emitted": 0,
+        "state_distribution": {
+          "UNKNOWN": 0,
+          "HELMET_CONFIRMED": 1,
+          "NO_HELMET_SUSPECTED": 0,
+          "NO_HELMET_CONFIRMED": 0,
+          "TEMPORARILY_OCCLUDED": 0,
+          "TRACK_LOST": 0
+        },
+        "configuration": {
+          "detection_conf_threshold": 0.25,
+          "iou_match_threshold": 0.3,
+          "aggregator_method": "simple_voting",
+          "sliding_window_size": 10,
+          "violation_alert_threshold": 0.65,
+          "min_confirmation_frames": 5
+        }
+      },
+      "alerts": []
+    },
+    "short_occlusion": {
+      "scenario": "Violation rider occluded for 4 frames (< N_grace) and re-acquired",
+      "aggregator_method": "simple_voting",
+      "metrics": {
+        "total_tracks": 1,
+        "total_alerts": 1,
+        "true_alerts": 1,
+        "false_alerts": 0,
+        "alert_precision": 1.0,
+        "alert_recall": 1.0,
+        "avg_confirmation_delay_frames": 5.0,
+        "avg_confirmation_delay_seconds": 0.167,
+        "state_stability_score": 1.0,
+        "abstention_rate": 0.0968,
+        "occlusion_recovery_rate": 1.0
+      },
+      "summary": {
+        "total_frames_processed": 30,
+        "total_tracks_created": 1,
+        "active_tracks": 1,
+        "dead_tracks": 0,
+        "total_alerts_emitted": 1,
+        "state_distribution": {
+          "UNKNOWN": 0,
+          "HELMET_CONFIRMED": 0,
+          "NO_HELMET_SUSPECTED": 0,
+          "NO_HELMET_CONFIRMED": 1,
+          "TEMPORARILY_OCCLUDED": 0,
+          "TRACK_LOST": 0
+        },
+        "configuration": {
+          "detection_conf_threshold": 0.25,
+          "iou_match_threshold": 0.3,
+          "aggregator_method": "simple_voting",
+          "sliding_window_size": 10,
+          "violation_alert_threshold": 0.65,
+          "min_confirmation_frames": 5
+        }
+      },
+      "alerts": [
+        {
+          "alert_id": "VIOLATION-1-4-782474",
+          "track_id": 1,
+          "frame_index": 4,
+          "timestamp_seconds": 0.13,
+          "bbox": [
+            120.0,
+            150.0,
+            180.0,
+            230.0
+          ],
+          "violation_confidence": 1.0,
+          "observation_count": 5,
+          "evidence_summary": {
+            "consecutive_violation_frames": 5,
+            "aggregated_confidence": {
+              "no_helmet": 1.0,
+              "helmet": 0.0
+            },
+            "state_history": [
+              "UNKNOWN",
+              "UNKNOWN",
+              "UNKNOWN",
+              "NO_HELMET_SUSPECTED",
+              "NO_HELMET_SUSPECTED",
+              "NO_HELMET_CONFIRMED"
+            ],
+            "raw_detection_confidence": 0.88
+          }
+        }
+      ]
+    },
+    "long_occlusion": {
+      "scenario": "Rider track permanently lost after extended occlusion (> N_lost)",
+      "aggregator_method": "simple_voting",
+      "metrics": {
+        "total_tracks": 1,
+        "total_alerts": 0,
+        "true_alerts": 0,
+        "false_alerts": 0,
+        "alert_precision": 1.0,
+        "alert_recall": 1.0,
+        "avg_confirmation_delay_frames": 0.0,
+        "avg_confirmation_delay_seconds": 0.0,
+        "state_stability_score": 1.0,
+        "abstention_rate": 0.1111,
+        "occlusion_recovery_rate": 0.0
+      },
+      "summary": {
+        "total_frames_processed": 30,
+        "total_tracks_created": 1,
+        "active_tracks": 0,
+        "dead_tracks": 1,
+        "total_alerts_emitted": 0,
+        "state_distribution": {
+          "UNKNOWN": 0,
+          "HELMET_CONFIRMED": 0,
+          "NO_HELMET_SUSPECTED": 0,
+          "NO_HELMET_CONFIRMED": 0,
+          "TEMPORARILY_OCCLUDED": 0,
+          "TRACK_LOST": 1
+        },
+        "configuration": {
+          "detection_conf_threshold": 0.25,
+          "iou_match_threshold": 0.3,
+          "aggregator_method": "simple_voting",
+          "sliding_window_size": 10,
+          "violation_alert_threshold": 0.65,
+          "min_confirmation_frames": 5
+        }
+      },
+      "alerts": []
+    },
+    "marginal_jitter": {
+      "scenario": "Ambiguous low-confidence alternating predictions (c = 0.30)",
+      "aggregator_method": "simple_voting",
+      "metrics": {
+        "total_tracks": 1,
+        "total_alerts": 0,
+        "true_alerts": 0,
+        "false_alerts": 0,
+        "alert_precision": 1.0,
+        "alert_recall": 1.0,
+        "avg_confirmation_delay_frames": 0.0,
+        "avg_confirmation_delay_seconds": 0.0,
+        "state_stability_score": 1.0,
+        "abstention_rate": 0.1154,
+        "occlusion_recovery_rate": 1.0
+      },
+      "summary": {
+        "total_frames_processed": 25,
+        "total_tracks_created": 1,
+        "active_tracks": 1,
+        "dead_tracks": 0,
+        "total_alerts_emitted": 0,
+        "state_distribution": {
+          "UNKNOWN": 0,
+          "HELMET_CONFIRMED": 0,
+          "NO_HELMET_SUSPECTED": 1,
+          "NO_HELMET_CONFIRMED": 0,
+          "TEMPORARILY_OCCLUDED": 0,
+          "TRACK_LOST": 0
+        },
+        "configuration": {
+          "detection_conf_threshold": 0.25,
+          "iou_match_threshold": 0.3,
+          "aggregator_method": "simple_voting",
+          "sliding_window_size": 10,
+          "violation_alert_threshold": 0.65,
+          "min_confirmation_frames": 5
+        }
+      },
+      "alerts": []
+    },
+    "multi_rider_crossing": {
+      "scenario": "Two simultaneous riders: one compliant helmeted, one non-helmeted violation",
+      "aggregator_method": "simple_voting",
+      "metrics": {
+        "total_tracks": 2,
+        "total_alerts": 1,
+        "true_alerts": 1,
+        "false_alerts": 0,
+        "alert_precision": 1.0,
+        "alert_recall": 1.0,
+        "avg_confirmation_delay_frames": 5.0,
+        "avg_confirmation_delay_seconds": 0.167,
+        "state_stability_score": 1.0,
+        "abstention_rate": 0.0968,
+        "occlusion_recovery_rate": 1.0
+      },
+      "summary": {
+        "total_frames_processed": 30,
+        "total_tracks_created": 2,
+        "active_tracks": 2,
+        "dead_tracks": 0,
+        "total_alerts_emitted": 1,
+        "state_distribution": {
+          "UNKNOWN": 0,
+          "HELMET_CONFIRMED": 1,
+          "NO_HELMET_SUSPECTED": 0,
+          "NO_HELMET_CONFIRMED": 1,
+          "TEMPORARILY_OCCLUDED": 0,
+          "TRACK_LOST": 0
+        },
+        "configuration": {
+          "detection_conf_threshold": 0.25,
+          "iou_match_threshold": 0.3,
+          "aggregator_method": "simple_voting",
+          "sliding_window_size": 10,
+          "violation_alert_threshold": 0.65,
+          "min_confirmation_frames": 5
+        }
+      },
+      "alerts": [
+        {
+          "alert_id": "VIOLATION-2-4-CCAF99",
+          "track_id": 2,
+          "frame_index": 4,
+          "timestamp_seconds": 0.13,
+          "bbox": [
+            270.0,
+            180.0,
+            330.0,
+            260.0
+          ],
+          "violation_confidence": 1.0,
+          "observation_count": 5,
+          "evidence_summary": {
+            "consecutive_violation_frames": 5,
+            "aggregated_confidence": {
+              "no_helmet": 1.0,
+              "helmet": 0.0
+            },
+            "state_history": [
+              "UNKNOWN",
+              "UNKNOWN",
+              "UNKNOWN",
+              "NO_HELMET_SUSPECTED",
+              "NO_HELMET_SUSPECTED",
+              "NO_HELMET_CONFIRMED"
+            ],
+            "raw_detection_confidence": 0.89
+          }
+        }
+      ]
+    }
+  },
+  "confidence_weighted": {
+    "stable_helmet": {
+      "scenario": "Consistent helmeted rider (30 frames)",
+      "aggregator_method": "confidence_weighted",
+      "metrics": {
+        "total_tracks": 1,
+        "total_alerts": 0,
+        "true_alerts": 0,
+        "false_alerts": 0,
+        "alert_precision": 1.0,
+        "alert_recall": 1.0,
+        "avg_confirmation_delay_frames": 0.0,
+        "avg_confirmation_delay_seconds": 0.0,
+        "state_stability_score": 1.0,
+        "abstention_rate": 0.0968,
+        "occlusion_recovery_rate": 1.0
+      },
+      "summary": {
+        "total_frames_processed": 30,
+        "total_tracks_created": 1,
+        "active_tracks": 1,
+        "dead_tracks": 0,
+        "total_alerts_emitted": 0,
+        "state_distribution": {
+          "UNKNOWN": 0,
+          "HELMET_CONFIRMED": 1,
+          "NO_HELMET_SUSPECTED": 0,
+          "NO_HELMET_CONFIRMED": 0,
+          "TEMPORARILY_OCCLUDED": 0,
+          "TRACK_LOST": 0
+        },
+        "configuration": {
+          "detection_conf_threshold": 0.25,
+          "iou_match_threshold": 0.3,
+          "aggregator_method": "confidence_weighted",
+          "sliding_window_size": 10,
+          "violation_alert_threshold": 0.65,
+          "min_confirmation_frames": 5
+        }
+      },
+      "alerts": []
+    },
+    "stable_violation": {
+      "scenario": "Consistent non-helmeted rider (30 frames)",
+      "aggregator_method": "confidence_weighted",
+      "metrics": {
+        "total_tracks": 1,
+        "total_alerts": 1,
+        "true_alerts": 1,
+        "false_alerts": 0,
+        "alert_precision": 1.0,
+        "alert_recall": 1.0,
+        "avg_confirmation_delay_frames": 5.0,
+        "avg_confirmation_delay_seconds": 0.167,
+        "state_stability_score": 1.0,
+        "abstention_rate": 0.0968,
+        "occlusion_recovery_rate": 1.0
+      },
+      "summary": {
+        "total_frames_processed": 30,
+        "total_tracks_created": 1,
+        "active_tracks": 1,
+        "dead_tracks": 0,
+        "total_alerts_emitted": 1,
+        "state_distribution": {
+          "UNKNOWN": 0,
+          "HELMET_CONFIRMED": 0,
+          "NO_HELMET_SUSPECTED": 0,
+          "NO_HELMET_CONFIRMED": 1,
+          "TEMPORARILY_OCCLUDED": 0,
+          "TRACK_LOST": 0
+        },
+        "configuration": {
+          "detection_conf_threshold": 0.25,
+          "iou_match_threshold": 0.3,
+          "aggregator_method": "confidence_weighted",
+          "sliding_window_size": 10,
+          "violation_alert_threshold": 0.65,
+          "min_confirmation_frames": 5
+        }
+      },
+      "alerts": [
+        {
+          "alert_id": "VIOLATION-1-4-0D6ABE",
+          "track_id": 1,
+          "frame_index": 4,
+          "timestamp_seconds": 0.13,
+          "bbox": [
+            140.0,
+            160.0,
+            195.0,
+            235.0
+          ],
+          "violation_confidence": 1.0,
+          "observation_count": 5,
+          "evidence_summary": {
+            "consecutive_violation_frames": 5,
+            "aggregated_confidence": {
+              "no_helmet": 1.0,
+              "helmet": 0.0
+            },
+            "state_history": [
+              "UNKNOWN",
+              "UNKNOWN",
+              "UNKNOWN",
+              "NO_HELMET_SUSPECTED",
+              "NO_HELMET_SUSPECTED",
+              "NO_HELMET_CONFIRMED"
+            ],
+            "raw_detection_confidence": 0.9
+          }
+        }
+      ]
+    },
+    "fp_burst_on_compliant": {
+      "scenario": "Helmeted rider subjected to 2-frame noise burst of false no_helmet",
+      "aggregator_method": "confidence_weighted",
+      "metrics": {
+        "total_tracks": 1,
+        "total_alerts": 0,
+        "true_alerts": 0,
+        "false_alerts": 0,
+        "alert_precision": 1.0,
+        "alert_recall": 1.0,
+        "avg_confirmation_delay_frames": 0.0,
+        "avg_confirmation_delay_seconds": 0.0,
+        "state_stability_score": 1.0,
+        "abstention_rate": 0.0968,
+        "occlusion_recovery_rate": 1.0
+      },
+      "summary": {
+        "total_frames_processed": 30,
+        "total_tracks_created": 1,
+        "active_tracks": 1,
+        "dead_tracks": 0,
+        "total_alerts_emitted": 0,
+        "state_distribution": {
+          "UNKNOWN": 0,
+          "HELMET_CONFIRMED": 1,
+          "NO_HELMET_SUSPECTED": 0,
+          "NO_HELMET_CONFIRMED": 0,
+          "TEMPORARILY_OCCLUDED": 0,
+          "TRACK_LOST": 0
+        },
+        "configuration": {
+          "detection_conf_threshold": 0.25,
+          "iou_match_threshold": 0.3,
+          "aggregator_method": "confidence_weighted",
+          "sliding_window_size": 10,
+          "violation_alert_threshold": 0.65,
+          "min_confirmation_frames": 5
+        }
+      },
+      "alerts": []
+    },
+    "short_occlusion": {
+      "scenario": "Violation rider occluded for 4 frames (< N_grace) and re-acquired",
+      "aggregator_method": "confidence_weighted",
+      "metrics": {
+        "total_tracks": 1,
+        "total_alerts": 1,
+        "true_alerts": 1,
+        "false_alerts": 0,
+        "alert_precision": 1.0,
+        "alert_recall": 1.0,
+        "avg_confirmation_delay_frames": 5.0,
+        "avg_confirmation_delay_seconds": 0.167,
+        "state_stability_score": 1.0,
+        "abstention_rate": 0.0968,
+        "occlusion_recovery_rate": 1.0
+      },
+      "summary": {
+        "total_frames_processed": 30,
+        "total_tracks_created": 1,
+        "active_tracks": 1,
+        "dead_tracks": 0,
+        "total_alerts_emitted": 1,
+        "state_distribution": {
+          "UNKNOWN": 0,
+          "HELMET_CONFIRMED": 0,
+          "NO_HELMET_SUSPECTED": 0,
+          "NO_HELMET_CONFIRMED": 1,
+          "TEMPORARILY_OCCLUDED": 0,
+          "TRACK_LOST": 0
+        },
+        "configuration": {
+          "detection_conf_threshold": 0.25,
+          "iou_match_threshold": 0.3,
+          "aggregator_method": "confidence_weighted",
+          "sliding_window_size": 10,
+          "violation_alert_threshold": 0.65,
+          "min_confirmation_frames": 5
+        }
+      },
+      "alerts": [
+        {
+          "alert_id": "VIOLATION-1-4-82C58C",
+          "track_id": 1,
+          "frame_index": 4,
+          "timestamp_seconds": 0.13,
+          "bbox": [
+            120.0,
+            150.0,
+            180.0,
+            230.0
+          ],
+          "violation_confidence": 1.0,
+          "observation_count": 5,
+          "evidence_summary": {
+            "consecutive_violation_frames": 5,
+            "aggregated_confidence": {
+              "no_helmet": 1.0,
+              "helmet": 0.0
+            },
+            "state_history": [
+              "UNKNOWN",
+              "UNKNOWN",
+              "UNKNOWN",
+              "NO_HELMET_SUSPECTED",
+              "NO_HELMET_SUSPECTED",
+              "NO_HELMET_CONFIRMED"
+            ],
+            "raw_detection_confidence": 0.88
+          }
+        }
+      ]
+    },
+    "long_occlusion": {
+      "scenario": "Rider track permanently lost after extended occlusion (> N_lost)",
+      "aggregator_method": "confidence_weighted",
+      "metrics": {
+        "total_tracks": 1,
+        "total_alerts": 0,
+        "true_alerts": 0,
+        "false_alerts": 0,
+        "alert_precision": 1.0,
+        "alert_recall": 1.0,
+        "avg_confirmation_delay_frames": 0.0,
+        "avg_confirmation_delay_seconds": 0.0,
+        "state_stability_score": 1.0,
+        "abstention_rate": 0.1111,
+        "occlusion_recovery_rate": 0.0
+      },
+      "summary": {
+        "total_frames_processed": 30,
+        "total_tracks_created": 1,
+        "active_tracks": 0,
+        "dead_tracks": 1,
+        "total_alerts_emitted": 0,
+        "state_distribution": {
+          "UNKNOWN": 0,
+          "HELMET_CONFIRMED": 0,
+          "NO_HELMET_SUSPECTED": 0,
+          "NO_HELMET_CONFIRMED": 0,
+          "TEMPORARILY_OCCLUDED": 0,
+          "TRACK_LOST": 1
+        },
+        "configuration": {
+          "detection_conf_threshold": 0.25,
+          "iou_match_threshold": 0.3,
+          "aggregator_method": "confidence_weighted",
+          "sliding_window_size": 10,
+          "violation_alert_threshold": 0.65,
+          "min_confirmation_frames": 5
+        }
+      },
+      "alerts": []
+    },
+    "marginal_jitter": {
+      "scenario": "Ambiguous low-confidence alternating predictions (c = 0.30)",
+      "aggregator_method": "confidence_weighted",
+      "metrics": {
+        "total_tracks": 1,
+        "total_alerts": 0,
+        "true_alerts": 0,
+        "false_alerts": 0,
+        "alert_precision": 1.0,
+        "alert_recall": 1.0,
+        "avg_confirmation_delay_frames": 0.0,
+        "avg_confirmation_delay_seconds": 0.0,
+        "state_stability_score": 1.0,
+        "abstention_rate": 0.1154,
+        "occlusion_recovery_rate": 1.0
+      },
+      "summary": {
+        "total_frames_processed": 25,
+        "total_tracks_created": 1,
+        "active_tracks": 1,
+        "dead_tracks": 0,
+        "total_alerts_emitted": 0,
+        "state_distribution": {
+          "UNKNOWN": 0,
+          "HELMET_CONFIRMED": 0,
+          "NO_HELMET_SUSPECTED": 1,
+          "NO_HELMET_CONFIRMED": 0,
+          "TEMPORARILY_OCCLUDED": 0,
+          "TRACK_LOST": 0
+        },
+        "configuration": {
+          "detection_conf_threshold": 0.25,
+          "iou_match_threshold": 0.3,
+          "aggregator_method": "confidence_weighted",
+          "sliding_window_size": 10,
+          "violation_alert_threshold": 0.65,
+          "min_confirmation_frames": 5
+        }
+      },
+      "alerts": []
+    },
+    "multi_rider_crossing": {
+      "scenario": "Two simultaneous riders: one compliant helmeted, one non-helmeted violation",
+      "aggregator_method": "confidence_weighted",
+      "metrics": {
+        "total_tracks": 2,
+        "total_alerts": 1,
+        "true_alerts": 1,
+        "false_alerts": 0,
+        "alert_precision": 1.0,
+        "alert_recall": 1.0,
+        "avg_confirmation_delay_frames": 5.0,
+        "avg_confirmation_delay_seconds": 0.167,
+        "state_stability_score": 1.0,
+        "abstention_rate": 0.0968,
+        "occlusion_recovery_rate": 1.0
+      },
+      "summary": {
+        "total_frames_processed": 30,
+        "total_tracks_created": 2,
+        "active_tracks": 2,
+        "dead_tracks": 0,
+        "total_alerts_emitted": 1,
+        "state_distribution": {
+          "UNKNOWN": 0,
+          "HELMET_CONFIRMED": 1,
+          "NO_HELMET_SUSPECTED": 0,
+          "NO_HELMET_CONFIRMED": 1,
+          "TEMPORARILY_OCCLUDED": 0,
+          "TRACK_LOST": 0
+        },
+        "configuration": {
+          "detection_conf_threshold": 0.25,
+          "iou_match_threshold": 0.3,
+          "aggregator_method": "confidence_weighted",
+          "sliding_window_size": 10,
+          "violation_alert_threshold": 0.65,
+          "min_confirmation_frames": 5
+        }
+      },
+      "alerts": [
+        {
+          "alert_id": "VIOLATION-2-4-93D861",
+          "track_id": 2,
+          "frame_index": 4,
+          "timestamp_seconds": 0.13,
+          "bbox": [
+            270.0,
+            180.0,
+            330.0,
+            260.0
+          ],
+          "violation_confidence": 1.0,
+          "observation_count": 5,
+          "evidence_summary": {
+            "consecutive_violation_frames": 5,
+            "aggregated_confidence": {
+              "no_helmet": 1.0,
+              "helmet": 0.0
+            },
+            "state_history": [
+              "UNKNOWN",
+              "UNKNOWN",
+              "UNKNOWN",
+              "NO_HELMET_SUSPECTED",
+              "NO_HELMET_SUSPECTED",
+              "NO_HELMET_CONFIRMED"
+            ],
+            "raw_detection_confidence": 0.89
+          }
+        }
+      ]
+    }
+  },
+  "ema": {
+    "stable_helmet": {
+      "scenario": "Consistent helmeted rider (30 frames)",
+      "aggregator_method": "ema",
+      "metrics": {
+        "total_tracks": 1,
+        "total_alerts": 0,
+        "true_alerts": 0,
+        "false_alerts": 0,
+        "alert_precision": 1.0,
+        "alert_recall": 1.0,
+        "avg_confirmation_delay_frames": 0.0,
+        "avg_confirmation_delay_seconds": 0.0,
+        "state_stability_score": 1.0,
+        "abstention_rate": 0.0968,
+        "occlusion_recovery_rate": 1.0
+      },
+      "summary": {
+        "total_frames_processed": 30,
+        "total_tracks_created": 1,
+        "active_tracks": 1,
+        "dead_tracks": 0,
+        "total_alerts_emitted": 0,
+        "state_distribution": {
+          "UNKNOWN": 0,
+          "HELMET_CONFIRMED": 1,
+          "NO_HELMET_SUSPECTED": 0,
+          "NO_HELMET_CONFIRMED": 0,
+          "TEMPORARILY_OCCLUDED": 0,
+          "TRACK_LOST": 0
+        },
+        "configuration": {
+          "detection_conf_threshold": 0.25,
+          "iou_match_threshold": 0.3,
+          "aggregator_method": "ema",
+          "sliding_window_size": 10,
+          "violation_alert_threshold": 0.65,
+          "min_confirmation_frames": 5
+        }
+      },
+      "alerts": []
+    },
+    "stable_violation": {
+      "scenario": "Consistent non-helmeted rider (30 frames)",
+      "aggregator_method": "ema",
+      "metrics": {
+        "total_tracks": 1,
+        "total_alerts": 1,
+        "true_alerts": 1,
+        "false_alerts": 0,
+        "alert_precision": 1.0,
+        "alert_recall": 1.0,
+        "avg_confirmation_delay_frames": 5.0,
+        "avg_confirmation_delay_seconds": 0.167,
+        "state_stability_score": 1.0,
+        "abstention_rate": 0.0968,
+        "occlusion_recovery_rate": 1.0
+      },
+      "summary": {
+        "total_frames_processed": 30,
+        "total_tracks_created": 1,
+        "active_tracks": 1,
+        "dead_tracks": 0,
+        "total_alerts_emitted": 1,
+        "state_distribution": {
+          "UNKNOWN": 0,
+          "HELMET_CONFIRMED": 0,
+          "NO_HELMET_SUSPECTED": 0,
+          "NO_HELMET_CONFIRMED": 1,
+          "TEMPORARILY_OCCLUDED": 0,
+          "TRACK_LOST": 0
+        },
+        "configuration": {
+          "detection_conf_threshold": 0.25,
+          "iou_match_threshold": 0.3,
+          "aggregator_method": "ema",
+          "sliding_window_size": 10,
+          "violation_alert_threshold": 0.65,
+          "min_confirmation_frames": 5
+        }
+      },
+      "alerts": [
+        {
+          "alert_id": "VIOLATION-1-4-C336AD",
+          "track_id": 1,
+          "frame_index": 4,
+          "timestamp_seconds": 0.13,
+          "bbox": [
+            140.0,
+            160.0,
+            195.0,
+            235.0
+          ],
+          "violation_confidence": 0.95,
+          "observation_count": 5,
+          "evidence_summary": {
+            "consecutive_violation_frames": 5,
+            "aggregated_confidence": {
+              "helmet": 0.05,
+              "no_helmet": 0.95
+            },
+            "state_history": [
+              "UNKNOWN",
+              "UNKNOWN",
+              "UNKNOWN",
+              "NO_HELMET_SUSPECTED",
+              "NO_HELMET_SUSPECTED",
+              "NO_HELMET_CONFIRMED"
+            ],
+            "raw_detection_confidence": 0.9
+          }
+        }
+      ]
+    },
+    "fp_burst_on_compliant": {
+      "scenario": "Helmeted rider subjected to 2-frame noise burst of false no_helmet",
+      "aggregator_method": "ema",
+      "metrics": {
+        "total_tracks": 1,
+        "total_alerts": 0,
+        "true_alerts": 0,
+        "false_alerts": 0,
+        "alert_precision": 1.0,
+        "alert_recall": 1.0,
+        "avg_confirmation_delay_frames": 0.0,
+        "avg_confirmation_delay_seconds": 0.0,
+        "state_stability_score": 1.0,
+        "abstention_rate": 0.0968,
+        "occlusion_recovery_rate": 1.0
+      },
+      "summary": {
+        "total_frames_processed": 30,
+        "total_tracks_created": 1,
+        "active_tracks": 1,
+        "dead_tracks": 0,
+        "total_alerts_emitted": 0,
+        "state_distribution": {
+          "UNKNOWN": 0,
+          "HELMET_CONFIRMED": 1,
+          "NO_HELMET_SUSPECTED": 0,
+          "NO_HELMET_CONFIRMED": 0,
+          "TEMPORARILY_OCCLUDED": 0,
+          "TRACK_LOST": 0
+        },
+        "configuration": {
+          "detection_conf_threshold": 0.25,
+          "iou_match_threshold": 0.3,
+          "aggregator_method": "ema",
+          "sliding_window_size": 10,
+          "violation_alert_threshold": 0.65,
+          "min_confirmation_frames": 5
+        }
+      },
+      "alerts": []
+    },
+    "short_occlusion": {
+      "scenario": "Violation rider occluded for 4 frames (< N_grace) and re-acquired",
+      "aggregator_method": "ema",
+      "metrics": {
+        "total_tracks": 1,
+        "total_alerts": 1,
+        "true_alerts": 1,
+        "false_alerts": 0,
+        "alert_precision": 1.0,
+        "alert_recall": 1.0,
+        "avg_confirmation_delay_frames": 5.0,
+        "avg_confirmation_delay_seconds": 0.167,
+        "state_stability_score": 1.0,
+        "abstention_rate": 0.0968,
+        "occlusion_recovery_rate": 1.0
+      },
+      "summary": {
+        "total_frames_processed": 30,
+        "total_tracks_created": 1,
+        "active_tracks": 1,
+        "dead_tracks": 0,
+        "total_alerts_emitted": 1,
+        "state_distribution": {
+          "UNKNOWN": 0,
+          "HELMET_CONFIRMED": 0,
+          "NO_HELMET_SUSPECTED": 0,
+          "NO_HELMET_CONFIRMED": 1,
+          "TEMPORARILY_OCCLUDED": 0,
+          "TRACK_LOST": 0
+        },
+        "configuration": {
+          "detection_conf_threshold": 0.25,
+          "iou_match_threshold": 0.3,
+          "aggregator_method": "ema",
+          "sliding_window_size": 10,
+          "violation_alert_threshold": 0.65,
+          "min_confirmation_frames": 5
+        }
+      },
+      "alerts": [
+        {
+          "alert_id": "VIOLATION-1-4-ADB530",
+          "track_id": 1,
+          "frame_index": 4,
+          "timestamp_seconds": 0.13,
+          "bbox": [
+            120.0,
+            150.0,
+            180.0,
+            230.0
+          ],
+          "violation_confidence": 0.94,
+          "observation_count": 5,
+          "evidence_summary": {
+            "consecutive_violation_frames": 5,
+            "aggregated_confidence": {
+              "helmet": 0.06,
+              "no_helmet": 0.94
+            },
+            "state_history": [
+              "UNKNOWN",
+              "UNKNOWN",
+              "UNKNOWN",
+              "NO_HELMET_SUSPECTED",
+              "NO_HELMET_SUSPECTED",
+              "NO_HELMET_CONFIRMED"
+            ],
+            "raw_detection_confidence": 0.88
+          }
+        }
+      ]
+    },
+    "long_occlusion": {
+      "scenario": "Rider track permanently lost after extended occlusion (> N_lost)",
+      "aggregator_method": "ema",
+      "metrics": {
+        "total_tracks": 1,
+        "total_alerts": 0,
+        "true_alerts": 0,
+        "false_alerts": 0,
+        "alert_precision": 1.0,
+        "alert_recall": 1.0,
+        "avg_confirmation_delay_frames": 0.0,
+        "avg_confirmation_delay_seconds": 0.0,
+        "state_stability_score": 1.0,
+        "abstention_rate": 0.1111,
+        "occlusion_recovery_rate": 0.0
+      },
+      "summary": {
+        "total_frames_processed": 30,
+        "total_tracks_created": 1,
+        "active_tracks": 0,
+        "dead_tracks": 1,
+        "total_alerts_emitted": 0,
+        "state_distribution": {
+          "UNKNOWN": 0,
+          "HELMET_CONFIRMED": 0,
+          "NO_HELMET_SUSPECTED": 0,
+          "NO_HELMET_CONFIRMED": 0,
+          "TEMPORARILY_OCCLUDED": 0,
+          "TRACK_LOST": 1
+        },
+        "configuration": {
+          "detection_conf_threshold": 0.25,
+          "iou_match_threshold": 0.3,
+          "aggregator_method": "ema",
+          "sliding_window_size": 10,
+          "violation_alert_threshold": 0.65,
+          "min_confirmation_frames": 5
+        }
+      },
+      "alerts": []
+    },
+    "marginal_jitter": {
+      "scenario": "Ambiguous low-confidence alternating predictions (c = 0.30)",
+      "aggregator_method": "ema",
+      "metrics": {
+        "total_tracks": 1,
+        "total_alerts": 0,
+        "true_alerts": 0,
+        "false_alerts": 0,
+        "alert_precision": 1.0,
+        "alert_recall": 1.0,
+        "avg_confirmation_delay_frames": 0.0,
+        "avg_confirmation_delay_seconds": 0.0,
+        "state_stability_score": 1.0,
+        "abstention_rate": 0.1154,
+        "occlusion_recovery_rate": 1.0
+      },
+      "summary": {
+        "total_frames_processed": 25,
+        "total_tracks_created": 1,
+        "active_tracks": 1,
+        "dead_tracks": 0,
+        "total_alerts_emitted": 0,
+        "state_distribution": {
+          "UNKNOWN": 0,
+          "HELMET_CONFIRMED": 0,
+          "NO_HELMET_SUSPECTED": 1,
+          "NO_HELMET_CONFIRMED": 0,
+          "TEMPORARILY_OCCLUDED": 0,
+          "TRACK_LOST": 0
+        },
+        "configuration": {
+          "detection_conf_threshold": 0.25,
+          "iou_match_threshold": 0.3,
+          "aggregator_method": "ema",
+          "sliding_window_size": 10,
+          "violation_alert_threshold": 0.65,
+          "min_confirmation_frames": 5
+        }
+      },
+      "alerts": []
+    },
+    "multi_rider_crossing": {
+      "scenario": "Two simultaneous riders: one compliant helmeted, one non-helmeted violation",
+      "aggregator_method": "ema",
+      "metrics": {
+        "total_tracks": 2,
+        "total_alerts": 1,
+        "true_alerts": 1,
+        "false_alerts": 0,
+        "alert_precision": 1.0,
+        "alert_recall": 1.0,
+        "avg_confirmation_delay_frames": 5.0,
+        "avg_confirmation_delay_seconds": 0.167,
+        "state_stability_score": 1.0,
+        "abstention_rate": 0.0968,
+        "occlusion_recovery_rate": 1.0
+      },
+      "summary": {
+        "total_frames_processed": 30,
+        "total_tracks_created": 2,
+        "active_tracks": 2,
+        "dead_tracks": 0,
+        "total_alerts_emitted": 1,
+        "state_distribution": {
+          "UNKNOWN": 0,
+          "HELMET_CONFIRMED": 1,
+          "NO_HELMET_SUSPECTED": 0,
+          "NO_HELMET_CONFIRMED": 1,
+          "TEMPORARILY_OCCLUDED": 0,
+          "TRACK_LOST": 0
+        },
+        "configuration": {
+          "detection_conf_threshold": 0.25,
+          "iou_match_threshold": 0.3,
+          "aggregator_method": "ema",
+          "sliding_window_size": 10,
+          "violation_alert_threshold": 0.65,
+          "min_confirmation_frames": 5
+        }
+      },
+      "alerts": [
+        {
+          "alert_id": "VIOLATION-2-4-4EDEE0",
+          "track_id": 2,
+          "frame_index": 4,
+          "timestamp_seconds": 0.13,
+          "bbox": [
+            270.0,
+            180.0,
+            330.0,
+            260.0
+          ],
+          "violation_confidence": 0.945,
+          "observation_count": 5,
+          "evidence_summary": {
+            "consecutive_violation_frames": 5,
+            "aggregated_confidence": {
+              "helmet": 0.055,
+              "no_helmet": 0.945
+            },
+            "state_history": [
+              "UNKNOWN",
+              "UNKNOWN",
+              "UNKNOWN",
+              "NO_HELMET_SUSPECTED",
+              "NO_HELMET_SUSPECTED",
+              "NO_HELMET_CONFIRMED"
+            ],
+            "raw_detection_confidence": 0.89
+          }
+        }
+      ]
+    }
+  }
+}

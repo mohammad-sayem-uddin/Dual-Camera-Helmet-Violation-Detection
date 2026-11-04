@@ -1,0 +1,33 @@
+# Temporal Verification Framework Configuration
+# Dual-Camera Context-Aware Helmet Violation Detection
+
+detection:
+  confidence_threshold: 0.25
+  nms_iou_threshold: 0.45
+  input_resolution: 640
+
+tracking:
+  iou_match_threshold: 0.30
+  max_track_age_frames: 15
+  min_hits: 2
+
+aggregation:
+  method: "confidence_weighted"  # options: simple_voting, confidence_weighted, ema
+  sliding_window_size: 10
+  ema_alpha: 0.35
+
+state_machine:
+  min_observation_frames: 3
+  confirm_frames: 5
+  max_occlusion_frames: 5
+  track_lost_frames: 15
+  suspect_threshold: 0.50
+  confirm_threshold: 0.70
+  clear_threshold: 0.40
+  helmet_threshold: 0.65
+
+decision:
+  violation_alert_threshold: 0.65
+  min_confirmation_frames: 5
+  suppress_duplicates_per_track: true
+  cooldown_frames: 90  # 3.0 seconds at 30 fps

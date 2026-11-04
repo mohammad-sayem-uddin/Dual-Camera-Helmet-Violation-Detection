@@ -1,0 +1,23 @@
+| Aggregator | Scenario | Precision | Recall | False Alerts | Delay (frames) | Delay (sec) | Stability | Abstention Rate |
+| --- | --- | --- | --- | --- | --- | --- | --- | --- |
+| simple_voting | stable_helmet | 1.00 | 1.00 | 0 | 0.0 | 0.000s | 1.000 | 0.097 |
+| simple_voting | stable_violation | 1.00 | 1.00 | 0 | 5.0 | 0.167s | 1.000 | 0.097 |
+| simple_voting | fp_burst_on_compliant | 1.00 | 1.00 | 0 | 0.0 | 0.000s | 1.000 | 0.097 |
+| simple_voting | short_occlusion | 1.00 | 1.00 | 0 | 5.0 | 0.167s | 1.000 | 0.097 |
+| simple_voting | long_occlusion | 1.00 | 1.00 | 0 | 0.0 | 0.000s | 1.000 | 0.111 |
+| simple_voting | marginal_jitter | 1.00 | 1.00 | 0 | 0.0 | 0.000s | 1.000 | 0.115 |
+| simple_voting | multi_rider_crossing | 1.00 | 1.00 | 0 | 5.0 | 0.167s | 1.000 | 0.097 |
+| confidence_weighted | stable_helmet | 1.00 | 1.00 | 0 | 0.0 | 0.000s | 1.000 | 0.097 |
+| confidence_weighted | stable_violation | 1.00 | 1.00 | 0 | 5.0 | 0.167s | 1.000 | 0.097 |
+| confidence_weighted | fp_burst_on_compliant | 1.00 | 1.00 | 0 | 0.0 | 0.000s | 1.000 | 0.097 |
+| confidence_weighted | short_occlusion | 1.00 | 1.00 | 0 | 5.0 | 0.167s | 1.000 | 0.097 |
+| confidence_weighted | long_occlusion | 1.00 | 1.00 | 0 | 0.0 | 0.000s | 1.000 | 0.111 |
+| confidence_weighted | marginal_jitter | 1.00 | 1.00 | 0 | 0.0 | 0.000s | 1.000 | 0.115 |
+| confidence_weighted | multi_rider_crossing | 1.00 | 1.00 | 0 | 5.0 | 0.167s | 1.000 | 0.097 |
+| ema | stable_helmet | 1.00 | 1.00 | 0 | 0.0 | 0.000s | 1.000 | 0.097 |
+| ema | stable_violation | 1.00 | 1.00 | 0 | 5.0 | 0.167s | 1.000 | 0.097 |
+| ema | fp_burst_on_compliant | 1.00 | 1.00 | 0 | 0.0 | 0.000s | 1.000 | 0.097 |
+| ema | short_occlusion | 1.00 | 1.00 | 0 | 5.0 | 0.167s | 1.000 | 0.097 |
+| ema | long_occlusion | 1.00 | 1.00 | 0 | 0.0 | 0.000s | 1.000 | 0.111 |
+| ema | marginal_jitter | 1.00 | 1.00 | 0 | 0.0 | 0.000s | 1.000 | 0.115 |
+| ema | multi_rider_crossing | 1.00 | 1.00 | 0 | 5.0 | 0.167s | 1.000 | 0.097 |
