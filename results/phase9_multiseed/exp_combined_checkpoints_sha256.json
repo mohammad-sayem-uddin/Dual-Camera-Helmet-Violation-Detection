@@ -1,0 +1,17 @@
+{
+  "EXP-COMBINED_seed_123_best.pt": {
+    "path": "results/phase9_multiseed/exp_combined/seed_123/weights/best.pt",
+    "size_bytes": 6506922,
+    "sha256": "8e56a8074235d311e416e79793f92af352ea2cf04832612b106e02ea5dfe8baa"
+  },
+  "EXP-COMBINED_seed_2026_best.pt": {
+    "path": "results/phase9_multiseed/exp_combined/seed_2026/weights/best.pt",
+    "size_bytes": 6506922,
+    "sha256": "6f04b0ec223853a71eab0de87f0fa9bdf1a53d9c88f6e9e133b0236c702f3d0b"
+  },
+  "EXP-COMBINED_seed_42_best.pt": {
+    "path": "results/phase9_multiseed/exp_combined/seed_42/weights/best.pt",
+    "size_bytes": 6506922,
+    "sha256": "0929a882667e0f7e2b631071ab218a2415cc1b816cdede7fb6812543d840b0e5"
+  }
+}

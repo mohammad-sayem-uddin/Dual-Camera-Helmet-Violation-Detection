@@ -1,0 +1,18 @@
+{
+  "id": "allfaz/helmet-detection-phase-9-exp-combined-multiseed",
+  "title": "Helmet Detection Phase 9 EXP COMBINED MultiSeed",
+  "code_file": "kaggle_phase9_exp_comb.ipynb",
+  "language": "python",
+  "kernel_type": "notebook",
+  "is_private": "true",
+  "enable_gpu": "true",
+  "enable_tpu": "false",
+  "enable_internet": "true",
+  "dataset_sources": [
+    "allfaz/helmet-dataset-expansion-v2",
+    "allfaz/old-dataset-v1-fixed"
+  ],
+  "competition_sources": [],
+  "kernel_sources": [],
+  "model_sources": []
+}

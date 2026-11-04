@@ -1,0 +1,162 @@
+{
+  "experiment": "EXP-COMBINED",
+  "seed": 2026,
+  "training_duration_seconds": 2826.4798114299774,
+  "training_duration_minutes": 47.11,
+  "best_weights": "/kaggle/working/exp_combined/seed_2026/weights/best.pt",
+  "evaluations": {
+    "new_test": {
+      "evaluation_name": "New Held-Out Test (Seed 2026)",
+      "overall": {
+        "precision": 0.9699,
+        "recall": 0.9032,
+        "f1": 0.9354,
+        "map50": 0.9615,
+        "map50_95": 0.6989
+      },
+      "per_class": {
+        "no_helmet": {
+          "class_id": 0,
+          "precision": 0.976,
+          "recall": 0.8769,
+          "f1": 0.9238,
+          "map50": 0.9416,
+          "map50_95": 0.6364
+        },
+        "helmet": {
+          "class_id": 1,
+          "precision": 0.9638,
+          "recall": 0.9296,
+          "f1": 0.9464,
+          "map50": 0.9815,
+          "map50_95": 0.7614
+        }
+      },
+      "confusion_matrix": [
+        [
+          256.0,
+          4.0,
+          1984.0
+        ],
+        [
+          7.0,
+          278.0,
+          982.0
+        ],
+        [
+          5.0,
+          2.0,
+          0.0
+        ]
+      ],
+      "speed_ms": {
+        "preprocess": 1.29,
+        "inference": 4.75,
+        "loss": 0.0,
+        "postprocess": 1.96
+      }
+    },
+    "old_test": {
+      "evaluation_name": "Old CCTV Held-Out Test (Seed 2026)",
+      "overall": {
+        "precision": 0.7847,
+        "recall": 0.7475,
+        "f1": 0.7657,
+        "map50": 0.7694,
+        "map50_95": 0.3235
+      },
+      "per_class": {
+        "no_helmet": {
+          "class_id": 0,
+          "precision": 0.8286,
+          "recall": 0.6933,
+          "f1": 0.755,
+          "map50": 0.7619,
+          "map50_95": 0.3158
+        },
+        "helmet": {
+          "class_id": 1,
+          "precision": 0.7407,
+          "recall": 0.8018,
+          "f1": 0.77,
+          "map50": 0.777,
+          "map50_95": 0.3312
+        }
+      },
+      "confusion_matrix": [
+        [
+          527.0,
+          19.0,
+          3663.0
+        ],
+        [
+          50.0,
+          541.0,
+          4488.0
+        ],
+        [
+          23.0,
+          10.0,
+          0.0
+        ]
+      ],
+      "speed_ms": {
+        "preprocess": 0.95,
+        "inference": 4.8,
+        "loss": 0.0,
+        "postprocess": 1.09
+      }
+    },
+    "combined_test": {
+      "evaluation_name": "Combined Held-Out Test (Seed 2026)",
+      "overall": {
+        "precision": 0.8458,
+        "recall": 0.7908,
+        "f1": 0.8174,
+        "map50": 0.8529,
+        "map50_95": 0.4735
+      },
+      "per_class": {
+        "no_helmet": {
+          "class_id": 0,
+          "precision": 0.8706,
+          "recall": 0.7444,
+          "f1": 0.8026,
+          "map50": 0.8354,
+          "map50_95": 0.441
+        },
+        "helmet": {
+          "class_id": 1,
+          "precision": 0.821,
+          "recall": 0.8372,
+          "f1": 0.829,
+          "map50": 0.8705,
+          "map50_95": 0.506
+        }
+      },
+      "confusion_matrix": [
+        [
+          783.0,
+          23.0,
+          5647.0
+        ],
+        [
+          57.0,
+          819.0,
+          5470.0
+        ],
+        [
+          28.0,
+          12.0,
+          0.0
+        ]
+      ],
+      "speed_ms": {
+        "preprocess": 0.86,
+        "inference": 4.89,
+        "loss": 0.0,
+        "postprocess": 0.92
+      }
+    }
+  }
+}

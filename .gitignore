@@ -85,6 +85,9 @@ results/predictions/
 !data/metadata/.gitkeep
 !data/splits/.gitkeep
 
+# Raw Kaggle Download Dumps
+results/phase9_multiseed/kaggle_outputs_*/
+
 # Additional Local Raw Dataset Folders
 Motorcyle dataset/
 data/helmet_dataset_expansion/
