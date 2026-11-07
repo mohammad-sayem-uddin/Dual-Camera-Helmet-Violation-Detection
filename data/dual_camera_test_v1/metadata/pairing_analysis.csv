@@ -1,0 +1,28 @@
+pair_id,front_video,back_video,matching_evidence,pair_confidence,status
+pair_001,1.mp4,IMG_0620.MOV,Acoustic cross-correlation peak=0.3460; Metadata creation time offset=07:25:56 vs 07:25:53; Visual road/motorcycle overlap confirmed in preview,HIGH,CONFIRMED
+pair_002,2.mp4,IMG_0621.MOV,Acoustic cross-correlation peak=0.3416; Metadata creation time offset=07:27:08 vs 07:27:03; Visual road/motorcycle overlap confirmed in preview,HIGH,CONFIRMED
+pair_003,3.mp4,IMG_0622.MOV,Acoustic cross-correlation peak=0.5306; Metadata creation time offset=07:27:37 vs 07:27:31; Visual road/motorcycle overlap confirmed in preview,HIGH,CONFIRMED
+pair_004,4.mp4,IMG_0623.MOV,Acoustic cross-correlation peak=0.5102; Metadata creation time offset=07:28:43 vs 07:28:42; Visual road/motorcycle overlap confirmed in preview,HIGH,CONFIRMED
+pair_005,5.mp4,IMG_0624.MOV,Acoustic cross-correlation peak=0.4686; Metadata creation time offset=07:29:05 vs 07:29:02; Visual road/motorcycle overlap confirmed in preview,HIGH,CONFIRMED
+pair_006,6.mp4,IMG_0625.MOV,Acoustic cross-correlation peak=0.4734; Metadata creation time offset=07:29:32 vs 07:29:31; Visual road/motorcycle overlap confirmed in preview,HIGH,CONFIRMED
+pair_007,7.mp4,IMG_0626.MOV,Acoustic cross-correlation peak=0.5435; Metadata creation time offset=07:29:48 vs 07:29:46; Visual road/motorcycle overlap confirmed in preview,HIGH,CONFIRMED
+pair_008,8.mp4,IMG_0627.MOV,Acoustic cross-correlation peak=0.2245; Metadata creation time offset=07:31:58 vs 07:31:56; Visual road/motorcycle overlap confirmed in preview,MEDIUM,CONFIRMED
+pair_009,9.mp4,IMG_0628.MOV,Acoustic cross-correlation peak=0.4919; Metadata creation time offset=07:32:18 vs 07:32:14; Visual road/motorcycle overlap confirmed in preview,HIGH,CONFIRMED
+pair_010,10.mp4,IMG_0629.MOV,Acoustic cross-correlation peak=0.3098; Metadata creation time offset=07:32:51 vs 07:32:49; Visual road/motorcycle overlap confirmed in preview,HIGH,CONFIRMED
+pair_011,12.mp4,IMG_0630.MOV,Acoustic cross-correlation peak=0.5022; Metadata creation time offset=07:33:10 vs 07:33:07; Visual road/motorcycle overlap confirmed in preview,HIGH,CONFIRMED
+pair_012,13.mp4,IMG_0631.MOV,Acoustic cross-correlation peak=0.4067; Metadata creation time offset=07:33:28 vs 07:33:25; Visual road/motorcycle overlap confirmed in preview,HIGH,CONFIRMED
+pair_013,14.mp4,IMG_0632.MOV,Acoustic cross-correlation peak=0.2638; Metadata creation time offset=07:35:33 vs 07:35:21; Visual road/motorcycle overlap confirmed in preview,HIGH,CONFIRMED
+pair_014,15.mp4,IMG_0633.MOV,Acoustic cross-correlation peak=0.3600; Metadata creation time offset=07:36:40 vs 07:36:38; Visual road/motorcycle overlap confirmed in preview,HIGH,CONFIRMED
+pair_015,17.mp4,IMG_0634.MOV,Acoustic cross-correlation peak=0.5079; Metadata creation time offset=07:37:48 vs 07:37:45; Visual road/motorcycle overlap confirmed in preview,HIGH,CONFIRMED
+pair_016,18.mp4,IMG_0635.MOV,Acoustic cross-correlation peak=0.6020; Metadata creation time offset=07:38:12 vs 07:38:04; Visual road/motorcycle overlap confirmed in preview,HIGH,CONFIRMED
+pair_017,19.mp4,IMG_0636.MOV,Acoustic cross-correlation peak=0.4124; Metadata creation time offset=07:40:26 vs 07:40:23; Visual road/motorcycle overlap confirmed in preview,HIGH,CONFIRMED
+pair_018,20.mp4,IMG_0637.MOV,Acoustic cross-correlation peak=0.3633; Metadata creation time offset=07:40:47 vs 07:40:44; Visual road/motorcycle overlap confirmed in preview,HIGH,CONFIRMED
+pair_019,21.mp4,IMG_0638.MOV,Acoustic cross-correlation peak=0.2113; Metadata creation time offset=07:41:57 vs 07:41:53; Visual road/motorcycle overlap confirmed in preview,MEDIUM,CONFIRMED
+pair_020,22.mp4,IMG_0639.MOV,Acoustic cross-correlation peak=0.3405; Metadata creation time offset=07:43:43 vs 07:43:37; Visual road/motorcycle overlap confirmed in preview,HIGH,CONFIRMED
+pair_021,23.mp4,IMG_0640.MOV,Acoustic cross-correlation peak=0.5235; Metadata creation time offset=07:44:02 vs 07:43:58; Visual road/motorcycle overlap confirmed in preview,HIGH,CONFIRMED
+pair_022,24.mp4,IMG_0641.MOV,Acoustic cross-correlation peak=0.2428; Metadata creation time offset=07:45:20 vs 07:45:17; Visual road/motorcycle overlap confirmed in preview,MEDIUM,CONFIRMED
+pair_023,25.mp4,IMG_0642.MOV,Acoustic cross-correlation peak=0.4123; Metadata creation time offset=07:45:36 vs 07:45:32; Visual road/motorcycle overlap confirmed in preview,HIGH,CONFIRMED
+pair_024,26.mp4,IMG_0643.MOV,Acoustic cross-correlation peak=0.4177; Metadata creation time offset=07:48:02 vs 07:47:54; Visual road/motorcycle overlap confirmed in preview,HIGH,CONFIRMED
+pair_025,27.mp4,IMG_0644.MOV,Acoustic cross-correlation peak=0.5224; Metadata creation time offset=07:48:23 vs 07:48:20; Visual road/motorcycle overlap confirmed in preview,HIGH,CONFIRMED
+UNMATCHED,11.mp4,NONE,Cluster 1 secondary overtaking front clip during IMG_0629.MOV,ISOLATED_QUARANTINE,UNMATCHED
+UNMATCHED,16.mp4,NONE,Cluster 2 extra trailing front clip recorded after IMG_0633.MOV,ISOLATED_QUARANTINE,UNMATCHED
