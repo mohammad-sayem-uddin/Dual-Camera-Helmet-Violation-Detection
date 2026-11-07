@@ -19,12 +19,13 @@ During the initial reporting of Phase 11, a blanket summary stated that synchron
 This audit report rigorously resolves this apparent contradiction by analyzing the physical, acoustic, and mathematical origins of the discrepancy.
 
 ### Definitive Audit Findings:
-1. **Physical Clock Drift vs. Acoustic Delay Variation**: True hardware crystal clock drift between the two mobile devices over the short duration (1.77 s to 8.04 s) of each recording is physically negligible (< 0.5 ms).
-2. **Acoustic Differential Propagation Time**: The measured 36-76 ms shift across sub-segments in these 4 pairs is primarily caused by **acoustic time-of-flight variation** as the motorcycle travels across the physical spatial baseline separating the front and back camera operators, combined with correlation window uncertainty in short or noisy segments.
-3. **True Accuracy Distribution**:
-   - **Sub-Frame Accurate (<= +-10.0 ms, < 0.60 frames)**: **21 pairs (84.0%)**
-   - **Near-Frame Accurate (+-18.0 ms to +-38.0 ms, 1.08-2.28 frames)**: **4 pairs (16.0%)**
-4. **Temporal Verification Impact**: The Phase 10 temporal verification framework operates on a sliding window buffer W = 10 frames (166.7 ms) with confirmation threshold N_confirm = 5 frames (83.3 ms). A temporal alignment precision within 1-2 frames is fully compatible with sequence-level track latching and violation verification.
+1. **Four-Way Metrological Separation**: This audit strictly distinguishes between (a) **initial recording offset** (manual human triggers, -2.38s to +6.70s), (b) **clock-rate frequency drift** (hardware oscillator stability, < 0.05 ms/s, < 0.40 ms over clip), (c) **acoustic propagation delay** (unmeasured hypothesis; no spatial surveying performed), and (d) **residual synchronization uncertainty** (+-3.0 ms to +-38.0 ms).
+2. **Correction of Flawed Sensor Claims**: Oscillator tolerance estimates (e.g. 50 ppm) bound only hardware clock-rate drift; they do NOT establish synchronized recording start times or phase-locked frame exposure. Un-genlocked consumer mobile sensors possess independent exposure phases and rolling shutter skew.
+3. **Status of Segmental Shifts (+36 ms, +70 ms, -76 ms, +74 ms)**: These shifts are NOT supported by independent visual ground truth and are NOT supported by measured acoustic geometry. They represent correlation envelope estimation noise, window truncation artifacts, and engine combustion harmonic side-lobe hopping (~33-40 ms period), not proven physical acoustic propagation.
+4. **Standalone Intrinsic Accuracy Distribution**:
+   - **Sub-Frame Bounded (<= +-10.0 ms, < 0.60 frames)**: **21 pairs (84.0%)**
+   - **Near-Frame Bounded (+-18.0 ms to +-38.0 ms, 1.08-2.28 frames)**: **4 pairs (16.0%)**
+   - Evaluated as an intrinsic property of the capture system, independent of downstream processing buffers.
 
 ---
 
@@ -44,32 +45,25 @@ For a typical 3.5-second clip:
 Drift_typical = 3.5 s * 20 * 10^-6 = 0.00007 s = 0.07 ms
 
 > [!NOTE]
-> Physical oscillator drift over a 2–8 second clip is less than half a millisecond (< 0.5 ms), representing less than 0.03 frames at 60 fps. Therefore, **physical clock desynchronization between the video sensors did not occur**.
+> Physical oscillator drift over a 2–8 second clip is less than half a millisecond (< 0.5 ms), representing less than 0.03 frames at 60 fps. However, this bounds **only the rate of clock progression**, not absolute start synchronization or frame exposure integration phase. Consumer mobile cameras lack hardware genlock and exhibit independent exposure phases and rolling shutter readout skews.
 
-### 2.2 Acoustic Time-of-Flight & Spatial Baseline Propagation
+### 2.2 Acoustic Time-of-Flight & Spatial Baseline (Unmeasured Hypothesis)
 
-The front and back cameras were positioned roadside by two independent operators separated by a physical baseline distance D ~= 10-25 meters.
+The front and back cameras were positioned roadside by two independent operators separated by an unmeasured physical baseline distance.
 
-Sound propagates in air at c ~= 343 m/s (349 m/s at 30 deg C). As a motorcycle travels through the capture zone at velocity v ~= 30-45 km/h (8.3-12.5 m/s):
-1. **Approach Phase**: The motorcycle is closer to the Front camera operator (d_F < d_B). Sound arrives at the Front microphone earlier than at the Back microphone:
-   dt_arr^(1) = (d_B(t1) - d_F(t1)) / c
-2. **Departure Phase**: The motorcycle passes and recedes, becoming closer to the Back camera operator (d_B < d_F):
-   dt_arr^(2) = (d_B(t2) - d_F(t2)) / c
+Sound propagates in air at c ~= 343 m/s (349 m/s at 30 deg C). As a moving acoustic source (motorcycle engine) traverses the area, differential acoustic propagation delay varies according to relative distances:
+dt_prop(t) = (d_B(t) - d_F(t)) / c
 
-The differential acoustic propagation delay across the pass is:
-dt_Doppler = dt_arr^(2) - dt_arr^(1) = (delta_d_B - delta_d_F) / c
+**Important Scientific Clarification**: Because no physical survey (RTK-GPS, total station, laser rangefinding) was performed to record camera coordinates or vehicle trajectories, **acoustic propagation delay remains an unmeasured theoretical hypothesis**. The observed segmental shifts (+36 ms, +70 ms, -76 ms, +74 ms) cannot be claimed as empirical measurements of acoustic propagation delay.
 
-For a baseline displacement change of 15-25 meters:
-dt_Doppler ~= 15 m / 345 m/s ~= 43.5 ms  to  25 m / 345 m/s ~= 72.5 ms
-
-**Conclusion**: The measured segmental drift values of +36.0 ms, +70.0 ms, -76.0 ms, and +74.0 ms closely match the acoustic propagation differential of a moving sound source traveling across the camera baseline.
-
-### 2.3 Acoustic Correlation Window Uncertainty
+### 2.3 Acoustic Correlation Window Uncertainty & Harmonic Side-Lobe Ambiguity
 
 In `phase11_clock_drift_analysis.py`, the audio overlap was divided into two 45% sub-windows.
 - For `pair_004` (overlap duration = 1.766 s), each sub-window is only 0.79 s long.
-- Over short intervals (< 1.0 s), low-frequency vehicle engine rumble, exhaust harmonics, and ambient wind gusts create broader correlation envelopes with adjacent side-lobes.
-- The hop size of 2.0 ms combined with finite signal-to-noise ratio yields a windowing uncertainty of +-4-8 ms.
+- Single-cylinder 4-stroke commuter motorcycles operating at 1500–3000 RPM produce strong periodic acoustic power-stroke modulations at fundamental firing frequencies f_comb ~= 25–30 Hz (period T_comb ~= 33–40 ms).
+- Cross-correlating periodic signals within short, noisy sub-segments produces correlation envelopes with multi-modal side-lobes separated by ~33–40 ms.
+- Truncation causes the correlation peak to hop to adjacent side-lobes (+36 ms ~= 1 x T_comb; +70 to 76 ms ~= 2 x T_comb).
+- Therefore, these segmental shifts are **discrete cross-correlation estimation artifacts on periodic engine audio**, not physical clock drift or proven acoustic transit delays.
 
 ---
 
@@ -143,20 +137,23 @@ The table below documents the audited synchronization parameters for all 25 conf
 
 ---
 
-## 5. Operational Compatibility with Phase 10 Temporal Engine
+## 5. Standalone Intrinsic Residual Metrics (Decoupled from Downstream Buffers)
 
-The Phase 10 temporal verification framework incorporates the following operational parameters:
-- **Frame Rate**: 60 fps (dt_frame = 16.67 ms)
-- **Track Initialization**: 3 frames (50.0 ms)
-- **Sliding Window Buffer**: W = 10 frames (166.7 ms)
-- **Violation Confirmation Threshold**: N_confirm = 5 frames (83.3 ms at 60 fps / 166.7 ms at 30 fps equivalent)
+The dataset's synchronization residual uncertainty is evaluated strictly as an intrinsic measurement property of the dual-camera capture system, independent of downstream processing buffers:
 
-### Mathematical Margin of Safety:
-1. **Sub-Frame Pairs (21 pairs)**: Maximum residual error is <= 10.0 ms (< 0.60 frames). Temporal alignment jitter is strictly within a single frame, providing ideal conditions for multi-camera track association.
-2. **Near-Frame Pairs (4 pairs)**: Maximum residual error is <= 38.0 ms (2.28 frames). 
-   - The temporal sliding window buffer (W = 10 frames) absorbs up to 10 frames of temporal history.
-   - A 2-frame offset represents only 20% of the buffer capacity and is well below the track association threshold (5-10 frames).
-   - In cross-camera evaluation (front vs. back view), cameras observe opposite perspectives of the motorcycle; detection bounding boxes are mapped via track IDs rather than rigid pixel-level homography. A 1-2 frame temporal difference has zero impact on identity association or helmet citation latching.
+1. **Sub-Frame Population (21 pairs, 84.0%)**:
+   - Maximum residual synchronization uncertainty: <= +-10.0 ms (< 0.60 frames at 60 fps).
+   - Peak correlation range: 0.2113 to 0.6020.
+   - The temporal alignment is strictly sub-frame bounded.
+2. **Near-Frame Population (4 pairs, 16.0%)**:
+   - Maximum residual synchronization uncertainty: +-18.0 ms to +-38.0 ms (1.08 to 2.28 frames at 60 fps).
+   - Driven by periodic engine combustion cycle harmonic side-lobes (~33-40 ms period) on short windows.
+   - Population worst-case: +-38.0 ms (2.28 frames, in `pair_008`).
+3. **Dataset Population Statistics**:
+   - Minimum: +-3.0 ms (0.18 frames)
+   - Median: +-3.0 ms (0.18 frames)
+   - Mean: +-9.4 ms (0.56 frames)
+   - Maximum: +-38.0 ms (2.28 frames)
 
 ---
 

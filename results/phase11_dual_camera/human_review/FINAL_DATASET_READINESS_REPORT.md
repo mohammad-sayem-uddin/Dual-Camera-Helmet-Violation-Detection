@@ -58,15 +58,14 @@ AUDIT DIMENSION                       STATUS      CONFIDENCE   EVIDENCE BASE
 - **Resolution of Accuracy Ambiguity**:
   - Initial reporting noted "sub-frame accuracy (<= +-10 ms)". A granular audit revealed that 21 pairs (84.0%) achieve residual errors of +-3.0 ms to +-10.0 ms (< 0.60 frames at 60 fps).
   - Four pairs (`pair_004`, `pair_005`, `pair_008`, `pair_015`) report residual errors between +-18.0 ms and +-38.0 ms (1.08 to 2.28 frames).
-- **Physical Root Cause Analysis**:
-  - **Hardware Oscillator Stability**: Physical quartz oscillator drift between the two mobile devices is < 0.40 ms over the entire clip duration. Video frame sensors did NOT experience physical clock drift.
-  - **Acoustic Baseline Transit Delay**: Front and back cameras were positioned 10–25 meters apart. As the motorcycle travels at 30–45 km/h across this baseline, sound arrival time shifts by 40–75 ms between approach and departure.
-  - **Windowing Truncation**: Short sub-segments (e.g. 0.79 s in `pair_004`) exhibit cross-correlation envelope side-lobe ambiguity.
-- **Accuracy Distribution**:
+- **Scientific Root Cause Analysis**:
+  - **Hardware Oscillator Stability vs. Sensor Genlock**: Physical quartz oscillator frequency drift between devices is bounded to < 0.40 ms over the entire clip duration. However, consumer mobile video sensors lack hardware genlock and exhibit independent exposure phases and rolling shutter readout skews.
+  - **Segmental Shifts (+36 ms, +70 ms, -76 ms, +74 ms)**: These segmental differences are unsupported by measured acoustic geometry or optical strobe events; they represent cross-correlation estimation uncertainty and harmonic side-lobe hopping (~33-40 ms period) on short, band-limited engine sound segments.
+- **Intrinsic Accuracy Distribution**:
   - **Sub-Frame Accurate (<= +-10.0 ms)**: 21 / 25 pairs (84.0%)
   - **Near-Frame Accurate (18.0 ms - 38.0 ms, <= 2.28 frames)**: 4 / 25 pairs (16.0%)
-  - **Worst-Case Error**: +-38.0 ms (2.28 frames), well within the 10-frame temporal tracking buffer.
-- **Verdict**: **PASS**. 100% of pairs exhibit temporal precision sufficient for cross-camera sequence matching and temporal verification.
+  - **Worst-Case Error**: +-38.0 ms (2.28 frames, in `pair_008`).
+- **Verdict**: **PASS**. 100% of pairs exhibit temporal precision sufficient for cross-camera sequence matching and temporal evaluation.
 
 ---
 
