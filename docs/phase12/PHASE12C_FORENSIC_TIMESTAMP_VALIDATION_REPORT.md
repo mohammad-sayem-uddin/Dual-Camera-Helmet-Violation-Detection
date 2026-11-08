@@ -40,10 +40,11 @@ Across all 50 video containers (`25 front + 25 back`, totaling `15,637` frames):
 
 ## 2. Pair-Level Synchronized Alignment & Separated Residuals (All 25 Pairs)
 
-When stepping across the common overlap interval $[t_{\text{start,ref}}, t_{\text{end,ref}}]$ at a canonical `60.0 Hz` reference tick ($\Delta t_{\text{tick}} = 16.667\text{ ms}$), we measure three distinct, non-zero timing quantities:
-1. **`epsilon_sync_ms` ($\epsilon_{\text{sync}}$)**: Phase 11.6 inter-camera synchronization residual uncertainty.
-2. **`delta_pts_front_ms` ($\delta_{\text{pts},F}$)**: Front container PTS discretization residual $|t_{F,\text{actual}} - t_{F,\text{target}}|$.
-3. **`delta_pts_back_ms` ($\delta_{\text{pts},B}$)**: Back container PTS discretization residual $|t_{B,\text{actual}} - t_{B,\text{target}}|$.
+We maintain an explicit **four-way metrological distinction** across all validation artifacts and runtime status records:
+1. **Container PTS Agreement**: Agreement between OpenCV sequential `CAP_PROP_POS_MSEC` and `ffprobe` stream-normalized rational PTS $t_{\text{norm}}[k]$ (`0.000000 ms` across all 50 streams).
+2. **Frame-Selection Discretization Residuals (`delta_pts_front_ms` $\delta_{\text{pts},F}$, `delta_pts_back_ms` $\delta_{\text{pts},B}$)**: Discrete sampling offset $|t_{c,\text{actual}} - t_{c,\text{target}}|$ when stepping at a canonical `60.0 Hz` reference tick ($\Delta t_{\text{tick}} = 16.667\text{ ms}$). For example, in `pair_001` (per [`phase12c_pts_validation_summary.json`](file:///Users/sayemuddin/Desktop/research_helmet/results/phase12c_pts_sync/phase12c_pts_validation_summary.json)), `delta_pts_front_mean_ms = 5.4362 ms` (`max = 11.5444 ms` due to 1 dropped frame interval of `33.17 ms` at frame 29 in `pair_001_front.mp4`) while `delta_pts_back_mean_ms = 1.8004 ms` (`max = 3.3333 ms`).
+3. **Phase 11.6 Inter-Camera Synchronization Residual (`epsilon_sync_ms` $\epsilon_{\text{sync}}$)**: Empirical inter-camera clock-alignment residual uncertainty (`1.0–10.0 ms` for the 21 sub-frame pairs; `18.0–38.0 ms` for the 4 near-frame pairs).
+4. **Physical Exposure Synchronization**: Uncalibrated CMOS rolling-shutter readout and auto-exposure integration windows (`exposure_sync_model = "container_pts_alignment_not_physical_exposure_genlock"`), which container timestamp alignment does not equate to.
 
 > [!NOTE]
 > **Why `delta_pts_back_ms` and `delta_pts_front_ms` are NOT zero:**  

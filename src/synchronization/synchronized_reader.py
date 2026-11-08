@@ -255,35 +255,8 @@ class SynchronizedVideoReader:
         idx_b = lookup_b.frame_index if lookup_b is not None and frame_b is not None else -1
         idx_f = lookup_f.frame_index if lookup_f is not None and frame_f is not None else -1
 
-        valid_pair = (frame_b is not None and frame_f is not None and lookup_b is not None and lookup_f is not None)
-
-        if valid_pair and lookup_b is not None and lookup_f is not None:
-            t_b_actual = lookup_b.actual_pts_norm_sec
-            t_f_actual = lookup_f.actual_pts_norm_sec
-            t_b_raw = lookup_b.actual_pts_raw_sec
-            t_f_raw = lookup_f.actual_pts_raw_sec
-            delta_b_ms = lookup_b.delta_pts_ms
-            delta_f_ms = lookup_f.delta_pts_ms
-            s_delta_b_ms = lookup_b.signed_delta_pts_ms
-            s_delta_f_ms = lookup_f.signed_delta_pts_ms
-            # Actual container timestamp difference vs target offset
-            inter_skew_ms = abs((t_b_actual - t_f_actual) - self.sync_info.global_offset_sec) * 1000.0
-            is_new_b = (idx_b != self._last_frame_idx_back)
-            is_new_f = (idx_f != self._last_frame_idx_front)
-            self._last_frame_idx_back = idx_b
-            self._last_frame_idx_front = idx_f
-        else:
-            t_b_actual = -1.0
-            t_f_actual = -1.0
-            t_b_raw = -1.0
-            t_f_raw = -1.0
-            delta_b_ms = -1.0
-            delta_f_ms = -1.0
-            s_delta_b_ms = 0.0
-            s_delta_f_ms = 0.0
-            inter_skew_ms = -1.0
-            is_new_b = False
-            is_new_f = False
+        valid_back = (frame_b is not None and lookup_b is not None)
+        valid_front = (frame_f is not None and lookup_f is not None)
 
         eps = 1e-4
         in_overlap = (
@@ -291,6 +264,44 @@ class SynchronizedVideoReader:
             <= t_ref_sec
             <= (self.sync_info.overlap_end_back_sec + eps)
         )
+
+        # Complete synchronized pair validity requires BOTH frames to exist AND t_ref inside common overlap
+        valid_pair = bool(valid_back and valid_front and in_overlap)
+
+        # Decoupled per-camera PTS diagnostics and deduplication eligibility:
+        # Each camera independently tracks its own new physical frames even if the other camera is unavailable.
+        if valid_back and lookup_b is not None:
+            t_b_actual = lookup_b.actual_pts_norm_sec
+            t_b_raw = lookup_b.actual_pts_raw_sec
+            delta_b_ms = lookup_b.delta_pts_ms
+            s_delta_b_ms = lookup_b.signed_delta_pts_ms
+            is_new_b = (idx_b != self._last_frame_idx_back)
+            self._last_frame_idx_back = idx_b
+        else:
+            t_b_actual = -1.0
+            t_b_raw = -1.0
+            delta_b_ms = -1.0
+            s_delta_b_ms = 0.0
+            is_new_b = False
+
+        if valid_front and lookup_f is not None:
+            t_f_actual = lookup_f.actual_pts_norm_sec
+            t_f_raw = lookup_f.actual_pts_raw_sec
+            delta_f_ms = lookup_f.delta_pts_ms
+            s_delta_f_ms = lookup_f.signed_delta_pts_ms
+            is_new_f = (idx_f != self._last_frame_idx_front)
+            self._last_frame_idx_front = idx_f
+        else:
+            t_f_actual = -1.0
+            t_f_raw = -1.0
+            delta_f_ms = -1.0
+            s_delta_f_ms = 0.0
+            is_new_f = False
+
+        if valid_back and valid_front:
+            inter_skew_ms = abs((t_b_actual - t_f_actual) - self.sync_info.global_offset_sec) * 1000.0
+        else:
+            inter_skew_ms = -1.0
 
         status: dict[str, Any] = {
             "pair_id": self.pair_id,
@@ -315,10 +326,12 @@ class SynchronizedVideoReader:
             "residual_uncertainty_ms": self.sync_info.residual_uncertainty_ms,
             "global_offset_sec": self.sync_info.global_offset_sec,
             "accuracy_classification": self.sync_info.accuracy_classification,
+            "valid_back_frame": valid_back,
+            "valid_front_frame": valid_front,
             "is_new_back_frame": is_new_b,
             "is_new_front_frame": is_new_f,
-            "should_update_back_state": bool(is_new_b and valid_pair),
-            "should_update_front_state": bool(is_new_f and valid_pair),
+            "should_update_back_state": bool(is_new_b and valid_back),
+            "should_update_front_state": bool(is_new_f and valid_front),
             "exposure_sync_model": "container_pts_alignment_not_physical_exposure_genlock",
             "is_in_overlap": in_overlap,
             "valid_pair": valid_pair,
@@ -357,8 +370,12 @@ class SynchronizedVideoReader:
             if t_curr > t_end + 1e-6:
                 break
             fb, ff, status = self.get_synchronized_pair(t_curr)
-            if fb is not None and ff is not None:
-                yield fb, ff, status
+            if overlap_only:
+                if status["valid_pair"] and fb is not None and ff is not None:
+                    yield fb, ff, status
+            else:
+                if status["valid_back_frame"] or status["valid_front_frame"]:
+                    yield fb, ff, status
 
     def create_side_by_side_preview(
         self,

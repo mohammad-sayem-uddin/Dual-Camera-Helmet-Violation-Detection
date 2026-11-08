@@ -158,10 +158,12 @@ def test_measured_non_zero_discretization_errors_on_vfr_and_30fps_pairs():
 
 def test_repeated_30fps_frame_does_not_trigger_duplicate_detection_or_temporal_update():
     """
-    Mandatory Condition 4: Demonstrate that when stepping a 30 fps Back stream
-    (pair_015) at 60 Hz, repeated 30 fps frames have is_new_back_frame=False and
-    DeduplicatedTemporalGate prevents duplicate detector calls and premature
-    Phase 10 TemporalStateMachine violation confirmation.
+    Mandatory Condition 4 & Review Correction 3:
+    Use the production SynchronizedVideoReader.get_synchronized_pair() path,
+    production status["is_new_back_frame"], production status["should_update_back_state"],
+    DeduplicatedTemporalGate, and Phase 10 TemporalStateMachine on pair_015.
+    Verify that 8 canonical 60 Hz ticks produce exactly 4 unique Back-camera
+    detector/state-machine updates.
     """
     cfg = StateMachineConfig(min_observation_frames=3, confirm_frames=5, confirm_threshold=0.70)
     sm_gated = TemporalStateMachine(track_id=1, config=cfg)
@@ -172,46 +174,126 @@ def test_repeated_30fps_frame_does_not_trigger_duplicate_detection_or_temporal_u
 
     gate = DeduplicatedTemporalGate()
     detector_calls_back = 0
+    detector_calls_front = 0
 
     with SynchronizedVideoReader("pair_015") as sync_reader:
         t_start = sync_reader.sync_info.overlap_start_back_sec
-        prev_idx_b = -1
 
-        # Simulate 8 canonical 60 Hz ticks (spanning ~4 unique 30 fps Back frames)
+        # Execute 8 canonical 60 Hz ticks through production get_synchronized_pair()
         for tick in range(8):
             t_ref = t_start + tick / 60.0
-            lb = sync_reader.reader_back.pts_index.nearest_frame(t_ref)
-            is_new_b = lb.frame_index != prev_idx_b
-            prev_idx_b = lb.frame_index
+            fb, ff, status = sync_reader.get_synchronized_pair(t_ref)
 
-            # 1. Properly gated Back camera update (executes ONLY on unique physical frames)
+            assert fb is not None and ff is not None
+            assert status["is_in_overlap"] is True
+            assert status["valid_pair"] is True
+            assert status["valid_back_frame"] is True
+            assert status["valid_front_frame"] is True
+            assert status["should_update_back_state"] == status["is_new_back_frame"]
+            assert status["should_update_front_state"] == status["is_new_front_frame"]
+
+            # 1. Production-gated Back camera update
             def _run_back_step():
                 nonlocal detector_calls_back
                 detector_calls_back += 1
                 agg_gated.add_observation("no_helmet", 0.85, is_detected=True)
                 conf = agg_gated.get_aggregated_confidence()
-                state, _ = sm_gated.update(lb.frame_index, conf, is_detected=True)
+                state, _ = sm_gated.update(status["frame_idx_back"], conf, is_detected=True)
                 return state
 
-            gated_state, did_update = gate.step_camera("back", is_new_b, _run_back_step)
-            assert did_update == is_new_b
+            gated_state, did_update_b = gate.step_camera(
+                "back", status["should_update_back_state"], _run_back_step
+            )
+            assert did_update_b == status["is_new_back_frame"]
+
+            # Production-gated Front camera update (60 fps -> updates on all 8 ticks)
+            def _run_front_step():
+                nonlocal detector_calls_front
+                detector_calls_front += 1
+                return status["frame_idx_front"]
+
+            _, did_update_f = gate.step_camera(
+                "front", status["should_update_front_state"], _run_front_step
+            )
+            assert did_update_f is True
 
             # 2. Ungated bug simulation (updates on every 60 Hz tick even when 30fps frame repeats)
             agg_ungated_bug.add_observation("no_helmet", 0.85, is_detected=True)
             conf_bug = agg_ungated_bug.get_aggregated_confidence()
             ungated_state, _ = sm_ungated_bug.update(tick, conf_bug, is_detected=True)
 
-    # Over 8 ticks at 60 Hz, only 4 unique 30 fps frames occurred:
-    assert gate.back_ticks_seen == 8
-    assert gate.back_unique_updates == detector_calls_back
-    assert gate.back_skipped_duplicates >= 3
-    assert gate.back_unique_updates == 4
+    # Over 8 canonical 60 Hz ticks, Front (60 fps) updated 8 times,
+    # while Back (30 fps) updated EXACTLY 4 times (skipping 4 duplicate ticks):
+    assert gate.front_ticks_seen == 8
+    assert gate.front_unique_updates == 8
+    assert detector_calls_front == 8
 
-    # Because only 4 unique physical frames occurred (< confirm_frames=5),
-    # the gated state machine MUST still be in NO_HELMET_SUSPECTED,
+    assert gate.back_ticks_seen == 8
+    assert gate.back_unique_updates == 4
+    assert detector_calls_back == 4
+    assert gate.back_skipped_duplicates == 4
+
+    # Because only 4 unique physical Back frames occurred (< confirm_frames=5),
+    # the gated state machine remains in NO_HELMET_SUSPECTED,
     # whereas the ungated bug prematurely escalated to NO_HELMET_CONFIRMED!
     assert gated_state == TemporalState.NO_HELMET_SUSPECTED
     assert sm_gated.consecutive_no_helmet_frames == 4
     assert ungated_state == TemporalState.NO_HELMET_CONFIRMED
     assert sm_ungated_bug.consecutive_no_helmet_frames == 8
+
+
+def test_decoupled_per_camera_update_eligibility_and_overlap_validity():
+    """
+    Review Corrections 1, 2 & 3:
+    1. Verify that when one camera's frame is missing (outside overlap), valid_pair is False,
+       the missing camera has should_update_<cam>_state=False, and the available camera still
+       has should_update_<cam>_state=True on new physical frames and False on repeated frames.
+    2. Verify that if both frames exist at a timestamp outside the common overlap window,
+       is_in_overlap is False and valid_pair is False (never treating out-of-overlap frames
+       as valid synchronized evidence), while per-camera update eligibility remains active.
+    """
+    # Case A: pair_003 has global_offset_sec = +0.665s, overlap_start_back_sec = 0.665s.
+    # At t_back = 0.10s, Back camera has a valid frame, but Front target time is -0.565s (None).
+    with SynchronizedVideoReader("pair_003") as reader:
+        fb1, ff1, st1 = reader.get_synchronized_pair(0.10)
+        assert fb1 is not None
+        assert ff1 is None
+        assert st1["is_in_overlap"] is False
+        assert st1["valid_pair"] is False
+        assert st1["valid_back_frame"] is True
+        assert st1["valid_front_frame"] is False
+        assert st1["is_new_back_frame"] is True
+        assert st1["should_update_back_state"] is True
+        assert st1["is_new_front_frame"] is False
+        assert st1["should_update_front_state"] is False
+
+        # Querying 1 ms later (0.101s) hits the SAME physical Back frame -> deduplicated!
+        fb2, ff2, st2 = reader.get_synchronized_pair(0.101)
+        assert fb2 is not None
+        assert ff2 is None
+        assert st2["frame_idx_back"] == st1["frame_idx_back"]
+        assert st2["valid_pair"] is False
+        assert st2["valid_back_frame"] is True
+        assert st2["is_new_back_frame"] is False
+        assert st2["should_update_back_state"] is False
+
+        # Advancing by one 60fps interval (0.10 + 1/60 = 0.1167s) hits the NEXT physical Back frame
+        fb3, ff3, st3 = reader.get_synchronized_pair(0.10 + 1.0 / 60.0)
+        assert fb3 is not None
+        assert st3["frame_idx_back"] == st1["frame_idx_back"] + 1
+        assert st3["valid_pair"] is False
+        assert st3["is_new_back_frame"] is True
+        assert st3["should_update_back_state"] is True
+
+        # Case B: Both frames exist, but timestamp is outside the declared overlap window
+        reader.sync_info.overlap_start_back_sec = 1.50
+        fb4, ff4, st4 = reader.get_synchronized_pair(1.00)
+        assert fb4 is not None and ff4 is not None
+        assert st4["valid_back_frame"] is True
+        assert st4["valid_front_frame"] is True
+        assert st4["is_in_overlap"] is False
+        assert st4["valid_pair"] is False
+        assert st4["should_update_back_state"] is True
+        assert st4["should_update_front_state"] is True
+
 
