@@ -1,0 +1,75 @@
+# Phase 12D Per-Camera Hierarchical Detection, Coupling & Tracking Configuration
+# Scientific Note: All numerical thresholds and weights below are initial engineering
+# parameters (hypotheses) to be empirically evaluated in Phase 12I ablations.
+
+detection:
+  vehicle_person_model:
+    weights_path: "yolov8n.pt"
+    sha256: "f59b3d833e2ff32e194b5bb8e08d211dc7c5bdf144b90d2c8412c47ccfc83b36"
+    target_classes:
+      0: "person"
+      3: "motorcycle"
+    conf_threshold_low: 0.18     # Low threshold for ByteTrack Stage 2 recovery
+    conf_threshold_high: 0.45    # High threshold for ByteTrack Stage 1 & track init
+    iou_nms_threshold: 0.45
+  helmet_model:
+    weights_path: "results/phase9_multiseed/exp_combined/seed_42/weights/best.pt"
+    sha256: "0929a882667e0f7e2b631071ab218a2415cc1b816cdede7fb6812543d840b0e5"
+    target_classes:
+      0: "no_helmet"
+      1: "helmet"
+    conf_threshold: 0.25
+    iou_nms_threshold: 0.45
+
+moto_rider_coupler:
+  max_riders_per_motorcycle: 3
+  min_coupling_score: 0.35
+  ambiguity_margin_threshold: 0.08
+  head_upper_cone_height_ratio: 1.25
+  head_horizontal_expansion_ratio: 0.25
+  max_head_center_below_moto_ratio: 0.55
+  max_head_to_moto_width_ratio: 1.15
+  person_mount_min_iou: 0.12
+  person_mount_min_ioa: 0.25
+  head_in_person_upper_ratio: 0.45
+  head_in_person_min_ioa: 0.35
+  slot_ordering_min_separation_px: 8.0
+  weights_with_person:
+    cone_ioa: 0.40
+    person_bridge: 0.30
+    lateral_align: 0.20
+    vertical_scale: 0.10
+  weights_without_person:
+    cone_ioa: 0.55
+    lateral_align: 0.30
+    vertical_scale: 0.15
+
+kalman_bytetrack:
+  high_conf_threshold: 0.45
+  low_conf_threshold: 0.18
+  new_track_min_conf: 0.45
+  stage1_iou_threshold: 0.25
+  stage2_iou_threshold: 0.20
+  min_confirm_hits: 2
+  max_lost_frames: 10
+  orphan_iou_threshold: 0.25
+  orphan_max_lost_frames: 8
+
+phase10_temporal_verification:
+  aggregator_method: "ema"
+  sliding_window_size: 10
+  ema_alpha: 0.35
+  state_machine:
+    min_observation_frames: 3
+    confirm_frames: 5
+    max_occlusion_frames: 5
+    track_lost_frames: 15
+    suspect_threshold: 0.50
+    confirm_threshold: 0.70
+    clear_threshold: 0.40
+    helmet_threshold: 0.65
+  violation_decision:
+    violation_alert_threshold: 0.65
+    min_confirmation_frames: 5
+    suppress_duplicates_per_track: true
+    cooldown_frames: 90
