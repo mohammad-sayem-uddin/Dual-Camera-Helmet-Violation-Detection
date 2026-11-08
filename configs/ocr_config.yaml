@@ -1,0 +1,32 @@
+# OCR & License Plate Recognition Configuration
+
+engine:
+  primary: "EasyOCR"
+  backup: "Tesseract"
+  languages: ["en"]
+  use_gpu: false  # CPU recommended for small crops on M1 to avoid MPS kernel overhead
+
+preprocessing:
+  grayscale: true
+  contrast_normalization: true
+  target_height: 120
+  aspect_ratio_preserve: true
+
+roi_extraction:
+  rear_motorcycle:
+    vertical_start: 0.65
+    vertical_end: 0.95
+    horizontal_margin: 0.20
+  min_crop_width: 32
+  min_crop_height: 16
+
+postprocessing:
+  min_confidence: 0.25
+  clean_regex: "[^A-Z0-9\\- ]"
+  strip_spaces: false
+  uppercase: true
+
+policy:
+  local_inference_only: true
+  allow_cloud_apis: false
+  custom_training: false

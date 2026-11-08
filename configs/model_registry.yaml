@@ -1,0 +1,64 @@
+# Model Registry for Dual-Camera Context-Aware Helmet Violation Framework
+
+models:
+  helmet_detector:
+    name: "yolov8n_helmet_detector"
+    role: "Motorcycle Helmet & Violation Detector"
+    architecture: "YOLOv8n (Nano)"
+    framework: "Ultralytics PyTorch"
+    source: "Trained in Phase 9 (EXP-COMBINED seed 42)"
+    weights_path: "results/phase9_multiseed/exp_combined/seed_42/weights/best.pt"
+    fallback_weights_path: "results/exp_combined/weights/best.pt"
+    sha256: "0929a882667e0f7e2b631071ab218a2415cc1b816cdede7fb6812543d840b0e5"
+    size_mb: 6.2
+    classes:
+      0: "no_helmet"
+      1: "helmet"
+    input_format: "BGR Image [H, W, 3], recommended 640x640"
+    output_format: "List of dicts: [bbox (x1, y1, x2, y2), class_id, class_name, confidence]"
+    supported_devices: ["mps", "cpu", "cuda"]
+    default_device: "mps"
+    inference_latency_ms: 21.0
+    status: "VERIFIED_READY"
+
+  easyocr_recognizer:
+    name: "easyocr_craft_crnn"
+    role: "Primary License Plate Text Recognizer"
+    architecture: "CRAFT (Text Detector) + ResNet/CRNN/CTC (Recognizer)"
+    framework: "PyTorch (JaidedAI EasyOCR)"
+    source: "Pretrained official open-source weights"
+    weights_path: "~/.EasyOCR/model/"
+    weights_files:
+      - "craft_mlt_25k.pth (79 MB)"
+      - "english_g2.pth (14 MB)"
+    license: "Apache-2.0"
+    languages: ["en"]
+    input_format: "BGR Crop of plate region [H, W, 3]"
+    output_format: "Dict: [text, raw_results, confidence, latency_ms]"
+    supported_devices: ["cpu", "mps", "cuda"]
+    default_device: "cpu"
+    status: "VERIFIED_READY"
+
+  tesseract_recognizer:
+    name: "pytesseract_lstm"
+    role: "Backup License Plate Text Recognizer"
+    architecture: "Tesseract OCR engine with LSTM line recognizer"
+    framework: "C++ Tesseract via Python pytesseract wrapper"
+    source: "Homebrew tesseract formula"
+    license: "Apache-2.0"
+    input_format: "Grayscale / Binarized crop of plate [H, W]"
+    output_format: "Dict: [text, confidence, latency_ms]"
+    supported_devices: ["cpu"]
+    default_device: "cpu"
+    status: "BACKUP_AVAILABLE_VIA_HOMEBREW"
+
+  plate_detector_heuristic:
+    name: "heuristic_rear_plate_detector"
+    role: "Geometric Region-of-Interest Extractor for Rear Motorcycle View"
+    architecture: "Heuristic Bounding Box Geometry"
+    source: "In-tree implementation (src/models/plate_detector_adapter.py)"
+    parameters:
+      vertical_start_ratio: 0.65
+      vertical_end_ratio: 0.95
+      horizontal_margin_ratio: 0.20
+    status: "VERIFIED_READY"

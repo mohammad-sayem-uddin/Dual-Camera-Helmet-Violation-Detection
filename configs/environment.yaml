@@ -1,0 +1,50 @@
+# Development Environment Configuration for Dual-Camera Research
+# Machine: Apple MacBook Air M1 (macOS arm64, 8GB RAM, 256GB SSD)
+
+hardware:
+  platform: "darwin"
+  architecture: "arm64"
+  cpu: "Apple M1 (8 cores)"
+  total_memory_gb: 8.0
+  available_disk_gb: 24.0
+  acceleration:
+    mps_available: true
+    cuda_available: false
+    default_device: "mps"
+
+python:
+  version: "3.11.15"
+  executable: "/opt/homebrew/bin/python3.11"
+  pip_version: "26.1"
+
+system_tools:
+  ffmpeg:
+    path: "/opt/homebrew/bin/ffmpeg"
+    status: "verified"
+  ffprobe:
+    path: "/opt/homebrew/bin/ffprobe"
+    status: "verified"
+  homebrew:
+    path: "/opt/homebrew/bin/brew"
+    status: "verified"
+
+core_dependencies:
+  torch: "2.14.1"
+  torchvision: "0.29.2"
+  ultralytics: "8.4.201"
+  opencv-python: "5.0.0.93"
+  scipy: "1.17.1"
+  soundfile: "0.14.0"
+  librosa: "0.11.0"
+  pillow: "12.3.0"
+  easyocr: "1.7.2"
+  numpy: "2.4.6"
+  pandas: "3.1.0"
+  pytest: "9.1.1"
+  pyyaml: "6.0.3"
+
+constraints:
+  max_memory_footprint_mb: 2048
+  prohibit_local_training: true
+  prefer_cpu_for_batch_processing: true
+  use_mps_for_single_frame_yolo: true
