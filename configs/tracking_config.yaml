@@ -33,6 +33,7 @@ moto_rider_coupler:
   person_mount_min_ioa: 0.25
   head_in_person_upper_ratio: 0.45
   head_in_person_min_ioa: 0.35
+  head_person_ambiguity_margin: 0.08
   slot_ordering_min_separation_px: 8.0
   weights_with_person:
     cone_ioa: 0.40
@@ -54,6 +55,14 @@ kalman_bytetrack:
   max_lost_frames: 10
   orphan_iou_threshold: 0.25
   orphan_max_lost_frames: 8
+  # Kalman filter process and measurement noise scale factors (hypotheses; 1/20 and 1/160)
+  kalman_std_weight_pos: 0.05
+  kalman_std_weight_vel: 0.00625
+  # RiderSubTrack spatial identity protection thresholds (hypotheses)
+  rider_match_min_iou: 0.15
+  rider_spatial_override_min_iou: 0.35
+  rider_ambiguity_iou_margin: 0.15
+  rider_max_norm_center_dist: 0.65
 
 phase10_temporal_verification:
   aggregator_method: "ema"

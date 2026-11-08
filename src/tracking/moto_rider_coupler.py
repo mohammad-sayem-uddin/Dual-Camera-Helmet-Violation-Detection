@@ -12,6 +12,8 @@ from __future__ import annotations
 
 from dataclasses import dataclass, field
 from typing import Any
+import numpy as np
+from scipy.optimize import linear_sum_assignment
 
 from src.detection.camera_detector import StructuredDetection
 
@@ -30,6 +32,7 @@ class CouplerConfig:
     person_mount_min_ioa: float = 0.25
     head_in_person_upper_ratio: float = 0.45
     head_in_person_min_ioa: float = 0.35
+    head_person_ambiguity_margin: float = 0.08
     slot_ordering_min_separation_px: float = 8.0
     # Weights when a mounted person box bridges the head and motorcycle
     w_with_person_cone: float = 0.40
@@ -56,6 +59,7 @@ class CouplingGeometricFeatures:
     head_to_moto_width_ratio: float
     composite_score: float
     rejection_reason: str | None
+    head_person_abstained: bool = False
 
     def to_dict(self) -> dict[str, Any]:
         return {
@@ -63,6 +67,7 @@ class CouplingGeometricFeatures:
             "cone_ioa": round(self.cone_ioa, 4),
             "person_bridge_score": round(self.person_bridge_score, 4),
             "matched_person_idx": self.matched_person_idx,
+            "head_person_abstained": self.head_person_abstained,
             "lateral_alignment_score": round(self.lateral_alignment_score, 4),
             "vertical_scale_score": round(self.vertical_scale_score, 4),
             "normalized_dx": round(self.normalized_dx, 4),
@@ -224,7 +229,111 @@ class MotoRiderCoupler:
             return 0.0
         dx = abs(head.center[0] - person.center[0]) / max(1.0, 0.5 * person.width)
         lat_factor = max(0.0, 1.0 - 0.5 * (dx ** 2))
-        return float(min(1.0, 0.70 * ioa_upper + 0.30 * lat_factor))
+        dy_apex = abs(head.y1 - person.y1) / max(1.0, head.height)
+        apex_factor = max(0.0, 1.0 - dy_apex)
+        return float(min(1.0, 0.50 * ioa_upper + 0.25 * lat_factor + 0.25 * apex_factor))
+
+    def assign_heads_to_persons_bipartite(
+        self,
+        heads: list[StructuredDetection],
+        persons: list[StructuredDetection],
+    ) -> tuple[dict[int, tuple[int, float]], set[int]]:
+        """
+        Perform gated one-to-one Hungarian bipartite assignment between detected
+        rider heads and detected person boxes within a single frame.
+
+        Enforces:
+        1. Strict one-to-one matching: one person cannot be assigned to multiple heads,
+           and one head cannot be assigned to multiple persons.
+        2. Minimum cranial inclusion gate (`head_in_person_min_ioa`).
+        3. Competitive ambiguity abstention (`head_person_ambiguity_margin`): if an
+           unmatched head competes for the same person within the margin, or a head
+           competes between two unmatched persons within the margin, or a 2x2 swap
+           has margin below threshold, the person bridge abstains rather than forcing
+           an arbitrary head-to-person link.
+
+        Returns:
+            (head_to_person_map, abstained_head_indices)
+            where head_to_person_map maps head_idx -> (person_idx, hp_score).
+        """
+        n_h = len(heads)
+        n_p = len(persons)
+        if n_h == 0 or n_p == 0:
+            return {}, set()
+
+        score_mat = np.zeros((n_h, n_p), dtype=np.float64)
+        for h_i, h_det in enumerate(heads):
+            for p_j, p_det in enumerate(persons):
+                score_mat[h_i, p_j] = self._compute_head_in_person_score(h_det, p_det)
+
+        cost_mat = np.full((n_h, n_p), 1e6, dtype=np.float64)
+        for h_i in range(n_h):
+            for p_j in range(n_p):
+                if score_mat[h_i, p_j] > 0.0:
+                    cost_mat[h_i, p_j] = 1.0 - score_mat[h_i, p_j]
+
+        row_ind, col_ind = linear_sum_assignment(cost_mat)
+        tentative_pairs: list[tuple[int, int, float]] = []
+        matched_h: set[int] = set()
+        matched_p: set[int] = set()
+        for r, c in zip(row_ind, col_ind):
+            if cost_mat[r, c] < 1.0:
+                tentative_pairs.append((int(r), int(c), float(score_mat[r, c])))
+                matched_h.add(int(r))
+                matched_p.add(int(c))
+
+        abstained_heads: set[int] = set()
+        margin_thresh = self.config.head_person_ambiguity_margin
+
+        # Check competitive ambiguity on each tentative match
+        rejected_pairs: set[tuple[int, int]] = set()
+        for h_i, p_j, sc in tentative_pairs:
+            # 1. Does an unmatched head (or another head whose own match isn't stronger)
+            #    compete for this same person p_j within margin_thresh?
+            for h_other in range(n_h):
+                if h_other == h_i:
+                    continue
+                other_sc = float(score_mat[h_other, p_j])
+                if other_sc <= 0.0:
+                    continue
+                # If h_other is unmatched, or if h_other has a nearly identical score on p_j
+                if h_other not in matched_h and (sc - other_sc) < margin_thresh:
+                    rejected_pairs.add((h_i, p_j))
+                    abstained_heads.add(h_i)
+                    abstained_heads.add(h_other)
+
+            # 2. Does an unmatched person p_other compete for this same head h_i within margin_thresh?
+            for p_other in range(n_p):
+                if p_other == p_j:
+                    continue
+                other_sc = float(score_mat[h_i, p_other])
+                if other_sc <= 0.0:
+                    continue
+                if p_other not in matched_p and (sc - other_sc) < margin_thresh:
+                    rejected_pairs.add((h_i, p_j))
+                    abstained_heads.add(h_i)
+
+        # 3. Check 2x2 swap ambiguity between pairs of tentative matches
+        for idx_a in range(len(tentative_pairs)):
+            h_a, p_a, sc_aa = tentative_pairs[idx_a]
+            for idx_b in range(idx_a + 1, len(tentative_pairs)):
+                h_b, p_b, sc_bb = tentative_pairs[idx_b]
+                sc_ab = float(score_mat[h_a, p_b])
+                sc_ba = float(score_mat[h_b, p_a])
+                if sc_ab > 0.0 and sc_ba > 0.0:
+                    gain = (sc_aa + sc_bb) - (sc_ab + sc_ba)
+                    if gain < margin_thresh:
+                        rejected_pairs.add((h_a, p_a))
+                        rejected_pairs.add((h_b, p_b))
+                        abstained_heads.add(h_a)
+                        abstained_heads.add(h_b)
+
+        head_to_person_map: dict[int, tuple[int, float]] = {}
+        for h_i, p_j, sc in tentative_pairs:
+            if (h_i, p_j) not in rejected_pairs and h_i not in abstained_heads:
+                head_to_person_map[h_i] = (p_j, sc)
+
+        return head_to_person_map, abstained_heads
 
     def evaluate_head_moto_pair(
         self,
@@ -233,6 +342,9 @@ class MotoRiderCoupler:
         moto_idx: int,
         persons: list[StructuredDetection],
         person_moto_scores: dict[tuple[int, int], float],
+        assigned_person_for_head: tuple[int, float] | None = None,
+        head_person_abstained: bool = False,
+        use_exclusive_person_assignment: bool = False,
     ) -> CouplingGeometricFeatures:
         """Compute geometric coupling features and composite score between head and moto."""
         mw = max(1.0, moto.width)
@@ -268,6 +380,7 @@ class MotoRiderCoupler:
                 head_to_moto_width_ratio=width_ratio,
                 composite_score=0.0,
                 rejection_reason="LATERAL_OUT_OF_BOUNDS",
+                head_person_abstained=head_person_abstained,
             )
 
         if hy < cone_y1 or hy > cone_y2:
@@ -283,6 +396,7 @@ class MotoRiderCoupler:
                 head_to_moto_width_ratio=width_ratio,
                 composite_score=0.0,
                 rejection_reason="VERTICAL_OUT_OF_BOUNDS",
+                head_person_abstained=head_person_abstained,
             )
 
         if width_ratio > self.config.max_head_to_moto_width_ratio:
@@ -298,6 +412,7 @@ class MotoRiderCoupler:
                 head_to_moto_width_ratio=width_ratio,
                 composite_score=0.0,
                 rejection_reason="HEAD_SCALE_IMPLAUSIBLE",
+                head_person_abstained=head_person_abstained,
             )
 
         lateral_score = max(0.0, 1.0 - (norm_dx ** 2))
@@ -312,19 +427,28 @@ class MotoRiderCoupler:
         scale_plausibility = 1.0 if 0.12 <= width_ratio <= 0.85 else 0.65
         vertical_scale_score = vert_pos_score * scale_plausibility
 
-        # Evaluate person bridge if any mounted person links head to moto
+        # Evaluate person bridge using the 1-to-1 Hungarian bipartite head-to-person assignment
         best_p_score = 0.0
         best_p_idx: int | None = None
-        for p_idx, p_det in enumerate(persons):
-            pm_score = person_moto_scores.get((p_idx, moto_idx), 0.0)
-            if pm_score <= 0.0:
-                continue
-            hp_score = self._compute_head_in_person_score(head, p_det)
-            if hp_score > 0.0:
-                bridge = float((pm_score * hp_score) ** 0.5)
-                if bridge > best_p_score:
-                    best_p_score = bridge
+        if use_exclusive_person_assignment:
+            if assigned_person_for_head is not None and not head_person_abstained:
+                p_idx, hp_score = assigned_person_for_head
+                pm_score = person_moto_scores.get((p_idx, moto_idx), 0.0)
+                if pm_score > 0.0 and hp_score > 0.0:
+                    best_p_score = float((pm_score * hp_score) ** 0.5)
                     best_p_idx = p_idx
+        else:
+            # Fallback if evaluate_head_moto_pair is called standalone outside couple_frame
+            for p_idx, p_det in enumerate(persons):
+                pm_score = person_moto_scores.get((p_idx, moto_idx), 0.0)
+                if pm_score <= 0.0:
+                    continue
+                hp_score = self._compute_head_in_person_score(head, p_det)
+                if hp_score > 0.0:
+                    bridge = float((pm_score * hp_score) ** 0.5)
+                    if bridge > best_p_score:
+                        best_p_score = bridge
+                        best_p_idx = p_idx
 
         if best_p_score > 0.0:
             comp = (
@@ -353,6 +477,7 @@ class MotoRiderCoupler:
             head_to_moto_width_ratio=width_ratio,
             composite_score=float(comp),
             rejection_reason=rej,
+            head_person_abstained=head_person_abstained,
         )
 
     def _order_rider_slots(
@@ -440,18 +565,15 @@ class MotoRiderCoupler:
         """
         Couple detected rider heads and persons to parent motorcycles in a single frame.
         """
+        # Gated one-to-one Hungarian bipartite head-to-person assignment
+        head_to_person_map, abstained_heads = self.assign_heads_to_persons_bipartite(heads, persons)
+
         # Case 0: No motorcycles detected -> all heads become explicit OrphanRiderObservations
         if not motorcycles:
             orphans: list[OrphanRiderObservation] = []
-            for h in heads:
-                # Check if head matches a standalone person box
-                best_p = None
-                best_hp = 0.0
-                for p in persons:
-                    hp = self._compute_head_in_person_score(h, p)
-                    if hp > best_hp:
-                        best_hp = hp
-                        best_p = p
+            for h_idx, h in enumerate(heads):
+                assigned_p = head_to_person_map.get(h_idx)
+                best_p = persons[assigned_p[0]] if assigned_p is not None else None
                 orphans.append(
                     OrphanRiderObservation(
                         head_detection=h,
@@ -488,16 +610,27 @@ class MotoRiderCoupler:
             if best_m >= 0 and best_pm > 0.0:
                 mounted_persons_per_moto[best_m].append(p_det)
 
-        # Evaluate each head against all motorcycles
+        # Evaluate each head against all motorcycles using 1-to-1 head-to-person map
         tentative_per_moto: dict[
             int,
             list[tuple[StructuredDetection, StructuredDetection | None, float, float, CouplingGeometricFeatures]],
         ] = {m_idx: [] for m_idx in range(len(motorcycles))}
         orphans = []
 
-        for h in heads:
+        for h_idx, h in enumerate(heads):
+            assigned_p = head_to_person_map.get(h_idx)
+            hp_abstained = h_idx in abstained_heads
             feats_by_moto: list[CouplingGeometricFeatures] = [
-                self.evaluate_head_moto_pair(h, m_det, m_idx, persons, person_moto_scores)
+                self.evaluate_head_moto_pair(
+                    h,
+                    m_det,
+                    m_idx,
+                    persons,
+                    person_moto_scores,
+                    assigned_person_for_head=assigned_p,
+                    head_person_abstained=hp_abstained,
+                    use_exclusive_person_assignment=True,
+                )
                 for m_idx, m_det in enumerate(motorcycles)
             ]
             feats_sorted = sorted(feats_by_moto, key=lambda f: f.composite_score, reverse=True)
@@ -505,11 +638,12 @@ class MotoRiderCoupler:
             second_f = feats_sorted[1] if len(feats_sorted) > 1 else None
             second_score = second_f.composite_score if second_f is not None else 0.0
 
-            matched_person = (
-                persons[best_f.matched_person_idx]
-                if best_f.matched_person_idx is not None
-                else None
-            )
+            if best_f.matched_person_idx is not None:
+                matched_person = persons[best_f.matched_person_idx]
+            elif assigned_p is not None and not hp_abstained:
+                matched_person = persons[assigned_p[0]]
+            else:
+                matched_person = None
 
             # Gate 1: Minimum coupling score check
             if best_f.composite_score < self.config.min_coupling_score:

@@ -14,6 +14,8 @@ from __future__ import annotations
 from dataclasses import dataclass, field
 from pathlib import Path
 from typing import Any
+import numpy as np
+from scipy.optimize import linear_sum_assignment
 import yaml
 
 from src.detection.camera_detector import FrameDetectionBundle, StructuredDetection
@@ -69,6 +71,7 @@ class RiderSubTrack:
         frame_index: int,
         pts_timestamp_sec: float,
         p10_config: Phase10AdapterConfig,
+        bt_config: ByteTrackConfig | None = None,
     ) -> None:
         self.camera_id = camera_id
         self.parent_moto_id = parent_moto_id
@@ -78,6 +81,8 @@ class RiderSubTrack:
         self.ordering_confident = ordering_confident
         self.subtrack_id = f"{parent_moto_id}_rider_s{slot_index}"
         self.p10_config = p10_config
+        self.bt_config = bt_config or ByteTrackConfig()
+        self.abstained_updates_count: int = 0
 
         head = initial_obs.head_detection
         p10_bbox = BoundingBox(
@@ -98,7 +103,11 @@ class RiderSubTrack:
             sm_config=p10_config.state_machine_config,
         )
         self.decision_engine = ViolationDecisionEngine(config=p10_config.decision_config)
-        self.kalman = KalmanBoxFilter(head.bbox)
+        self.kalman = KalmanBoxFilter(
+            head.bbox,
+            std_weight_pos=self.bt_config.kalman_std_weight_pos,
+            std_weight_vel=self.bt_config.kalman_std_weight_vel,
+        )
 
         self.pts_history: list[tuple[int, float, tuple[float, float, float, float], str, float]] = [
             (frame_index, pts_timestamp_sec, head.bbox, head.class_name, head.confidence)
@@ -125,11 +134,18 @@ class RiderSubTrack:
         obs: CoupledRiderObservation,
         frame_index: int,
         pts_timestamp_sec: float,
+        preserve_slot_role: bool = False,
     ) -> list[ViolationAlert]:
         head = obs.head_detection
         self.kalman.update(head.bbox)
-        self.slot_role = obs.slot_role
-        self.ordering_confident = obs.ordering_confident
+        if not preserve_slot_role:
+            if obs.ordering_confident or self.slot_role.startswith("ambiguous_slot_"):
+                self.slot_role = obs.slot_role
+            self.ordering_confident = obs.ordering_confident
+        else:
+            # Spatial continuity overrode a conflicting or partial-visibility slot index;
+            # preserve established semantic slot_role ("driver" / "pillion_1" / "pillion_2")
+            self.ordering_confident = obs.ordering_confident
         self.last_coupling_score = obs.coupling_score
 
         p10_bbox = BoundingBox(
@@ -176,6 +192,7 @@ class RiderSubTrack:
             "last_coupling_score": round(self.last_coupling_score, 4),
             "bbox": [round(c, 2) for c in self.kalman.current_bbox_xyxy],
             "alerts_emitted": len(self.alerts),
+            "abstained_updates_count": self.abstained_updates_count,
         }
 
 
@@ -205,7 +222,11 @@ class MotoTrack:
         self._alloc_rider_id = rider_id_alloc_fn
 
         det = initial_coupled.motorcycle_detection
-        self.kalman = KalmanBoxFilter(det.bbox)
+        self.kalman = KalmanBoxFilter(
+            det.bbox,
+            std_weight_pos=self.bt_config.kalman_std_weight_pos,
+            std_weight_vel=self.bt_config.kalman_std_weight_vel,
+        )
         self.current_bbox = det.bbox
         self.current_confidence = det.confidence
 
@@ -217,6 +238,9 @@ class MotoTrack:
         self.last_pts_sec: float = pts_timestamp_sec
         self.stage2_low_conf_matches: int = 0
         self.recovery_count: int = 0
+        self.slot_spatial_conflicts_detected: int = 0
+        self.rider_abstained_updates: int = 0
+        self.spatial_identity_overrides: int = 0
         self._ever_confirmed: bool = (self.hits >= self.bt_config.min_confirm_hits)
 
         self.lifecycle_state = (
@@ -248,9 +272,14 @@ class MotoTrack:
         is_init: bool = False,
     ) -> None:
         self.new_alerts_this_frame = []
-        if is_init:
+        if is_init or not self.rider_subtracks:
             for r_obs in coupled_riders:
                 s_idx = r_obs.slot_index
+                if s_idx in self.rider_subtracks:
+                    free_slots = [k for k in range(3) if k not in self.rider_subtracks]
+                    if not free_slots:
+                        continue
+                    s_idx = free_slots[0]
                 self.rider_subtracks[s_idx] = RiderSubTrack(
                     camera_id=self.camera_id,
                     parent_moto_id=self.moto_track_id,
@@ -262,50 +291,204 @@ class MotoTrack:
                     frame_index=frame_index,
                     pts_timestamp_sec=pts_timestamp_sec,
                     p10_config=self.p10_config,
+                    bt_config=self.bt_config,
                 )
                 self.new_alerts_this_frame.extend(self.rider_subtracks[s_idx].alerts)
             return
 
+        if not coupled_riders:
+            for sub in self.rider_subtracks.values():
+                sub.update_unmatched(frame_index=frame_index)
+            return
+
+        existing_slots = sorted(self.rider_subtracks.keys())
+        m_sub = len(existing_slots)
+        k_obs = len(coupled_riders)
+
+        # 1. Compare every incoming rider observation against predicted bounding boxes
+        #    of all existing RiderSubTracks
+        iou_mat = np.zeros((m_sub, k_obs), dtype=np.float64)
+        dist_mat = np.zeros((m_sub, k_obs), dtype=np.float64)
+        aff_mat = np.zeros((m_sub, k_obs), dtype=np.float64)
+
+        for i, s_key in enumerate(existing_slots):
+            pred_box = self.rider_subtracks[s_key].kalman.current_bbox_xyxy
+            px1, py1, px2, py2 = pred_box
+            pw = max(1.0, px2 - px1)
+            ph = max(1.0, py2 - py1)
+            pcx, pcy = px1 + 0.5 * pw, py1 + 0.5 * ph
+            p_diag = max(1.0, float(np.hypot(pw, ph)))
+            for j, r_obs in enumerate(coupled_riders):
+                obox = r_obs.head_detection.bbox
+                iou_val = bbox_iou_xyxy(pred_box, obox)
+                ocx, ocy = r_obs.head_detection.center
+                norm_dist = float(np.hypot(pcx - ocx, pcy - ocy)) / p_diag
+                iou_mat[i, j] = iou_val
+                dist_mat[i, j] = norm_dist
+                if iou_val >= self.bt_config.rider_match_min_iou:
+                    aff_mat[i, j] = iou_val
+                elif iou_val >= 0.05 and norm_dist <= self.bt_config.rider_max_norm_center_dist:
+                    aff_mat[i, j] = max(
+                        iou_val,
+                        0.15 * (1.0 - norm_dist / max(1e-4, self.bt_config.rider_max_norm_center_dist)),
+                    )
+                else:
+                    aff_mat[i, j] = 0.0
+
+        # 2. Detect cross-subtrack spatial ambiguity (contamination prevention)
+        abstained_obs: set[int] = set()
+        abstained_slots: set[int] = set()
+        if m_sub >= 2:
+            for j in range(k_obs):
+                cand_i = [
+                    i
+                    for i in range(m_sub)
+                    if iou_mat[i, j] > 0.02 or dist_mat[i, j] <= self.bt_config.rider_max_norm_center_dist
+                ]
+                if len(cand_i) >= 2:
+                    cand_sorted = sorted(
+                        cand_i, key=lambda idx: (iou_mat[idx, j], -dist_mat[idx, j]), reverse=True
+                    )
+                    best_i, second_i = cand_sorted[0], cand_sorted[1]
+                    iou_margin = float(iou_mat[best_i, j] - iou_mat[second_i, j])
+                    if iou_margin < self.bt_config.rider_ambiguity_iou_margin:
+                        abstained_obs.add(j)
+                        abstained_slots.add(existing_slots[best_i])
+                        abstained_slots.add(existing_slots[second_i])
+                        self.rider_abstained_updates += 1
+                        self.rider_subtracks[existing_slots[best_i]].abstained_updates_count += 1
+                        self.rider_subtracks[existing_slots[second_i]].abstained_updates_count += 1
+
+        if k_obs >= 2:
+            for i in range(m_sub):
+                if existing_slots[i] in abstained_slots:
+                    continue
+                cand_j = [
+                    j
+                    for j in range(k_obs)
+                    if j not in abstained_obs
+                    and (iou_mat[i, j] > 0.02 or dist_mat[i, j] <= self.bt_config.rider_max_norm_center_dist)
+                ]
+                if len(cand_j) >= 2:
+                    cand_j_sorted = sorted(
+                        cand_j, key=lambda jdx: (iou_mat[i, jdx], -dist_mat[i, jdx]), reverse=True
+                    )
+                    b_j, s_j = cand_j_sorted[0], cand_j_sorted[1]
+                    s_j_other_max = max(
+                        [float(iou_mat[i2, s_j]) for i2 in range(m_sub) if i2 != i], default=0.0
+                    )
+                    if (
+                        float(iou_mat[i, b_j] - iou_mat[i, s_j]) < self.bt_config.rider_ambiguity_iou_margin
+                        and s_j_other_max < self.bt_config.rider_match_min_iou
+                    ):
+                        abstained_obs.add(b_j)
+                        abstained_obs.add(s_j)
+                        abstained_slots.add(existing_slots[i])
+                        self.rider_abstained_updates += 1
+                        self.rider_subtracks[existing_slots[i]].abstained_updates_count += 1
+
+        # 3. Solve bipartite spatial assignment over non-abstained candidates
+        cost_mat = np.full((m_sub, k_obs), 1e6, dtype=np.float64)
+        for i in range(m_sub):
+            if existing_slots[i] in abstained_slots:
+                continue
+            for j in range(k_obs):
+                if j in abstained_obs:
+                    continue
+                if aff_mat[i, j] > 0.0:
+                    cost_mat[i, j] = 1.0 - aff_mat[i, j]
+
+        row_ind, col_ind = linear_sum_assignment(cost_mat)
+
         matched_slots: set[int] = set()
-        used_obs: set[int] = set()
+        used_obs: set[int] = set(abstained_obs)
 
-        # First match by slot_index if slot already exists and is spatially plausible
-        for o_idx, r_obs in enumerate(coupled_riders):
-            s_idx = r_obs.slot_index
-            if s_idx in self.rider_subtracks and s_idx not in matched_slots:
-                sub = self.rider_subtracks[s_idx]
-                iou_val = bbox_iou_xyxy(sub.kalman.current_bbox_xyxy, r_obs.head_detection.bbox)
-                if r_obs.ordering_confident or iou_val >= 0.10 or len(self.rider_subtracks) == 1:
-                    alerts = sub.update_matched(r_obs, frame_index, pts_timestamp_sec)
-                    self.new_alerts_this_frame.extend(alerts)
-                    matched_slots.add(s_idx)
-                    used_obs.add(o_idx)
+        # 4. Evaluate spatial consistency vs. slot identity and resolve or abstain conservatively
+        for i, j in zip(row_ind, col_ind):
+            if cost_mat[i, j] >= 1.0:
+                continue
+            slot_k = existing_slots[i]
+            r_obs = coupled_riders[j]
+            obs_slot = r_obs.slot_index
+            iou_val = float(iou_mat[i, j])
+            other_sub_max_iou = max(
+                [float(iou_mat[i2, j]) for i2 in range(m_sub) if i2 != i], default=0.0
+            )
 
-        # Second, match any remaining coupled observations to unmatched existing subtracks by IoU
-        unmatched_existing_slots = [s for s in self.rider_subtracks if s not in matched_slots]
-        unmatched_obs_indices = [i for i in range(len(coupled_riders)) if i not in used_obs]
-
-        if unmatched_existing_slots and unmatched_obs_indices:
-            sub_boxes = [self.rider_subtracks[s].kalman.current_bbox_xyxy for s in unmatched_existing_slots]
-            obs_boxes = [coupled_riders[i].head_detection.bbox for i in unmatched_obs_indices]
-            m_pairs, _, _ = hungarian_iou_match(sub_boxes, obs_boxes, iou_threshold=0.10)
-            for s_local, o_local, _ in m_pairs:
-                slot_k = unmatched_existing_slots[s_local]
-                obs_k = unmatched_obs_indices[o_local]
+            if obs_slot == slot_k:
+                # Slot identity and spatial assignment agree
+                if (
+                    not r_obs.ordering_confident
+                    and m_sub >= 2
+                    and (iou_val - other_sub_max_iou) < self.bt_config.rider_ambiguity_iou_margin
+                ):
+                    self.slot_spatial_conflicts_detected += 1
+                    self.rider_abstained_updates += 1
+                    self.rider_subtracks[slot_k].abstained_updates_count += 1
+                    abstained_slots.add(slot_k)
+                    used_obs.add(j)
+                    continue
                 alerts = self.rider_subtracks[slot_k].update_matched(
-                    coupled_riders[obs_k], frame_index, pts_timestamp_sec
+                    r_obs, frame_index, pts_timestamp_sec, preserve_slot_role=False
                 )
                 self.new_alerts_this_frame.extend(alerts)
                 matched_slots.add(slot_k)
-                used_obs.add(obs_k)
+                used_obs.add(j)
+            else:
+                # Conflict between coupler slot_index and spatial trajectory assignment
+                self.slot_spatial_conflicts_detected += 1
+                is_partial_visibility_match = (
+                    k_obs < m_sub
+                    and iou_val >= self.bt_config.rider_match_min_iou
+                    and other_sub_max_iou < 0.05
+                    and (iou_val - other_sub_max_iou) >= self.bt_config.rider_ambiguity_iou_margin
+                )
+                is_high_conf_spatial_override = (
+                    iou_val >= self.bt_config.rider_spatial_override_min_iou
+                    and other_sub_max_iou < 0.05
+                    and (iou_val - other_sub_max_iou) >= self.bt_config.rider_spatial_override_min_iou
+                )
+                if is_partial_visibility_match or is_high_conf_spatial_override:
+                    self.spatial_identity_overrides += 1
+                    alerts = self.rider_subtracks[slot_k].update_matched(
+                        r_obs, frame_index, pts_timestamp_sec, preserve_slot_role=True
+                    )
+                    self.new_alerts_this_frame.extend(alerts)
+                    matched_slots.add(slot_k)
+                    used_obs.add(j)
+                else:
+                    self.rider_abstained_updates += 1
+                    self.rider_subtracks[slot_k].abstained_updates_count += 1
+                    abstained_slots.add(slot_k)
+                    if obs_slot in self.rider_subtracks:
+                        self.rider_subtracks[obs_slot].abstained_updates_count += 1
+                        abstained_slots.add(obs_slot)
+                    used_obs.add(j)
 
-        # Spawn new RiderSubTrack slots for remaining unmatched observations (up to 3 slots)
+        # 5. Check remaining unmatched observations for slot-vs-trajectory conflicts
+        #    before allowing any new RiderSubTrack creation (prevent duplicate tracks)
         for o_idx, r_obs in enumerate(coupled_riders):
             if o_idx in used_obs:
                 continue
-            target_slot = r_obs.slot_index
+            obs_slot = r_obs.slot_index
+            if obs_slot in self.rider_subtracks and obs_slot not in matched_slots:
+                # Observation claims an existing unmatched slot but failed spatial consistency with it!
+                self.slot_spatial_conflicts_detected += 1
+                self.rider_abstained_updates += 1
+                self.rider_subtracks[obs_slot].abstained_updates_count += 1
+                abstained_slots.add(obs_slot)
+                used_obs.add(o_idx)
+                continue
+            if len(matched_slots) < len(self.rider_subtracks) or len(abstained_slots) > 0:
+                # At least one existing rider subtrack is unaccounted for in this frame;
+                # abstain rather than spawning a duplicate rider track!
+                self.slot_spatial_conflicts_detected += 1
+                self.rider_abstained_updates += 1
+                used_obs.add(o_idx)
+                continue
+
+            target_slot = obs_slot
             if target_slot in self.rider_subtracks:
-                # Find an open slot index in 0..2
                 free_slots = [k for k in range(3) if k not in self.rider_subtracks]
                 if not free_slots:
                     continue
@@ -321,12 +504,13 @@ class MotoTrack:
                 frame_index=frame_index,
                 pts_timestamp_sec=pts_timestamp_sec,
                 p10_config=self.p10_config,
+                bt_config=self.bt_config,
             )
             self.rider_subtracks[target_slot] = sub
             matched_slots.add(target_slot)
             self.new_alerts_this_frame.extend(sub.alerts)
 
-        # Advance unmatched existing rider subtracks (occlusion handling per rider)
+        # 6. Advance unmatched (or abstained) existing rider subtracks (occlusion handling per rider)
         for s_idx, sub in self.rider_subtracks.items():
             if s_idx not in matched_slots:
                 sub.update_unmatched(frame_index=frame_index)
@@ -402,6 +586,9 @@ class MotoTrack:
             "time_since_update": self.time_since_update,
             "stage2_low_conf_matches": self.stage2_low_conf_matches,
             "recovery_count": self.recovery_count,
+            "slot_spatial_conflicts_detected": self.slot_spatial_conflicts_detected,
+            "rider_abstained_updates": self.rider_abstained_updates,
+            "spatial_identity_overrides": self.spatial_identity_overrides,
             "first_pts_sec": round(self.first_pts_sec, 6),
             "last_pts_sec": round(self.last_pts_sec, 6),
             "bbox": [round(c, 2) for c in self.current_bbox],
@@ -437,7 +624,11 @@ class OrphanRiderTrack:
         self.p10_config = p10_config
 
         head = initial_orphan.head_detection
-        self.kalman = KalmanBoxFilter(head.bbox)
+        self.kalman = KalmanBoxFilter(
+            head.bbox,
+            std_weight_pos=self.bt_config.kalman_std_weight_pos,
+            std_weight_vel=self.bt_config.kalman_std_weight_vel,
+        )
         self.last_rejection_reason = initial_orphan.rejection_reason
         self.last_frame_index = frame_index
         self.first_pts_sec = pts_timestamp_sec
@@ -604,6 +795,7 @@ class CameraTrackingPipeline:
             person_mount_min_ioa=float(c_raw.get("person_mount_min_ioa", 0.25)),
             head_in_person_upper_ratio=float(c_raw.get("head_in_person_upper_ratio", 0.45)),
             head_in_person_min_ioa=float(c_raw.get("head_in_person_min_ioa", 0.35)),
+            head_person_ambiguity_margin=float(c_raw.get("head_person_ambiguity_margin", 0.08)),
             slot_ordering_min_separation_px=float(c_raw.get("slot_ordering_min_separation_px", 8.0)),
             w_with_person_cone=float(w_with.get("cone_ioa", 0.40)),
             w_with_person_bridge=float(w_with.get("person_bridge", 0.30)),
@@ -625,6 +817,12 @@ class CameraTrackingPipeline:
             max_lost_frames=int(bt_raw.get("max_lost_frames", 10)),
             orphan_iou_threshold=float(bt_raw.get("orphan_iou_threshold", 0.25)),
             orphan_max_lost_frames=int(bt_raw.get("orphan_max_lost_frames", 8)),
+            kalman_std_weight_pos=float(bt_raw.get("kalman_std_weight_pos", 0.05)),
+            kalman_std_weight_vel=float(bt_raw.get("kalman_std_weight_vel", 0.00625)),
+            rider_match_min_iou=float(bt_raw.get("rider_match_min_iou", 0.15)),
+            rider_spatial_override_min_iou=float(bt_raw.get("rider_spatial_override_min_iou", 0.35)),
+            rider_ambiguity_iou_margin=float(bt_raw.get("rider_ambiguity_iou_margin", 0.15)),
+            rider_max_norm_center_dist=float(bt_raw.get("rider_max_norm_center_dist", 0.65)),
         )
 
         p10_raw = raw.get("phase10_temporal_verification", {})

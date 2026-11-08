@@ -510,3 +510,444 @@ def test_production_pts_update_gate_and_real_video_smoke():
 
     peak_rss_mb = resource.getrusage(resource.RUSAGE_SELF).ru_maxrss / (1024.0 * 1024.0)
     assert peak_rss_mb < 1850.0
+
+
+# ============================================================================
+# 14..19. Phase 12D Review Correction Regression Tests (Corrections 1, 2 & 4)
+# ============================================================================
+
+
+def test_rider_apparent_vertical_ordering_exchange_preserves_identity():
+    """
+    Correction 1 Regression Test A (Synthetic):
+    Two riders on a motorcycle exchange apparent vertical ordering in image space
+    (causing MotoRiderCoupler to swap their `slot_index` 0 <-> 1 with `ordering_confident=True`).
+    Verify:
+    - `MotoTrack._sync_riders_on_match` detects the slot-vs-spatial conflict.
+    - High-confidence disjoint spatial trajectory matching overrides the swapped slot_index.
+    - Driver (`s0`, `helmet`) and Pillion (`s1`, `no_helmet`) preserve their separate
+      Phase 10 temporal states and semantic roles without transferring history.
+    - No duplicate rider tracks are created.
+    """
+    pipeline = CameraTrackingPipeline(camera_id="front")
+    moto_box = (400.0, 350.0, 620.0, 750.0)
+
+    # Frames 0..4:
+    # Driver (s0, helmet) is on left-lower side: (430, 220, 490, 280) -> cy = 250
+    # Pillion (s1, no_helmet) is on right-upper side: (530, 200, 590, 260) -> cy = 230
+    # In front view, larger cy -> slot 0 (driver), smaller cy -> slot 1 (pillion_1).
+    for f_idx in range(5):
+        b = _make_bundle(
+            "front",
+            f_idx,
+            f_idx * 0.0167,
+            [_make_det(*moto_box, "motorcycle", conf=0.90, f_idx=f_idx)],
+            [],
+            [
+                _make_det(430.0, 220.0, 490.0, 280.0, "helmet", conf=0.92, f_idx=f_idx),
+                _make_det(530.0, 200.0, 590.0, 260.0, "no_helmet", conf=0.92, f_idx=f_idx),
+            ],
+        )
+        out = pipeline.step(b)
+
+    m = out["active_moto_tracks"][0]
+    assert len(m["rider_subtracks"]) == 2
+    assert m["rider_subtracks"][0]["temporal_state"] == TemporalState.HELMET_CONFIRMED.value
+    assert m["rider_subtracks"][1]["temporal_state"] == TemporalState.NO_HELMET_CONFIRMED.value
+
+    # Frame 5: Apparent vertical ordering exchange!
+    # Driver (left, helmet) shifts slightly up to y=(195..255), cy = 225 (IoU with s0 = 35/85 = 0.412)
+    # Pillion (right, no_helmet) shifts slightly down to y=(210..270), cy = 240 (IoU with s1 = 50/70 = 0.714)
+    # Because cy(Pillion)=240 > cy(Driver)=225 by 15px >= 8px, Coupler assigns:
+    #   Pillion (no_helmet) -> slot_index=0 (ordering_confident=True)
+    #   Driver (helmet)     -> slot_index=1 (ordering_confident=True)
+    b_swap = _make_bundle(
+        "front",
+        5,
+        5 * 0.0167,
+        [_make_det(*moto_box, "motorcycle", conf=0.90, f_idx=5)],
+        [],
+        [
+            _make_det(430.0, 195.0, 490.0, 255.0, "helmet", conf=0.95, f_idx=5),
+            _make_det(530.0, 210.0, 590.0, 270.0, "no_helmet", conf=0.95, f_idx=5),
+        ],
+    )
+    out_swap = pipeline.step(b_swap)
+    m_swap = out_swap["active_moto_tracks"][0]
+
+    # Verify conflict was detected and resolved via spatial trajectory continuity
+    assert m_swap["slot_spatial_conflicts_detected"] >= 2
+    assert m_swap["spatial_identity_overrides"] >= 2
+    assert len(m_swap["rider_subtracks"]) == 2
+
+    s0 = m_swap["rider_subtracks"][0]
+    s1 = m_swap["rider_subtracks"][1]
+
+    # Driver (s0) must STILL have 6 consecutive helmet frames and 0 no_helmet frames!
+    assert s0["slot_role"] == "driver"
+    assert s0["hits"] == 6
+    assert s0["consecutive_helmet_frames"] == 6
+    assert s0["consecutive_no_helmet_frames"] == 0
+    assert s0["temporal_state"] == TemporalState.HELMET_CONFIRMED.value
+
+    # Pillion (s1) must STILL have 6 consecutive no_helmet frames and 0 helmet frames!
+    assert s1["slot_role"] == "pillion_1"
+    assert s1["hits"] == 6
+    assert s1["consecutive_no_helmet_frames"] == 6
+    assert s1["consecutive_helmet_frames"] == 0
+    assert s1["temporal_state"] == TemporalState.NO_HELMET_CONFIRMED.value
+
+
+def test_rider_slot_and_spatial_trajectory_conflict_abstains_without_contamination_or_duplicates():
+    """
+    Correction 1 Regression Test B (Synthetic):
+    Slot 0 and Slot 1 observations conflict with their previous spatial trajectories
+    and do NOT meet the high-confidence disjoint override threshold.
+    Verify:
+    - Conflict between slot identity and spatial assignment is detected.
+    - Tracker conservatively abstains from updating the wrong rider's Phase 10 history.
+    - Neither rider's accumulated EMA confidence or consecutive frame counter is contaminated.
+    - No duplicate rider tracks (e.g. slot 2) are spawned.
+    """
+    pipeline = CameraTrackingPipeline(camera_id="front")
+    moto_box = (400.0, 350.0, 620.0, 750.0)
+
+    # Establish s0 (driver, helmet) at (430, 230, 490, 290) [cy=260]
+    # and s1 (pillion_1, no_helmet) at (530, 180, 590, 240) [cy=210] over 5 frames
+    for f_idx in range(5):
+        pipeline.step(
+            _make_bundle(
+                "front",
+                f_idx,
+                f_idx * 0.0167,
+                [_make_det(*moto_box, "motorcycle", conf=0.90, f_idx=f_idx)],
+                [],
+                [
+                    _make_det(430.0, 230.0, 490.0, 290.0, "helmet", conf=0.92, f_idx=f_idx),
+                    _make_det(530.0, 180.0, 590.0, 240.0, "no_helmet", conf=0.92, f_idx=f_idx),
+                ],
+            )
+        )
+
+    moto_track = pipeline.active_moto_tracks["front_moto_0001"]
+    s0_conf_before = dict(moto_track.rider_subtracks[0].aggregated_confidence)
+    s1_conf_before = dict(moto_track.rider_subtracks[1].aggregated_confidence)
+
+    # Frame 5: Conflicting observations that disagree with previous trajectories and have
+    # low/conflicting spatial overlap (IoU ~ 0.21 < rider_spatial_override_min_iou=0.35 with swapped slots):
+    # - Observation near s1's upper-right region (530, 215, 590, 275) [cy=245] has larger cy -> gets slot_index=0!
+    #   Its IoU with s1 (530, 180, 590, 240) is 25/95 = 0.263 (< 0.35 override gate), and class is "helmet".
+    # - Observation near s0's lower-left region (430, 195, 490, 255) [cy=225] has smaller cy -> gets slot_index=1!
+    #   Its IoU with s0 (430, 230, 490, 290) is 25/95 = 0.263 (< 0.35 override gate), and class is "no_helmet".
+    b_conflict = _make_bundle(
+        "front",
+        5,
+        5 * 0.0167,
+        [_make_det(*moto_box, "motorcycle", conf=0.90, f_idx=5)],
+        [],
+        [
+            _make_det(530.0, 215.0, 590.0, 275.0, "helmet", conf=0.95, f_idx=5),
+            _make_det(430.0, 195.0, 490.0, 255.0, "no_helmet", conf=0.95, f_idx=5),
+        ],
+    )
+    out_conflict = pipeline.step(b_conflict)
+    m_c = out_conflict["active_moto_tracks"][0]
+
+    assert m_c["slot_spatial_conflicts_detected"] >= 2
+    assert m_c["rider_abstained_updates"] >= 2
+    # Must NOT create a duplicate 3rd rider track
+    assert len(m_c["rider_subtracks"]) == 2
+
+    # Both subtracks abstained on frame 5: hits remain 5, time_since_update becomes 1,
+    # and Phase 10 EMA confidences are completely uncontaminated!
+    assert m_c["rider_subtracks"][0]["hits"] == 5
+    assert m_c["rider_subtracks"][1]["hits"] == 5
+    assert m_c["rider_subtracks"][0]["time_since_update"] == 1
+    assert m_c["rider_subtracks"][1]["time_since_update"] == 1
+    assert m_c["rider_subtracks"][0]["aggregated_confidence"] == s0_conf_before
+    assert m_c["rider_subtracks"][1]["aggregated_confidence"] == s1_conf_before
+
+
+def test_partial_rider_occlusion_and_reappearance_preserves_driver_and_pillion_identities():
+    """
+    Correction 1 Regression Test C (Synthetic):
+    Driver (`s0`, `helmet`) and Pillion (`s1`, `no_helmet`) are tracked on a motorcycle.
+    Then Driver (`s0`) is temporarily occluded for 3 frames while Pillion (`s1`) remains visible.
+    Even though MotoRiderCoupler assigns `slot_index=0` to the single visible Pillion head,
+    verify:
+    - Pillion's `no_helmet` observations update `s1` (via spatial consistency) and NEVER contaminate `s0`.
+    - Driver (`s0`) enters `TEMPORARILY_OCCLUDED` during the 3 missed frames.
+    - When Driver (`s0`) reappears at frame 8, `s0` resumes `HELMET_CONFIRMED` with 0 no_helmet frames.
+    """
+    pipeline = CameraTrackingPipeline(camera_id="front")
+    moto_box = (400.0, 350.0, 600.0, 750.0)
+    driver_box = (460.0, 240.0, 530.0, 300.0)   # cy = 270 -> slot 0 (driver)
+    pillion_box = (465.0, 170.0, 525.0, 225.0)  # cy = 197.5 -> slot 1 (pillion_1)
+
+    # Frames 0..4: Both riders visible
+    for f_idx in range(5):
+        pipeline.step(
+            _make_bundle(
+                "front",
+                f_idx,
+                f_idx * 0.0167,
+                [_make_det(*moto_box, "motorcycle", conf=0.90, f_idx=f_idx)],
+                [],
+                [
+                    _make_det(*driver_box, "helmet", conf=0.92, f_idx=f_idx),
+                    _make_det(*pillion_box, "no_helmet", conf=0.92, f_idx=f_idx),
+                ],
+            )
+        )
+
+    # Frames 5, 6, 7: Driver (s0) is occluded; ONLY Pillion (s1, no_helmet) is detected!
+    for f_idx in (5, 6, 7):
+        out_occ = pipeline.step(
+            _make_bundle(
+                "front",
+                f_idx,
+                f_idx * 0.0167,
+                [_make_det(*moto_box, "motorcycle", conf=0.90, f_idx=f_idx)],
+                [],
+                [_make_det(*pillion_box, "no_helmet", conf=0.94, f_idx=f_idx)],
+            )
+        )
+
+    m_occ = out_occ["active_moto_tracks"][0]
+    assert len(m_occ["rider_subtracks"]) == 2
+    s0_occ = m_occ["rider_subtracks"][0]
+    s1_occ = m_occ["rider_subtracks"][1]
+
+    # s0 (driver) must be TEMPORARILY_OCCLUDED with hits=5 and 0 no_helmet frames
+    assert s0_occ["slot_role"] == "driver"
+    assert s0_occ["temporal_state"] == TemporalState.TEMPORARILY_OCCLUDED.value
+    assert s0_occ["hits"] == 5
+    assert s0_occ["time_since_update"] == 3
+    assert s0_occ["consecutive_no_helmet_frames"] == 0
+
+    # s1 (pillion_1) received all 3 updates (hits=8) and preserved slot_role="pillion_1"
+    assert s1_occ["slot_role"] == "pillion_1"
+    assert s1_occ["temporal_state"] == TemporalState.NO_HELMET_CONFIRMED.value
+    assert s1_occ["hits"] == 8
+    assert s1_occ["time_since_update"] == 0
+
+    # Frame 8: Driver (s0) reappears alongside Pillion (s1)
+    out_re = pipeline.step(
+        _make_bundle(
+            "front",
+            8,
+            8 * 0.0167,
+            [_make_det(*moto_box, "motorcycle", conf=0.90, f_idx=8)],
+            [],
+            [
+                _make_det(*driver_box, "helmet", conf=0.92, f_idx=8),
+                _make_det(*pillion_box, "no_helmet", conf=0.92, f_idx=8),
+            ],
+        )
+    )
+    m_re = out_re["active_moto_tracks"][0]
+    assert len(m_re["rider_subtracks"]) == 2
+    assert m_re["rider_subtracks"][0]["temporal_state"] == TemporalState.HELMET_CONFIRMED.value
+    assert m_re["rider_subtracks"][0]["hits"] == 6
+    assert m_re["rider_subtracks"][0]["time_since_update"] == 0
+    assert m_re["rider_subtracks"][0]["consecutive_no_helmet_frames"] == 0
+
+
+def test_ambiguous_inter_rider_observation_abstains_without_contaminating_phase10_history():
+    """
+    Correction 1 Regression Test D (Synthetic):
+    An ambiguous head observation falls symmetrically between two existing RiderSubTracks
+    (`|IoU(s0, obs) - IoU(s1, obs)| < rider_ambiguity_iou_margin`).
+    Verify the tracker abstains from updating either RiderSubTrack so neither rider's
+    Phase 10 history is contaminated, and no duplicate subtrack is spawned.
+    """
+    pipeline = CameraTrackingPipeline(camera_id="front")
+    moto_box = (400.0, 350.0, 600.0, 750.0)
+    # s0 at y=(220..280) [cy=250], s1 at y=(190..250) [cy=220] -> dy = 30px >= 8px
+    s0_box = (460.0, 220.0, 520.0, 280.0)
+    s1_box = (460.0, 190.0, 520.0, 250.0)
+
+    for f_idx in range(4):
+        pipeline.step(
+            _make_bundle(
+                "front",
+                f_idx,
+                f_idx * 0.0167,
+                [_make_det(*moto_box, "motorcycle", conf=0.90, f_idx=f_idx)],
+                [],
+                [
+                    _make_det(*s0_box, "helmet", conf=0.92, f_idx=f_idx),
+                    _make_det(*s1_box, "no_helmet", conf=0.92, f_idx=f_idx),
+                ],
+            )
+        )
+
+    moto_track = pipeline.active_moto_tracks["front_moto_0001"]
+    s0_ema_before = dict(moto_track.rider_subtracks[0].aggregated_confidence)
+    s1_ema_before = dict(moto_track.rider_subtracks[1].aggregated_confidence)
+
+    # Frame 4: A single merged/ambiguous head box right at y=(205..265) [cy=235],
+    # overlapping s0 (220..280) and s1 (190..250) with identical IoU!
+    ambig_head = (460.0, 205.0, 520.0, 265.0)
+    out_ambig = pipeline.step(
+        _make_bundle(
+            "front",
+            4,
+            4 * 0.0167,
+            [_make_det(*moto_box, "motorcycle", conf=0.90, f_idx=4)],
+            [],
+            [_make_det(*ambig_head, "no_helmet", conf=0.95, f_idx=4)],
+        )
+    )
+    m_ambig = out_ambig["active_moto_tracks"][0]
+    assert m_ambig["rider_abstained_updates"] >= 1
+    assert len(m_ambig["rider_subtracks"]) == 2
+    assert m_ambig["rider_subtracks"][0]["hits"] == 4
+    assert m_ambig["rider_subtracks"][1]["hits"] == 4
+    assert m_ambig["rider_subtracks"][0]["abstained_updates_count"] >= 1
+    assert m_ambig["rider_subtracks"][1]["abstained_updates_count"] >= 1
+    assert m_ambig["rider_subtracks"][0]["aggregated_confidence"] == s0_ema_before
+    assert m_ambig["rider_subtracks"][1]["aggregated_confidence"] == s1_ema_before
+
+
+def test_bipartite_head_to_person_one_to_one_and_ambiguity_abstention():
+    """
+    Correction 2 Regression Test (Synthetic):
+    Verify gated one-to-one Hungarian bipartite head-to-person assignment in MotoRiderCoupler:
+    1. One person cannot be assigned to multiple heads in the same frame.
+    2. One head cannot be assigned to multiple persons.
+    3. Unmatched heads remain available for motorcycle coupling (`w_no_person_*`) or orphan handling.
+    4. Ambiguous head-to-person assignments abstain (`head_person_abstained=True`, `person_detection=None`)
+       rather than creating false associations.
+    5. Multiple riders on one motorcycle remain supported.
+    """
+    coupler = MotoRiderCoupler(CouplerConfig(head_person_ambiguity_margin=0.08))
+    moto = _make_det(400.0, 350.0, 600.0, 750.0, "motorcycle")
+
+    # 1. One person box (driver body) and two distinct rider heads (driver + pillion):
+    #    Only the closer apex head (driver) may match `p_only`; the second head must have
+    #    `person_detection is None` yet still couple to `moto`!
+    p_only = _make_det(420.0, 225.0, 580.0, 650.0, "person")
+    h_driver = _make_det(460.0, 230.0, 540.0, 290.0, "helmet")      # y1=230 (5px from p_only.y1=225)
+    h_pillion = _make_det(465.0, 165.0, 535.0, 215.0, "no_helmet")  # y1=165 (60px above p_only.y1=225)
+
+    res_1p_2h = coupler.couple_frame(
+        camera_id="front",
+        frame_index=1,
+        pts_timestamp_sec=0.0167,
+        motorcycles=[moto],
+        persons=[p_only],
+        heads=[h_driver, h_pillion],
+    )
+    cm = res_1p_2h.coupled_motorcycles[0]
+    assert cm.rider_count == 2
+    assigned_persons = [r.person_detection for r in cm.riders if r.person_detection is not None]
+    # Strictly at most 1 head can receive the single person box!
+    assert len(assigned_persons) == 1
+    assert cm.riders[0].person_detection == p_only
+    assert cm.riders[1].person_detection is None
+
+    # 2. Ambiguous 2-heads-to-1-person case: two heads at identical vertical apex y1=230 and symmetric x
+    #    inside `p_only` (cx=500) -> score difference == 0.0 < head_person_ambiguity_margin (0.08).
+    #    Both must abstain from the person bridge while still coupling to `moto`!
+    h_sym_left = _make_det(440.0, 230.0, 490.0, 280.0, "helmet")     # cx=465, dx=35 from 500
+    h_sym_right = _make_det(510.0, 230.0, 560.0, 280.0, "no_helmet") # cx=535, dx=35 from 500
+    hp_map, abstained = coupler.assign_heads_to_persons_bipartite([h_sym_left, h_sym_right], [p_only])
+    assert len(hp_map) == 0
+    assert abstained == {0, 1}
+
+    res_ambig_hp = coupler.couple_frame(
+        camera_id="front",
+        frame_index=2,
+        pts_timestamp_sec=0.0333,
+        motorcycles=[moto],
+        persons=[p_only],
+        heads=[h_sym_left, h_sym_right],
+    )
+    cm_ambig = res_ambig_hp.coupled_motorcycles[0]
+    assert cm_ambig.rider_count == 2
+    assert all(r.person_detection is None for r in cm_ambig.riders)
+    assert all(r.geometric_features.head_person_abstained is True for r in cm_ambig.riders)
+
+    # 3. Ambiguous 1-head-to-2-persons case: one head at cx=500 between two symmetric person boxes
+    p_left = _make_det(410.0, 220.0, 570.0, 650.0, "person")   # cx=490
+    p_right = _make_det(430.0, 220.0, 590.0, 650.0, "person")  # cx=510
+    h_center = _make_det(470.0, 230.0, 530.0, 285.0, "helmet") # cx=500 (equidistant to 490 and 510)
+    hp_map_2p, abstained_2p = coupler.assign_heads_to_persons_bipartite([h_center], [p_left, p_right])
+    assert len(hp_map_2p) == 0
+    assert abstained_2p == {0}
+
+    # 4. Orphan handling with 1-to-1 person assignment when no motorcycles are in frame
+    res_orphans = coupler.couple_frame(
+        camera_id="front",
+        frame_index=3,
+        pts_timestamp_sec=0.0500,
+        motorcycles=[],
+        persons=[p_only],
+        heads=[h_driver, h_pillion],
+    )
+    assert len(res_orphans.orphan_riders) == 2
+    orphan_persons = [o.person_detection for o in res_orphans.orphan_riders if o.person_detection is not None]
+    assert len(orphan_persons) == 1
+
+
+def test_kalman_noise_and_rider_protection_parameters_loaded_from_yaml(tmp_path):
+    """
+    Correction 4 Regression Test:
+    Verify that Kalman filter noise parameters (`kalman_std_weight_pos`, `kalman_std_weight_vel`)
+    and rider identity protection parameters are loaded from `configs/tracking_config.yaml`
+    and propagated to `MotoTrack.kalman`, `RiderSubTrack.kalman`, and `OrphanRiderTrack.kalman`.
+    """
+    trk_default = CameraTrackingPipeline.from_yaml(camera_id="front", yaml_path="configs/tracking_config.yaml")
+    assert trk_default.bt_config.kalman_std_weight_pos == pytest.approx(0.05)
+    assert trk_default.bt_config.kalman_std_weight_vel == pytest.approx(0.00625)
+    assert trk_default.bt_config.rider_match_min_iou == pytest.approx(0.15)
+    assert trk_default.bt_config.rider_spatial_override_min_iou == pytest.approx(0.35)
+    assert trk_default.bt_config.rider_ambiguity_iou_margin == pytest.approx(0.15)
+    assert trk_default.bt_config.rider_max_norm_center_dist == pytest.approx(0.65)
+    assert trk_default.coupler_config.head_person_ambiguity_margin == pytest.approx(0.08)
+
+    # Test custom YAML override propagation into actual KalmanBoxFilter instances
+    custom_yaml = tmp_path / "custom_tracking.yaml"
+    custom_yaml.write_text(
+        """
+moto_rider_coupler:
+  head_person_ambiguity_margin: 0.11
+kalman_bytetrack:
+  kalman_std_weight_pos: 0.08
+  kalman_std_weight_vel: 0.0125
+  rider_match_min_iou: 0.22
+  rider_spatial_override_min_iou: 0.42
+  rider_ambiguity_iou_margin: 0.19
+  rider_max_norm_center_dist: 0.50
+""",
+        encoding="utf-8",
+    )
+    trk_custom = CameraTrackingPipeline.from_yaml(camera_id="front", yaml_path=custom_yaml)
+    assert trk_custom.bt_config.kalman_std_weight_pos == pytest.approx(0.08)
+    assert trk_custom.bt_config.kalman_std_weight_vel == pytest.approx(0.0125)
+    assert trk_custom.coupler_config.head_person_ambiguity_margin == pytest.approx(0.11)
+
+    b0 = _make_bundle(
+        "front",
+        0,
+        0.0,
+        [_make_det(400.0, 350.0, 600.0, 750.0, "motorcycle", conf=0.90)],
+        [],
+        [
+            _make_det(460.0, 230.0, 540.0, 290.0, "helmet", conf=0.90),
+            _make_det(100.0, 100.0, 150.0, 150.0, "no_helmet", conf=0.90),  # far orphan head
+        ],
+    )
+    trk_custom.step(b0)
+    moto = trk_custom.active_moto_tracks["front_moto_0001"]
+    rider = moto.rider_subtracks[0]
+    orphan = trk_custom.active_orphan_tracks["front_orphan_0001"]
+
+    assert moto.kalman._std_weight_pos == pytest.approx(0.08)
+    assert moto.kalman._std_weight_vel == pytest.approx(0.0125)
+    assert rider.kalman._std_weight_pos == pytest.approx(0.08)
+    assert rider.kalman._std_weight_vel == pytest.approx(0.0125)
+    assert orphan.kalman._std_weight_pos == pytest.approx(0.08)
+    assert orphan.kalman._std_weight_vel == pytest.approx(0.0125)
+

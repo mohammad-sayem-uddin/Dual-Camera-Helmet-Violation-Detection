@@ -25,7 +25,7 @@ class TrackLifecycleState(str, Enum):
 
 @dataclass
 class ByteTrackConfig:
-    """Configurable parameters for Kalman filtering and two-stage ByteTrack association."""
+    """Configurable parameters for Kalman filtering, two-stage ByteTrack association, and rider identity protection."""
     high_conf_threshold: float = 0.45
     low_conf_threshold: float = 0.18
     new_track_min_conf: float = 0.45
@@ -35,6 +35,14 @@ class ByteTrackConfig:
     max_lost_frames: int = 10
     orphan_iou_threshold: float = 0.25
     orphan_max_lost_frames: int = 8
+    # Kalman filter process & measurement noise scale factors (hypotheses; 1/20 and 1/160)
+    kalman_std_weight_pos: float = 0.05
+    kalman_std_weight_vel: float = 0.00625
+    # RiderSubTrack spatial identity protection thresholds (engineering hypotheses)
+    rider_match_min_iou: float = 0.15
+    rider_spatial_override_min_iou: float = 0.35
+    rider_ambiguity_iou_margin: float = 0.15
+    rider_max_norm_center_dist: float = 0.65
 
 
 def bbox_iou_xyxy(
@@ -66,9 +74,14 @@ class KalmanBoxFilter:
       - h: bounding box height in pixels
     """
 
-    def __init__(self, initial_bbox_xyxy: tuple[float, float, float, float]) -> None:
-        self._std_weight_pos = 1.0 / 20.0
-        self._std_weight_vel = 1.0 / 160.0
+    def __init__(
+        self,
+        initial_bbox_xyxy: tuple[float, float, float, float],
+        std_weight_pos: float = 0.05,
+        std_weight_vel: float = 0.00625,
+    ) -> None:
+        self._std_weight_pos = float(std_weight_pos)
+        self._std_weight_vel = float(std_weight_vel)
 
         z = self._xyxy_to_cxcyah(initial_bbox_xyxy)
         self.x = np.zeros(8, dtype=np.float64)
