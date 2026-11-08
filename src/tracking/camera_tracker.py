@@ -112,6 +112,31 @@ class RiderSubTrack:
         self.pts_history: list[tuple[int, float, tuple[float, float, float, float], str, float]] = [
             (frame_index, pts_timestamp_sec, head.bbox, head.class_name, head.confidence)
         ]
+        self.observation_log: list[dict[str, Any]] = [
+            {
+                "frame_index": int(frame_index),
+                "pts_timestamp_sec": float(pts_timestamp_sec),
+                "head_bbox": tuple(float(c) for c in head.bbox),
+                "head_conf": float(head.confidence),
+                "head_class_name": str(head.class_name),
+                "person_bbox": (
+                    tuple(float(c) for c in initial_obs.person_detection.bbox)
+                    if initial_obs.person_detection is not None
+                    else None
+                ),
+                "person_conf": (
+                    float(initial_obs.person_detection.confidence)
+                    if initial_obs.person_detection is not None
+                    else None
+                ),
+                "coupling_score": float(initial_obs.coupling_score),
+                "slot_role": str(self.slot_role),
+                "ordering_confident": bool(self.ordering_confident),
+                "kalman_bbox": tuple(float(c) for c in self.kalman.current_bbox_xyxy),
+                "velocity_xy": tuple(float(v) for v in self.kalman.velocity_xy),
+            }
+        ]
+        self.missed_frames: list[int] = []
         self.last_coupling_score = initial_obs.coupling_score
         self.alerts: list[ViolationAlert] = []
         self._evaluate_alerts(frame_index, pts_timestamp_sec)
@@ -161,9 +186,34 @@ class RiderSubTrack:
         self.pts_history.append(
             (frame_index, pts_timestamp_sec, head.bbox, head.class_name, head.confidence)
         )
+        self.observation_log.append(
+            {
+                "frame_index": int(frame_index),
+                "pts_timestamp_sec": float(pts_timestamp_sec),
+                "head_bbox": tuple(float(c) for c in head.bbox),
+                "head_conf": float(head.confidence),
+                "head_class_name": str(head.class_name),
+                "person_bbox": (
+                    tuple(float(c) for c in obs.person_detection.bbox)
+                    if obs.person_detection is not None
+                    else None
+                ),
+                "person_conf": (
+                    float(obs.person_detection.confidence)
+                    if obs.person_detection is not None
+                    else None
+                ),
+                "coupling_score": float(obs.coupling_score),
+                "slot_role": str(self.slot_role),
+                "ordering_confident": bool(self.ordering_confident),
+                "kalman_bbox": tuple(float(c) for c in self.kalman.current_bbox_xyxy),
+                "velocity_xy": tuple(float(v) for v in self.kalman.velocity_xy),
+            }
+        )
         return self._evaluate_alerts(frame_index, pts_timestamp_sec)
 
     def update_unmatched(self, frame_index: int) -> None:
+        self.missed_frames.append(int(frame_index))
         self.phase10_track.update_unmatched(frame_index=frame_index)
 
     @property
@@ -252,6 +302,19 @@ class MotoTrack:
         self.trajectory: list[tuple[int, float, tuple[float, float, float, float], float]] = [
             (frame_index, pts_timestamp_sec, det.bbox, det.confidence)
         ]
+        self.observation_log: list[dict[str, Any]] = [
+            {
+                "frame_index": int(frame_index),
+                "pts_timestamp_sec": float(pts_timestamp_sec),
+                "raw_bbox": tuple(float(c) for c in det.bbox),
+                "kalman_bbox": tuple(float(c) for c in self.current_bbox),
+                "confidence": float(det.confidence),
+                "velocity_xy": tuple(float(v) for v in self.kalman.velocity_xy),
+                "matched_in_stage2": False,
+                "observed_rider_count": len(initial_coupled.riders),
+            }
+        ]
+        self.missed_frames: list[int] = []
 
         self.rider_subtracks: dict[int, RiderSubTrack] = {}
         self.new_alerts_this_frame: list[ViolationAlert] = []
@@ -535,6 +598,18 @@ class MotoTrack:
         self.last_frame_index = frame_index
         self.last_pts_sec = pts_timestamp_sec
         self.trajectory.append((frame_index, pts_timestamp_sec, self.current_bbox, det.confidence))
+        self.observation_log.append(
+            {
+                "frame_index": int(frame_index),
+                "pts_timestamp_sec": float(pts_timestamp_sec),
+                "raw_bbox": tuple(float(c) for c in det.bbox),
+                "kalman_bbox": tuple(float(c) for c in self.current_bbox),
+                "confidence": float(det.confidence),
+                "velocity_xy": tuple(float(v) for v in self.kalman.velocity_xy),
+                "matched_in_stage2": bool(matched_in_stage2),
+                "observed_rider_count": len(coupled_obs.riders),
+            }
+        )
 
         if was_lost:
             self.lifecycle_state = TrackLifecycleState.RECOVERED
@@ -554,6 +629,7 @@ class MotoTrack:
         self.age += 1
         self.time_since_update += 1
         self.last_frame_index = frame_index
+        self.missed_frames.append(int(frame_index))
         self.new_alerts_this_frame = []
 
         for sub in self.rider_subtracks.values():
@@ -657,6 +733,33 @@ class OrphanRiderTrack:
             if self.phase10_track.hits >= bt_config.min_confirm_hits
             else TrackLifecycleState.TENTATIVE
         )
+        self.pts_history: list[tuple[int, float, tuple[float, float, float, float], str, float]] = [
+            (frame_index, pts_timestamp_sec, head.bbox, head.class_name, head.confidence)
+        ]
+        self.observation_log: list[dict[str, Any]] = [
+            {
+                "frame_index": int(frame_index),
+                "pts_timestamp_sec": float(pts_timestamp_sec),
+                "head_bbox": tuple(float(c) for c in head.bbox),
+                "head_conf": float(head.confidence),
+                "head_class_name": str(head.class_name),
+                "person_bbox": (
+                    tuple(float(c) for c in initial_orphan.person_detection.bbox)
+                    if initial_orphan.person_detection is not None
+                    else None
+                ),
+                "person_conf": (
+                    float(initial_orphan.person_detection.confidence)
+                    if initial_orphan.person_detection is not None
+                    else None
+                ),
+                "rejection_reason": str(initial_orphan.rejection_reason),
+                "best_candidate_score": float(initial_orphan.best_candidate_score),
+                "kalman_bbox": tuple(float(c) for c in self.kalman.current_bbox_xyxy),
+                "velocity_xy": tuple(float(v) for v in self.kalman.velocity_xy),
+            }
+        ]
+        self.missed_frames: list[int] = []
         self.alerts: list[ViolationAlert] = []
         self._evaluate_alerts(frame_index, pts_timestamp_sec)
 
@@ -697,6 +800,32 @@ class OrphanRiderTrack:
             class_name=head.class_name,
         )
         self.phase10_track.update_matched(p10_bbox, frame_index=frame_index)
+        self.pts_history.append(
+            (frame_index, pts_timestamp_sec, head.bbox, head.class_name, head.confidence)
+        )
+        self.observation_log.append(
+            {
+                "frame_index": int(frame_index),
+                "pts_timestamp_sec": float(pts_timestamp_sec),
+                "head_bbox": tuple(float(c) for c in head.bbox),
+                "head_conf": float(head.confidence),
+                "head_class_name": str(head.class_name),
+                "person_bbox": (
+                    tuple(float(c) for c in orphan_obs.person_detection.bbox)
+                    if orphan_obs.person_detection is not None
+                    else None
+                ),
+                "person_conf": (
+                    float(orphan_obs.person_detection.confidence)
+                    if orphan_obs.person_detection is not None
+                    else None
+                ),
+                "rejection_reason": str(orphan_obs.rejection_reason),
+                "best_candidate_score": float(orphan_obs.best_candidate_score),
+                "kalman_bbox": tuple(float(c) for c in self.kalman.current_bbox_xyxy),
+                "velocity_xy": tuple(float(v) for v in self.kalman.velocity_xy),
+            }
+        )
 
         if was_lost:
             self.lifecycle_state = TrackLifecycleState.RECOVERED
@@ -709,6 +838,7 @@ class OrphanRiderTrack:
 
     def update_unmatched(self, frame_index: int) -> None:
         self.last_frame_index = frame_index
+        self.missed_frames.append(int(frame_index))
         self.phase10_track.update_unmatched(frame_index=frame_index)
         if (
             self.phase10_track.time_since_update > self.bt_config.orphan_max_lost_frames

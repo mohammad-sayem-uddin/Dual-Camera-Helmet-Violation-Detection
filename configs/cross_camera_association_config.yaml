@@ -1,0 +1,288 @@
+# ==============================================================================
+# PHASE 12E — CROSS-CAMERA TRACKLET ASSOCIATION CONFIGURATION
+# ==============================================================================
+# Scientific Provenance Notice:
+# Every numerical threshold, transit-time window, quality gate, and cue weight
+# in this file is an unvalidated engineering hypothesis until evaluated on a
+# human-annotated cross-camera identity ground-truth dataset.
+# ==============================================================================
+
+schema_version: "1.0.0"
+
+# 1. Tracklet Extraction & Quality Filtering
+tracklet_builder:
+  min_observed_frames_moto:
+    value: 2
+    engineering_hypothesis: true
+    rationale: "Require at least 2 observed (non-predicted) frames for a motorcycle tracklet to be considered complete."
+  min_observed_frames_rider:
+    value: 2
+    engineering_hypothesis: true
+    rationale: "Require at least 2 observed frames for a rider tracklet to support multi-frame verification."
+  min_observed_frames_orphan:
+    value: 2
+    engineering_hypothesis: true
+    rationale: "Require at least 2 observed frames for an orphan rider tracklet."
+  min_observation_density:
+    value: 0.30
+    engineering_hypothesis: true
+    rationale: "Minimum ratio of observed frames to total span frames before flagging heavily occluded tracklets."
+  border_margin_px:
+    value: 45.0
+    engineering_hypothesis: true
+    rationale: "Pixel margin from frame borders used to classify entry/exit near-border vs mid-frame tracklet truncation."
+  exclude_tentative_tracks:
+    value: false
+    engineering_hypothesis: true
+    rationale: "Allow tentative tracks to be represented as tracklets with completeness='FRAGMENTED_TENTATIVE' so audit logs never silently drop short tracks."
+
+# 2. Transit-Time Model & Uncertainty Separation (Cue A)
+transit_time_model:
+  corridor_mode:
+    value: "bidirectional_corridor"
+    engineering_hypothesis: true
+    rationale: "Roadway carries traffic that may pass Front->Back or Back->Front depending on lane/direction; evaluate signed transit delay against corridor bounds."
+  min_transit_delay_sec:
+    value: -3.50
+    engineering_hypothesis: true
+    rationale: "Lower bound on signed canonical transit time (t_back - t_front) in seconds for opposing or overlapping fields of view."
+  max_transit_delay_sec:
+    value: 6.00
+    engineering_hypothesis: true
+    rationale: "Upper bound on signed canonical transit time (t_back - t_front) in seconds across the dual-camera corridor."
+  expected_transit_delay_sec:
+    value: 0.75
+    engineering_hypothesis: true
+    rationale: "Nominal expected transit delay between Front and Back camera observation centroids."
+  transit_sigma_sec:
+    value: 1.50
+    engineering_hypothesis: true
+    rationale: "Gaussian scale parameter (seconds) for scoring temporal transit compatibility within the feasible corridor."
+  transit_uncertainty_sec:
+    value: 0.35
+    engineering_hypothesis: true
+    rationale: "Baseline physical speed/trajectory transit uncertainty (seconds), kept strictly separate from epsilon_sync_ms and delta_pts_*_ms."
+  max_temporal_Search_window_sec:
+    value: 8.00
+    engineering_hypothesis: true
+    rationale: "Hard candidate generation cutoff on minimum interval gap or centroid separation between Front and Back tracklets."
+  allow_simultaneous_fov_overlap:
+    value: true
+    engineering_hypothesis: true
+    rationale: "Hand-held Front and Back cameras at a shared roadside location can have overlapping or immediately adjacent fields of view."
+  max_allowed_sync_residual_ms:
+    value: 100.0
+    engineering_hypothesis: true
+    rationale: "Maximum Phase 11.6 epsilon_sync_ms before inflating temporal uncertainty penalty."
+
+# 3. Rider Occupancy / Cardinality Consistency (Cue B)
+rider_cardinality:
+  exact_count_match_score:
+    value: 1.00
+    engineering_hypothesis: true
+    rationale: "Score when modal observed rider counts match and slot roles are compatible."
+  partial_pillion_occlusion_Diff1_score:
+    value: 0.65
+    engineering_hypothesis: true
+    rationale: "Score when rider counts differ by 1 (e.g., 2 vs 1) and one camera exhibits partial occlusion or lower rider visibility ratio."
+  unexplained_diff1_score:
+    value: 0.35
+    engineering_hypothesis: true
+    rationale: "Score when rider counts differ by 1 without occlusion evidence in the lower-count view."
+  diff2_or_more_score:
+    value: 0.08
+    engineering_hypothesis: true
+    rationale: "Strong penalty when rider counts differ by >= 2 (e.g., 1 rider vs 3 riders)."
+  partial_occlusion_visibility_threshold:
+    value: 0.75
+    engineering_hypothesis: true
+    rationale: "If rider observation count / motorcycle observation count < threshold, pillion occlusion is plausible."
+
+# 4. Viewpoint-Robust Appearance Descriptor (Cue C - Optional)
+appearance_features:
+  enabled:
+    value: true
+    engineering_hypothesis: true
+    rationale: "Enable optional HSV + achromatic histogram similarity on observed crops passing strict quality checks."
+  min_crop_width_px:
+    value: 20
+    engineering_hypothesis: true
+    rationale: "Minimum bounding box width in pixels to extract reliable appearance histograms."
+  min_crop_height_px:
+    value: 20
+    engineering_hypothesis: true
+    rationale: "Minimum bounding box height in pixels to extract reliable appearance histograms."
+  min_laplacian_sharpness:
+    value: 12.0
+    engineering_hypothesis: true
+    rationale: "Minimum variance of Laplacian on grayscale crop to reject severe motion blur."
+  min_valid_crop_quality:
+    value: 0.35
+    engineering_hypothesis: true
+    rationale: "Minimum composite crop quality in [0, 1] required for Cue C to be marked available."
+  hsv_h_bins:
+    value: 12
+    engineering_hypothesis: true
+    rationale: "Coarse Hue bins for viewpoint-symmetric color distribution."
+  hsv_s_bins:
+    value: 4
+    engineering_hypothesis: true
+    rationale: "Coarse Saturation bins."
+  achromatic_v_bins:
+    value: 8
+    engineering_hypothesis: true
+    rationale: "Value/luminance bins for low-saturation (black/white/grey) gear and chassis."
+  low_saturation_threshold:
+    value: 45
+    engineering_hypothesis: true
+    rationale: "OpenCV 8-bit saturation threshold below which pixels are routed to the achromatic value histogram."
+  zone_weights:
+    cranial_cap:
+      value: 0.30
+      engineering_hypothesis: true
+    upper_torso:
+      value: 0.45
+      engineering_hypothesis: true
+    moto_chassis:
+      value: 0.25
+      engineering_hypothesis: true
+
+# 5. Lane / Spatial Progression Context (Cue D - Disabled by Default Without Calibration)
+lane_spatial_context:
+  enabled:
+    value: false
+    engineering_hypothesis: true
+    rationale: "Disabled by default because Front and Back cameras were handheld without calibrated extrinsics or road homography."
+  require_explicit_calibration:
+    value: true
+    engineering_hypothesis: true
+    rationale: "Never compare raw uncalibrated image x-coordinates across opposing viewpoints."
+
+# 6. Convoy / Relative Temporal Ordering (Cue E - Optional)
+convoy_order:
+  enabled:
+    value: true
+    engineering_hypothesis: true
+    rationale: "Evaluate relative arrival ordering only when >= 2 motorcycles exist in both cameras within the convoy window."
+  convoy_window_sec:
+    value: 5.00
+    engineering_hypothesis: true
+    rationale: "Maximum canonical time separation between motorcycles to be considered part of a multi-motorcycle traffic group."
+  consistent_order_score:
+    value: 0.90
+    engineering_hypothesis: true
+    rationale: "Score when relative temporal ordering against non-ambiguous anchor tracklets is preserved."
+  overtake_or_inversion_score:
+    value: 0.35
+    engineering_hypothesis: true
+    rationale: "Score when temporal order inverts (possible overtaking between views, penalized but not hard-rejected)."
+  min_anchor_temporal_gap_sec:
+    value: 0.25
+    engineering_hypothesis: true
+    rationale: "Minimum temporal separation between two motorcycles in the same camera to define a reliable ordering."
+
+# 7. Multi-Cue Weights & Missing-Cue Renormalization
+association_scoring:
+  cue_weights:
+    temporal_transit:
+      value: 0.45
+      engineering_hypothesis: true
+      rationale: "Primary cue anchored to Phase 12C canonical synchronization clock."
+    rider_cardinality:
+      value: 0.25
+      engineering_hypothesis: true
+      rationale: "Structural occupancy cue (driver/pillion count compatibility)."
+    appearance_hsv:
+      value: 0.15
+      engineering_hypothesis: true
+      rationale: "Low-weight supplementary appearance cue when high-quality crops exist."
+    lane_spatial_context:
+      value: 0.05
+      engineering_hypothesis: true
+      rationale: "Inactive (renormalized out) unless explicit cross-camera calibration is provided."
+    convoy_order:
+      value: 0.10
+      engineering_hypothesis: true
+      rationale: "Supplementary multi-vehicle ordering cue when >= 2 motorcycles co-occur."
+  renormalize_missing_cues:
+    value: true
+    engineering_hypothesis: true
+    rationale: "Unavailable cues are excluded from the denominator and active weights are renormalized to sum to 1.0."
+  min_active_cues_required:
+    value: 2
+    engineering_hypothesis: true
+    rationale: "Require at least 2 valid active cues (e.g., temporal_transit + rider_cardinality) before allowing LINKED."
+
+# 8. Global Bipartite Assignment & Conservative Abstention
+global_assignment:
+  min_association_score:
+    value: 0.62
+    engineering_hypothesis: true
+    rationale: "Minimum composite score S(F_i, B_j) required to confirm a cross-camera motorcycle link."
+  ambiguous_margin_threshold:
+    value: 0.10
+    engineering_hypothesis: true
+    rationale: "Minimum score margin over second-best row/column competitor and 2x2 assignment swap required to avoid AMBIGUOUS_ABSTAIN."
+  min_temporal_transit_score_gate:
+    value: 0.20
+    engineering_hypothesis: true
+    rationale: "Hard gate on Cue A score; pairs with implausible transit timing cannot be rescued by appearance or cardinality."
+  insufficient_evidence_min_obs_frames:
+    value: 2
+    engineering_hypothesis: true
+    rationale: "Tracklets with fewer than 2 observed frames are classified as INSUFFICIENT_EVIDENCE rather than linked."
+
+# 9. Rider-Level Cross-Camera Association Within Linked Motorcycles
+rider_association:
+  min_rider_association_score:
+    value: 0.60
+    engineering_hypothesis: true
+    rationale: "Minimum rider-level compatibility score within a LINKED motorcycle pair."
+  rider_ambiguous_margin_threshold:
+    value: 0.12
+    engineering_hypothesis: true
+    rationale: "Minimum margin between best and second-best rider pairing on a multi-rider motorcycle before abstaining at the rider level."
+  role_match_score:
+    value: 1.00
+    engineering_hypothesis: true
+    rationale: "Score when both riders have confident matching semantic slot_role (driver->driver, pillion_1->pillion_1)."
+  role_ambiguous_ordering_score:
+    value: 0.55
+    engineering_hypothesis: true
+    rationale: "Score when at least one rider has ordering_confident=False, triggering ambiguity checks when multiple riders exist."
+  role_mismatch_score:
+    value: 0.10
+    engineering_hypothesis: true
+    rationale: "Strong penalty against swapping confident driver and pillion roles across cameras."
+  weight_slot_role:
+    value: 0.55
+    engineering_hypothesis: true
+  weight_temporal_overlap:
+    value: 0.25
+    engineering_hypothesis: true
+  weight_appearance:
+    value: 0.20
+    engineering_hypothesis: true
+
+# 10. Orphan Rider Tracklet Handling
+orphan_association:
+  enable_orphan_matching:
+    value: true
+    engineering_hypothesis: true
+    rationale: "Allow conservative matching of OrphanRiderTracklets when motorcycle parent detection failed in one or both cameras."
+  min_orphan_association_score:
+    value: 0.68
+    engineering_hypothesis: true
+    rationale: "Stricter threshold for orphan-level matching because parent motorcycle context is absent."
+  orphan_ambiguous_margin_threshold:
+    value: 0.14
+    engineering_hypothesis: true
+    rationale: "Stricter uniqueness margin for orphan rider associations."
+  require_appearance_or_strong_temporal:
+    value: true
+    engineering_hypothesis: true
+    rationale: "Never link orphan riders on weak temporal proximity alone."
+  min_strong_temporal_score_without_appearance:
+    value: 0.82
+    engineering_hypothesis: true
+    rationale: "Minimum temporal transit score required if appearance crops are unavailable for an orphan pair."
