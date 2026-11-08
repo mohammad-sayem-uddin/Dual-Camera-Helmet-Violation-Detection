@@ -1124,16 +1124,162 @@ def test_review_correction_test_e_margin_calculations_use_only_valid_candidates(
     assert r_f1.outcome == AssociationOutcome.LINKED
 
     # Subcase with all 4 valid candidates: verify exact 2x2 swap margin calculation
+    # All 4 candidates must be >= min_association_score (0.62) to be valid cross-terms
     scores_valid_4 = [
         _make_candidate_score("f0", "b0", 0.85, passed=True),
         _make_candidate_score("f0", "b1", 0.65, passed=True),
-        _make_candidate_score("f1", "b0", 0.60, passed=True),
+        _make_candidate_score("f1", "b0", 0.64, passed=True),
         _make_candidate_score("f1", "b1", 0.75, passed=True),
     ]
     res_valid_4 = solver.solve([f0, f1], [b0, b1], scores_valid_4)
     r4_f0 = next(r for r in res_valid_4 if r.front_moto_track_id == "f0")
     r4_f1 = next(r for r in res_valid_4 if r.front_moto_track_id == "f1")
 
-    # 2x2 swap difference = (0.85 + 0.75) - (0.65 + 0.60) = 1.60 - 1.25 = 0.35
-    assert r4_f0.swap_margin_2x2 == pytest.approx(0.35, abs=1e-6)
-    assert r4_f1.swap_margin_2x2 == pytest.approx(0.35, abs=1e-6)
+    # 2x2 swap difference = (0.85 + 0.75) - (0.65 + 0.64) = 1.60 - 1.29 = 0.31
+    assert r4_f0.swap_margin_2x2 == pytest.approx(0.31, abs=1e-6)
+    assert r4_f1.swap_margin_2x2 == pytest.approx(0.31, abs=1e-6)
+
+
+# ==============================================================================
+# Phase 12E Review Correction 2 Regression Tests
+# Verification that below-threshold candidates cannot enter Hungarian optimization,
+# cannot block valid candidates, cannot create false ambiguity, and maintain threshold boundary semantics.
+# ==============================================================================
+
+
+def test_review_correction_test_f_below_threshold_candidate_cannot_block_valid_alternative() -> None:
+    """Test F: Hand-constructed score matrix where F1->B1 is sub-threshold (0.61 < 0.62).
+
+    Matrix:
+         |  B1  |  B2  |
+      F1 | 0.61 | 0.62 |
+      F2 | 0.62 | 0.99 |
+
+    Verifies:
+    1. F1->B1 (0.61) cannot enter optimization or block F1->B2 (0.62).
+    2. F2->B2 does not prevent a better feasible 2-pair partial assignment (F1->B2 and F2->B1).
+    3. Every LINKED result meets min_association_score (0.62).
+    4. No candidate below threshold receives a global motorcycle ID.
+    5. The resulting assignment maximizes total score across valid linkable candidates.
+    """
+    f1 = _make_dummy_tracklet("front", "F1")
+    f2 = _make_dummy_tracklet("front", "F2")
+    b1 = _make_dummy_tracklet("back", "B1")
+    b2 = _make_dummy_tracklet("back", "B2")
+
+    scores = [
+        _make_candidate_score("F1", "B1", 0.61, passed=True),
+        _make_candidate_score("F1", "B2", 0.62, passed=True),
+        _make_candidate_score("F2", "B1", 0.62, passed=True),
+        _make_candidate_score("F2", "B2", 0.99, passed=True),
+    ]
+
+    solver = GlobalAssignmentSolver()
+    res = solver.solve([f1, f2], [b1, b2], scores)
+
+    # Hungarian assignment pairs F1 with B2, and F2 with B1 (cost 0.38 + 0.38 = 0.76 vs 2.01)
+    f1_res = next(r for r in res if r.front_moto_track_id == "F1")
+    f2_res = next(r for r in res if r.front_moto_track_id == "F2")
+
+    # F1->B1 did not block F1->B2: F1 is matched with B2, not B1
+    assert f1_res.back_moto_track_id == "B2"
+    assert f2_res.back_moto_track_id == "B1"
+
+    # Both assigned pairs have score >= 0.62
+    assert f1_res.association_score >= 0.62
+    assert f2_res.association_score >= 0.62
+
+    # Because (F2, B2) has score 0.99, it is an eligible competitor for both rows and columns,
+    # causing both pairs to abstain due to ambiguity
+    assert f1_res.outcome == AssociationOutcome.AMBIGUOUS_ABSTAIN
+    assert f2_res.outcome == AssociationOutcome.AMBIGUOUS_ABSTAIN
+
+    # No below-threshold candidate receives a global motorcycle ID
+    assert all(r.global_motorcycle_id is None for r in res)
+    assert all(r.association_score >= 0.62 for r in res if r.outcome == AssociationOutcome.LINKED)
+
+
+def test_review_correction_test_g_all_candidates_below_minimum_score() -> None:
+    """Test G: When all candidate pairs have composite_score < min_association_score, no pairs link."""
+    f1 = _make_dummy_tracklet("front", "F1")
+    f2 = _make_dummy_tracklet("front", "F2")
+    b1 = _make_dummy_tracklet("back", "B1")
+    b2 = _make_dummy_tracklet("back", "B2")
+
+    scores = [
+        _make_candidate_score("F1", "B1", 0.50, passed=True),
+        _make_candidate_score("F1", "B2", 0.55, passed=True),
+        _make_candidate_score("F2", "B1", 0.60, passed=True),
+        _make_candidate_score("F2", "B2", 0.61, passed=True),
+    ]
+
+    solver = GlobalAssignmentSolver()
+    res = solver.solve([f1, f2], [b1, b2], scores)
+
+    assert len(res) == 4
+    for r in res:
+        assert r.outcome == AssociationOutcome.UNMATCHED
+        assert r.global_motorcycle_id is None
+        assert len(r.decision_reasons) > 0
+        assert "BELOW_MIN" in r.decision_reasons[0]
+
+
+def test_review_correction_test_h_threshold_boundary() -> None:
+    """Test H: Verify deterministic behavior across threshold boundary (inclusive >= 0.62)."""
+    solver = GlobalAssignmentSolver()
+
+    # 1. Just below threshold (0.6199 < 0.6200) -> Ineligible for optimization, UNMATCHED
+    f_below = _make_dummy_tracklet("front", "F_below")
+    b_below = _make_dummy_tracklet("back", "B_below")
+    res_below = solver.solve([f_below], [b_below], [_make_candidate_score("F_below", "B_below", 0.6199, passed=True)])
+    assert res_below[0].outcome == AssociationOutcome.UNMATCHED
+    assert res_below[0].global_motorcycle_id is None
+    assert "BELOW_MIN" in res_below[0].decision_reasons[0]
+
+    # 2. Exactly equal to threshold (0.6200 == 0.6200) -> INCLUSIVE comparison, LINKED
+    f_equal = _make_dummy_tracklet("front", "F_equal")
+    b_equal = _make_dummy_tracklet("back", "B_equal")
+    res_equal = solver.solve([f_equal], [b_equal], [_make_candidate_score("F_equal", "B_equal", 0.6200, passed=True)])
+    assert res_equal[0].outcome == AssociationOutcome.LINKED
+    assert res_equal[0].global_motorcycle_id is not None
+    assert res_equal[0].global_motorcycle_id.startswith("global_moto_")
+
+    # 3. Just above threshold (0.6201 > 0.6200) -> Eligible for optimization, LINKED
+    f_above = _make_dummy_tracklet("front", "F_above")
+    b_above = _make_dummy_tracklet("back", "B_above")
+    res_above = solver.solve([f_above], [b_above], [_make_candidate_score("F_above", "B_above", 0.6201, passed=True)])
+    assert res_above[0].outcome == AssociationOutcome.LINKED
+    assert res_above[0].global_motorcycle_id is not None
+
+
+def test_review_correction_test_i_ambiguity_after_threshold_filtering() -> None:
+    """Test I: Below-threshold alternatives cannot create false ambiguity, while valid above-threshold alternatives do."""
+    solver = GlobalAssignmentSolver()
+
+    # Subcase 1: Below-threshold alternative (0.60 < 0.62) does NOT create false ambiguity against valid 0.65
+    f_i1 = _make_dummy_tracklet("front", "F_i1")
+    b_i1_0 = _make_dummy_tracklet("back", "B_i1_0")
+    b_i1_1 = _make_dummy_tracklet("back", "B_i1_1")
+    scores_i1 = [
+        _make_candidate_score("F_i1", "B_i1_0", 0.65, passed=True),
+        _make_candidate_score("F_i1", "B_i1_1", 0.60, passed=True),
+    ]
+    res_i1 = solver.solve([f_i1], [b_i1_0, b_i1_1], scores_i1)
+    r_f_i1 = next(r for r in res_i1 if r.front_moto_track_id == "F_i1")
+    assert r_f_i1.outcome == AssociationOutcome.LINKED
+    assert r_f_i1.second_best_score == 0.0
+    assert r_f_i1.ambiguity_margin == pytest.approx(0.65, abs=1e-6)
+
+    # Subcase 2: Valid above-threshold alternative (0.65 >= 0.62) DOES trigger AMBIGUOUS_ABSTAIN on 0.70
+    f_i2 = _make_dummy_tracklet("front", "F_i2")
+    b_i2_0 = _make_dummy_tracklet("back", "B_i2_0")
+    b_i2_1 = _make_dummy_tracklet("back", "B_i2_1")
+    scores_i2 = [
+        _make_candidate_score("F_i2", "B_i2_0", 0.70, passed=True),
+        _make_candidate_score("F_i2", "B_i2_1", 0.65, passed=True),
+    ]
+    res_i2 = solver.solve([f_i2], [b_i2_0, b_i2_1], scores_i2)
+    r_f_i2 = next(r for r in res_i2 if r.front_moto_track_id == "F_i2")
+    assert r_f_i2.outcome == AssociationOutcome.AMBIGUOUS_ABSTAIN
+    assert r_f_i2.second_best_score == pytest.approx(0.65, abs=1e-6)
+    assert r_f_i2.ambiguity_margin == pytest.approx(0.05, abs=1e-6)

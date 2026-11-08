@@ -165,7 +165,8 @@ class GlobalAssignmentSolver:
             return results
 
         # Build valid candidate mask and score matrices over eligible tracklets.
-        # Only candidates satisfying all candidate gates and minimum active cues participate.
+        # Only candidates satisfying all candidate gates, minimum active cues, and
+        # minimum association score threshold participate in Hungarian optimization.
         valid_mask = np.zeros((m, n), dtype=bool)
         valid_score_mat = np.zeros((m, n), dtype=np.float64)
 
@@ -176,6 +177,8 @@ class GlobalAssignmentSolver:
                     cs is not None
                     and cs.passed_candidate_gate
                     and cs.active_cues_count >= self.config.min_active_cues_required
+                    and round(float(cs.composite_score), 6)
+                    >= round(self.config.min_association_score, 6)
                 ):
                     valid_mask[i, j] = True
                     valid_score_mat[i, j] = float(cs.composite_score)
@@ -343,18 +346,31 @@ class GlobalAssignmentSolver:
                         else [f"BEST_SCORE_{best_sc:.3f}_BELOW_MIN_{self.config.min_association_score}"]
                     )
             else:
-                # No valid candidate for this Front tracklet
+                # No valid (above-threshold) candidate for this Front tracklet
                 best_sc = 0.0
                 cs = None
-                reasons = []
+                reasons: list[str] = []
+                best_cand_score = -1.0
+                best_cand_cs = None
+
                 for j in range(n):
                     cand_cs = score_lookup.get((ft.moto_track_id, eligible_back[j].moto_track_id))
-                    if cand_cs is not None:
-                        cs = cand_cs
-                        if cand_cs.gate_rejection_reasons:
-                            reasons = list(cand_cs.gate_rejection_reasons)
-                        break
-                if not reasons:
+                    if cand_cs is not None and cand_cs.composite_score > best_cand_score:
+                        best_cand_score = float(cand_cs.composite_score)
+                        best_cand_cs = cand_cs
+
+                if best_cand_cs is not None:
+                    cs = best_cand_cs
+                    if not best_cand_cs.passed_candidate_gate:
+                        best_sc = 0.0
+                        reasons = list(best_cand_cs.gate_rejection_reasons)
+                    elif best_cand_cs.active_cues_count < self.config.min_active_cues_required:
+                        best_sc = 0.0
+                        reasons = list(best_cand_cs.gate_rejection_reasons) or ["INSUFFICIENT_ACTIVE_CUES"]
+                    else:
+                        best_sc = float(best_cand_cs.composite_score)
+                        reasons = [f"BEST_SCORE_{best_sc:.3f}_BELOW_MIN_{self.config.min_association_score}"]
+                else:
                     reasons = ["NO_VALID_CROSS_CAMERA_CANDIDATES"]
 
                 if (
@@ -411,14 +427,27 @@ class GlobalAssignmentSolver:
                 best_sc = 0.0
                 cs = None
                 reasons = []
+                best_cand_score = -1.0
+                best_cand_cs = None
+
                 for i in range(m):
                     cand_cs = score_lookup.get((eligible_front[i].moto_track_id, bt.moto_track_id))
-                    if cand_cs is not None:
-                        cs = cand_cs
-                        if cand_cs.gate_rejection_reasons:
-                            reasons = list(cand_cs.gate_rejection_reasons)
-                        break
-                if not reasons:
+                    if cand_cs is not None and cand_cs.composite_score > best_cand_score:
+                        best_cand_score = float(cand_cs.composite_score)
+                        best_cand_cs = cand_cs
+
+                if best_cand_cs is not None:
+                    cs = best_cand_cs
+                    if not best_cand_cs.passed_candidate_gate:
+                        best_sc = 0.0
+                        reasons = list(best_cand_cs.gate_rejection_reasons)
+                    elif best_cand_cs.active_cues_count < self.config.min_active_cues_required:
+                        best_sc = 0.0
+                        reasons = list(best_cand_cs.gate_rejection_reasons) or ["INSUFFICIENT_ACTIVE_CUES"]
+                    else:
+                        best_sc = float(best_cand_cs.composite_score)
+                        reasons = [f"BEST_SCORE_{best_sc:.3f}_BELOW_MIN_{self.config.min_association_score}"]
+                else:
                     reasons = ["NO_VALID_CROSS_CAMERA_CANDIDATES"]
 
                 if (
