@@ -12,11 +12,15 @@ import pytest
 
 from src.association import (
     AppearanceConfig,
+    AppearanceDescriptorRecord,
     AssociationAuditor,
     AssociationOutcome,
+    CandidatePairScore,
     CrossCameraAssociationConfig,
     CrossCameraAssociationEngine,
     GlobalAssignmentConfig,
+    GlobalAssignmentSolver,
+    MotorcycleTracklet,
     OrphanAssociationConfig,
     RiderAssociationConfig,
     TimestampQualityRecord,
@@ -850,3 +854,286 @@ rider_association:
 
     res = engine.associate_pipelines("syn_pair_26", front_pipe, back_pipe, TimestampQualityRecord())
     assert res.outcome_counts[AssociationOutcome.LINKED.value] == 0
+
+
+# ==============================================================================
+# Phase 12E Review Correction 1 Regression Tests
+# Verification of candidate gating in global Hungarian assignment,
+# partial bipartite matching, and margin isolation.
+# ==============================================================================
+
+
+def _make_dummy_tracklet(
+    camera_id: str,
+    track_id: str,
+    observed_frame_count: int = 5,
+    completeness: TrackletCompleteness = TrackletCompleteness.COMPLETE,
+) -> MotorcycleTracklet:
+    return MotorcycleTracklet(
+        schema_version="1.0.0",
+        camera_id=camera_id,
+        moto_track_id=track_id,
+        lifecycle_state="CONFIRMED",
+        ever_confirmed=True,
+        t_start_sec=1.0,
+        t_end_sec=2.0,
+        t_peak_sec=1.5,
+        t_centroid_sec=1.5,
+        camera_pts_start_sec=1.0,
+        camera_pts_end_sec=2.0,
+        first_frame_index=0,
+        last_frame_index=10,
+        observed_frame_count=observed_frame_count,
+        predicted_only_frame_count=0,
+        total_span_frames=10,
+        observation_density=0.5,
+        stage2_low_conf_matches=0,
+        recovery_count=0,
+        occlusion_intervals=[],
+        entry_bbox=(100.0, 100.0, 200.0, 200.0),
+        exit_bbox=(200.0, 200.0, 300.0, 300.0),
+        peak_area_bbox=(150.0, 150.0, 250.0, 250.0),
+        entry_velocity_xy=(5.0, 5.0),
+        exit_velocity_xy=(5.0, 5.0),
+        mean_velocity_xy=(5.0, 5.0),
+        motion_direction_unit_xy=(0.707, 0.707),
+        mean_detection_confidence=0.9,
+        entry_near_border=False,
+        exit_near_border=False,
+        rider_count_distribution={1: observed_frame_count},
+        modal_rider_count=1,
+        max_rider_count=1,
+        rider_subtrack_count=1,
+        slot_spatial_conflicts_detected=0,
+        rider_abstained_updates=0,
+        spatial_identity_overrides=0,
+        completeness=completeness,
+        completeness_reasons=[],
+        timestamp_quality=TimestampQualityRecord(is_in_overlap=True),
+        rider_tracklets={},
+        observed_frames=[],
+        appearance_descriptor=AppearanceDescriptorRecord(available=False),
+        source_metadata={},
+    )
+
+
+def _make_candidate_score(
+    front_id: str,
+    back_id: str,
+    score: float,
+    passed: bool = True,
+    reasons: list[str] | None = None,
+    active_cues: int = 2,
+) -> CandidatePairScore:
+    return CandidatePairScore(
+        front_moto_track_id=front_id,
+        back_moto_track_id=back_id,
+        passed_candidate_gate=passed,
+        gate_rejection_reasons=reasons or ([] if passed else ["GATE_FAILED"]),
+        composite_score=float(score),
+        active_cues_count=active_cues,
+        available_cue_names=["temporal_transit", "rider_cardinality"] if active_cues >= 2 else ["temporal_transit"],
+        unavailable_cue_names=[],
+        cue_details={},
+        epsilon_sync_ms=3.0,
+        delta_pts_front_ms=1.0,
+        delta_pts_back_ms=1.0,
+        delta_transit_sec=0.8,
+        transit_uncertainty_sec=0.1,
+    )
+
+
+def test_review_correction_test_a_failed_gate_candidate_cannot_block_valid_associations() -> None:
+    """Test A: A failed-gate candidate with an artificially high score cannot block valid associations or be linked."""
+    f0 = _make_dummy_tracklet("front", "f0")
+    f1 = _make_dummy_tracklet("front", "f1")
+    b0 = _make_dummy_tracklet("back", "b0")
+    b1 = _make_dummy_tracklet("back", "b1")
+
+    # (f1, b0) has high score (0.96) but failed transit gate.
+    # If not masked, Hungarian would pair (f1, b0) and (f0, b1), blocking (f0, b0) and (f1, b1).
+    scores = [
+        _make_candidate_score("f0", "b0", 0.78, passed=True),
+        _make_candidate_score("f0", "b1", 0.65, passed=True),
+        _make_candidate_score("f1", "b0", 0.96, passed=False, reasons=["TRANSIT_TIME_INFEASIBLE"]),
+        _make_candidate_score("f1", "b1", 0.76, passed=True),
+    ]
+
+    solver = GlobalAssignmentSolver()
+    res = solver.solve([f0, f1], [b0, b1], scores)
+
+    linked = [r for r in res if r.outcome == AssociationOutcome.LINKED]
+    assert len(linked) == 2
+
+    pairs = {(r.front_moto_track_id, r.back_moto_track_id) for r in linked}
+    assert ("f0", "b0") in pairs
+    assert ("f1", "b1") in pairs
+    assert ("f1", "b0") not in pairs
+
+    # Verify strictly 1-to-1 global IDs
+    global_ids = [r.global_motorcycle_id for r in linked]
+    assert len(global_ids) == 2
+    assert len(set(global_ids)) == 2
+    assert all(gid is not None and gid.startswith("global_moto_") for gid in global_ids)
+
+
+def test_review_correction_test_b_failed_gate_candidate_cannot_create_false_ambiguity() -> None:
+    """Test B: A failed-gate candidate with a score close to a valid candidate is excluded from margin calculation."""
+    f0 = _make_dummy_tracklet("front", "f0")
+    b0 = _make_dummy_tracklet("back", "b0")
+    b1 = _make_dummy_tracklet("back", "b1")
+
+    # (f0, b0) is valid with score 0.82.
+    # (f0, b1) failed candidate gate with score 0.80.
+    # If (f0, b1) were included in margins, rc_margin = 0.82 - 0.80 = 0.02 < 0.10 -> false AMBIGUOUS_ABSTAIN.
+    scores = [
+        _make_candidate_score("f0", "b0", 0.82, passed=True),
+        _make_candidate_score("f0", "b1", 0.80, passed=False, reasons=["OUTSIDE_OVERLAP_WINDOW"]),
+    ]
+
+    solver = GlobalAssignmentSolver()
+    res = solver.solve([f0], [b0, b1], scores)
+
+    r_f0 = next(r for r in res if r.front_moto_track_id == "f0")
+    assert r_f0.outcome == AssociationOutcome.LINKED
+    assert r_f0.back_moto_track_id == "b0"
+    assert r_f0.second_best_score == 0.0
+    assert r_f0.ambiguity_margin == pytest.approx(0.82, abs=1e-6)
+
+    # Failed candidate b1 remains documented as UNMATCHED with rejection reason preserved
+    r_b1 = next(r for r in res if r.back_moto_track_id == "b1")
+    assert r_b1.outcome == AssociationOutcome.UNMATCHED
+    assert "OUTSIDE_OVERLAP_WINDOW" in r_b1.decision_reasons
+    assert r_b1.pair_score_detail is not None
+    assert r_b1.pair_score_detail.composite_score == pytest.approx(0.80, abs=1e-6)
+
+
+def test_review_correction_test_c_no_valid_candidate_produces_all_unmatched() -> None:
+    """Test C: When all candidate pairs fail hard gates, no links are made and all tracklets are UNMATCHED."""
+    f0 = _make_dummy_tracklet("front", "f0")
+    f1 = _make_dummy_tracklet("front", "f1")
+    b0 = _make_dummy_tracklet("back", "b0")
+    b1 = _make_dummy_tracklet("back", "b1")
+
+    scores = [
+        _make_candidate_score("f0", "b0", 0.88, passed=False, reasons=["TRANSIT_TIME_INFEASIBLE"]),
+        _make_candidate_score("f0", "b1", 0.92, passed=False, reasons=["EXCEEDS_MAX_DELAY"]),
+        _make_candidate_score("f1", "b0", 0.75, passed=False, reasons=["OUTSIDE_OVERLAP_WINDOW"]),
+        _make_candidate_score("f1", "b1", 0.80, passed=False, reasons=["TRANSIT_TIME_INFEASIBLE"]),
+    ]
+
+    solver = GlobalAssignmentSolver()
+    res = solver.solve([f0, f1], [b0, b1], scores)
+
+    assert len(res) == 4
+    for r in res:
+        assert r.outcome == AssociationOutcome.UNMATCHED
+        assert r.global_motorcycle_id is None
+        assert r.association_score == 0.0
+        assert len(r.decision_reasons) > 0
+
+
+def test_review_correction_test_d_partial_matching_different_camera_counts() -> None:
+    """Test D: Partial matching handles different Front/Back camera counts correctly."""
+    # Case 1: 3 Front tracklets, 2 Back tracklets
+    f0 = _make_dummy_tracklet("front", "f0")
+    f1 = _make_dummy_tracklet("front", "f1")
+    f2 = _make_dummy_tracklet("front", "f2")
+    b0 = _make_dummy_tracklet("back", "b0")
+    b1 = _make_dummy_tracklet("back", "b1")
+
+    scores = [
+        _make_candidate_score("f0", "b0", 0.84, passed=True),
+        _make_candidate_score("f1", "b1", 0.81, passed=True),
+        _make_candidate_score("f2", "b0", 0.50, passed=False, reasons=["TRANSIT_TIME_INFEASIBLE"]),
+        _make_candidate_score("f2", "b1", 0.40, passed=False, reasons=["TRANSIT_TIME_INFEASIBLE"]),
+    ]
+
+    solver = GlobalAssignmentSolver()
+    res = solver.solve([f0, f1, f2], [b0, b1], scores)
+
+    linked = [r for r in res if r.outcome == AssociationOutcome.LINKED]
+    unmatched = [r for r in res if r.outcome == AssociationOutcome.UNMATCHED]
+
+    assert len(linked) == 2
+    assert {(r.front_moto_track_id, r.back_moto_track_id) for r in linked} == {("f0", "b0"), ("f1", "b1")}
+    assert len(unmatched) == 1
+    assert unmatched[0].front_moto_track_id == "f2"
+    assert unmatched[0].global_motorcycle_id is None
+
+    # Case 2: 2 Front tracklets competing for 1 Back tracklet closely -> AMBIGUOUS_ABSTAIN
+    f_comp0 = _make_dummy_tracklet("front", "fc0")
+    f_comp1 = _make_dummy_tracklet("front", "fc1")
+    b_single = _make_dummy_tracklet("back", "bs0")
+
+    comp_scores = [
+        _make_candidate_score("fc0", "bs0", 0.70, passed=True),
+        _make_candidate_score("fc1", "bs0", 0.68, passed=True),
+    ]
+
+    res_comp = solver.solve([f_comp0, f_comp1], [b_single], comp_scores)
+    assert len(res_comp) == 2
+    assert all(r.outcome == AssociationOutcome.AMBIGUOUS_ABSTAIN for r in res_comp)
+
+
+def test_review_correction_test_e_margin_calculations_use_only_valid_candidates() -> None:
+    """Test E: Margin calculations strictly use valid candidates for row, column, and 2x2 swap margins."""
+    f0 = _make_dummy_tracklet("front", "f0")
+    f1 = _make_dummy_tracklet("front", "f1")
+    b0 = _make_dummy_tracklet("back", "b0")
+    b1 = _make_dummy_tracklet("back", "b1")
+
+    # Hand-constructed matrix:
+    # (f0, b0) = 0.85 (valid)
+    # (f0, b1) = 0.65 (valid)
+    # (f1, b0) = 0.90 (INVALID - failed gate)
+    # (f1, b1) = 0.75 (valid)
+    scores = [
+        _make_candidate_score("f0", "b0", 0.85, passed=True),
+        _make_candidate_score("f0", "b1", 0.65, passed=True),
+        _make_candidate_score("f1", "b0", 0.90, passed=False, reasons=["NEGATIVE_TRANSIT_DELAY"]),
+        _make_candidate_score("f1", "b1", 0.75, passed=True),
+    ]
+
+    solver = GlobalAssignmentSolver()
+    res = solver.solve([f0, f1], [b0, b1], scores)
+
+    r_f0 = next(r for r in res if r.front_moto_track_id == "f0")
+    r_f1 = next(r for r in res if r.front_moto_track_id == "f1")
+
+    # For (f0, b0):
+    # Valid row competitors: (f0, b1) with score 0.65
+    # Valid col competitors: (f1, b0) is INVALID, so ignored
+    # second_best = max([0.65]) = 0.65
+    # rc_margin = 0.85 - 0.65 = 0.20
+    # 2x2 swap cross term (f1, b0) is invalid, so swap_margin_2x2 is None
+    assert r_f0.second_best_score == pytest.approx(0.65, abs=1e-6)
+    assert r_f0.ambiguity_margin == pytest.approx(0.20, abs=1e-6)
+    assert r_f0.swap_margin_2x2 is None
+    assert r_f0.outcome == AssociationOutcome.LINKED
+
+    # For (f1, b1):
+    # Valid row competitors: (f1, b0) is INVALID, so ignored
+    # Valid col competitors: (f0, b1) with score 0.65
+    # second_best = max([0.65]) = 0.65
+    # rc_margin = 0.75 - 0.65 = 0.10
+    # swap_margin_2x2 is None
+    assert r_f1.second_best_score == pytest.approx(0.65, abs=1e-6)
+    assert r_f1.ambiguity_margin == pytest.approx(0.10, abs=1e-6)
+    assert r_f1.swap_margin_2x2 is None
+    assert r_f1.outcome == AssociationOutcome.LINKED
+
+    # Subcase with all 4 valid candidates: verify exact 2x2 swap margin calculation
+    scores_valid_4 = [
+        _make_candidate_score("f0", "b0", 0.85, passed=True),
+        _make_candidate_score("f0", "b1", 0.65, passed=True),
+        _make_candidate_score("f1", "b0", 0.60, passed=True),
+        _make_candidate_score("f1", "b1", 0.75, passed=True),
+    ]
+    res_valid_4 = solver.solve([f0, f1], [b0, b1], scores_valid_4)
+    r4_f0 = next(r for r in res_valid_4 if r.front_moto_track_id == "f0")
+    r4_f1 = next(r for r in res_valid_4 if r.front_moto_track_id == "f1")
+
+    # 2x2 swap difference = (0.85 + 0.75) - (0.65 + 0.60) = 1.60 - 1.25 = 0.35
+    assert r4_f0.swap_margin_2x2 == pytest.approx(0.35, abs=1e-6)
+    assert r4_f1.swap_margin_2x2 == pytest.approx(0.35, abs=1e-6)

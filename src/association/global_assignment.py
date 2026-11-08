@@ -164,47 +164,90 @@ class GlobalAssignmentSolver:
                 )
             return results
 
-        # Build score matrix S (m x n) over eligible tracklets
-        score_mat = np.zeros((m, n), dtype=np.float64)
-        gated_mat = np.zeros((m, n), dtype=bool)
+        # Build valid candidate mask and score matrices over eligible tracklets.
+        # Only candidates satisfying all candidate gates and minimum active cues participate.
+        valid_mask = np.zeros((m, n), dtype=bool)
+        valid_score_mat = np.zeros((m, n), dtype=np.float64)
+
         for i, ft in enumerate(eligible_front):
             for j, bt in enumerate(eligible_back):
                 cs = score_lookup.get((ft.moto_track_id, bt.moto_track_id))
-                if cs is not None:
-                    score_mat[i, j] = float(cs.composite_score)
-                    gated_mat[i, j] = bool(cs.passed_candidate_gate)
+                if (
+                    cs is not None
+                    and cs.passed_candidate_gate
+                    and cs.active_cues_count >= self.config.min_active_cues_required
+                ):
+                    valid_mask[i, j] = True
+                    valid_score_mat[i, j] = float(cs.composite_score)
 
-        # Solve global bipartite assignment maximizing total score
-        cost_mat = 1.0 - score_mat
-        row_ind, col_ind = linear_sum_assignment(cost_mat)
-        assigned_pairs = list(zip(row_ind.tolist(), col_ind.tolist()))
+        # Solve global bipartite assignment maximizing valid candidate score.
+        # We construct an augmented (m + n) x (m + n) cost matrix allowing Real-to-Dummy matching
+        # so tracklets can remain unmatched at zero penalty rather than forcing invalid candidate pairs.
+        matched_pairs: list[tuple[int, int]] = []
+        if np.any(valid_mask):
+            N = m + n
+            FORBIDDEN_COST = 1e6
+            augmented_cost = np.full((N, N), FORBIDDEN_COST, dtype=np.float64)
+
+            # Block 1 (Top-Left m x n): Real Front to Real Back for valid candidates only
+            for i in range(m):
+                for j in range(n):
+                    if valid_mask[i, j]:
+                        augmented_cost[i, j] = 1.0 - valid_score_mat[i, j]
+
+            # Block 2 (Top-Right m x m): Real Front to Dummy Back (diagonal = 1.0)
+            for i in range(m):
+                augmented_cost[i, n + i] = 1.0
+
+            # Block 3 (Bottom-Left n x n): Dummy Front to Real Back (diagonal = 1.0)
+            for j in range(n):
+                augmented_cost[m + j, j] = 1.0
+
+            # Block 4 (Bottom-Right n x m): Dummy Front to Dummy Back (all 0.0)
+            augmented_cost[m:, n:] = 0.0
+
+            row_ind, col_ind = linear_sum_assignment(augmented_cost)
+            for r, c in zip(row_ind.tolist(), col_ind.tolist()):
+                if r < m and c < n and valid_mask[r, c]:
+                    matched_pairs.append((r, c))
 
         next_global_idx = 1
         ambiguous_front_indices: set[int] = set()
         ambiguous_back_indices: set[int] = set()
 
-        for i, j in assigned_pairs:
+        for i, j in matched_pairs:
             ft = eligible_front[i]
             bt = eligible_back[j]
             cs = score_lookup.get((ft.moto_track_id, bt.moto_track_id))
-            best_score = float(score_mat[i, j])
+            best_score = float(valid_score_mat[i, j])
 
-            # Compute row and column second-best competitor score
-            row_competitors = [float(score_mat[i, j2]) for j2 in range(n) if j2 != j]
-            col_competitors = [float(score_mat[i2, j]) for i2 in range(m) if i2 != i]
+            # Compute row and column second-best competitor score among VALID candidates only
+            row_competitors = [
+                float(valid_score_mat[i, j2])
+                for j2 in range(n)
+                if j2 != j and valid_mask[i, j2]
+            ]
+            col_competitors = [
+                float(valid_score_mat[i2, j])
+                for i2 in range(m)
+                if i2 != i and valid_mask[i2, j]
+            ]
             second_best = max(row_competitors + col_competitors, default=0.0)
-            rc_margin = float(best_score - second_best)
+            rc_margin = round(float(best_score - second_best), 6)
 
             # Compute minimum 2x2 swap margin against any other (i2, j2)
+            # A 2x2 swap is only evaluated if both cross-terms are valid candidates
             swap_margin: float | None = None
-            for i2, j2 in assigned_pairs:
+            for i2, j2 in matched_pairs:
                 if i2 == i and j2 == j:
                     continue
-                # Only consider 2x2 swap when at least one cross-term is a viable candidate
-                if score_mat[i, j2] > 0.25 or score_mat[i2, j] > 0.25:
-                    diff_2x2 = float(
-                        (score_mat[i, j] + score_mat[i2, j2])
-                        - (score_mat[i, j2] + score_mat[i2, j])
+                if valid_mask[i, j2] and valid_mask[i2, j]:
+                    diff_2x2 = round(
+                        float(
+                            (valid_score_mat[i, j] + valid_score_mat[i2, j2])
+                            - (valid_score_mat[i, j2] + valid_score_mat[i2, j])
+                        ),
+                        6,
                     )
                     if swap_margin is None or diff_2x2 < swap_margin:
                         swap_margin = diff_2x2
@@ -213,30 +256,8 @@ class GlobalAssignmentSolver:
                 min(rc_margin, swap_margin) if swap_margin is not None else rc_margin
             )
 
-            # Determine outcome
-            if cs is not None and cs.active_cues_count < self.config.min_active_cues_required:
-                handled_front_ids.add(ft.moto_track_id)
-                handled_back_ids.add(bt.moto_track_id)
-                results.append(
-                    MotorcycleAssociationResult(
-                        schema_version=SCHEMA_VERSION,
-                        global_motorcycle_id=None,
-                        front_moto_track_id=ft.moto_track_id,
-                        back_moto_track_id=bt.moto_track_id,
-                        outcome=AssociationOutcome.INSUFFICIENT_EVIDENCE,
-                        association_score=best_score,
-                        second_best_score=second_best,
-                        ambiguity_margin=effective_margin,
-                        swap_margin_2x2=swap_margin,
-                        decision_reasons=["INSUFFICIENT_ACTIVE_CUES"],
-                        pair_score_detail=cs,
-                    )
-                )
-                continue
-
-            # If candidate failed hard gate or falls below min_association_score
-            if cs is None or not cs.passed_candidate_gate or best_score < self.config.min_association_score:
-                # Leave both ft and bt to be recorded as UNMATCHED (unless involved in ambiguity)
+            # If score falls below min_association_score, leave unassigned
+            if best_score < self.config.min_association_score:
                 continue
 
             # Candidate passes min_association_score: check uniqueness/ambiguity margins
@@ -300,25 +321,50 @@ class GlobalAssignmentSolver:
         for i, ft in enumerate(eligible_front):
             if ft.moto_track_id in handled_front_ids:
                 continue
-            best_j = int(np.argmax(score_mat[i, :]))
-            best_sc = float(score_mat[i, best_j])
-            cs = score_lookup.get((ft.moto_track_id, eligible_back[best_j].moto_track_id))
 
-            # If this unassigned Front tracklet competed closely with an ambiguous Back tracklet
-            if best_j in ambiguous_back_indices and best_sc >= (
-                self.config.min_association_score - self.config.ambiguous_margin_threshold
-            ):
-                outcome = AssociationOutcome.AMBIGUOUS_ABSTAIN
-                reasons = [
-                    f"COMPETING_CANDIDATE_WITH_AMBIGUOUS_BACK_{eligible_back[best_j].moto_track_id}"
-                ]
+            valid_j_indices = [j for j in range(n) if valid_mask[i, j]]
+            if valid_j_indices:
+                best_j = max(valid_j_indices, key=lambda j: valid_score_mat[i, j])
+                best_sc = float(valid_score_mat[i, best_j])
+                cs = score_lookup.get((ft.moto_track_id, eligible_back[best_j].moto_track_id))
+
+                if best_j in ambiguous_back_indices and best_sc >= (
+                    self.config.min_association_score - self.config.ambiguous_margin_threshold
+                ):
+                    outcome = AssociationOutcome.AMBIGUOUS_ABSTAIN
+                    reasons = [
+                        f"COMPETING_CANDIDATE_WITH_AMBIGUOUS_BACK_{eligible_back[best_j].moto_track_id}"
+                    ]
+                else:
+                    outcome = AssociationOutcome.UNMATCHED
+                    reasons = (
+                        list(cs.gate_rejection_reasons)
+                        if cs is not None and cs.gate_rejection_reasons
+                        else [f"BEST_SCORE_{best_sc:.3f}_BELOW_MIN_{self.config.min_association_score}"]
+                    )
             else:
-                outcome = AssociationOutcome.UNMATCHED
-                reasons = (
-                    list(cs.gate_rejection_reasons)
-                    if cs is not None and cs.gate_rejection_reasons
-                    else [f"BEST_SCORE_{best_sc:.3f}_BELOW_MIN_{self.config.min_association_score}"]
-                )
+                # No valid candidate for this Front tracklet
+                best_sc = 0.0
+                cs = None
+                reasons = []
+                for j in range(n):
+                    cand_cs = score_lookup.get((ft.moto_track_id, eligible_back[j].moto_track_id))
+                    if cand_cs is not None:
+                        cs = cand_cs
+                        if cand_cs.gate_rejection_reasons:
+                            reasons = list(cand_cs.gate_rejection_reasons)
+                        break
+                if not reasons:
+                    reasons = ["NO_VALID_CROSS_CAMERA_CANDIDATES"]
+
+                if (
+                    cs is not None
+                    and "INSUFFICIENT_ACTIVE_CUES" in cs.gate_rejection_reasons
+                    and not any(r for r in cs.gate_rejection_reasons if "TRANSIT" in r or "OVERLAP" in r)
+                ):
+                    outcome = AssociationOutcome.INSUFFICIENT_EVIDENCE
+                else:
+                    outcome = AssociationOutcome.UNMATCHED
 
             results.append(
                 MotorcycleAssociationResult(
@@ -340,24 +386,49 @@ class GlobalAssignmentSolver:
         for j, bt in enumerate(eligible_back):
             if bt.moto_track_id in handled_back_ids:
                 continue
-            best_i = int(np.argmax(score_mat[:, j]))
-            best_sc = float(score_mat[best_i, j])
-            cs = score_lookup.get((eligible_front[best_i].moto_track_id, bt.moto_track_id))
 
-            if best_i in ambiguous_front_indices and best_sc >= (
-                self.config.min_association_score - self.config.ambiguous_margin_threshold
-            ):
-                outcome = AssociationOutcome.AMBIGUOUS_ABSTAIN
-                reasons = [
-                    f"COMPETING_CANDIDATE_WITH_AMBIGUOUS_FRONT_{eligible_front[best_i].moto_track_id}"
-                ]
+            valid_i_indices = [i for i in range(m) if valid_mask[i, j]]
+            if valid_i_indices:
+                best_i = max(valid_i_indices, key=lambda i: valid_score_mat[i, j])
+                best_sc = float(valid_score_mat[best_i, j])
+                cs = score_lookup.get((eligible_front[best_i].moto_track_id, bt.moto_track_id))
+
+                if best_i in ambiguous_front_indices and best_sc >= (
+                    self.config.min_association_score - self.config.ambiguous_margin_threshold
+                ):
+                    outcome = AssociationOutcome.AMBIGUOUS_ABSTAIN
+                    reasons = [
+                        f"COMPETING_CANDIDATE_WITH_AMBIGUOUS_FRONT_{eligible_front[best_i].moto_track_id}"
+                    ]
+                else:
+                    outcome = AssociationOutcome.UNMATCHED
+                    reasons = (
+                        list(cs.gate_rejection_reasons)
+                        if cs is not None and cs.gate_rejection_reasons
+                        else [f"BEST_SCORE_{best_sc:.3f}_BELOW_MIN_{self.config.min_association_score}"]
+                    )
             else:
-                outcome = AssociationOutcome.UNMATCHED
-                reasons = (
-                    list(cs.gate_rejection_reasons)
-                    if cs is not None and cs.gate_rejection_reasons
-                    else [f"BEST_SCORE_{best_sc:.3f}_BELOW_MIN_{self.config.min_association_score}"]
-                )
+                best_sc = 0.0
+                cs = None
+                reasons = []
+                for i in range(m):
+                    cand_cs = score_lookup.get((eligible_front[i].moto_track_id, bt.moto_track_id))
+                    if cand_cs is not None:
+                        cs = cand_cs
+                        if cand_cs.gate_rejection_reasons:
+                            reasons = list(cand_cs.gate_rejection_reasons)
+                        break
+                if not reasons:
+                    reasons = ["NO_VALID_CROSS_CAMERA_CANDIDATES"]
+
+                if (
+                    cs is not None
+                    and "INSUFFICIENT_ACTIVE_CUES" in cs.gate_rejection_reasons
+                    and not any(r for r in cs.gate_rejection_reasons if "TRANSIT" in r or "OVERLAP" in r)
+                ):
+                    outcome = AssociationOutcome.INSUFFICIENT_EVIDENCE
+                else:
+                    outcome = AssociationOutcome.UNMATCHED
 
             results.append(
                 MotorcycleAssociationResult(
