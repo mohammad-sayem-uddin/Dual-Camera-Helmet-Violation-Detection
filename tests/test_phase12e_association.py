@@ -1155,6 +1155,13 @@ def test_review_correction_test_f_below_threshold_candidate_cannot_block_valid_a
       F1 | 0.61 | 0.62 |
       F2 | 0.62 | 0.99 |
 
+    Reporting Clarification:
+    The test demonstrates that sub-threshold candidate F1->B1 (0.61) no longer enters
+    Hungarian optimization and cannot block assignment selection, allowing the higher-cardinality
+    2-pair matching (F1->B2 and F2->B1) to be chosen. Because alternative candidate (F2, B2) has
+    a strong score of 0.99, both selected pairs receive AMBIGUOUS_ABSTAIN under the existing
+    conservative uniqueness-margin policy; this test does NOT claim or require confirmed LINKED outcomes.
+
     Verifies:
     1. F1->B1 (0.61) cannot enter optimization or block F1->B2 (0.62).
     2. F2->B2 does not prevent a better feasible 2-pair partial assignment (F1->B2 and F2->B1).
@@ -1283,3 +1290,86 @@ def test_review_correction_test_i_ambiguity_after_threshold_filtering() -> None:
     assert r_f_i2.outcome == AssociationOutcome.AMBIGUOUS_ABSTAIN
     assert r_f_i2.second_best_score == pytest.approx(0.65, abs=1e-6)
     assert r_f_i2.ambiguity_margin == pytest.approx(0.05, abs=1e-6)
+
+
+# ==============================================================================
+# Phase 12E Review Correction 3 Regression Tests
+# Verification of end-to-end consistent threshold policy (inclusive raw comparison),
+# rounding-boundary blocking elimination, and exact boundary behavior.
+# ==============================================================================
+
+
+def test_review_correction_test_j_rounding_boundary_blocking() -> None:
+    """Test J: With threshold 0.62, candidate scored 0.6199996 must not enter optimization or block."""
+    f1 = _make_dummy_tracklet("front", "F1_j")
+    f2 = _make_dummy_tracklet("front", "F2_j")
+    b1 = _make_dummy_tracklet("back", "B1_j")
+    b2 = _make_dummy_tracklet("back", "B2_j")
+
+    # In previous implementation, round(0.6199996, 6) == 0.620000 caused F1->B1 to enter Hungarian,
+    # but post-validation checked 0.6199996 < 0.62, discarding the pair and blocking F1->B2.
+    scores = [
+        _make_candidate_score("F1_j", "B1_j", 0.6199996, passed=True),
+        _make_candidate_score("F1_j", "B2_j", 0.62, passed=True),
+        _make_candidate_score("F2_j", "B1_j", 0.62, passed=True),
+        _make_candidate_score("F2_j", "B2_j", 0.99, passed=True),
+    ]
+
+    solver = GlobalAssignmentSolver()
+    res = solver.solve([f1, f2], [b1, b2], scores)
+
+    f1_res = next(r for r in res if r.front_moto_track_id == "F1_j")
+    f2_res = next(r for r in res if r.front_moto_track_id == "F2_j")
+
+    # Candidate 0.6199996 must not enter optimization or block F1->B2
+    assert f1_res.back_moto_track_id == "B2_j"
+    assert f2_res.back_moto_track_id == "B1_j"
+    assert f1_res.association_score >= 0.62
+    assert f2_res.association_score >= 0.62
+
+    # Verify no candidate is selected during optimization and subsequently discarded due to threshold mismatch
+    for r in res:
+        if r.back_moto_track_id is not None and r.front_moto_track_id is not None:
+            assert r.association_score >= solver.config.min_association_score
+
+
+def test_review_correction_test_k_just_below_threshold() -> None:
+    """Test K: Candidate scored 0.619999 must remain ineligible and produce an UNMATCHED result."""
+    solver = GlobalAssignmentSolver()
+    f = _make_dummy_tracklet("front", "F_k")
+    b = _make_dummy_tracklet("back", "B_k")
+
+    res = solver.solve([f], [b], [_make_candidate_score("F_k", "B_k", 0.619999, passed=True)])
+    assert len(res) == 2  # Front unassigned and Back unassigned
+    f_res = next(r for r in res if r.front_moto_track_id == "F_k")
+    assert f_res.outcome == AssociationOutcome.UNMATCHED
+    assert f_res.global_motorcycle_id is None
+    assert f_res.association_score == pytest.approx(0.619999, abs=1e-6)
+    assert len(f_res.decision_reasons) > 0
+    assert "BELOW_MIN" in f_res.decision_reasons[0]
+
+
+def test_review_correction_test_l_exact_threshold() -> None:
+    """Test L: Candidate scored exactly 0.62 must remain eligible under the inclusive policy."""
+    solver = GlobalAssignmentSolver()
+    f = _make_dummy_tracklet("front", "F_l")
+    b = _make_dummy_tracklet("back", "B_l")
+
+    res = solver.solve([f], [b], [_make_candidate_score("F_l", "B_l", 0.62, passed=True)])
+    assert len(res) == 1
+    assert res[0].outcome == AssociationOutcome.LINKED
+    assert res[0].global_motorcycle_id is not None
+    assert res[0].association_score == pytest.approx(0.62, abs=1e-6)
+
+
+def test_review_correction_test_m_just_above_threshold() -> None:
+    """Test M: Candidate scored 0.620001 must remain eligible and link when margins permit."""
+    solver = GlobalAssignmentSolver()
+    f = _make_dummy_tracklet("front", "F_m")
+    b = _make_dummy_tracklet("back", "B_m")
+
+    res = solver.solve([f], [b], [_make_candidate_score("F_m", "B_m", 0.620001, passed=True)])
+    assert len(res) == 1
+    assert res[0].outcome == AssociationOutcome.LINKED
+    assert res[0].global_motorcycle_id is not None
+    assert res[0].association_score == pytest.approx(0.620001, abs=1e-6)

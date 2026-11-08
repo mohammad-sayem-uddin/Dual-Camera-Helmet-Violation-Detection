@@ -167,6 +167,8 @@ class GlobalAssignmentSolver:
         # Build valid candidate mask and score matrices over eligible tracklets.
         # Only candidates satisfying all candidate gates, minimum active cues, and
         # minimum association score threshold participate in Hungarian optimization.
+        # Policy: raw, unrounded, inclusive comparison (composite_score >= min_association_score)
+        # applied consistently end-to-end to prevent boundary blocking.
         valid_mask = np.zeros((m, n), dtype=bool)
         valid_score_mat = np.zeros((m, n), dtype=np.float64)
 
@@ -177,8 +179,7 @@ class GlobalAssignmentSolver:
                     cs is not None
                     and cs.passed_candidate_gate
                     and cs.active_cues_count >= self.config.min_active_cues_required
-                    and round(float(cs.composite_score), 6)
-                    >= round(self.config.min_association_score, 6)
+                    and float(cs.composite_score) >= float(self.config.min_association_score)
                 ):
                     valid_mask[i, j] = True
                     valid_score_mat[i, j] = float(cs.composite_score)
