@@ -508,3 +508,29 @@ def test_err_decode_on_truncated_stream(tmp_path, fake_detector):
     r = dcp.run_pair("errp", _config(data_root, meta, tmp_path / "out"))
     assert r.status == dcp.PairStatus.FAILED_RUNTIME
     assert r.error is not None and r.error.code == dcp.ERR_DECODE
+
+
+def test_peak_rss_scaling_darwin_and_linux(monkeypatch):
+    """TASK-01 unit tests: verify platform-aware RSS scaling for Linux and Darwin."""
+    from types import SimpleNamespace
+
+    # 1. Test Darwin scaling: ru_maxrss reported in bytes.
+    # 256 MiB in bytes = 256 * 1024 * 1024 = 268,435,456 bytes.
+    dummy_darwin_usage = SimpleNamespace(ru_maxrss=268435456)
+    monkeypatch.setattr(dcp.sys, "platform", "darwin")
+    monkeypatch.setattr(dcp.resource, "getrusage", lambda who: dummy_darwin_usage)
+    assert dcp._peak_rss_mb() == 256.0
+
+    # 2. Test Linux scaling: ru_maxrss reported in KiB.
+    # 256 MiB in KiB = 256 * 1024 = 262,144 KiB.
+    dummy_linux_usage = SimpleNamespace(ru_maxrss=262144)
+    monkeypatch.setattr(dcp.sys, "platform", "linux")
+    monkeypatch.setattr(dcp.resource, "getrusage", lambda who: dummy_linux_usage)
+    assert dcp._peak_rss_mb() == 256.0
+
+    # 3. Live platform smoke test: verify realistic non-zero value on current host.
+    monkeypatch.undo()
+    current_rss = dcp._peak_rss_mb()
+    assert current_rss > 0.0
+    assert current_rss < dcp.DEFAULT_RSS_CEILING_MB
+

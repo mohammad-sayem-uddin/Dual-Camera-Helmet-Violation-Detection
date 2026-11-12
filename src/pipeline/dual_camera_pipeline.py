@@ -240,8 +240,12 @@ def _log(msg: str) -> None:
 
 
 def _peak_rss_mb() -> float:
-    # Pass 1 precedent: ru_maxrss / 1024 (KiB -> MiB on Linux, the Stage J venue).
-    return round(resource.getrusage(resource.RUSAGE_SELF).ru_maxrss / 1024.0, 1)
+    # ru_maxrss reports in bytes on macOS (Darwin) and in KiB on Linux (the Stage J venue).
+    scale = 1024.0 * 1024.0 if sys.platform == "darwin" else 1024.0
+    return round(
+        resource.getrusage(resource.RUSAGE_SELF).ru_maxrss / scale,
+        1,
+    )
 
 
 # --------------------------------------------------------------------------
