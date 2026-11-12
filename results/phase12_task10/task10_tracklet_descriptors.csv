@@ -1,0 +1,241 @@
+pair_id,arm,entity_type,camera_id,track_id,available,unavailable_reason,observed_frames_total,observed_frames_with_keyframe,valid_observed_crops_count,mean_crop_quality,crop_rejection_counts
+pair_005,C1_A0_720p_kf,motorcycle,back,back_moto_0001,True,,135,24,25,1.0,{}
+pair_005,C1_A0_720p_kf,motorcycle,front,front_moto_0001,True,,167,24,69,1.0,{}
+pair_005,C1_A0_720p_kf,orphan,front,front_orphan_0001,True,,1,1,2,1.0,{}
+pair_005,C1_A0_720p_kf,orphan,front,front_orphan_0002,True,,9,1,2,1.0,{}
+pair_005,C1_A0_720p_kf,rider,back,back_moto_0001_rider_s0,True,,1,1,1,1.0,{}
+pair_005,C1_A0_720p_kf,rider,front,front_moto_0001_rider_s0,True,,164,23,45,1.0,{}
+pair_005,C2_A4_720p_kf,motorcycle,back,back_moto_0001,True,,135,24,57,1.0,{}
+pair_005,C2_A4_720p_kf,motorcycle,front,front_moto_0001,True,,167,24,69,1.0,{}
+pair_005,C2_A4_720p_kf,orphan,front,front_orphan_0002,True,,9,1,2,1.0,{}
+pair_005,C2_A4_720p_kf,rider,back,back_moto_0001_rider_s0,True,,118,17,33,1.0,{}
+pair_005,C2_A4_720p_kf,rider,front,front_moto_0001_rider_s0,True,,164,23,45,1.0,{}
+pair_005,C3_A4_4k_native,motorcycle,back,back_moto_0001,True,,135,24,56,0.9595,"{""CROP_MOTION_BLUR_BELOW_SHARPNESS"": 1}"
+pair_005,C3_A4_4k_native,motorcycle,front,front_moto_0001,True,,167,24,69,0.9962,{}
+pair_005,C3_A4_4k_native,orphan,front,front_orphan_0002,True,,9,1,2,1.0,{}
+pair_005,C3_A4_4k_native,rider,back,back_moto_0001_rider_s0,True,,118,17,33,0.996,{}
+pair_005,C3_A4_4k_native,rider,front,front_moto_0001_rider_s0,True,,164,23,45,1.0,{}
+pair_005,C4_A4_720p_none_dims_probe,motorcycle,back,back_moto_0001,False,COORDINATE_SPACE_MISMATCH_UNKNOWN_NATIVE_DIMENSIONS,135,24,0,0.0,"{""COORDINATE_SPACE_MISMATCH_UNKNOWN_NATIVE_DIMENSIONS"": 24}"
+pair_005,C4_A4_720p_none_dims_probe,motorcycle,front,front_moto_0001,False,COORDINATE_SPACE_MISMATCH_UNKNOWN_NATIVE_DIMENSIONS,167,24,0,0.0,"{""COORDINATE_SPACE_MISMATCH_UNKNOWN_NATIVE_DIMENSIONS"": 24}"
+pair_005,C4_A4_720p_none_dims_probe,orphan,front,front_orphan_0002,False,COORDINATE_SPACE_MISMATCH_UNKNOWN_NATIVE_DIMENSIONS,9,1,0,0.0,"{""COORDINATE_SPACE_MISMATCH_UNKNOWN_NATIVE_DIMENSIONS"": 2}"
+pair_005,C4_A4_720p_none_dims_probe,rider,back,back_moto_0001_rider_s0,False,COORDINATE_SPACE_MISMATCH_UNKNOWN_NATIVE_DIMENSIONS,118,17,0,0.0,"{""COORDINATE_SPACE_MISMATCH_UNKNOWN_NATIVE_DIMENSIONS"": 33}"
+pair_005,C4_A4_720p_none_dims_probe,rider,front,front_moto_0001_rider_s0,False,COORDINATE_SPACE_MISMATCH_UNKNOWN_NATIVE_DIMENSIONS,164,23,0,0.0,"{""COORDINATE_SPACE_MISMATCH_UNKNOWN_NATIVE_DIMENSIONS"": 45}"
+pair_008,C1_A0_720p_kf,motorcycle,back,back_moto_0001,True,,128,23,28,1.0,{}
+pair_008,C1_A0_720p_kf,motorcycle,front,front_moto_0001,True,,115,20,60,0.9999,{}
+pair_008,C1_A0_720p_kf,orphan,back,back_orphan_0001,True,,1,1,2,1.0,{}
+pair_008,C1_A0_720p_kf,orphan,back,back_orphan_0002,True,,1,1,2,1.0,{}
+pair_008,C1_A0_720p_kf,orphan,front,front_orphan_0001,True,,2,1,2,0.9936,{}
+pair_008,C1_A0_720p_kf,orphan,front,front_orphan_0002,True,,13,3,5,1.0,{}
+pair_008,C1_A0_720p_kf,orphan,front,front_orphan_0003,True,,1,1,1,1.0,{}
+pair_008,C1_A0_720p_kf,orphan,front,front_orphan_0004,True,,1,1,1,1.0,{}
+pair_008,C1_A0_720p_kf,orphan,front,front_orphan_0005,True,,1,1,1,1.0,{}
+pair_008,C1_A0_720p_kf,rider,back,back_moto_0001_rider_s0,True,,11,3,5,1.0,{}
+pair_008,C1_A0_720p_kf,rider,front,front_moto_0001_rider_s0,True,,115,20,40,0.9998,{}
+pair_008,C1_A0_720p_kf,rider,front,front_moto_0001_rider_s1,True,,2,2,2,1.0,{}
+pair_008,C2_A4_720p_kf,motorcycle,back,back_moto_0001,True,,128,23,50,1.0,{}
+pair_008,C2_A4_720p_kf,motorcycle,front,front_moto_0001,True,,115,20,60,0.9999,{}
+pair_008,C2_A4_720p_kf,orphan,front,front_orphan_0001,True,,2,1,2,0.9936,{}
+pair_008,C2_A4_720p_kf,orphan,front,front_orphan_0002,True,,13,3,5,1.0,{}
+pair_008,C2_A4_720p_kf,rider,back,back_moto_0001_rider_s0,True,,97,14,27,1.0,{}
+pair_008,C2_A4_720p_kf,rider,front,front_moto_0001_rider_s0,True,,115,20,40,0.9998,{}
+pair_008,C2_A4_720p_kf,rider,front,front_moto_0001_rider_s1,True,,2,2,2,1.0,{}
+pair_008,C2_A4_720p_kf,rider,front,front_moto_0001_rider_s2,True,,3,1,1,1.0,{}
+pair_008,C3_A4_4k_native,motorcycle,back,back_moto_0001,True,,128,23,50,0.9328,{}
+pair_008,C3_A4_4k_native,motorcycle,front,front_moto_0001,True,,115,20,60,0.9969,{}
+pair_008,C3_A4_4k_native,orphan,front,front_orphan_0001,True,,2,1,2,1.0,{}
+pair_008,C3_A4_4k_native,orphan,front,front_orphan_0002,True,,13,3,5,0.885,{}
+pair_008,C3_A4_4k_native,rider,back,back_moto_0001_rider_s0,True,,97,14,27,0.9039,{}
+pair_008,C3_A4_4k_native,rider,front,front_moto_0001_rider_s0,True,,115,20,40,0.9937,{}
+pair_008,C3_A4_4k_native,rider,front,front_moto_0001_rider_s1,True,,2,2,2,1.0,{}
+pair_008,C3_A4_4k_native,rider,front,front_moto_0001_rider_s2,True,,3,1,1,1.0,{}
+pair_008,C4_A4_720p_none_dims_probe,motorcycle,back,back_moto_0001,False,COORDINATE_SPACE_MISMATCH_UNKNOWN_NATIVE_DIMENSIONS,128,23,0,0.0,"{""COORDINATE_SPACE_MISMATCH_UNKNOWN_NATIVE_DIMENSIONS"": 23}"
+pair_008,C4_A4_720p_none_dims_probe,motorcycle,front,front_moto_0001,False,COORDINATE_SPACE_MISMATCH_UNKNOWN_NATIVE_DIMENSIONS,115,20,0,0.0,"{""COORDINATE_SPACE_MISMATCH_UNKNOWN_NATIVE_DIMENSIONS"": 20}"
+pair_008,C4_A4_720p_none_dims_probe,orphan,front,front_orphan_0001,False,COORDINATE_SPACE_MISMATCH_UNKNOWN_NATIVE_DIMENSIONS,2,1,0,0.0,"{""COORDINATE_SPACE_MISMATCH_UNKNOWN_NATIVE_DIMENSIONS"": 2}"
+pair_008,C4_A4_720p_none_dims_probe,orphan,front,front_orphan_0002,False,COORDINATE_SPACE_MISMATCH_UNKNOWN_NATIVE_DIMENSIONS,13,3,0,0.0,"{""COORDINATE_SPACE_MISMATCH_UNKNOWN_NATIVE_DIMENSIONS"": 5}"
+pair_008,C4_A4_720p_none_dims_probe,rider,back,back_moto_0001_rider_s0,False,COORDINATE_SPACE_MISMATCH_UNKNOWN_NATIVE_DIMENSIONS,97,14,0,0.0,"{""COORDINATE_SPACE_MISMATCH_UNKNOWN_NATIVE_DIMENSIONS"": 27}"
+pair_008,C4_A4_720p_none_dims_probe,rider,front,front_moto_0001_rider_s0,False,COORDINATE_SPACE_MISMATCH_UNKNOWN_NATIVE_DIMENSIONS,115,20,0,0.0,"{""COORDINATE_SPACE_MISMATCH_UNKNOWN_NATIVE_DIMENSIONS"": 40}"
+pair_008,C4_A4_720p_none_dims_probe,rider,front,front_moto_0001_rider_s1,False,COORDINATE_SPACE_MISMATCH_UNKNOWN_NATIVE_DIMENSIONS,2,2,0,0.0,"{""COORDINATE_SPACE_MISMATCH_UNKNOWN_NATIVE_DIMENSIONS"": 2}"
+pair_008,C4_A4_720p_none_dims_probe,rider,front,front_moto_0001_rider_s2,False,COORDINATE_SPACE_MISMATCH_UNKNOWN_NATIVE_DIMENSIONS,3,1,0,0.0,"{""COORDINATE_SPACE_MISMATCH_UNKNOWN_NATIVE_DIMENSIONS"": 1}"
+pair_009,C1_A0_720p_kf,motorcycle,back,back_moto_0001,True,,13,4,4,1.0,{}
+pair_009,C1_A0_720p_kf,motorcycle,back,back_moto_0002,True,,1,1,1,1.0,{}
+pair_009,C1_A0_720p_kf,motorcycle,back,back_moto_0003,True,,1,1,1,1.0,{}
+pair_009,C1_A0_720p_kf,motorcycle,back,back_moto_0004,True,,199,11,13,1.0,{}
+pair_009,C1_A0_720p_kf,motorcycle,back,back_moto_0005,True,,44,2,2,1.0,{}
+pair_009,C1_A0_720p_kf,motorcycle,back,back_moto_0006,True,,1,1,1,1.0,{}
+pair_009,C1_A0_720p_kf,motorcycle,back,back_moto_0007,True,,1,1,1,1.0,{}
+pair_009,C1_A0_720p_kf,motorcycle,back,back_moto_0008,True,,42,5,5,1.0,{}
+pair_009,C1_A0_720p_kf,motorcycle,back,back_moto_0009,True,,1,1,1,1.0,{}
+pair_009,C1_A0_720p_kf,motorcycle,back,back_moto_0010,True,,1,1,1,1.0,{}
+pair_009,C1_A0_720p_kf,motorcycle,back,back_moto_0011,True,,1,1,1,1.0,{}
+pair_009,C1_A0_720p_kf,motorcycle,front,front_moto_0001,True,,202,24,66,0.9255,{}
+pair_009,C1_A0_720p_kf,orphan,back,back_orphan_0001,True,,2,1,2,1.0,{}
+pair_009,C1_A0_720p_kf,orphan,back,back_orphan_0002,True,,1,1,2,0.8926,{}
+pair_009,C1_A0_720p_kf,orphan,front,front_orphan_0001,True,,1,1,2,0.9313,{}
+pair_009,C1_A0_720p_kf,orphan,front,front_orphan_0002,True,,2,1,2,1.0,{}
+pair_009,C1_A0_720p_kf,rider,back,back_moto_0004_rider_s0,True,,1,1,2,1.0,{}
+pair_009,C1_A0_720p_kf,rider,front,front_moto_0001_rider_s0,True,,199,22,42,0.8511,{}
+pair_009,C1_A0_720p_kf,rider,front,front_moto_0001_rider_s1,True,,1,1,1,1.0,{}
+pair_009,C2_A4_720p_kf,motorcycle,back,back_moto_0001,True,,13,4,4,1.0,{}
+pair_009,C2_A4_720p_kf,motorcycle,back,back_moto_0002,True,,1,1,1,1.0,{}
+pair_009,C2_A4_720p_kf,motorcycle,back,back_moto_0003,True,,1,1,1,1.0,{}
+pair_009,C2_A4_720p_kf,motorcycle,back,back_moto_0004,True,,199,12,23,0.9697,{}
+pair_009,C2_A4_720p_kf,motorcycle,back,back_moto_0005,True,,44,2,2,1.0,{}
+pair_009,C2_A4_720p_kf,motorcycle,back,back_moto_0006,True,,1,1,1,1.0,{}
+pair_009,C2_A4_720p_kf,motorcycle,back,back_moto_0007,True,,1,1,1,1.0,{}
+pair_009,C2_A4_720p_kf,motorcycle,back,back_moto_0008,True,,42,5,5,1.0,{}
+pair_009,C2_A4_720p_kf,motorcycle,back,back_moto_0009,True,,1,1,1,1.0,{}
+pair_009,C2_A4_720p_kf,motorcycle,back,back_moto_0010,True,,1,1,1,1.0,{}
+pair_009,C2_A4_720p_kf,motorcycle,back,back_moto_0011,True,,1,1,1,1.0,{}
+pair_009,C2_A4_720p_kf,motorcycle,front,front_moto_0001,True,,202,24,66,0.9255,{}
+pair_009,C2_A4_720p_kf,orphan,back,back_orphan_0001,True,,2,1,2,1.0,{}
+pair_009,C2_A4_720p_kf,orphan,front,front_orphan_0002,True,,2,1,2,1.0,{}
+pair_009,C2_A4_720p_kf,rider,back,back_moto_0004_rider_s0,True,,132,6,11,0.9394,{}
+pair_009,C2_A4_720p_kf,rider,front,front_moto_0001_rider_s0,True,,199,22,42,0.8511,{}
+pair_009,C3_A4_4k_native,motorcycle,back,back_moto_0001,True,,13,4,4,1.0,{}
+pair_009,C3_A4_4k_native,motorcycle,back,back_moto_0002,True,,1,1,1,1.0,{}
+pair_009,C3_A4_4k_native,motorcycle,back,back_moto_0003,True,,1,1,1,1.0,{}
+pair_009,C3_A4_4k_native,motorcycle,back,back_moto_0004,True,,199,12,22,0.9861,{}
+pair_009,C3_A4_4k_native,motorcycle,back,back_moto_0005,True,,44,2,2,1.0,{}
+pair_009,C3_A4_4k_native,motorcycle,back,back_moto_0006,True,,1,1,1,1.0,{}
+pair_009,C3_A4_4k_native,motorcycle,back,back_moto_0007,True,,1,1,1,1.0,{}
+pair_009,C3_A4_4k_native,motorcycle,back,back_moto_0008,True,,42,5,5,1.0,{}
+pair_009,C3_A4_4k_native,motorcycle,back,back_moto_0009,True,,1,1,1,1.0,{}
+pair_009,C3_A4_4k_native,motorcycle,back,back_moto_0010,True,,1,1,1,1.0,{}
+pair_009,C3_A4_4k_native,motorcycle,back,back_moto_0011,True,,1,1,1,1.0,{}
+pair_009,C3_A4_4k_native,motorcycle,front,front_moto_0001,True,,202,24,66,0.9498,{}
+pair_009,C3_A4_4k_native,orphan,back,back_orphan_0001,True,,2,1,2,0.8413,{}
+pair_009,C3_A4_4k_native,orphan,front,front_orphan_0002,True,,2,1,2,0.8971,{}
+pair_009,C3_A4_4k_native,rider,back,back_moto_0004_rider_s0,True,,132,6,10,0.9765,"{""CROP_MOTION_BLUR_BELOW_SHARPNESS"": 1}"
+pair_009,C3_A4_4k_native,rider,front,front_moto_0001_rider_s0,True,,199,22,42,0.9085,{}
+pair_009,C4_A4_720p_none_dims_probe,motorcycle,back,back_moto_0001,False,COORDINATE_SPACE_MISMATCH_UNKNOWN_NATIVE_DIMENSIONS,13,4,0,0.0,"{""COORDINATE_SPACE_MISMATCH_UNKNOWN_NATIVE_DIMENSIONS"": 4}"
+pair_009,C4_A4_720p_none_dims_probe,motorcycle,back,back_moto_0002,False,COORDINATE_SPACE_MISMATCH_UNKNOWN_NATIVE_DIMENSIONS,1,1,0,0.0,"{""COORDINATE_SPACE_MISMATCH_UNKNOWN_NATIVE_DIMENSIONS"": 1}"
+pair_009,C4_A4_720p_none_dims_probe,motorcycle,back,back_moto_0003,False,COORDINATE_SPACE_MISMATCH_UNKNOWN_NATIVE_DIMENSIONS,1,1,0,0.0,"{""COORDINATE_SPACE_MISMATCH_UNKNOWN_NATIVE_DIMENSIONS"": 1}"
+pair_009,C4_A4_720p_none_dims_probe,motorcycle,back,back_moto_0004,False,COORDINATE_SPACE_MISMATCH_UNKNOWN_NATIVE_DIMENSIONS,199,12,0,0.0,"{""COORDINATE_SPACE_MISMATCH_UNKNOWN_NATIVE_DIMENSIONS"": 12}"
+pair_009,C4_A4_720p_none_dims_probe,motorcycle,back,back_moto_0005,False,COORDINATE_SPACE_MISMATCH_UNKNOWN_NATIVE_DIMENSIONS,44,2,0,0.0,"{""COORDINATE_SPACE_MISMATCH_UNKNOWN_NATIVE_DIMENSIONS"": 2}"
+pair_009,C4_A4_720p_none_dims_probe,motorcycle,back,back_moto_0006,True,,1,1,1,1.0,{}
+pair_009,C4_A4_720p_none_dims_probe,motorcycle,back,back_moto_0007,True,,1,1,1,1.0,{}
+pair_009,C4_A4_720p_none_dims_probe,motorcycle,back,back_moto_0008,True,,42,5,5,1.0,{}
+pair_009,C4_A4_720p_none_dims_probe,motorcycle,back,back_moto_0009,False,COORDINATE_SPACE_MISMATCH_UNKNOWN_NATIVE_DIMENSIONS,1,1,0,0.0,"{""COORDINATE_SPACE_MISMATCH_UNKNOWN_NATIVE_DIMENSIONS"": 1}"
+pair_009,C4_A4_720p_none_dims_probe,motorcycle,back,back_moto_0010,False,COORDINATE_SPACE_MISMATCH_UNKNOWN_NATIVE_DIMENSIONS,1,1,0,0.0,"{""COORDINATE_SPACE_MISMATCH_UNKNOWN_NATIVE_DIMENSIONS"": 1}"
+pair_009,C4_A4_720p_none_dims_probe,motorcycle,back,back_moto_0011,False,COORDINATE_SPACE_MISMATCH_UNKNOWN_NATIVE_DIMENSIONS,1,1,0,0.0,"{""COORDINATE_SPACE_MISMATCH_UNKNOWN_NATIVE_DIMENSIONS"": 1}"
+pair_009,C4_A4_720p_none_dims_probe,motorcycle,front,front_moto_0001,False,COORDINATE_SPACE_MISMATCH_UNKNOWN_NATIVE_DIMENSIONS,202,24,0,0.0,"{""COORDINATE_SPACE_MISMATCH_UNKNOWN_NATIVE_DIMENSIONS"": 24}"
+pair_009,C4_A4_720p_none_dims_probe,orphan,back,back_orphan_0001,False,COORDINATE_SPACE_MISMATCH_UNKNOWN_NATIVE_DIMENSIONS,2,1,0,0.0,"{""COORDINATE_SPACE_MISMATCH_UNKNOWN_NATIVE_DIMENSIONS"": 2}"
+pair_009,C4_A4_720p_none_dims_probe,orphan,front,front_orphan_0002,False,COORDINATE_SPACE_MISMATCH_UNKNOWN_NATIVE_DIMENSIONS,2,1,0,0.0,"{""COORDINATE_SPACE_MISMATCH_UNKNOWN_NATIVE_DIMENSIONS"": 2}"
+pair_009,C4_A4_720p_none_dims_probe,rider,back,back_moto_0004_rider_s0,False,COORDINATE_SPACE_MISMATCH_UNKNOWN_NATIVE_DIMENSIONS,132,6,0,0.0,"{""COORDINATE_SPACE_MISMATCH_UNKNOWN_NATIVE_DIMENSIONS"": 11}"
+pair_009,C4_A4_720p_none_dims_probe,rider,front,front_moto_0001_rider_s0,False,COORDINATE_SPACE_MISMATCH_UNKNOWN_NATIVE_DIMENSIONS,199,22,0,0.0,"{""COORDINATE_SPACE_MISMATCH_UNKNOWN_NATIVE_DIMENSIONS"": 42}"
+pair_019,C1_A0_720p_kf,motorcycle,back,back_moto_0001,True,,1,1,1,1.0,{}
+pair_019,C1_A0_720p_kf,motorcycle,back,back_moto_0002,True,,111,9,14,1.0,{}
+pair_019,C1_A0_720p_kf,motorcycle,front,front_moto_0001,True,,137,20,49,0.9618,{}
+pair_019,C1_A0_720p_kf,motorcycle,front,front_moto_0002,True,,272,5,7,1.0,{}
+pair_019,C1_A0_720p_kf,motorcycle,front,front_moto_0003,True,,47,4,8,1.0,{}
+pair_019,C1_A0_720p_kf,orphan,back,back_orphan_0001,True,,3,2,4,0.8604,{}
+pair_019,C1_A0_720p_kf,orphan,back,back_orphan_0002,True,,1,1,2,0.8507,{}
+pair_019,C1_A0_720p_kf,orphan,back,back_orphan_0003,True,,3,2,3,0.8911,"{""CROP_BELOW_MIN_RESOLUTION"": 1}"
+pair_019,C1_A0_720p_kf,orphan,back,back_orphan_0004,True,,2,1,2,0.8539,{}
+pair_019,C1_A0_720p_kf,orphan,back,back_orphan_0005,True,,1,1,2,0.957,{}
+pair_019,C1_A0_720p_kf,orphan,back,back_orphan_0006,True,,3,1,1,1.0,"{""CROP_BELOW_MIN_RESOLUTION"": 1}"
+pair_019,C1_A0_720p_kf,orphan,back,back_orphan_0007,True,,1,1,2,0.8604,{}
+pair_019,C1_A0_720p_kf,orphan,back,back_orphan_0008,True,,7,5,10,0.8436,{}
+pair_019,C1_A0_720p_kf,orphan,back,back_orphan_0009,True,,1,1,2,0.9828,{}
+pair_019,C1_A0_720p_kf,orphan,back,back_orphan_0010,True,,4,2,3,0.8911,"{""CROP_BELOW_MIN_RESOLUTION"": 1}"
+pair_019,C1_A0_720p_kf,orphan,back,back_orphan_0011,True,,31,8,16,0.883,{}
+pair_019,C1_A0_720p_kf,orphan,back,back_orphan_0012,True,,2,1,2,0.9613,{}
+pair_019,C1_A0_720p_kf,orphan,back,back_orphan_0013,True,,2,1,2,0.9699,{}
+pair_019,C1_A0_720p_kf,orphan,back,back_orphan_0014,True,,8,1,2,0.9495,{}
+pair_019,C1_A0_720p_kf,orphan,back,back_orphan_0015,True,,24,1,2,1.0,{}
+pair_019,C1_A0_720p_kf,orphan,front,front_orphan_0001,True,,2,1,1,1.0,{}
+pair_019,C1_A0_720p_kf,orphan,front,front_orphan_0002,True,,1,1,1,1.0,{}
+pair_019,C1_A0_720p_kf,orphan,front,front_orphan_0003,True,,1,1,1,1.0,{}
+pair_019,C1_A0_720p_kf,orphan,front,front_orphan_0004,True,,1,1,2,1.0,{}
+pair_019,C1_A0_720p_kf,orphan,front,front_orphan_0005,True,,1,1,1,1.0,{}
+pair_019,C1_A0_720p_kf,orphan,front,front_orphan_0006,True,,1,1,2,1.0,{}
+pair_019,C1_A0_720p_kf,orphan,front,front_orphan_0007,True,,1,1,2,1.0,{}
+pair_019,C1_A0_720p_kf,orphan,front,front_orphan_0008,True,,3,2,4,1.0,{}
+pair_019,C1_A0_720p_kf,orphan,front,front_orphan_0009,True,,1,1,2,1.0,{}
+pair_019,C1_A0_720p_kf,orphan,front,front_orphan_0010,True,,6,2,4,1.0,{}
+pair_019,C1_A0_720p_kf,rider,back,back_moto_0002_rider_s0,True,,4,3,5,1.0,"{""CROP_BELOW_MIN_RESOLUTION"": 1}"
+pair_019,C1_A0_720p_kf,rider,back,back_moto_0002_rider_s1,True,,96,3,6,1.0,{}
+pair_019,C1_A0_720p_kf,rider,front,front_moto_0001_rider_s0,True,,127,19,29,0.9237,{}
+pair_019,C1_A0_720p_kf,rider,front,front_moto_0001_rider_s1,True,,82,14,18,0.9379,{}
+pair_019,C1_A0_720p_kf,rider,front,front_moto_0001_rider_s2,True,,1,1,1,0.9527,{}
+pair_019,C1_A0_720p_kf,rider,front,front_moto_0002_rider_s0,True,,1,1,2,1.0,{}
+pair_019,C1_A0_720p_kf,rider,front,front_moto_0003_rider_s0,True,,39,2,4,1.0,{}
+pair_019,C1_A0_720p_kf,rider,front,front_moto_0003_rider_s1,True,,39,1,2,1.0,{}
+pair_019,C2_A4_720p_kf,motorcycle,back,back_moto_0001,True,,1,1,1,1.0,{}
+pair_019,C2_A4_720p_kf,motorcycle,back,back_moto_0002,True,,111,8,15,1.0,{}
+pair_019,C2_A4_720p_kf,motorcycle,front,front_moto_0001,True,,137,19,46,0.962,{}
+pair_019,C2_A4_720p_kf,motorcycle,front,front_moto_0002,True,,272,8,17,1.0,{}
+pair_019,C2_A4_720p_kf,motorcycle,front,front_moto_0003,True,,47,4,8,1.0,{}
+pair_019,C2_A4_720p_kf,orphan,back,back_orphan_0001,True,,3,2,4,0.8604,{}
+pair_019,C2_A4_720p_kf,orphan,back,back_orphan_0003,True,,3,2,3,0.8911,"{""CROP_BELOW_MIN_RESOLUTION"": 1}"
+pair_019,C2_A4_720p_kf,orphan,back,back_orphan_0007,True,,3,1,1,1.0,"{""CROP_BELOW_MIN_RESOLUTION"": 1}"
+pair_019,C2_A4_720p_kf,orphan,back,back_orphan_0009,True,,7,5,10,0.8436,{}
+pair_019,C2_A4_720p_kf,orphan,back,back_orphan_0011,True,,4,2,3,0.8911,"{""CROP_BELOW_MIN_RESOLUTION"": 1}"
+pair_019,C2_A4_720p_kf,orphan,back,back_orphan_0012,True,,31,8,16,0.8844,{}
+pair_019,C2_A4_720p_kf,orphan,back,back_orphan_0013,True,,2,1,2,0.9613,{}
+pair_019,C2_A4_720p_kf,orphan,back,back_orphan_0016,True,,8,1,2,0.9495,{}
+pair_019,C2_A4_720p_kf,orphan,back,back_orphan_0017,True,,24,1,2,1.0,{}
+pair_019,C2_A4_720p_kf,orphan,front,front_orphan_0001,True,,2,1,1,1.0,{}
+pair_019,C2_A4_720p_kf,orphan,front,front_orphan_0008,True,,3,2,4,1.0,{}
+pair_019,C2_A4_720p_kf,orphan,front,front_orphan_0010,True,,6,2,4,1.0,{}
+pair_019,C2_A4_720p_kf,rider,back,back_moto_0002_rider_s0,True,,78,4,7,1.0,"{""CROP_BELOW_MIN_RESOLUTION"": 1}"
+pair_019,C2_A4_720p_kf,rider,back,back_moto_0002_rider_s1,True,,53,2,2,1.0,{}
+pair_019,C2_A4_720p_kf,rider,front,front_moto_0001_rider_s0,True,,128,18,27,0.9239,{}
+pair_019,C2_A4_720p_kf,rider,front,front_moto_0001_rider_s1,True,,78,12,17,0.9526,{}
+pair_019,C2_A4_720p_kf,rider,front,front_moto_0002_rider_s0,True,,2,2,3,1.0,{}
+pair_019,C2_A4_720p_kf,rider,front,front_moto_0002_rider_s1,True,,4,1,2,1.0,{}
+pair_019,C2_A4_720p_kf,rider,front,front_moto_0002_rider_s2,True,,259,5,9,1.0,{}
+pair_019,C2_A4_720p_kf,rider,front,front_moto_0003_rider_s0,True,,39,2,4,1.0,{}
+pair_019,C2_A4_720p_kf,rider,front,front_moto_0003_rider_s1,True,,39,1,2,1.0,{}
+pair_019,C3_A4_4k_native,motorcycle,back,back_moto_0001,True,,1,1,1,1.0,{}
+pair_019,C3_A4_4k_native,motorcycle,back,back_moto_0002,True,,111,8,16,0.9949,{}
+pair_019,C3_A4_4k_native,motorcycle,front,front_moto_0001,True,,137,19,46,0.9933,{}
+pair_019,C3_A4_4k_native,motorcycle,front,front_moto_0002,True,,272,8,15,0.9574,{}
+pair_019,C3_A4_4k_native,motorcycle,front,front_moto_0003,True,,47,4,8,1.0,{}
+pair_019,C3_A4_4k_native,orphan,back,back_orphan_0001,True,,3,2,4,0.9199,{}
+pair_019,C3_A4_4k_native,orphan,back,back_orphan_0003,True,,3,2,4,0.8762,{}
+pair_019,C3_A4_4k_native,orphan,back,back_orphan_0007,True,,3,1,2,0.8694,{}
+pair_019,C3_A4_4k_native,orphan,back,back_orphan_0009,True,,7,5,10,0.8941,{}
+pair_019,C3_A4_4k_native,orphan,back,back_orphan_0011,True,,4,2,4,0.8672,{}
+pair_019,C3_A4_4k_native,orphan,back,back_orphan_0012,True,,31,8,16,0.9566,{}
+pair_019,C3_A4_4k_native,orphan,back,back_orphan_0013,True,,2,1,2,1.0,{}
+pair_019,C3_A4_4k_native,orphan,back,back_orphan_0016,True,,8,1,2,1.0,{}
+pair_019,C3_A4_4k_native,orphan,back,back_orphan_0017,True,,24,1,2,0.9553,{}
+pair_019,C3_A4_4k_native,orphan,front,front_orphan_0001,True,,2,1,1,1.0,{}
+pair_019,C3_A4_4k_native,orphan,front,front_orphan_0008,True,,3,2,4,1.0,{}
+pair_019,C3_A4_4k_native,orphan,front,front_orphan_0010,True,,6,2,4,1.0,{}
+pair_019,C3_A4_4k_native,rider,back,back_moto_0002_rider_s0,True,,78,4,8,1.0,{}
+pair_019,C3_A4_4k_native,rider,back,back_moto_0002_rider_s1,True,,53,2,2,1.0,{}
+pair_019,C3_A4_4k_native,rider,front,front_moto_0001_rider_s0,True,,128,18,27,0.9866,{}
+pair_019,C3_A4_4k_native,rider,front,front_moto_0001_rider_s1,True,,78,12,17,1.0,{}
+pair_019,C3_A4_4k_native,rider,front,front_moto_0002_rider_s0,True,,2,2,3,1.0,{}
+pair_019,C3_A4_4k_native,rider,front,front_moto_0002_rider_s1,True,,4,1,2,1.0,{}
+pair_019,C3_A4_4k_native,rider,front,front_moto_0002_rider_s2,True,,259,5,7,0.9149,"{""CROP_MOTION_BLUR_BELOW_SHARPNESS"": 2}"
+pair_019,C3_A4_4k_native,rider,front,front_moto_0003_rider_s0,True,,39,2,4,1.0,{}
+pair_019,C3_A4_4k_native,rider,front,front_moto_0003_rider_s1,True,,39,1,2,1.0,{}
+pair_019,C4_A4_720p_none_dims_probe,motorcycle,back,back_moto_0001,False,COORDINATE_SPACE_MISMATCH_UNKNOWN_NATIVE_DIMENSIONS,1,1,0,0.0,"{""COORDINATE_SPACE_MISMATCH_UNKNOWN_NATIVE_DIMENSIONS"": 1}"
+pair_019,C4_A4_720p_none_dims_probe,motorcycle,back,back_moto_0002,False,COORDINATE_SPACE_MISMATCH_UNKNOWN_NATIVE_DIMENSIONS,111,8,0,0.0,"{""COORDINATE_SPACE_MISMATCH_UNKNOWN_NATIVE_DIMENSIONS"": 8}"
+pair_019,C4_A4_720p_none_dims_probe,motorcycle,front,front_moto_0001,False,COORDINATE_SPACE_MISMATCH_UNKNOWN_NATIVE_DIMENSIONS,137,19,0,0.0,"{""COORDINATE_SPACE_MISMATCH_UNKNOWN_NATIVE_DIMENSIONS"": 19}"
+pair_019,C4_A4_720p_none_dims_probe,motorcycle,front,front_moto_0002,False,COORDINATE_SPACE_MISMATCH_UNKNOWN_NATIVE_DIMENSIONS,272,8,0,0.0,"{""COORDINATE_SPACE_MISMATCH_UNKNOWN_NATIVE_DIMENSIONS"": 8}"
+pair_019,C4_A4_720p_none_dims_probe,motorcycle,front,front_moto_0003,False,COORDINATE_SPACE_MISMATCH_UNKNOWN_NATIVE_DIMENSIONS,47,4,0,0.0,"{""COORDINATE_SPACE_MISMATCH_UNKNOWN_NATIVE_DIMENSIONS"": 4}"
+pair_019,C4_A4_720p_none_dims_probe,orphan,back,back_orphan_0001,False,COORDINATE_SPACE_MISMATCH_UNKNOWN_NATIVE_DIMENSIONS,3,2,0,0.0,"{""COORDINATE_SPACE_MISMATCH_UNKNOWN_NATIVE_DIMENSIONS"": 4}"
+pair_019,C4_A4_720p_none_dims_probe,orphan,back,back_orphan_0003,False,COORDINATE_SPACE_MISMATCH_UNKNOWN_NATIVE_DIMENSIONS,3,2,0,0.0,"{""COORDINATE_SPACE_MISMATCH_UNKNOWN_NATIVE_DIMENSIONS"": 4}"
+pair_019,C4_A4_720p_none_dims_probe,orphan,back,back_orphan_0007,False,COORDINATE_SPACE_MISMATCH_UNKNOWN_NATIVE_DIMENSIONS,3,1,0,0.0,"{""COORDINATE_SPACE_MISMATCH_UNKNOWN_NATIVE_DIMENSIONS"": 2}"
+pair_019,C4_A4_720p_none_dims_probe,orphan,back,back_orphan_0009,False,COORDINATE_SPACE_MISMATCH_UNKNOWN_NATIVE_DIMENSIONS,7,5,0,0.0,"{""COORDINATE_SPACE_MISMATCH_UNKNOWN_NATIVE_DIMENSIONS"": 10}"
+pair_019,C4_A4_720p_none_dims_probe,orphan,back,back_orphan_0011,False,COORDINATE_SPACE_MISMATCH_UNKNOWN_NATIVE_DIMENSIONS,4,2,0,0.0,"{""COORDINATE_SPACE_MISMATCH_UNKNOWN_NATIVE_DIMENSIONS"": 4}"
+pair_019,C4_A4_720p_none_dims_probe,orphan,back,back_orphan_0012,False,COORDINATE_SPACE_MISMATCH_UNKNOWN_NATIVE_DIMENSIONS,31,8,0,0.0,"{""COORDINATE_SPACE_MISMATCH_UNKNOWN_NATIVE_DIMENSIONS"": 16}"
+pair_019,C4_A4_720p_none_dims_probe,orphan,back,back_orphan_0013,False,COORDINATE_SPACE_MISMATCH_UNKNOWN_NATIVE_DIMENSIONS,2,1,0,0.0,"{""COORDINATE_SPACE_MISMATCH_UNKNOWN_NATIVE_DIMENSIONS"": 2}"
+pair_019,C4_A4_720p_none_dims_probe,orphan,back,back_orphan_0016,False,COORDINATE_SPACE_MISMATCH_UNKNOWN_NATIVE_DIMENSIONS,8,1,0,0.0,"{""COORDINATE_SPACE_MISMATCH_UNKNOWN_NATIVE_DIMENSIONS"": 2}"
+pair_019,C4_A4_720p_none_dims_probe,orphan,back,back_orphan_0017,False,COORDINATE_SPACE_MISMATCH_UNKNOWN_NATIVE_DIMENSIONS,24,1,0,0.0,"{""COORDINATE_SPACE_MISMATCH_UNKNOWN_NATIVE_DIMENSIONS"": 2}"
+pair_019,C4_A4_720p_none_dims_probe,orphan,front,front_orphan_0001,False,COORDINATE_SPACE_MISMATCH_UNKNOWN_NATIVE_DIMENSIONS,2,1,0,0.0,"{""COORDINATE_SPACE_MISMATCH_UNKNOWN_NATIVE_DIMENSIONS"": 1}"
+pair_019,C4_A4_720p_none_dims_probe,orphan,front,front_orphan_0008,False,COORDINATE_SPACE_MISMATCH_UNKNOWN_NATIVE_DIMENSIONS,3,2,0,0.0,"{""COORDINATE_SPACE_MISMATCH_UNKNOWN_NATIVE_DIMENSIONS"": 4}"
+pair_019,C4_A4_720p_none_dims_probe,orphan,front,front_orphan_0010,False,COORDINATE_SPACE_MISMATCH_UNKNOWN_NATIVE_DIMENSIONS,6,2,0,0.0,"{""COORDINATE_SPACE_MISMATCH_UNKNOWN_NATIVE_DIMENSIONS"": 4}"
+pair_019,C4_A4_720p_none_dims_probe,rider,back,back_moto_0002_rider_s0,False,COORDINATE_SPACE_MISMATCH_UNKNOWN_NATIVE_DIMENSIONS,78,4,0,0.0,"{""COORDINATE_SPACE_MISMATCH_UNKNOWN_NATIVE_DIMENSIONS"": 8}"
+pair_019,C4_A4_720p_none_dims_probe,rider,back,back_moto_0002_rider_s1,False,COORDINATE_SPACE_MISMATCH_UNKNOWN_NATIVE_DIMENSIONS,53,2,0,0.0,"{""COORDINATE_SPACE_MISMATCH_UNKNOWN_NATIVE_DIMENSIONS"": 2}"
+pair_019,C4_A4_720p_none_dims_probe,rider,front,front_moto_0001_rider_s0,False,COORDINATE_SPACE_MISMATCH_UNKNOWN_NATIVE_DIMENSIONS,128,18,0,0.0,"{""COORDINATE_SPACE_MISMATCH_UNKNOWN_NATIVE_DIMENSIONS"": 27}"
+pair_019,C4_A4_720p_none_dims_probe,rider,front,front_moto_0001_rider_s1,False,COORDINATE_SPACE_MISMATCH_UNKNOWN_NATIVE_DIMENSIONS,78,12,0,0.0,"{""COORDINATE_SPACE_MISMATCH_UNKNOWN_NATIVE_DIMENSIONS"": 17}"
+pair_019,C4_A4_720p_none_dims_probe,rider,front,front_moto_0002_rider_s0,False,COORDINATE_SPACE_MISMATCH_UNKNOWN_NATIVE_DIMENSIONS,2,2,0,0.0,"{""COORDINATE_SPACE_MISMATCH_UNKNOWN_NATIVE_DIMENSIONS"": 3}"
+pair_019,C4_A4_720p_none_dims_probe,rider,front,front_moto_0002_rider_s1,False,COORDINATE_SPACE_MISMATCH_UNKNOWN_NATIVE_DIMENSIONS,4,1,0,0.0,"{""COORDINATE_SPACE_MISMATCH_UNKNOWN_NATIVE_DIMENSIONS"": 2}"
+pair_019,C4_A4_720p_none_dims_probe,rider,front,front_moto_0002_rider_s2,False,COORDINATE_SPACE_MISMATCH_UNKNOWN_NATIVE_DIMENSIONS,259,5,0,0.0,"{""COORDINATE_SPACE_MISMATCH_UNKNOWN_NATIVE_DIMENSIONS"": 9}"
+pair_019,C4_A4_720p_none_dims_probe,rider,front,front_moto_0003_rider_s0,False,COORDINATE_SPACE_MISMATCH_UNKNOWN_NATIVE_DIMENSIONS,39,2,0,0.0,"{""COORDINATE_SPACE_MISMATCH_UNKNOWN_NATIVE_DIMENSIONS"": 4}"
+pair_019,C4_A4_720p_none_dims_probe,rider,front,front_moto_0003_rider_s1,False,COORDINATE_SPACE_MISMATCH_UNKNOWN_NATIVE_DIMENSIONS,39,1,0,0.0,"{""COORDINATE_SPACE_MISMATCH_UNKNOWN_NATIVE_DIMENSIONS"": 2}"

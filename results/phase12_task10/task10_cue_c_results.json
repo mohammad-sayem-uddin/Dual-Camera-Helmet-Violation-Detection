@@ -1,0 +1,3832 @@
+{
+  "task": "TASK-10 Bounded Real-Video Validation of Appearance Cue C",
+  "design_reference": "docs/phase12/ARGON_TASK10_CUE_C_EXPERIMENT_DESIGN.md",
+  "bounded_pairs": [
+    "pair_005",
+    "pair_008",
+    "pair_009",
+    "pair_019"
+  ],
+  "keyframe_config": {
+    "stride": 3,
+    "max_per_camera": 24,
+    "max_width_px": 1280
+  },
+  "runtime": {
+    "wall_sec": 17.279,
+    "peak_rss_mb": 1806.03
+  },
+  "stagej_pre_gapb_baseline": {
+    "motorcycle": {
+      "available": 2,
+      "total": 21,
+      "rate": 0.0952
+    },
+    "rider": {
+      "available": 3,
+      "total": 16,
+      "rate": 0.1875
+    },
+    "orphan": {
+      "available": 1,
+      "total": 38,
+      "rate": 0.0263
+    },
+    "all_entities": {
+      "available": 6,
+      "total": 75,
+      "rate": 0.08
+    }
+  },
+  "boundary_findings": {
+    "pair_005_knife_edge_4k_false_link": true,
+    "pair_005_detail": {
+      "c0_composite": 0.6192,
+      "c2_composite_720p": 0.6197,
+      "c3_composite_4k": 0.6203,
+      "c0_outcome": "NOT_MATCHED",
+      "c2_outcome": "NOT_MATCHED",
+      "c3_outcome": "LINKED",
+      "cue_c_720p": 0.6216,
+      "cue_c_4k": 0.6253
+    },
+    "note": "Raw uncalibrated HSV+achromatic Bhattacharyya similarity (~0.6253 vs negative mean ~0.6641) nudged borderline pair_005 from 0.6192 (UNMATCHED) to 0.6197 in C2 (720p, still UNMATCHED) and 0.6203 in C3 (4K, crossing min_association_score=0.62 by +0.0003 into a false LINKED)."
+  },
+  "aggregate_arms": {
+    "C0_A4_no_cue_c": {
+      "by_entity_type": {
+        "motorcycle": {
+          "total": 21,
+          "available": 0,
+          "availability_rate": 0.0,
+          "mean_crop_quality_when_available": 0.0,
+          "unavailable_reasons": {
+            "NO_FRAME_IMAGES_PROVIDED": 21
+          },
+          "crop_rejection_counts": {}
+        },
+        "rider": {
+          "total": 17,
+          "available": 0,
+          "availability_rate": 0.0,
+          "mean_crop_quality_when_available": 0.0,
+          "unavailable_reasons": {
+            "NO_FRAME_IMAGES_PROVIDED": 17
+          },
+          "crop_rejection_counts": {}
+        },
+        "orphan": {
+          "total": 17,
+          "available": 0,
+          "availability_rate": 0.0,
+          "mean_crop_quality_when_available": 0.0,
+          "unavailable_reasons": {
+            "NO_FRAME_IMAGES_PROVIDED": 17
+          },
+          "crop_rejection_counts": {}
+        }
+      },
+      "total_unavailable_reasons": {
+        "NO_FRAME_IMAGES_PROVIDED": 55
+      },
+      "total_crop_rejection_counts": {}
+    },
+    "C1_A0_720p_kf": {
+      "by_entity_type": {
+        "motorcycle": {
+          "total": 21,
+          "available": 21,
+          "availability_rate": 1.0,
+          "mean_crop_quality_when_available": 0.9946,
+          "unavailable_reasons": {},
+          "crop_rejection_counts": {}
+        },
+        "rider": {
+          "total": 16,
+          "available": 16,
+          "availability_rate": 1.0,
+          "mean_crop_quality_when_available": 0.9791,
+          "unavailable_reasons": {},
+          "crop_rejection_counts": {
+            "CROP_BELOW_MIN_RESOLUTION": 1
+          }
+        },
+        "orphan": {
+          "total": 38,
+          "available": 38,
+          "availability_rate": 1.0,
+          "mean_crop_quality_when_available": 0.9624,
+          "unavailable_reasons": {},
+          "crop_rejection_counts": {
+            "CROP_BELOW_MIN_RESOLUTION": 3
+          }
+        }
+      },
+      "total_unavailable_reasons": {},
+      "total_crop_rejection_counts": {
+        "CROP_BELOW_MIN_RESOLUTION": 4
+      }
+    },
+    "C2_A4_720p_kf": {
+      "by_entity_type": {
+        "motorcycle": {
+          "total": 21,
+          "available": 21,
+          "availability_rate": 1.0,
+          "mean_crop_quality_when_available": 0.9932,
+          "unavailable_reasons": {},
+          "crop_rejection_counts": {}
+        },
+        "rider": {
+          "total": 17,
+          "available": 17,
+          "availability_rate": 1.0,
+          "mean_crop_quality_when_available": 0.9804,
+          "unavailable_reasons": {},
+          "crop_rejection_counts": {
+            "CROP_BELOW_MIN_RESOLUTION": 1
+          }
+        },
+        "orphan": {
+          "total": 17,
+          "available": 17,
+          "availability_rate": 1.0,
+          "mean_crop_quality_when_available": 0.9573,
+          "unavailable_reasons": {},
+          "crop_rejection_counts": {
+            "CROP_BELOW_MIN_RESOLUTION": 3
+          }
+        }
+      },
+      "total_unavailable_reasons": {},
+      "total_crop_rejection_counts": {
+        "CROP_BELOW_MIN_RESOLUTION": 4
+      }
+    },
+    "C3_A4_4k_native": {
+      "by_entity_type": {
+        "motorcycle": {
+          "total": 21,
+          "available": 21,
+          "availability_rate": 1.0,
+          "mean_crop_quality_when_available": 0.9889,
+          "unavailable_reasons": {},
+          "crop_rejection_counts": {
+            "CROP_MOTION_BLUR_BELOW_SHARPNESS": 1
+          }
+        },
+        "rider": {
+          "total": 17,
+          "available": 17,
+          "availability_rate": 1.0,
+          "mean_crop_quality_when_available": 0.9812,
+          "unavailable_reasons": {},
+          "crop_rejection_counts": {
+            "CROP_MOTION_BLUR_BELOW_SHARPNESS": 3
+          }
+        },
+        "orphan": {
+          "total": 17,
+          "available": 17,
+          "availability_rate": 1.0,
+          "mean_crop_quality_when_available": 0.939,
+          "unavailable_reasons": {},
+          "crop_rejection_counts": {}
+        }
+      },
+      "total_unavailable_reasons": {},
+      "total_crop_rejection_counts": {
+        "CROP_MOTION_BLUR_BELOW_SHARPNESS": 4
+      }
+    },
+    "C4_A4_720p_none_dims_probe": {
+      "by_entity_type": {
+        "motorcycle": {
+          "total": 21,
+          "available": 3,
+          "availability_rate": 0.1429,
+          "mean_crop_quality_when_available": 1.0,
+          "unavailable_reasons": {
+            "COORDINATE_SPACE_MISMATCH_UNKNOWN_NATIVE_DIMENSIONS": 18
+          },
+          "crop_rejection_counts": {
+            "COORDINATE_SPACE_MISMATCH_UNKNOWN_NATIVE_DIMENSIONS": 178
+          }
+        },
+        "rider": {
+          "total": 17,
+          "available": 0,
+          "availability_rate": 0.0,
+          "mean_crop_quality_when_available": 0.0,
+          "unavailable_reasons": {
+            "COORDINATE_SPACE_MISMATCH_UNKNOWN_NATIVE_DIMENSIONS": 17
+          },
+          "crop_rejection_counts": {
+            "COORDINATE_SPACE_MISMATCH_UNKNOWN_NATIVE_DIMENSIONS": 275
+          }
+        },
+        "orphan": {
+          "total": 17,
+          "available": 0,
+          "availability_rate": 0.0,
+          "mean_crop_quality_when_available": 0.0,
+          "unavailable_reasons": {
+            "COORDINATE_SPACE_MISMATCH_UNKNOWN_NATIVE_DIMENSIONS": 17
+          },
+          "crop_rejection_counts": {
+            "COORDINATE_SPACE_MISMATCH_UNKNOWN_NATIVE_DIMENSIONS": 68
+          }
+        }
+      },
+      "total_unavailable_reasons": {
+        "COORDINATE_SPACE_MISMATCH_UNKNOWN_NATIVE_DIMENSIONS": 52
+      },
+      "total_crop_rejection_counts": {
+        "COORDINATE_SPACE_MISMATCH_UNKNOWN_NATIVE_DIMENSIONS": 521
+      }
+    }
+  },
+  "resolution_invariance_summary": {
+    "comparable_tracklets_both_available": 55,
+    "mean_composite_self_similarity_720p_vs_4k": 0.9971,
+    "min_composite_self_similarity_720p_vs_4k": 0.9857,
+    "mean_abs_pairwise_cue_c_diff_720_vs_4k": 0.0083,
+    "max_abs_pairwise_cue_c_diff_720_vs_4k": 0.0278
+  },
+  "opposing_view_discrimination_summary": {
+    "positive_pairs_count_720p": 5,
+    "positive_mean_720p": 0.7223,
+    "positive_median_720p": 0.7426,
+    "negative_pairs_count_720p": 20,
+    "negative_mean_720p": 0.6641,
+    "negative_median_720p": 0.7306,
+    "positive_mean_4k": 0.7215,
+    "negative_mean_4k": 0.665
+  },
+  "checks": {
+    "bounded_4_pairs_8_streams": true,
+    "all_streams_within_24_keyframe_cap": true,
+    "all_streams_pts_sequential_decode_exact": true,
+    "zero_out_of_frame_in_c2_720p": true,
+    "zero_out_of_frame_in_c3_4k": true,
+    "zero_unknown_dims_mismatch_in_c2_and_c3": true,
+    "unknown_dims_probe_c4_caught_mismatch": true,
+    "zero_non_finite_scores_all_arms": true,
+    "mean_720p_vs_4k_self_similarity_ge_0_85": true,
+    "gt_links_preserved_c2_and_c3": true,
+    "production_c2_720p_zero_false_links_on_pair005": true
+  },
+  "all_checks_passed": true,
+  "pairs": [
+    {
+      "pair_id": "pair_005",
+      "keyframe_retention": {
+        "front_a0_retained_count": 24,
+        "back_a0_retained_count": 24,
+        "front_a4_retained_count": 24,
+        "back_a4_retained_count": 24,
+        "front_a4_keyframes": [
+          0,
+          3,
+          6,
+          9,
+          12,
+          15,
+          18,
+          21,
+          24,
+          27,
+          30,
+          33,
+          36,
+          39,
+          42,
+          45,
+          48,
+          51,
+          54,
+          57,
+          60,
+          63,
+          131,
+          164
+        ],
+        "back_a4_keyframes": [
+          216,
+          219,
+          220,
+          222,
+          225,
+          228,
+          231,
+          234,
+          237,
+          240,
+          243,
+          246,
+          249,
+          252,
+          255,
+          258,
+          261,
+          264,
+          267,
+          270,
+          273,
+          276,
+          279,
+          282
+        ]
+      },
+      "decode_stats": {
+        "front": {
+          "pair_id": "pair_005",
+          "camera": "front",
+          "video_path": "data/dual_camera_test_v1/front/pair_005_front.mp4",
+          "native_width": 3840,
+          "native_height": 2160,
+          "keyframe_width": 1280,
+          "keyframe_height": 720,
+          "container_frame_count": 206,
+          "is_vfr": false,
+          "pts_index_frames": 206,
+          "unique_keyframes_decoded": 24,
+          "decode_call_count": 24,
+          "cache_hit_count": 0
+        },
+        "back": {
+          "pair_id": "pair_005",
+          "camera": "back",
+          "video_path": "data/dual_camera_test_v1/back/pair_005_back.mp4",
+          "native_width": 3840,
+          "native_height": 2160,
+          "keyframe_width": 1280,
+          "keyframe_height": 720,
+          "container_frame_count": 352,
+          "is_vfr": false,
+          "pts_index_frames": 352,
+          "unique_keyframes_decoded": 24,
+          "decode_call_count": 24,
+          "cache_hit_count": 0
+        }
+      },
+      "arm_summaries": {
+        "C0_A4_no_cue_c": {
+          "by_entity_type": {
+            "motorcycle": {
+              "total": 2,
+              "available": 0,
+              "availability_rate": 0.0,
+              "mean_valid_crops": 0.0,
+              "mean_crop_quality_when_available": 0.0,
+              "unavailable_reasons": {
+                "NO_FRAME_IMAGES_PROVIDED": 2
+              },
+              "crop_rejection_counts": {}
+            },
+            "rider": {
+              "total": 2,
+              "available": 0,
+              "availability_rate": 0.0,
+              "mean_valid_crops": 0.0,
+              "mean_crop_quality_when_available": 0.0,
+              "unavailable_reasons": {
+                "NO_FRAME_IMAGES_PROVIDED": 2
+              },
+              "crop_rejection_counts": {}
+            },
+            "orphan": {
+              "total": 1,
+              "available": 0,
+              "availability_rate": 0.0,
+              "mean_valid_crops": 0.0,
+              "mean_crop_quality_when_available": 0.0,
+              "unavailable_reasons": {
+                "NO_FRAME_IMAGES_PROVIDED": 1
+              },
+              "crop_rejection_counts": {}
+            }
+          },
+          "total_unavailable_reasons": {
+            "NO_FRAME_IMAGES_PROVIDED": 5
+          },
+          "total_crop_rejection_counts": {}
+        },
+        "C1_A0_720p_kf": {
+          "by_entity_type": {
+            "motorcycle": {
+              "total": 2,
+              "available": 2,
+              "availability_rate": 1.0,
+              "mean_valid_crops": 47.0,
+              "mean_crop_quality_when_available": 1.0,
+              "unavailable_reasons": {},
+              "crop_rejection_counts": {}
+            },
+            "rider": {
+              "total": 2,
+              "available": 2,
+              "availability_rate": 1.0,
+              "mean_valid_crops": 23.0,
+              "mean_crop_quality_when_available": 1.0,
+              "unavailable_reasons": {},
+              "crop_rejection_counts": {}
+            },
+            "orphan": {
+              "total": 2,
+              "available": 2,
+              "availability_rate": 1.0,
+              "mean_valid_crops": 2.0,
+              "mean_crop_quality_when_available": 1.0,
+              "unavailable_reasons": {},
+              "crop_rejection_counts": {}
+            }
+          },
+          "total_unavailable_reasons": {},
+          "total_crop_rejection_counts": {}
+        },
+        "C2_A4_720p_kf": {
+          "by_entity_type": {
+            "motorcycle": {
+              "total": 2,
+              "available": 2,
+              "availability_rate": 1.0,
+              "mean_valid_crops": 63.0,
+              "mean_crop_quality_when_available": 1.0,
+              "unavailable_reasons": {},
+              "crop_rejection_counts": {}
+            },
+            "rider": {
+              "total": 2,
+              "available": 2,
+              "availability_rate": 1.0,
+              "mean_valid_crops": 39.0,
+              "mean_crop_quality_when_available": 1.0,
+              "unavailable_reasons": {},
+              "crop_rejection_counts": {}
+            },
+            "orphan": {
+              "total": 1,
+              "available": 1,
+              "availability_rate": 1.0,
+              "mean_valid_crops": 2.0,
+              "mean_crop_quality_when_available": 1.0,
+              "unavailable_reasons": {},
+              "crop_rejection_counts": {}
+            }
+          },
+          "total_unavailable_reasons": {},
+          "total_crop_rejection_counts": {}
+        },
+        "C3_A4_4k_native": {
+          "by_entity_type": {
+            "motorcycle": {
+              "total": 2,
+              "available": 2,
+              "availability_rate": 1.0,
+              "mean_valid_crops": 62.5,
+              "mean_crop_quality_when_available": 0.9779,
+              "unavailable_reasons": {},
+              "crop_rejection_counts": {
+                "CROP_MOTION_BLUR_BELOW_SHARPNESS": 1
+              }
+            },
+            "rider": {
+              "total": 2,
+              "available": 2,
+              "availability_rate": 1.0,
+              "mean_valid_crops": 39.0,
+              "mean_crop_quality_when_available": 0.998,
+              "unavailable_reasons": {},
+              "crop_rejection_counts": {}
+            },
+            "orphan": {
+              "total": 1,
+              "available": 1,
+              "availability_rate": 1.0,
+              "mean_valid_crops": 2.0,
+              "mean_crop_quality_when_available": 1.0,
+              "unavailable_reasons": {},
+              "crop_rejection_counts": {}
+            }
+          },
+          "total_unavailable_reasons": {},
+          "total_crop_rejection_counts": {
+            "CROP_MOTION_BLUR_BELOW_SHARPNESS": 1
+          }
+        },
+        "C4_A4_720p_none_dims_probe": {
+          "by_entity_type": {
+            "motorcycle": {
+              "total": 2,
+              "available": 0,
+              "availability_rate": 0.0,
+              "mean_valid_crops": 0.0,
+              "mean_crop_quality_when_available": 0.0,
+              "unavailable_reasons": {
+                "COORDINATE_SPACE_MISMATCH_UNKNOWN_NATIVE_DIMENSIONS": 2
+              },
+              "crop_rejection_counts": {
+                "COORDINATE_SPACE_MISMATCH_UNKNOWN_NATIVE_DIMENSIONS": 48
+              }
+            },
+            "rider": {
+              "total": 2,
+              "available": 0,
+              "availability_rate": 0.0,
+              "mean_valid_crops": 0.0,
+              "mean_crop_quality_when_available": 0.0,
+              "unavailable_reasons": {
+                "COORDINATE_SPACE_MISMATCH_UNKNOWN_NATIVE_DIMENSIONS": 2
+              },
+              "crop_rejection_counts": {
+                "COORDINATE_SPACE_MISMATCH_UNKNOWN_NATIVE_DIMENSIONS": 78
+              }
+            },
+            "orphan": {
+              "total": 1,
+              "available": 0,
+              "availability_rate": 0.0,
+              "mean_valid_crops": 0.0,
+              "mean_crop_quality_when_available": 0.0,
+              "unavailable_reasons": {
+                "COORDINATE_SPACE_MISMATCH_UNKNOWN_NATIVE_DIMENSIONS": 1
+              },
+              "crop_rejection_counts": {
+                "COORDINATE_SPACE_MISMATCH_UNKNOWN_NATIVE_DIMENSIONS": 2
+              }
+            }
+          },
+          "total_unavailable_reasons": {
+            "COORDINATE_SPACE_MISMATCH_UNKNOWN_NATIVE_DIMENSIONS": 5
+          },
+          "total_crop_rejection_counts": {
+            "COORDINATE_SPACE_MISMATCH_UNKNOWN_NATIVE_DIMENSIONS": 128
+          }
+        }
+      },
+      "outcome_counts": {
+        "C0_A4_no_cue_c": {
+          "motorcycle": {
+            "AMBIGUOUS_ABSTAIN": 0,
+            "INSUFFICIENT_EVIDENCE": 0,
+            "LINKED": 0,
+            "UNMATCHED": 2
+          },
+          "rider": {
+            "AMBIGUOUS_ABSTAIN": 0,
+            "INSUFFICIENT_EVIDENCE": 0,
+            "LINKED": 0,
+            "UNMATCHED": 0
+          },
+          "orphan": {
+            "AMBIGUOUS_ABSTAIN": 0,
+            "INSUFFICIENT_EVIDENCE": 0,
+            "LINKED": 0,
+            "UNMATCHED": 1
+          }
+        },
+        "C1_A0_720p_kf": {
+          "motorcycle": {
+            "AMBIGUOUS_ABSTAIN": 0,
+            "INSUFFICIENT_EVIDENCE": 0,
+            "LINKED": 1,
+            "UNMATCHED": 0
+          },
+          "rider": {
+            "AMBIGUOUS_ABSTAIN": 0,
+            "INSUFFICIENT_EVIDENCE": 1,
+            "LINKED": 0,
+            "UNMATCHED": 0
+          },
+          "orphan": {
+            "AMBIGUOUS_ABSTAIN": 0,
+            "INSUFFICIENT_EVIDENCE": 1,
+            "LINKED": 0,
+            "UNMATCHED": 1
+          }
+        },
+        "C2_A4_720p_kf": {
+          "motorcycle": {
+            "AMBIGUOUS_ABSTAIN": 0,
+            "INSUFFICIENT_EVIDENCE": 0,
+            "LINKED": 0,
+            "UNMATCHED": 2
+          },
+          "rider": {
+            "AMBIGUOUS_ABSTAIN": 0,
+            "INSUFFICIENT_EVIDENCE": 0,
+            "LINKED": 0,
+            "UNMATCHED": 0
+          },
+          "orphan": {
+            "AMBIGUOUS_ABSTAIN": 0,
+            "INSUFFICIENT_EVIDENCE": 0,
+            "LINKED": 0,
+            "UNMATCHED": 1
+          }
+        },
+        "C3_A4_4k_native": {
+          "motorcycle": {
+            "AMBIGUOUS_ABSTAIN": 0,
+            "INSUFFICIENT_EVIDENCE": 0,
+            "LINKED": 1,
+            "UNMATCHED": 0
+          },
+          "rider": {
+            "AMBIGUOUS_ABSTAIN": 0,
+            "INSUFFICIENT_EVIDENCE": 0,
+            "LINKED": 1,
+            "UNMATCHED": 0
+          },
+          "orphan": {
+            "AMBIGUOUS_ABSTAIN": 0,
+            "INSUFFICIENT_EVIDENCE": 0,
+            "LINKED": 0,
+            "UNMATCHED": 1
+          }
+        },
+        "C4_A4_720p_none_dims_probe": {
+          "motorcycle": {
+            "AMBIGUOUS_ABSTAIN": 0,
+            "INSUFFICIENT_EVIDENCE": 0,
+            "LINKED": 0,
+            "UNMATCHED": 2
+          },
+          "rider": {
+            "AMBIGUOUS_ABSTAIN": 0,
+            "INSUFFICIENT_EVIDENCE": 0,
+            "LINKED": 0,
+            "UNMATCHED": 0
+          },
+          "orphan": {
+            "AMBIGUOUS_ABSTAIN": 0,
+            "INSUFFICIENT_EVIDENCE": 0,
+            "LINKED": 0,
+            "UNMATCHED": 1
+          }
+        }
+      },
+      "non_finite_score_counts": {
+        "C0_A4_no_cue_c": 0,
+        "C1_A0_720p_kf": 0,
+        "C2_A4_720p_kf": 0,
+        "C3_A4_4k_native": 0,
+        "C4_A4_720p_none_dims_probe": 0
+      },
+      "resolution_self_similarity": [
+        {
+          "pair_id": "pair_005",
+          "entity_type": "motorcycle",
+          "camera_id": "back",
+          "track_id": "back_moto_0001",
+          "720p_available": true,
+          "4k_available": true,
+          "720p_quality": 1.0,
+          "4k_quality": 0.9595,
+          "720p_valid_crops": 57,
+          "4k_valid_crops": 56,
+          "both_available": true,
+          "reason": null,
+          "composite_self_similarity": 0.9992,
+          "chassis_self_similarity": 0.9972,
+          "cranial_self_similarity": 0.9998,
+          "torso_self_similarity": 1.0,
+          "zone_scores": {
+            "cranial_cap": 0.9998,
+            "upper_torso": 1.0,
+            "moto_chassis": 0.9972
+          }
+        },
+        {
+          "pair_id": "pair_005",
+          "entity_type": "motorcycle",
+          "camera_id": "front",
+          "track_id": "front_moto_0001",
+          "720p_available": true,
+          "4k_available": true,
+          "720p_quality": 1.0,
+          "4k_quality": 0.9962,
+          "720p_valid_crops": 69,
+          "4k_valid_crops": 69,
+          "both_available": true,
+          "reason": null,
+          "composite_self_similarity": 0.9997,
+          "chassis_self_similarity": 0.9999,
+          "cranial_self_similarity": 0.9991,
+          "torso_self_similarity": 0.9999,
+          "zone_scores": {
+            "cranial_cap": 0.9991,
+            "upper_torso": 0.9999,
+            "moto_chassis": 0.9999
+          }
+        },
+        {
+          "pair_id": "pair_005",
+          "entity_type": "orphan",
+          "camera_id": "front",
+          "track_id": "front_orphan_0002",
+          "720p_available": true,
+          "4k_available": true,
+          "720p_quality": 1.0,
+          "4k_quality": 1.0,
+          "720p_valid_crops": 2,
+          "4k_valid_crops": 2,
+          "both_available": true,
+          "reason": null,
+          "composite_self_similarity": 0.9997,
+          "chassis_self_similarity": null,
+          "cranial_self_similarity": 0.9994,
+          "torso_self_similarity": 0.9999,
+          "zone_scores": {
+            "cranial_cap": 0.9994,
+            "upper_torso": 0.9999
+          }
+        },
+        {
+          "pair_id": "pair_005",
+          "entity_type": "rider",
+          "camera_id": "back",
+          "track_id": "back_moto_0001_rider_s0",
+          "720p_available": true,
+          "4k_available": true,
+          "720p_quality": 1.0,
+          "4k_quality": 0.996,
+          "720p_valid_crops": 33,
+          "4k_valid_crops": 33,
+          "both_available": true,
+          "reason": null,
+          "composite_self_similarity": 0.9999,
+          "chassis_self_similarity": null,
+          "cranial_self_similarity": 0.9998,
+          "torso_self_similarity": 1.0,
+          "zone_scores": {
+            "cranial_cap": 0.9998,
+            "upper_torso": 1.0
+          }
+        },
+        {
+          "pair_id": "pair_005",
+          "entity_type": "rider",
+          "camera_id": "front",
+          "track_id": "front_moto_0001_rider_s0",
+          "720p_available": true,
+          "4k_available": true,
+          "720p_quality": 1.0,
+          "4k_quality": 1.0,
+          "720p_valid_crops": 45,
+          "4k_valid_crops": 45,
+          "both_available": true,
+          "reason": null,
+          "composite_self_similarity": 0.9996,
+          "chassis_self_similarity": null,
+          "cranial_self_similarity": 0.9991,
+          "torso_self_similarity": 0.9999,
+          "zone_scores": {
+            "cranial_cap": 0.9991,
+            "upper_torso": 0.9999
+          }
+        }
+      ],
+      "pairwise_discrimination": [
+        {
+          "pair_id": "pair_005",
+          "entity_type": "motorcycle",
+          "front_id": "front_moto_0001",
+          "back_id": "back_moto_0001",
+          "label": "NON_MATCH_OR_UNLINKED",
+          "cue_c_720p_avail": true,
+          "cue_c_720p_score": 0.6216,
+          "cue_c_720p_qual": 1.0,
+          "cue_c_720p_reason": null,
+          "cue_c_720p_zones": {
+            "cranial_cap": 0.519,
+            "upper_torso": 0.5633,
+            "moto_chassis": 0.8497
+          },
+          "cue_c_4k_avail": true,
+          "cue_c_4k_score": 0.6253,
+          "cue_c_4k_qual": 0.9595,
+          "cue_c_4k_reason": null,
+          "cue_c_4k_zones": {
+            "cranial_cap": 0.529,
+            "upper_torso": 0.5661,
+            "moto_chassis": 0.8476
+          },
+          "abs_score_diff_720_vs_4k": 0.0037,
+          "c0_composite": 0.6192,
+          "c2_composite": 0.6197,
+          "c3_composite": 0.6203,
+          "c0_outcome": "NOT_MATCHED",
+          "c2_outcome": "NOT_MATCHED",
+          "c3_outcome": "LINKED"
+        },
+        {
+          "pair_id": "pair_005",
+          "entity_type": "orphan",
+          "front_id": "front_orphan_0002",
+          "back_id": "back_moto_0001_rider_s0",
+          "label": "ASYMMETRIC_NEGATIVE_GAPC_FIX",
+          "cue_c_720p_avail": true,
+          "cue_c_720p_score": 0.6565,
+          "cue_c_720p_qual": 1.0,
+          "cue_c_720p_reason": null,
+          "cue_c_720p_zones": {
+            "cranial_cap": 0.6053,
+            "upper_torso": 0.6907
+          },
+          "cue_c_4k_avail": true,
+          "cue_c_4k_score": 0.6596,
+          "cue_c_4k_qual": 0.996,
+          "cue_c_4k_reason": null,
+          "cue_c_4k_zones": {
+            "cranial_cap": 0.6114,
+            "upper_torso": 0.6917
+          },
+          "abs_score_diff_720_vs_4k": 0.0031,
+          "c0_composite": null,
+          "c2_composite": null,
+          "c3_composite": null,
+          "c0_outcome": "NOT_LINKED",
+          "c2_outcome": "NOT_LINKED",
+          "c3_outcome": "NOT_LINKED"
+        }
+      ]
+    },
+    {
+      "pair_id": "pair_008",
+      "keyframe_retention": {
+        "front_a0_retained_count": 24,
+        "back_a0_retained_count": 24,
+        "front_a4_retained_count": 24,
+        "back_a4_retained_count": 24,
+        "front_a4_keyframes": [
+          0,
+          2,
+          3,
+          6,
+          9,
+          12,
+          15,
+          18,
+          21,
+          24,
+          27,
+          30,
+          33,
+          36,
+          39,
+          41,
+          42,
+          45,
+          48,
+          51,
+          113,
+          117,
+          119,
+          128
+        ],
+        "back_a4_keyframes": [
+          141,
+          144,
+          147,
+          149,
+          150,
+          153,
+          156,
+          159,
+          162,
+          165,
+          166,
+          168,
+          171,
+          174,
+          177,
+          180,
+          183,
+          186,
+          189,
+          192,
+          195,
+          198,
+          201,
+          204
+        ]
+      },
+      "decode_stats": {
+        "front": {
+          "pair_id": "pair_008",
+          "camera": "front",
+          "video_path": "data/dual_camera_test_v1/front/pair_008_front.mp4",
+          "native_width": 3840,
+          "native_height": 2160,
+          "keyframe_width": 1280,
+          "keyframe_height": 720,
+          "container_frame_count": 156,
+          "is_vfr": false,
+          "pts_index_frames": 156,
+          "unique_keyframes_decoded": 25,
+          "decode_call_count": 25,
+          "cache_hit_count": 0
+        },
+        "back": {
+          "pair_id": "pair_008",
+          "camera": "back",
+          "video_path": "data/dual_camera_test_v1/back/pair_008_back.mp4",
+          "native_width": 3840,
+          "native_height": 2160,
+          "keyframe_width": 1280,
+          "keyframe_height": 720,
+          "container_frame_count": 270,
+          "is_vfr": false,
+          "pts_index_frames": 270,
+          "unique_keyframes_decoded": 24,
+          "decode_call_count": 24,
+          "cache_hit_count": 0
+        }
+      },
+      "arm_summaries": {
+        "C0_A4_no_cue_c": {
+          "by_entity_type": {
+            "motorcycle": {
+              "total": 2,
+              "available": 0,
+              "availability_rate": 0.0,
+              "mean_valid_crops": 0.0,
+              "mean_crop_quality_when_available": 0.0,
+              "unavailable_reasons": {
+                "NO_FRAME_IMAGES_PROVIDED": 2
+              },
+              "crop_rejection_counts": {}
+            },
+            "rider": {
+              "total": 4,
+              "available": 0,
+              "availability_rate": 0.0,
+              "mean_valid_crops": 0.0,
+              "mean_crop_quality_when_available": 0.0,
+              "unavailable_reasons": {
+                "NO_FRAME_IMAGES_PROVIDED": 4
+              },
+              "crop_rejection_counts": {}
+            },
+            "orphan": {
+              "total": 2,
+              "available": 0,
+              "availability_rate": 0.0,
+              "mean_valid_crops": 0.0,
+              "mean_crop_quality_when_available": 0.0,
+              "unavailable_reasons": {
+                "NO_FRAME_IMAGES_PROVIDED": 2
+              },
+              "crop_rejection_counts": {}
+            }
+          },
+          "total_unavailable_reasons": {
+            "NO_FRAME_IMAGES_PROVIDED": 8
+          },
+          "total_crop_rejection_counts": {}
+        },
+        "C1_A0_720p_kf": {
+          "by_entity_type": {
+            "motorcycle": {
+              "total": 2,
+              "available": 2,
+              "availability_rate": 1.0,
+              "mean_valid_crops": 44.0,
+              "mean_crop_quality_when_available": 1.0,
+              "unavailable_reasons": {},
+              "crop_rejection_counts": {}
+            },
+            "rider": {
+              "total": 3,
+              "available": 3,
+              "availability_rate": 1.0,
+              "mean_valid_crops": 15.667,
+              "mean_crop_quality_when_available": 0.9999,
+              "unavailable_reasons": {},
+              "crop_rejection_counts": {}
+            },
+            "orphan": {
+              "total": 7,
+              "available": 7,
+              "availability_rate": 1.0,
+              "mean_valid_crops": 2.0,
+              "mean_crop_quality_when_available": 0.9991,
+              "unavailable_reasons": {},
+              "crop_rejection_counts": {}
+            }
+          },
+          "total_unavailable_reasons": {},
+          "total_crop_rejection_counts": {}
+        },
+        "C2_A4_720p_kf": {
+          "by_entity_type": {
+            "motorcycle": {
+              "total": 2,
+              "available": 2,
+              "availability_rate": 1.0,
+              "mean_valid_crops": 55.0,
+              "mean_crop_quality_when_available": 1.0,
+              "unavailable_reasons": {},
+              "crop_rejection_counts": {}
+            },
+            "rider": {
+              "total": 4,
+              "available": 4,
+              "availability_rate": 1.0,
+              "mean_valid_crops": 17.5,
+              "mean_crop_quality_when_available": 1.0,
+              "unavailable_reasons": {},
+              "crop_rejection_counts": {}
+            },
+            "orphan": {
+              "total": 2,
+              "available": 2,
+              "availability_rate": 1.0,
+              "mean_valid_crops": 3.5,
+              "mean_crop_quality_when_available": 0.9968,
+              "unavailable_reasons": {},
+              "crop_rejection_counts": {}
+            }
+          },
+          "total_unavailable_reasons": {},
+          "total_crop_rejection_counts": {}
+        },
+        "C3_A4_4k_native": {
+          "by_entity_type": {
+            "motorcycle": {
+              "total": 2,
+              "available": 2,
+              "availability_rate": 1.0,
+              "mean_valid_crops": 55.0,
+              "mean_crop_quality_when_available": 0.9649,
+              "unavailable_reasons": {},
+              "crop_rejection_counts": {}
+            },
+            "rider": {
+              "total": 4,
+              "available": 4,
+              "availability_rate": 1.0,
+              "mean_valid_crops": 17.5,
+              "mean_crop_quality_when_available": 0.9744,
+              "unavailable_reasons": {},
+              "crop_rejection_counts": {}
+            },
+            "orphan": {
+              "total": 2,
+              "available": 2,
+              "availability_rate": 1.0,
+              "mean_valid_crops": 3.5,
+              "mean_crop_quality_when_available": 0.9425,
+              "unavailable_reasons": {},
+              "crop_rejection_counts": {}
+            }
+          },
+          "total_unavailable_reasons": {},
+          "total_crop_rejection_counts": {}
+        },
+        "C4_A4_720p_none_dims_probe": {
+          "by_entity_type": {
+            "motorcycle": {
+              "total": 2,
+              "available": 0,
+              "availability_rate": 0.0,
+              "mean_valid_crops": 0.0,
+              "mean_crop_quality_when_available": 0.0,
+              "unavailable_reasons": {
+                "COORDINATE_SPACE_MISMATCH_UNKNOWN_NATIVE_DIMENSIONS": 2
+              },
+              "crop_rejection_counts": {
+                "COORDINATE_SPACE_MISMATCH_UNKNOWN_NATIVE_DIMENSIONS": 43
+              }
+            },
+            "rider": {
+              "total": 4,
+              "available": 0,
+              "availability_rate": 0.0,
+              "mean_valid_crops": 0.0,
+              "mean_crop_quality_when_available": 0.0,
+              "unavailable_reasons": {
+                "COORDINATE_SPACE_MISMATCH_UNKNOWN_NATIVE_DIMENSIONS": 4
+              },
+              "crop_rejection_counts": {
+                "COORDINATE_SPACE_MISMATCH_UNKNOWN_NATIVE_DIMENSIONS": 70
+              }
+            },
+            "orphan": {
+              "total": 2,
+              "available": 0,
+              "availability_rate": 0.0,
+              "mean_valid_crops": 0.0,
+              "mean_crop_quality_when_available": 0.0,
+              "unavailable_reasons": {
+                "COORDINATE_SPACE_MISMATCH_UNKNOWN_NATIVE_DIMENSIONS": 2
+              },
+              "crop_rejection_counts": {
+                "COORDINATE_SPACE_MISMATCH_UNKNOWN_NATIVE_DIMENSIONS": 7
+              }
+            }
+          },
+          "total_unavailable_reasons": {
+            "COORDINATE_SPACE_MISMATCH_UNKNOWN_NATIVE_DIMENSIONS": 8
+          },
+          "total_crop_rejection_counts": {
+            "COORDINATE_SPACE_MISMATCH_UNKNOWN_NATIVE_DIMENSIONS": 120
+          }
+        }
+      },
+      "outcome_counts": {
+        "C0_A4_no_cue_c": {
+          "motorcycle": {
+            "AMBIGUOUS_ABSTAIN": 0,
+            "INSUFFICIENT_EVIDENCE": 0,
+            "LINKED": 1,
+            "UNMATCHED": 0
+          },
+          "rider": {
+            "AMBIGUOUS_ABSTAIN": 0,
+            "INSUFFICIENT_EVIDENCE": 0,
+            "LINKED": 1,
+            "UNMATCHED": 2
+          },
+          "orphan": {
+            "AMBIGUOUS_ABSTAIN": 0,
+            "INSUFFICIENT_EVIDENCE": 0,
+            "LINKED": 0,
+            "UNMATCHED": 2
+          }
+        },
+        "C1_A0_720p_kf": {
+          "motorcycle": {
+            "AMBIGUOUS_ABSTAIN": 0,
+            "INSUFFICIENT_EVIDENCE": 0,
+            "LINKED": 1,
+            "UNMATCHED": 0
+          },
+          "rider": {
+            "AMBIGUOUS_ABSTAIN": 0,
+            "INSUFFICIENT_EVIDENCE": 0,
+            "LINKED": 1,
+            "UNMATCHED": 1
+          },
+          "orphan": {
+            "AMBIGUOUS_ABSTAIN": 0,
+            "INSUFFICIENT_EVIDENCE": 5,
+            "LINKED": 0,
+            "UNMATCHED": 2
+          }
+        },
+        "C2_A4_720p_kf": {
+          "motorcycle": {
+            "AMBIGUOUS_ABSTAIN": 0,
+            "INSUFFICIENT_EVIDENCE": 0,
+            "LINKED": 1,
+            "UNMATCHED": 0
+          },
+          "rider": {
+            "AMBIGUOUS_ABSTAIN": 0,
+            "INSUFFICIENT_EVIDENCE": 0,
+            "LINKED": 1,
+            "UNMATCHED": 2
+          },
+          "orphan": {
+            "AMBIGUOUS_ABSTAIN": 0,
+            "INSUFFICIENT_EVIDENCE": 0,
+            "LINKED": 0,
+            "UNMATCHED": 2
+          }
+        },
+        "C3_A4_4k_native": {
+          "motorcycle": {
+            "AMBIGUOUS_ABSTAIN": 0,
+            "INSUFFICIENT_EVIDENCE": 0,
+            "LINKED": 1,
+            "UNMATCHED": 0
+          },
+          "rider": {
+            "AMBIGUOUS_ABSTAIN": 0,
+            "INSUFFICIENT_EVIDENCE": 0,
+            "LINKED": 1,
+            "UNMATCHED": 2
+          },
+          "orphan": {
+            "AMBIGUOUS_ABSTAIN": 0,
+            "INSUFFICIENT_EVIDENCE": 0,
+            "LINKED": 0,
+            "UNMATCHED": 2
+          }
+        },
+        "C4_A4_720p_none_dims_probe": {
+          "motorcycle": {
+            "AMBIGUOUS_ABSTAIN": 0,
+            "INSUFFICIENT_EVIDENCE": 0,
+            "LINKED": 1,
+            "UNMATCHED": 0
+          },
+          "rider": {
+            "AMBIGUOUS_ABSTAIN": 0,
+            "INSUFFICIENT_EVIDENCE": 0,
+            "LINKED": 1,
+            "UNMATCHED": 2
+          },
+          "orphan": {
+            "AMBIGUOUS_ABSTAIN": 0,
+            "INSUFFICIENT_EVIDENCE": 0,
+            "LINKED": 0,
+            "UNMATCHED": 2
+          }
+        }
+      },
+      "non_finite_score_counts": {
+        "C0_A4_no_cue_c": 0,
+        "C1_A0_720p_kf": 0,
+        "C2_A4_720p_kf": 0,
+        "C3_A4_4k_native": 0,
+        "C4_A4_720p_none_dims_probe": 0
+      },
+      "resolution_self_similarity": [
+        {
+          "pair_id": "pair_008",
+          "entity_type": "motorcycle",
+          "camera_id": "back",
+          "track_id": "back_moto_0001",
+          "720p_available": true,
+          "4k_available": true,
+          "720p_quality": 1.0,
+          "4k_quality": 0.9328,
+          "720p_valid_crops": 50,
+          "4k_valid_crops": 50,
+          "both_available": true,
+          "reason": null,
+          "composite_self_similarity": 0.9996,
+          "chassis_self_similarity": 0.9999,
+          "cranial_self_similarity": 0.9989,
+          "torso_self_similarity": 1.0,
+          "zone_scores": {
+            "cranial_cap": 0.9989,
+            "upper_torso": 1.0,
+            "moto_chassis": 0.9999
+          }
+        },
+        {
+          "pair_id": "pair_008",
+          "entity_type": "motorcycle",
+          "camera_id": "front",
+          "track_id": "front_moto_0001",
+          "720p_available": true,
+          "4k_available": true,
+          "720p_quality": 0.9999,
+          "4k_quality": 0.9969,
+          "720p_valid_crops": 60,
+          "4k_valid_crops": 60,
+          "both_available": true,
+          "reason": null,
+          "composite_self_similarity": 0.9999,
+          "chassis_self_similarity": 1.0,
+          "cranial_self_similarity": 0.9997,
+          "torso_self_similarity": 1.0,
+          "zone_scores": {
+            "cranial_cap": 0.9997,
+            "upper_torso": 1.0,
+            "moto_chassis": 1.0
+          }
+        },
+        {
+          "pair_id": "pair_008",
+          "entity_type": "orphan",
+          "camera_id": "front",
+          "track_id": "front_orphan_0001",
+          "720p_available": true,
+          "4k_available": true,
+          "720p_quality": 0.9936,
+          "4k_quality": 1.0,
+          "720p_valid_crops": 2,
+          "4k_valid_crops": 2,
+          "both_available": true,
+          "reason": null,
+          "composite_self_similarity": 0.9955,
+          "chassis_self_similarity": null,
+          "cranial_self_similarity": 0.9902,
+          "torso_self_similarity": 0.999,
+          "zone_scores": {
+            "cranial_cap": 0.9902,
+            "upper_torso": 0.999
+          }
+        },
+        {
+          "pair_id": "pair_008",
+          "entity_type": "orphan",
+          "camera_id": "front",
+          "track_id": "front_orphan_0002",
+          "720p_available": true,
+          "4k_available": true,
+          "720p_quality": 1.0,
+          "4k_quality": 0.885,
+          "720p_valid_crops": 5,
+          "4k_valid_crops": 5,
+          "both_available": true,
+          "reason": null,
+          "composite_self_similarity": 0.9999,
+          "chassis_self_similarity": null,
+          "cranial_self_similarity": 0.9999,
+          "torso_self_similarity": 1.0,
+          "zone_scores": {
+            "cranial_cap": 0.9999,
+            "upper_torso": 1.0
+          }
+        },
+        {
+          "pair_id": "pair_008",
+          "entity_type": "rider",
+          "camera_id": "back",
+          "track_id": "back_moto_0001_rider_s0",
+          "720p_available": true,
+          "4k_available": true,
+          "720p_quality": 1.0,
+          "4k_quality": 0.9039,
+          "720p_valid_crops": 27,
+          "4k_valid_crops": 27,
+          "both_available": true,
+          "reason": null,
+          "composite_self_similarity": 0.9996,
+          "chassis_self_similarity": null,
+          "cranial_self_similarity": 0.9989,
+          "torso_self_similarity": 1.0,
+          "zone_scores": {
+            "cranial_cap": 0.9989,
+            "upper_torso": 1.0
+          }
+        },
+        {
+          "pair_id": "pair_008",
+          "entity_type": "rider",
+          "camera_id": "front",
+          "track_id": "front_moto_0001_rider_s0",
+          "720p_available": true,
+          "4k_available": true,
+          "720p_quality": 0.9998,
+          "4k_quality": 0.9937,
+          "720p_valid_crops": 40,
+          "4k_valid_crops": 40,
+          "both_available": true,
+          "reason": null,
+          "composite_self_similarity": 0.9999,
+          "chassis_self_similarity": null,
+          "cranial_self_similarity": 0.9997,
+          "torso_self_similarity": 1.0,
+          "zone_scores": {
+            "cranial_cap": 0.9997,
+            "upper_torso": 1.0
+          }
+        },
+        {
+          "pair_id": "pair_008",
+          "entity_type": "rider",
+          "camera_id": "front",
+          "track_id": "front_moto_0001_rider_s1",
+          "720p_available": true,
+          "4k_available": true,
+          "720p_quality": 1.0,
+          "4k_quality": 1.0,
+          "720p_valid_crops": 2,
+          "4k_valid_crops": 2,
+          "both_available": true,
+          "reason": null,
+          "composite_self_similarity": 0.9982,
+          "chassis_self_similarity": null,
+          "cranial_self_similarity": 0.9982,
+          "torso_self_similarity": null,
+          "zone_scores": {
+            "cranial_cap": 0.9982
+          }
+        },
+        {
+          "pair_id": "pair_008",
+          "entity_type": "rider",
+          "camera_id": "front",
+          "track_id": "front_moto_0001_rider_s2",
+          "720p_available": true,
+          "4k_available": true,
+          "720p_quality": 1.0,
+          "4k_quality": 1.0,
+          "720p_valid_crops": 1,
+          "4k_valid_crops": 1,
+          "both_available": true,
+          "reason": null,
+          "composite_self_similarity": 0.9983,
+          "chassis_self_similarity": null,
+          "cranial_self_similarity": 0.9983,
+          "torso_self_similarity": null,
+          "zone_scores": {
+            "cranial_cap": 0.9983
+          }
+        }
+      ],
+      "pairwise_discrimination": [
+        {
+          "pair_id": "pair_008",
+          "entity_type": "motorcycle",
+          "front_id": "front_moto_0001",
+          "back_id": "back_moto_0001",
+          "label": "GT_LINKED",
+          "cue_c_720p_avail": true,
+          "cue_c_720p_score": 0.7962,
+          "cue_c_720p_qual": 0.9999,
+          "cue_c_720p_reason": null,
+          "cue_c_720p_zones": {
+            "cranial_cap": 0.6203,
+            "upper_torso": 0.8868,
+            "moto_chassis": 0.8441
+          },
+          "cue_c_4k_avail": true,
+          "cue_c_4k_score": 0.7988,
+          "cue_c_4k_qual": 0.9328,
+          "cue_c_4k_reason": null,
+          "cue_c_4k_zones": {
+            "cranial_cap": 0.6336,
+            "upper_torso": 0.886,
+            "moto_chassis": 0.8402
+          },
+          "abs_score_diff_720_vs_4k": 0.0026,
+          "c0_composite": 0.9763,
+          "c2_composite": 0.9445,
+          "c3_composite": 0.945,
+          "c0_outcome": "LINKED",
+          "c2_outcome": "LINKED",
+          "c3_outcome": "LINKED"
+        },
+        {
+          "pair_id": "pair_008",
+          "entity_type": "rider",
+          "front_id": "front_moto_0001_rider_s0",
+          "back_id": "back_moto_0001_rider_s0",
+          "label": "GT_LINKED",
+          "cue_c_720p_avail": true,
+          "cue_c_720p_score": 0.7802,
+          "cue_c_720p_qual": 0.9998,
+          "cue_c_720p_reason": null,
+          "cue_c_720p_zones": {
+            "cranial_cap": 0.6203,
+            "upper_torso": 0.8868
+          },
+          "cue_c_4k_avail": true,
+          "cue_c_4k_score": 0.785,
+          "cue_c_4k_qual": 0.9039,
+          "cue_c_4k_reason": null,
+          "cue_c_4k_zones": {
+            "cranial_cap": 0.6336,
+            "upper_torso": 0.886
+          },
+          "abs_score_diff_720_vs_4k": 0.0048,
+          "c0_composite": null,
+          "c2_composite": null,
+          "c3_composite": null,
+          "c0_outcome": "LINKED",
+          "c2_outcome": "LINKED",
+          "c3_outcome": "LINKED"
+        },
+        {
+          "pair_id": "pair_008",
+          "entity_type": "rider",
+          "front_id": "front_moto_0001_rider_s1",
+          "back_id": "back_moto_0001_rider_s0",
+          "label": "SAME_MOTO_WRONG_SLOT",
+          "cue_c_720p_avail": true,
+          "cue_c_720p_score": 0.8428,
+          "cue_c_720p_qual": 1.0,
+          "cue_c_720p_reason": null,
+          "cue_c_720p_zones": {
+            "cranial_cap": 0.8428
+          },
+          "cue_c_4k_avail": true,
+          "cue_c_4k_score": 0.8549,
+          "cue_c_4k_qual": 0.9039,
+          "cue_c_4k_reason": null,
+          "cue_c_4k_zones": {
+            "cranial_cap": 0.8549
+          },
+          "abs_score_diff_720_vs_4k": 0.0121,
+          "c0_composite": null,
+          "c2_composite": null,
+          "c3_composite": null,
+          "c0_outcome": "NOT_LINKED",
+          "c2_outcome": "NOT_LINKED",
+          "c3_outcome": "NOT_LINKED"
+        }
+      ]
+    },
+    {
+      "pair_id": "pair_009",
+      "keyframe_retention": {
+        "front_a0_retained_count": 24,
+        "back_a0_retained_count": 24,
+        "front_a4_retained_count": 24,
+        "back_a4_retained_count": 24,
+        "front_a4_keyframes": [
+          0,
+          3,
+          6,
+          9,
+          12,
+          15,
+          18,
+          21,
+          24,
+          27,
+          30,
+          33,
+          36,
+          39,
+          42,
+          45,
+          48,
+          51,
+          54,
+          57,
+          60,
+          96,
+          184,
+          200
+        ],
+        "back_a4_keyframes": [
+          63,
+          66,
+          72,
+          75,
+          78,
+          84,
+          86,
+          87,
+          90,
+          99,
+          184,
+          196,
+          216,
+          224,
+          225,
+          236,
+          267,
+          286,
+          360,
+          362,
+          390,
+          392,
+          396,
+          404
+        ]
+      },
+      "decode_stats": {
+        "front": {
+          "pair_id": "pair_009",
+          "camera": "front",
+          "video_path": "data/dual_camera_test_v1/front/pair_009_front.mp4",
+          "native_width": 3840,
+          "native_height": 2160,
+          "keyframe_width": 1280,
+          "keyframe_height": 720,
+          "container_frame_count": 232,
+          "is_vfr": false,
+          "pts_index_frames": 232,
+          "unique_keyframes_decoded": 24,
+          "decode_call_count": 24,
+          "cache_hit_count": 0
+        },
+        "back": {
+          "pair_id": "pair_009",
+          "camera": "back",
+          "video_path": "data/dual_camera_test_v1/back/pair_009_back.mp4",
+          "native_width": 3840,
+          "native_height": 2160,
+          "keyframe_width": 1280,
+          "keyframe_height": 720,
+          "container_frame_count": 415,
+          "is_vfr": false,
+          "pts_index_frames": 415,
+          "unique_keyframes_decoded": 25,
+          "decode_call_count": 25,
+          "cache_hit_count": 0
+        }
+      },
+      "arm_summaries": {
+        "C0_A4_no_cue_c": {
+          "by_entity_type": {
+            "motorcycle": {
+              "total": 12,
+              "available": 0,
+              "availability_rate": 0.0,
+              "mean_valid_crops": 0.0,
+              "mean_crop_quality_when_available": 0.0,
+              "unavailable_reasons": {
+                "NO_FRAME_IMAGES_PROVIDED": 12
+              },
+              "crop_rejection_counts": {}
+            },
+            "rider": {
+              "total": 2,
+              "available": 0,
+              "availability_rate": 0.0,
+              "mean_valid_crops": 0.0,
+              "mean_crop_quality_when_available": 0.0,
+              "unavailable_reasons": {
+                "NO_FRAME_IMAGES_PROVIDED": 2
+              },
+              "crop_rejection_counts": {}
+            },
+            "orphan": {
+              "total": 2,
+              "available": 0,
+              "availability_rate": 0.0,
+              "mean_valid_crops": 0.0,
+              "mean_crop_quality_when_available": 0.0,
+              "unavailable_reasons": {
+                "NO_FRAME_IMAGES_PROVIDED": 2
+              },
+              "crop_rejection_counts": {}
+            }
+          },
+          "total_unavailable_reasons": {
+            "NO_FRAME_IMAGES_PROVIDED": 16
+          },
+          "total_crop_rejection_counts": {}
+        },
+        "C1_A0_720p_kf": {
+          "by_entity_type": {
+            "motorcycle": {
+              "total": 12,
+              "available": 12,
+              "availability_rate": 1.0,
+              "mean_valid_crops": 8.083,
+              "mean_crop_quality_when_available": 0.9938,
+              "unavailable_reasons": {},
+              "crop_rejection_counts": {}
+            },
+            "rider": {
+              "total": 3,
+              "available": 3,
+              "availability_rate": 1.0,
+              "mean_valid_crops": 15.0,
+              "mean_crop_quality_when_available": 0.9504,
+              "unavailable_reasons": {},
+              "crop_rejection_counts": {}
+            },
+            "orphan": {
+              "total": 4,
+              "available": 4,
+              "availability_rate": 1.0,
+              "mean_valid_crops": 2.0,
+              "mean_crop_quality_when_available": 0.956,
+              "unavailable_reasons": {},
+              "crop_rejection_counts": {}
+            }
+          },
+          "total_unavailable_reasons": {},
+          "total_crop_rejection_counts": {}
+        },
+        "C2_A4_720p_kf": {
+          "by_entity_type": {
+            "motorcycle": {
+              "total": 12,
+              "available": 12,
+              "availability_rate": 1.0,
+              "mean_valid_crops": 8.917,
+              "mean_crop_quality_when_available": 0.9913,
+              "unavailable_reasons": {},
+              "crop_rejection_counts": {}
+            },
+            "rider": {
+              "total": 2,
+              "available": 2,
+              "availability_rate": 1.0,
+              "mean_valid_crops": 26.5,
+              "mean_crop_quality_when_available": 0.8953,
+              "unavailable_reasons": {},
+              "crop_rejection_counts": {}
+            },
+            "orphan": {
+              "total": 2,
+              "available": 2,
+              "availability_rate": 1.0,
+              "mean_valid_crops": 2.0,
+              "mean_crop_quality_when_available": 1.0,
+              "unavailable_reasons": {},
+              "crop_rejection_counts": {}
+            }
+          },
+          "total_unavailable_reasons": {},
+          "total_crop_rejection_counts": {}
+        },
+        "C3_A4_4k_native": {
+          "by_entity_type": {
+            "motorcycle": {
+              "total": 12,
+              "available": 12,
+              "availability_rate": 1.0,
+              "mean_valid_crops": 8.833,
+              "mean_crop_quality_when_available": 0.9947,
+              "unavailable_reasons": {},
+              "crop_rejection_counts": {}
+            },
+            "rider": {
+              "total": 2,
+              "available": 2,
+              "availability_rate": 1.0,
+              "mean_valid_crops": 26.0,
+              "mean_crop_quality_when_available": 0.9425,
+              "unavailable_reasons": {},
+              "crop_rejection_counts": {
+                "CROP_MOTION_BLUR_BELOW_SHARPNESS": 1
+              }
+            },
+            "orphan": {
+              "total": 2,
+              "available": 2,
+              "availability_rate": 1.0,
+              "mean_valid_crops": 2.0,
+              "mean_crop_quality_when_available": 0.8692,
+              "unavailable_reasons": {},
+              "crop_rejection_counts": {}
+            }
+          },
+          "total_unavailable_reasons": {},
+          "total_crop_rejection_counts": {
+            "CROP_MOTION_BLUR_BELOW_SHARPNESS": 1
+          }
+        },
+        "C4_A4_720p_none_dims_probe": {
+          "by_entity_type": {
+            "motorcycle": {
+              "total": 12,
+              "available": 3,
+              "availability_rate": 0.25,
+              "mean_valid_crops": 0.583,
+              "mean_crop_quality_when_available": 1.0,
+              "unavailable_reasons": {
+                "COORDINATE_SPACE_MISMATCH_UNKNOWN_NATIVE_DIMENSIONS": 9
+              },
+              "crop_rejection_counts": {
+                "COORDINATE_SPACE_MISMATCH_UNKNOWN_NATIVE_DIMENSIONS": 47
+              }
+            },
+            "rider": {
+              "total": 2,
+              "available": 0,
+              "availability_rate": 0.0,
+              "mean_valid_crops": 0.0,
+              "mean_crop_quality_when_available": 0.0,
+              "unavailable_reasons": {
+                "COORDINATE_SPACE_MISMATCH_UNKNOWN_NATIVE_DIMENSIONS": 2
+              },
+              "crop_rejection_counts": {
+                "COORDINATE_SPACE_MISMATCH_UNKNOWN_NATIVE_DIMENSIONS": 53
+              }
+            },
+            "orphan": {
+              "total": 2,
+              "available": 0,
+              "availability_rate": 0.0,
+              "mean_valid_crops": 0.0,
+              "mean_crop_quality_when_available": 0.0,
+              "unavailable_reasons": {
+                "COORDINATE_SPACE_MISMATCH_UNKNOWN_NATIVE_DIMENSIONS": 2
+              },
+              "crop_rejection_counts": {
+                "COORDINATE_SPACE_MISMATCH_UNKNOWN_NATIVE_DIMENSIONS": 4
+              }
+            }
+          },
+          "total_unavailable_reasons": {
+            "COORDINATE_SPACE_MISMATCH_UNKNOWN_NATIVE_DIMENSIONS": 13
+          },
+          "total_crop_rejection_counts": {
+            "COORDINATE_SPACE_MISMATCH_UNKNOWN_NATIVE_DIMENSIONS": 104
+          }
+        }
+      },
+      "outcome_counts": {
+        "C0_A4_no_cue_c": {
+          "motorcycle": {
+            "AMBIGUOUS_ABSTAIN": 0,
+            "INSUFFICIENT_EVIDENCE": 7,
+            "LINKED": 1,
+            "UNMATCHED": 3
+          },
+          "rider": {
+            "AMBIGUOUS_ABSTAIN": 0,
+            "INSUFFICIENT_EVIDENCE": 0,
+            "LINKED": 0,
+            "UNMATCHED": 1
+          },
+          "orphan": {
+            "AMBIGUOUS_ABSTAIN": 0,
+            "INSUFFICIENT_EVIDENCE": 0,
+            "LINKED": 1,
+            "UNMATCHED": 0
+          }
+        },
+        "C1_A0_720p_kf": {
+          "motorcycle": {
+            "AMBIGUOUS_ABSTAIN": 0,
+            "INSUFFICIENT_EVIDENCE": 7,
+            "LINKED": 1,
+            "UNMATCHED": 3
+          },
+          "rider": {
+            "AMBIGUOUS_ABSTAIN": 0,
+            "INSUFFICIENT_EVIDENCE": 0,
+            "LINKED": 0,
+            "UNMATCHED": 2
+          },
+          "orphan": {
+            "AMBIGUOUS_ABSTAIN": 0,
+            "INSUFFICIENT_EVIDENCE": 2,
+            "LINKED": 1,
+            "UNMATCHED": 0
+          }
+        },
+        "C2_A4_720p_kf": {
+          "motorcycle": {
+            "AMBIGUOUS_ABSTAIN": 0,
+            "INSUFFICIENT_EVIDENCE": 7,
+            "LINKED": 1,
+            "UNMATCHED": 3
+          },
+          "rider": {
+            "AMBIGUOUS_ABSTAIN": 0,
+            "INSUFFICIENT_EVIDENCE": 0,
+            "LINKED": 0,
+            "UNMATCHED": 1
+          },
+          "orphan": {
+            "AMBIGUOUS_ABSTAIN": 0,
+            "INSUFFICIENT_EVIDENCE": 0,
+            "LINKED": 1,
+            "UNMATCHED": 0
+          }
+        },
+        "C3_A4_4k_native": {
+          "motorcycle": {
+            "AMBIGUOUS_ABSTAIN": 0,
+            "INSUFFICIENT_EVIDENCE": 7,
+            "LINKED": 1,
+            "UNMATCHED": 3
+          },
+          "rider": {
+            "AMBIGUOUS_ABSTAIN": 0,
+            "INSUFFICIENT_EVIDENCE": 0,
+            "LINKED": 0,
+            "UNMATCHED": 1
+          },
+          "orphan": {
+            "AMBIGUOUS_ABSTAIN": 0,
+            "INSUFFICIENT_EVIDENCE": 0,
+            "LINKED": 1,
+            "UNMATCHED": 0
+          }
+        },
+        "C4_A4_720p_none_dims_probe": {
+          "motorcycle": {
+            "AMBIGUOUS_ABSTAIN": 0,
+            "INSUFFICIENT_EVIDENCE": 7,
+            "LINKED": 1,
+            "UNMATCHED": 3
+          },
+          "rider": {
+            "AMBIGUOUS_ABSTAIN": 0,
+            "INSUFFICIENT_EVIDENCE": 0,
+            "LINKED": 0,
+            "UNMATCHED": 1
+          },
+          "orphan": {
+            "AMBIGUOUS_ABSTAIN": 0,
+            "INSUFFICIENT_EVIDENCE": 0,
+            "LINKED": 1,
+            "UNMATCHED": 0
+          }
+        }
+      },
+      "non_finite_score_counts": {
+        "C0_A4_no_cue_c": 0,
+        "C1_A0_720p_kf": 0,
+        "C2_A4_720p_kf": 0,
+        "C3_A4_4k_native": 0,
+        "C4_A4_720p_none_dims_probe": 0
+      },
+      "resolution_self_similarity": [
+        {
+          "pair_id": "pair_009",
+          "entity_type": "motorcycle",
+          "camera_id": "back",
+          "track_id": "back_moto_0001",
+          "720p_available": true,
+          "4k_available": true,
+          "720p_quality": 1.0,
+          "4k_quality": 1.0,
+          "720p_valid_crops": 4,
+          "4k_valid_crops": 4,
+          "both_available": true,
+          "reason": null,
+          "composite_self_similarity": 0.9994,
+          "chassis_self_similarity": 0.9994,
+          "cranial_self_similarity": null,
+          "torso_self_similarity": null,
+          "zone_scores": {
+            "moto_chassis": 0.9994
+          }
+        },
+        {
+          "pair_id": "pair_009",
+          "entity_type": "motorcycle",
+          "camera_id": "back",
+          "track_id": "back_moto_0002",
+          "720p_available": true,
+          "4k_available": true,
+          "720p_quality": 1.0,
+          "4k_quality": 1.0,
+          "720p_valid_crops": 1,
+          "4k_valid_crops": 1,
+          "both_available": true,
+          "reason": null,
+          "composite_self_similarity": 0.9975,
+          "chassis_self_similarity": 0.9975,
+          "cranial_self_similarity": null,
+          "torso_self_similarity": null,
+          "zone_scores": {
+            "moto_chassis": 0.9975
+          }
+        },
+        {
+          "pair_id": "pair_009",
+          "entity_type": "motorcycle",
+          "camera_id": "back",
+          "track_id": "back_moto_0003",
+          "720p_available": true,
+          "4k_available": true,
+          "720p_quality": 1.0,
+          "4k_quality": 1.0,
+          "720p_valid_crops": 1,
+          "4k_valid_crops": 1,
+          "both_available": true,
+          "reason": null,
+          "composite_self_similarity": 0.9987,
+          "chassis_self_similarity": 0.9987,
+          "cranial_self_similarity": null,
+          "torso_self_similarity": null,
+          "zone_scores": {
+            "moto_chassis": 0.9987
+          }
+        },
+        {
+          "pair_id": "pair_009",
+          "entity_type": "motorcycle",
+          "camera_id": "back",
+          "track_id": "back_moto_0004",
+          "720p_available": true,
+          "4k_available": true,
+          "720p_quality": 0.9697,
+          "4k_quality": 0.9861,
+          "720p_valid_crops": 23,
+          "4k_valid_crops": 22,
+          "both_available": true,
+          "reason": null,
+          "composite_self_similarity": 0.9959,
+          "chassis_self_similarity": 0.9998,
+          "cranial_self_similarity": 0.9872,
+          "torso_self_similarity": 0.9995,
+          "zone_scores": {
+            "cranial_cap": 0.9872,
+            "upper_torso": 0.9995,
+            "moto_chassis": 0.9998
+          }
+        },
+        {
+          "pair_id": "pair_009",
+          "entity_type": "motorcycle",
+          "camera_id": "back",
+          "track_id": "back_moto_0005",
+          "720p_available": true,
+          "4k_available": true,
+          "720p_quality": 1.0,
+          "4k_quality": 1.0,
+          "720p_valid_crops": 2,
+          "4k_valid_crops": 2,
+          "both_available": true,
+          "reason": null,
+          "composite_self_similarity": 0.9993,
+          "chassis_self_similarity": 0.9993,
+          "cranial_self_similarity": null,
+          "torso_self_similarity": null,
+          "zone_scores": {
+            "moto_chassis": 0.9993
+          }
+        },
+        {
+          "pair_id": "pair_009",
+          "entity_type": "motorcycle",
+          "camera_id": "back",
+          "track_id": "back_moto_0006",
+          "720p_available": true,
+          "4k_available": true,
+          "720p_quality": 1.0,
+          "4k_quality": 1.0,
+          "720p_valid_crops": 1,
+          "4k_valid_crops": 1,
+          "both_available": true,
+          "reason": null,
+          "composite_self_similarity": 0.992,
+          "chassis_self_similarity": 0.992,
+          "cranial_self_similarity": null,
+          "torso_self_similarity": null,
+          "zone_scores": {
+            "moto_chassis": 0.992
+          }
+        },
+        {
+          "pair_id": "pair_009",
+          "entity_type": "motorcycle",
+          "camera_id": "back",
+          "track_id": "back_moto_0007",
+          "720p_available": true,
+          "4k_available": true,
+          "720p_quality": 1.0,
+          "4k_quality": 1.0,
+          "720p_valid_crops": 1,
+          "4k_valid_crops": 1,
+          "both_available": true,
+          "reason": null,
+          "composite_self_similarity": 0.9945,
+          "chassis_self_similarity": 0.9945,
+          "cranial_self_similarity": null,
+          "torso_self_similarity": null,
+          "zone_scores": {
+            "moto_chassis": 0.9945
+          }
+        },
+        {
+          "pair_id": "pair_009",
+          "entity_type": "motorcycle",
+          "camera_id": "back",
+          "track_id": "back_moto_0008",
+          "720p_available": true,
+          "4k_available": true,
+          "720p_quality": 1.0,
+          "4k_quality": 1.0,
+          "720p_valid_crops": 5,
+          "4k_valid_crops": 5,
+          "both_available": true,
+          "reason": null,
+          "composite_self_similarity": 0.9979,
+          "chassis_self_similarity": 0.9979,
+          "cranial_self_similarity": null,
+          "torso_self_similarity": null,
+          "zone_scores": {
+            "moto_chassis": 0.9979
+          }
+        },
+        {
+          "pair_id": "pair_009",
+          "entity_type": "motorcycle",
+          "camera_id": "back",
+          "track_id": "back_moto_0009",
+          "720p_available": true,
+          "4k_available": true,
+          "720p_quality": 1.0,
+          "4k_quality": 1.0,
+          "720p_valid_crops": 1,
+          "4k_valid_crops": 1,
+          "both_available": true,
+          "reason": null,
+          "composite_self_similarity": 0.9996,
+          "chassis_self_similarity": 0.9996,
+          "cranial_self_similarity": null,
+          "torso_self_similarity": null,
+          "zone_scores": {
+            "moto_chassis": 0.9996
+          }
+        },
+        {
+          "pair_id": "pair_009",
+          "entity_type": "motorcycle",
+          "camera_id": "back",
+          "track_id": "back_moto_0010",
+          "720p_available": true,
+          "4k_available": true,
+          "720p_quality": 1.0,
+          "4k_quality": 1.0,
+          "720p_valid_crops": 1,
+          "4k_valid_crops": 1,
+          "both_available": true,
+          "reason": null,
+          "composite_self_similarity": 0.9995,
+          "chassis_self_similarity": 0.9995,
+          "cranial_self_similarity": null,
+          "torso_self_similarity": null,
+          "zone_scores": {
+            "moto_chassis": 0.9995
+          }
+        },
+        {
+          "pair_id": "pair_009",
+          "entity_type": "motorcycle",
+          "camera_id": "back",
+          "track_id": "back_moto_0011",
+          "720p_available": true,
+          "4k_available": true,
+          "720p_quality": 1.0,
+          "4k_quality": 1.0,
+          "720p_valid_crops": 1,
+          "4k_valid_crops": 1,
+          "both_available": true,
+          "reason": null,
+          "composite_self_similarity": 0.9995,
+          "chassis_self_similarity": 0.9995,
+          "cranial_self_similarity": null,
+          "torso_self_similarity": null,
+          "zone_scores": {
+            "moto_chassis": 0.9995
+          }
+        },
+        {
+          "pair_id": "pair_009",
+          "entity_type": "motorcycle",
+          "camera_id": "front",
+          "track_id": "front_moto_0001",
+          "720p_available": true,
+          "4k_available": true,
+          "720p_quality": 0.9255,
+          "4k_quality": 0.9498,
+          "720p_valid_crops": 66,
+          "4k_valid_crops": 66,
+          "both_available": true,
+          "reason": null,
+          "composite_self_similarity": 0.9996,
+          "chassis_self_similarity": 0.9997,
+          "cranial_self_similarity": 0.9989,
+          "torso_self_similarity": 0.9999,
+          "zone_scores": {
+            "cranial_cap": 0.9989,
+            "upper_torso": 0.9999,
+            "moto_chassis": 0.9997
+          }
+        },
+        {
+          "pair_id": "pair_009",
+          "entity_type": "orphan",
+          "camera_id": "back",
+          "track_id": "back_orphan_0001",
+          "720p_available": true,
+          "4k_available": true,
+          "720p_quality": 1.0,
+          "4k_quality": 0.8413,
+          "720p_valid_crops": 2,
+          "4k_valid_crops": 2,
+          "both_available": true,
+          "reason": null,
+          "composite_self_similarity": 0.9997,
+          "chassis_self_similarity": null,
+          "cranial_self_similarity": 0.9993,
+          "torso_self_similarity": 0.9999,
+          "zone_scores": {
+            "cranial_cap": 0.9993,
+            "upper_torso": 0.9999
+          }
+        },
+        {
+          "pair_id": "pair_009",
+          "entity_type": "orphan",
+          "camera_id": "front",
+          "track_id": "front_orphan_0002",
+          "720p_available": true,
+          "4k_available": true,
+          "720p_quality": 1.0,
+          "4k_quality": 0.8971,
+          "720p_valid_crops": 2,
+          "4k_valid_crops": 2,
+          "both_available": true,
+          "reason": null,
+          "composite_self_similarity": 0.9997,
+          "chassis_self_similarity": null,
+          "cranial_self_similarity": 0.9995,
+          "torso_self_similarity": 0.9998,
+          "zone_scores": {
+            "cranial_cap": 0.9995,
+            "upper_torso": 0.9998
+          }
+        },
+        {
+          "pair_id": "pair_009",
+          "entity_type": "rider",
+          "camera_id": "back",
+          "track_id": "back_moto_0004_rider_s0",
+          "720p_available": true,
+          "4k_available": true,
+          "720p_quality": 0.9394,
+          "4k_quality": 0.9765,
+          "720p_valid_crops": 11,
+          "4k_valid_crops": 10,
+          "both_available": true,
+          "reason": null,
+          "composite_self_similarity": 0.9946,
+          "chassis_self_similarity": null,
+          "cranial_self_similarity": 0.9872,
+          "torso_self_similarity": 0.9995,
+          "zone_scores": {
+            "cranial_cap": 0.9872,
+            "upper_torso": 0.9995
+          }
+        },
+        {
+          "pair_id": "pair_009",
+          "entity_type": "rider",
+          "camera_id": "front",
+          "track_id": "front_moto_0001_rider_s0",
+          "720p_available": true,
+          "4k_available": true,
+          "720p_quality": 0.8511,
+          "4k_quality": 0.9085,
+          "720p_valid_crops": 42,
+          "4k_valid_crops": 42,
+          "both_available": true,
+          "reason": null,
+          "composite_self_similarity": 0.9995,
+          "chassis_self_similarity": null,
+          "cranial_self_similarity": 0.9989,
+          "torso_self_similarity": 0.9999,
+          "zone_scores": {
+            "cranial_cap": 0.9989,
+            "upper_torso": 0.9999
+          }
+        }
+      ],
+      "pairwise_discrimination": [
+        {
+          "pair_id": "pair_009",
+          "entity_type": "motorcycle",
+          "front_id": "front_moto_0001",
+          "back_id": "back_moto_0001",
+          "label": "NON_MATCH_OR_UNLINKED",
+          "cue_c_720p_avail": true,
+          "cue_c_720p_score": 0.8393,
+          "cue_c_720p_qual": 0.9255,
+          "cue_c_720p_reason": null,
+          "cue_c_720p_zones": {
+            "moto_chassis": 0.8393
+          },
+          "cue_c_4k_avail": true,
+          "cue_c_4k_score": 0.8359,
+          "cue_c_4k_qual": 0.9498,
+          "cue_c_4k_reason": null,
+          "cue_c_4k_zones": {
+            "moto_chassis": 0.8359
+          },
+          "abs_score_diff_720_vs_4k": 0.0034,
+          "c0_composite": 0.8743,
+          "c2_composite": 0.8681,
+          "c3_composite": 0.8675,
+          "c0_outcome": "LINKED",
+          "c2_outcome": "LINKED",
+          "c3_outcome": "LINKED"
+        },
+        {
+          "pair_id": "pair_009",
+          "entity_type": "motorcycle",
+          "front_id": "front_moto_0001",
+          "back_id": "back_moto_0002",
+          "label": "NON_MATCH_OR_UNLINKED",
+          "cue_c_720p_avail": true,
+          "cue_c_720p_score": 0.8225,
+          "cue_c_720p_qual": 0.9255,
+          "cue_c_720p_reason": null,
+          "cue_c_720p_zones": {
+            "moto_chassis": 0.8225
+          },
+          "cue_c_4k_avail": true,
+          "cue_c_4k_score": 0.8287,
+          "cue_c_4k_qual": 0.9498,
+          "cue_c_4k_reason": null,
+          "cue_c_4k_zones": {
+            "moto_chassis": 0.8287
+          },
+          "abs_score_diff_720_vs_4k": 0.0062,
+          "c0_composite": 0.8515,
+          "c2_composite": 0.8464,
+          "c3_composite": 0.8475,
+          "c0_outcome": "NOT_MATCHED",
+          "c2_outcome": "NOT_MATCHED",
+          "c3_outcome": "NOT_MATCHED"
+        },
+        {
+          "pair_id": "pair_009",
+          "entity_type": "motorcycle",
+          "front_id": "front_moto_0001",
+          "back_id": "back_moto_0003",
+          "label": "NON_MATCH_OR_UNLINKED",
+          "cue_c_720p_avail": true,
+          "cue_c_720p_score": 0.7595,
+          "cue_c_720p_qual": 0.9255,
+          "cue_c_720p_reason": null,
+          "cue_c_720p_zones": {
+            "moto_chassis": 0.7595
+          },
+          "cue_c_4k_avail": true,
+          "cue_c_4k_score": 0.7592,
+          "cue_c_4k_qual": 0.9498,
+          "cue_c_4k_reason": null,
+          "cue_c_4k_zones": {
+            "moto_chassis": 0.7592
+          },
+          "abs_score_diff_720_vs_4k": 0.0003,
+          "c0_composite": 0.8249,
+          "c2_composite": 0.8134,
+          "c3_composite": 0.8133,
+          "c0_outcome": "NOT_MATCHED",
+          "c2_outcome": "NOT_MATCHED",
+          "c3_outcome": "NOT_MATCHED"
+        },
+        {
+          "pair_id": "pair_009",
+          "entity_type": "motorcycle",
+          "front_id": "front_moto_0001",
+          "back_id": "back_moto_0004",
+          "label": "NON_MATCH_OR_UNLINKED",
+          "cue_c_720p_avail": true,
+          "cue_c_720p_score": 0.5801,
+          "cue_c_720p_qual": 0.9255,
+          "cue_c_720p_reason": null,
+          "cue_c_720p_zones": {
+            "cranial_cap": 0.3705,
+            "upper_torso": 0.5395,
+            "moto_chassis": 0.9046
+          },
+          "cue_c_4k_avail": true,
+          "cue_c_4k_score": 0.5535,
+          "cue_c_4k_qual": 0.9498,
+          "cue_c_4k_reason": null,
+          "cue_c_4k_zones": {
+            "cranial_cap": 0.2854,
+            "upper_torso": 0.5394,
+            "moto_chassis": 0.9007
+          },
+          "abs_score_diff_720_vs_4k": 0.0266,
+          "c0_composite": 0.5107,
+          "c2_composite": 0.5229,
+          "c3_composite": 0.5183,
+          "c0_outcome": "NOT_MATCHED",
+          "c2_outcome": "NOT_MATCHED",
+          "c3_outcome": "NOT_MATCHED"
+        },
+        {
+          "pair_id": "pair_009",
+          "entity_type": "motorcycle",
+          "front_id": "front_moto_0001",
+          "back_id": "back_moto_0005",
+          "label": "NON_MATCH_OR_UNLINKED",
+          "cue_c_720p_avail": true,
+          "cue_c_720p_score": 0.7311,
+          "cue_c_720p_qual": 0.9255,
+          "cue_c_720p_reason": null,
+          "cue_c_720p_zones": {
+            "moto_chassis": 0.7311
+          },
+          "cue_c_4k_avail": true,
+          "cue_c_4k_score": 0.7286,
+          "cue_c_4k_qual": 0.9498,
+          "cue_c_4k_reason": null,
+          "cue_c_4k_zones": {
+            "moto_chassis": 0.7286
+          },
+          "abs_score_diff_720_vs_4k": 0.0025,
+          "c0_composite": 0.454,
+          "c2_composite": 0.5029,
+          "c3_composite": 0.5024,
+          "c0_outcome": "NOT_MATCHED",
+          "c2_outcome": "NOT_MATCHED",
+          "c3_outcome": "NOT_MATCHED"
+        },
+        {
+          "pair_id": "pair_009",
+          "entity_type": "motorcycle",
+          "front_id": "front_moto_0001",
+          "back_id": "back_moto_0006",
+          "label": "NON_MATCH_OR_UNLINKED",
+          "cue_c_720p_avail": true,
+          "cue_c_720p_score": 0.809,
+          "cue_c_720p_qual": 0.9255,
+          "cue_c_720p_reason": null,
+          "cue_c_720p_zones": {
+            "moto_chassis": 0.809
+          },
+          "cue_c_4k_avail": true,
+          "cue_c_4k_score": 0.7983,
+          "cue_c_4k_qual": 0.9498,
+          "cue_c_4k_reason": null,
+          "cue_c_4k_zones": {
+            "moto_chassis": 0.7983
+          },
+          "abs_score_diff_720_vs_4k": 0.0107,
+          "c0_composite": 0.481,
+          "c2_composite": 0.5389,
+          "c3_composite": 0.537,
+          "c0_outcome": "NOT_MATCHED",
+          "c2_outcome": "NOT_MATCHED",
+          "c3_outcome": "NOT_MATCHED"
+        },
+        {
+          "pair_id": "pair_009",
+          "entity_type": "motorcycle",
+          "front_id": "front_moto_0001",
+          "back_id": "back_moto_0007",
+          "label": "NON_MATCH_OR_UNLINKED",
+          "cue_c_720p_avail": true,
+          "cue_c_720p_score": 0.819,
+          "cue_c_720p_qual": 0.9255,
+          "cue_c_720p_reason": null,
+          "cue_c_720p_zones": {
+            "moto_chassis": 0.819
+          },
+          "cue_c_4k_avail": true,
+          "cue_c_4k_score": 0.805,
+          "cue_c_4k_qual": 0.9498,
+          "cue_c_4k_reason": null,
+          "cue_c_4k_zones": {
+            "moto_chassis": 0.805
+          },
+          "abs_score_diff_720_vs_4k": 0.014,
+          "c0_composite": 0.2919,
+          "c2_composite": 0.3849,
+          "c3_composite": 0.3825,
+          "c0_outcome": "NOT_MATCHED",
+          "c2_outcome": "NOT_MATCHED",
+          "c3_outcome": "NOT_MATCHED"
+        },
+        {
+          "pair_id": "pair_009",
+          "entity_type": "motorcycle",
+          "front_id": "front_moto_0001",
+          "back_id": "back_moto_0008",
+          "label": "NON_MATCH_OR_UNLINKED",
+          "cue_c_720p_avail": true,
+          "cue_c_720p_score": 0.8236,
+          "cue_c_720p_qual": 0.9255,
+          "cue_c_720p_reason": null,
+          "cue_c_720p_zones": {
+            "moto_chassis": 0.8236
+          },
+          "cue_c_4k_avail": true,
+          "cue_c_4k_score": 0.8078,
+          "cue_c_4k_qual": 0.9498,
+          "cue_c_4k_reason": null,
+          "cue_c_4k_zones": {
+            "moto_chassis": 0.8078
+          },
+          "abs_score_diff_720_vs_4k": 0.0157,
+          "c0_composite": 0.2624,
+          "c2_composite": 0.3615,
+          "c3_composite": 0.3587,
+          "c0_outcome": "NOT_MATCHED",
+          "c2_outcome": "NOT_MATCHED",
+          "c3_outcome": "NOT_MATCHED"
+        },
+        {
+          "pair_id": "pair_009",
+          "entity_type": "motorcycle",
+          "front_id": "front_moto_0001",
+          "back_id": "back_moto_0009",
+          "label": "NON_MATCH_OR_UNLINKED",
+          "cue_c_720p_avail": true,
+          "cue_c_720p_score": 0.7301,
+          "cue_c_720p_qual": 0.9255,
+          "cue_c_720p_reason": null,
+          "cue_c_720p_zones": {
+            "moto_chassis": 0.7301
+          },
+          "cue_c_4k_avail": true,
+          "cue_c_4k_score": 0.728,
+          "cue_c_4k_qual": 0.9498,
+          "cue_c_4k_reason": null,
+          "cue_c_4k_zones": {
+            "moto_chassis": 0.728
+          },
+          "abs_score_diff_720_vs_4k": 0.0021,
+          "c0_composite": 0.26,
+          "c2_composite": 0.343,
+          "c3_composite": 0.3426,
+          "c0_outcome": "NOT_MATCHED",
+          "c2_outcome": "NOT_MATCHED",
+          "c3_outcome": "NOT_MATCHED"
+        },
+        {
+          "pair_id": "pair_009",
+          "entity_type": "motorcycle",
+          "front_id": "front_moto_0001",
+          "back_id": "back_moto_0010",
+          "label": "NON_MATCH_OR_UNLINKED",
+          "cue_c_720p_avail": true,
+          "cue_c_720p_score": 0.7425,
+          "cue_c_720p_qual": 0.9255,
+          "cue_c_720p_reason": null,
+          "cue_c_720p_zones": {
+            "moto_chassis": 0.7425
+          },
+          "cue_c_4k_avail": true,
+          "cue_c_4k_score": 0.7386,
+          "cue_c_4k_qual": 0.9498,
+          "cue_c_4k_reason": null,
+          "cue_c_4k_zones": {
+            "moto_chassis": 0.7386
+          },
+          "abs_score_diff_720_vs_4k": 0.004,
+          "c0_composite": 0.2585,
+          "c2_composite": 0.344,
+          "c3_composite": 0.3433,
+          "c0_outcome": "NOT_MATCHED",
+          "c2_outcome": "NOT_MATCHED",
+          "c3_outcome": "NOT_MATCHED"
+        },
+        {
+          "pair_id": "pair_009",
+          "entity_type": "motorcycle",
+          "front_id": "front_moto_0001",
+          "back_id": "back_moto_0011",
+          "label": "NON_MATCH_OR_UNLINKED",
+          "cue_c_720p_avail": true,
+          "cue_c_720p_score": 0.7191,
+          "cue_c_720p_qual": 0.9255,
+          "cue_c_720p_reason": null,
+          "cue_c_720p_zones": {
+            "moto_chassis": 0.7191
+          },
+          "cue_c_4k_avail": true,
+          "cue_c_4k_score": 0.7137,
+          "cue_c_4k_qual": 0.9498,
+          "cue_c_4k_reason": null,
+          "cue_c_4k_zones": {
+            "moto_chassis": 0.7137
+          },
+          "abs_score_diff_720_vs_4k": 0.0054,
+          "c0_composite": 0.251,
+          "c2_composite": 0.3336,
+          "c3_composite": 0.3326,
+          "c0_outcome": "NOT_MATCHED",
+          "c2_outcome": "NOT_MATCHED",
+          "c3_outcome": "NOT_MATCHED"
+        },
+        {
+          "pair_id": "pair_009",
+          "entity_type": "orphan",
+          "front_id": "front_orphan_0002",
+          "back_id": "back_orphan_0001",
+          "label": "GT_LINKED_ORPHAN",
+          "cue_c_720p_avail": true,
+          "cue_c_720p_score": 0.558,
+          "cue_c_720p_qual": 1.0,
+          "cue_c_720p_reason": null,
+          "cue_c_720p_zones": {
+            "cranial_cap": 0.2685,
+            "upper_torso": 0.7509
+          },
+          "cue_c_4k_avail": true,
+          "cue_c_4k_score": 0.5558,
+          "cue_c_4k_qual": 0.8413,
+          "cue_c_4k_reason": null,
+          "cue_c_4k_zones": {
+            "cranial_cap": 0.2665,
+            "upper_torso": 0.7487
+          },
+          "abs_score_diff_720_vs_4k": 0.0022,
+          "c0_composite": null,
+          "c2_composite": null,
+          "c3_composite": null,
+          "c0_outcome": "LINKED",
+          "c2_outcome": "LINKED",
+          "c3_outcome": "LINKED"
+        }
+      ]
+    },
+    {
+      "pair_id": "pair_019",
+      "keyframe_retention": {
+        "front_a0_retained_count": 24,
+        "back_a0_retained_count": 24,
+        "front_a4_retained_count": 24,
+        "back_a4_retained_count": 24,
+        "front_a4_keyframes": [
+          0,
+          3,
+          6,
+          9,
+          38,
+          54,
+          57,
+          60,
+          63,
+          66,
+          90,
+          92,
+          93,
+          94,
+          95,
+          99,
+          100,
+          103,
+          107,
+          137,
+          153,
+          154,
+          156,
+          160
+        ],
+        "back_a4_keyframes": [
+          0,
+          1,
+          16,
+          19,
+          25,
+          33,
+          46,
+          53,
+          56,
+          60,
+          61,
+          63,
+          66,
+          90,
+          102,
+          118,
+          120,
+          122,
+          123,
+          127,
+          130,
+          131,
+          158,
+          193
+        ]
+      },
+      "decode_stats": {
+        "front": {
+          "pair_id": "pair_019",
+          "camera": "front",
+          "video_path": "data/dual_camera_test_v1/front/pair_019_front.mp4",
+          "native_width": 3840,
+          "native_height": 2160,
+          "keyframe_width": 1280,
+          "keyframe_height": 720,
+          "container_frame_count": 372,
+          "is_vfr": false,
+          "pts_index_frames": 372,
+          "unique_keyframes_decoded": 28,
+          "decode_call_count": 28,
+          "cache_hit_count": 0
+        },
+        "back": {
+          "pair_id": "pair_019",
+          "camera": "back",
+          "video_path": "data/dual_camera_test_v1/back/pair_019_back.mp4",
+          "native_width": 3840,
+          "native_height": 2160,
+          "keyframe_width": 1280,
+          "keyframe_height": 720,
+          "container_frame_count": 231,
+          "is_vfr": false,
+          "pts_index_frames": 231,
+          "unique_keyframes_decoded": 27,
+          "decode_call_count": 27,
+          "cache_hit_count": 0
+        }
+      },
+      "arm_summaries": {
+        "C0_A4_no_cue_c": {
+          "by_entity_type": {
+            "motorcycle": {
+              "total": 5,
+              "available": 0,
+              "availability_rate": 0.0,
+              "mean_valid_crops": 0.0,
+              "mean_crop_quality_when_available": 0.0,
+              "unavailable_reasons": {
+                "NO_FRAME_IMAGES_PROVIDED": 5
+              },
+              "crop_rejection_counts": {}
+            },
+            "rider": {
+              "total": 9,
+              "available": 0,
+              "availability_rate": 0.0,
+              "mean_valid_crops": 0.0,
+              "mean_crop_quality_when_available": 0.0,
+              "unavailable_reasons": {
+                "NO_FRAME_IMAGES_PROVIDED": 9
+              },
+              "crop_rejection_counts": {}
+            },
+            "orphan": {
+              "total": 12,
+              "available": 0,
+              "availability_rate": 0.0,
+              "mean_valid_crops": 0.0,
+              "mean_crop_quality_when_available": 0.0,
+              "unavailable_reasons": {
+                "NO_FRAME_IMAGES_PROVIDED": 12
+              },
+              "crop_rejection_counts": {}
+            }
+          },
+          "total_unavailable_reasons": {
+            "NO_FRAME_IMAGES_PROVIDED": 26
+          },
+          "total_crop_rejection_counts": {}
+        },
+        "C1_A0_720p_kf": {
+          "by_entity_type": {
+            "motorcycle": {
+              "total": 5,
+              "available": 5,
+              "availability_rate": 1.0,
+              "mean_valid_crops": 15.8,
+              "mean_crop_quality_when_available": 0.9924,
+              "unavailable_reasons": {},
+              "crop_rejection_counts": {}
+            },
+            "rider": {
+              "total": 8,
+              "available": 8,
+              "availability_rate": 1.0,
+              "mean_valid_crops": 8.375,
+              "mean_crop_quality_when_available": 0.9768,
+              "unavailable_reasons": {},
+              "crop_rejection_counts": {
+                "CROP_BELOW_MIN_RESOLUTION": 1
+              }
+            },
+            "orphan": {
+              "total": 25,
+              "available": 25,
+              "availability_rate": 1.0,
+              "mean_valid_crops": 3.0,
+              "mean_crop_quality_when_available": 0.9502,
+              "unavailable_reasons": {},
+              "crop_rejection_counts": {
+                "CROP_BELOW_MIN_RESOLUTION": 3
+              }
+            }
+          },
+          "total_unavailable_reasons": {},
+          "total_crop_rejection_counts": {
+            "CROP_BELOW_MIN_RESOLUTION": 4
+          }
+        },
+        "C2_A4_720p_kf": {
+          "by_entity_type": {
+            "motorcycle": {
+              "total": 5,
+              "available": 5,
+              "availability_rate": 1.0,
+              "mean_valid_crops": 17.4,
+              "mean_crop_quality_when_available": 0.9924,
+              "unavailable_reasons": {},
+              "crop_rejection_counts": {}
+            },
+            "rider": {
+              "total": 9,
+              "available": 9,
+              "availability_rate": 1.0,
+              "mean_valid_crops": 8.111,
+              "mean_crop_quality_when_available": 0.9863,
+              "unavailable_reasons": {},
+              "crop_rejection_counts": {
+                "CROP_BELOW_MIN_RESOLUTION": 1
+              }
+            },
+            "orphan": {
+              "total": 12,
+              "available": 12,
+              "availability_rate": 1.0,
+              "mean_valid_crops": 4.333,
+              "mean_crop_quality_when_available": 0.9401,
+              "unavailable_reasons": {},
+              "crop_rejection_counts": {
+                "CROP_BELOW_MIN_RESOLUTION": 3
+              }
+            }
+          },
+          "total_unavailable_reasons": {},
+          "total_crop_rejection_counts": {
+            "CROP_BELOW_MIN_RESOLUTION": 4
+          }
+        },
+        "C3_A4_4k_native": {
+          "by_entity_type": {
+            "motorcycle": {
+              "total": 5,
+              "available": 5,
+              "availability_rate": 1.0,
+              "mean_valid_crops": 17.2,
+              "mean_crop_quality_when_available": 0.9891,
+              "unavailable_reasons": {},
+              "crop_rejection_counts": {}
+            },
+            "rider": {
+              "total": 9,
+              "available": 9,
+              "availability_rate": 1.0,
+              "mean_valid_crops": 8.0,
+              "mean_crop_quality_when_available": 0.989,
+              "unavailable_reasons": {},
+              "crop_rejection_counts": {
+                "CROP_MOTION_BLUR_BELOW_SHARPNESS": 2
+              }
+            },
+            "orphan": {
+              "total": 12,
+              "available": 12,
+              "availability_rate": 1.0,
+              "mean_valid_crops": 4.583,
+              "mean_crop_quality_when_available": 0.9449,
+              "unavailable_reasons": {},
+              "crop_rejection_counts": {}
+            }
+          },
+          "total_unavailable_reasons": {},
+          "total_crop_rejection_counts": {
+            "CROP_MOTION_BLUR_BELOW_SHARPNESS": 2
+          }
+        },
+        "C4_A4_720p_none_dims_probe": {
+          "by_entity_type": {
+            "motorcycle": {
+              "total": 5,
+              "available": 0,
+              "availability_rate": 0.0,
+              "mean_valid_crops": 0.0,
+              "mean_crop_quality_when_available": 0.0,
+              "unavailable_reasons": {
+                "COORDINATE_SPACE_MISMATCH_UNKNOWN_NATIVE_DIMENSIONS": 5
+              },
+              "crop_rejection_counts": {
+                "COORDINATE_SPACE_MISMATCH_UNKNOWN_NATIVE_DIMENSIONS": 40
+              }
+            },
+            "rider": {
+              "total": 9,
+              "available": 0,
+              "availability_rate": 0.0,
+              "mean_valid_crops": 0.0,
+              "mean_crop_quality_when_available": 0.0,
+              "unavailable_reasons": {
+                "COORDINATE_SPACE_MISMATCH_UNKNOWN_NATIVE_DIMENSIONS": 9
+              },
+              "crop_rejection_counts": {
+                "COORDINATE_SPACE_MISMATCH_UNKNOWN_NATIVE_DIMENSIONS": 74
+              }
+            },
+            "orphan": {
+              "total": 12,
+              "available": 0,
+              "availability_rate": 0.0,
+              "mean_valid_crops": 0.0,
+              "mean_crop_quality_when_available": 0.0,
+              "unavailable_reasons": {
+                "COORDINATE_SPACE_MISMATCH_UNKNOWN_NATIVE_DIMENSIONS": 12
+              },
+              "crop_rejection_counts": {
+                "COORDINATE_SPACE_MISMATCH_UNKNOWN_NATIVE_DIMENSIONS": 55
+              }
+            }
+          },
+          "total_unavailable_reasons": {
+            "COORDINATE_SPACE_MISMATCH_UNKNOWN_NATIVE_DIMENSIONS": 26
+          },
+          "total_crop_rejection_counts": {
+            "COORDINATE_SPACE_MISMATCH_UNKNOWN_NATIVE_DIMENSIONS": 169
+          }
+        }
+      },
+      "outcome_counts": {
+        "C0_A4_no_cue_c": {
+          "motorcycle": {
+            "AMBIGUOUS_ABSTAIN": 0,
+            "INSUFFICIENT_EVIDENCE": 1,
+            "LINKED": 1,
+            "UNMATCHED": 2
+          },
+          "rider": {
+            "AMBIGUOUS_ABSTAIN": 1,
+            "INSUFFICIENT_EVIDENCE": 0,
+            "LINKED": 1,
+            "UNMATCHED": 1
+          },
+          "orphan": {
+            "AMBIGUOUS_ABSTAIN": 4,
+            "INSUFFICIENT_EVIDENCE": 0,
+            "LINKED": 0,
+            "UNMATCHED": 5
+          }
+        },
+        "C1_A0_720p_kf": {
+          "motorcycle": {
+            "AMBIGUOUS_ABSTAIN": 2,
+            "INSUFFICIENT_EVIDENCE": 1,
+            "LINKED": 0,
+            "UNMATCHED": 1
+          },
+          "rider": {
+            "AMBIGUOUS_ABSTAIN": 0,
+            "INSUFFICIENT_EVIDENCE": 0,
+            "LINKED": 0,
+            "UNMATCHED": 0
+          },
+          "orphan": {
+            "AMBIGUOUS_ABSTAIN": 3,
+            "INSUFFICIENT_EVIDENCE": 11,
+            "LINKED": 0,
+            "UNMATCHED": 8
+          }
+        },
+        "C2_A4_720p_kf": {
+          "motorcycle": {
+            "AMBIGUOUS_ABSTAIN": 0,
+            "INSUFFICIENT_EVIDENCE": 1,
+            "LINKED": 1,
+            "UNMATCHED": 2
+          },
+          "rider": {
+            "AMBIGUOUS_ABSTAIN": 1,
+            "INSUFFICIENT_EVIDENCE": 0,
+            "LINKED": 1,
+            "UNMATCHED": 1
+          },
+          "orphan": {
+            "AMBIGUOUS_ABSTAIN": 5,
+            "INSUFFICIENT_EVIDENCE": 0,
+            "LINKED": 0,
+            "UNMATCHED": 4
+          }
+        },
+        "C3_A4_4k_native": {
+          "motorcycle": {
+            "AMBIGUOUS_ABSTAIN": 0,
+            "INSUFFICIENT_EVIDENCE": 1,
+            "LINKED": 1,
+            "UNMATCHED": 2
+          },
+          "rider": {
+            "AMBIGUOUS_ABSTAIN": 1,
+            "INSUFFICIENT_EVIDENCE": 0,
+            "LINKED": 1,
+            "UNMATCHED": 1
+          },
+          "orphan": {
+            "AMBIGUOUS_ABSTAIN": 5,
+            "INSUFFICIENT_EVIDENCE": 0,
+            "LINKED": 0,
+            "UNMATCHED": 4
+          }
+        },
+        "C4_A4_720p_none_dims_probe": {
+          "motorcycle": {
+            "AMBIGUOUS_ABSTAIN": 0,
+            "INSUFFICIENT_EVIDENCE": 1,
+            "LINKED": 1,
+            "UNMATCHED": 2
+          },
+          "rider": {
+            "AMBIGUOUS_ABSTAIN": 1,
+            "INSUFFICIENT_EVIDENCE": 0,
+            "LINKED": 1,
+            "UNMATCHED": 1
+          },
+          "orphan": {
+            "AMBIGUOUS_ABSTAIN": 4,
+            "INSUFFICIENT_EVIDENCE": 0,
+            "LINKED": 0,
+            "UNMATCHED": 5
+          }
+        }
+      },
+      "non_finite_score_counts": {
+        "C0_A4_no_cue_c": 0,
+        "C1_A0_720p_kf": 0,
+        "C2_A4_720p_kf": 0,
+        "C3_A4_4k_native": 0,
+        "C4_A4_720p_none_dims_probe": 0
+      },
+      "resolution_self_similarity": [
+        {
+          "pair_id": "pair_019",
+          "entity_type": "motorcycle",
+          "camera_id": "back",
+          "track_id": "back_moto_0001",
+          "720p_available": true,
+          "4k_available": true,
+          "720p_quality": 1.0,
+          "4k_quality": 1.0,
+          "720p_valid_crops": 1,
+          "4k_valid_crops": 1,
+          "both_available": true,
+          "reason": null,
+          "composite_self_similarity": 0.9995,
+          "chassis_self_similarity": 0.9995,
+          "cranial_self_similarity": null,
+          "torso_self_similarity": null,
+          "zone_scores": {
+            "moto_chassis": 0.9995
+          }
+        },
+        {
+          "pair_id": "pair_019",
+          "entity_type": "motorcycle",
+          "camera_id": "back",
+          "track_id": "back_moto_0002",
+          "720p_available": true,
+          "4k_available": true,
+          "720p_quality": 1.0,
+          "4k_quality": 0.9949,
+          "720p_valid_crops": 15,
+          "4k_valid_crops": 16,
+          "both_available": true,
+          "reason": null,
+          "composite_self_similarity": 0.9895,
+          "chassis_self_similarity": 0.9999,
+          "cranial_self_similarity": 0.9651,
+          "torso_self_similarity": 0.9999,
+          "zone_scores": {
+            "cranial_cap": 0.9651,
+            "upper_torso": 0.9999,
+            "moto_chassis": 0.9999
+          }
+        },
+        {
+          "pair_id": "pair_019",
+          "entity_type": "motorcycle",
+          "camera_id": "front",
+          "track_id": "front_moto_0001",
+          "720p_available": true,
+          "4k_available": true,
+          "720p_quality": 0.962,
+          "4k_quality": 0.9933,
+          "720p_valid_crops": 46,
+          "4k_valid_crops": 46,
+          "both_available": true,
+          "reason": null,
+          "composite_self_similarity": 0.9998,
+          "chassis_self_similarity": 0.9999,
+          "cranial_self_similarity": 0.9997,
+          "torso_self_similarity": 0.9997,
+          "zone_scores": {
+            "cranial_cap": 0.9997,
+            "upper_torso": 0.9997,
+            "moto_chassis": 0.9999
+          }
+        },
+        {
+          "pair_id": "pair_019",
+          "entity_type": "motorcycle",
+          "camera_id": "front",
+          "track_id": "front_moto_0002",
+          "720p_available": true,
+          "4k_available": true,
+          "720p_quality": 1.0,
+          "4k_quality": 0.9574,
+          "720p_valid_crops": 17,
+          "4k_valid_crops": 15,
+          "both_available": true,
+          "reason": null,
+          "composite_self_similarity": 0.9915,
+          "chassis_self_similarity": 1.0,
+          "cranial_self_similarity": 0.9719,
+          "torso_self_similarity": 1.0,
+          "zone_scores": {
+            "cranial_cap": 0.9719,
+            "upper_torso": 1.0,
+            "moto_chassis": 1.0
+          }
+        },
+        {
+          "pair_id": "pair_019",
+          "entity_type": "motorcycle",
+          "camera_id": "front",
+          "track_id": "front_moto_0003",
+          "720p_available": true,
+          "4k_available": true,
+          "720p_quality": 1.0,
+          "4k_quality": 1.0,
+          "720p_valid_crops": 8,
+          "4k_valid_crops": 8,
+          "both_available": true,
+          "reason": null,
+          "composite_self_similarity": 0.9993,
+          "chassis_self_similarity": 0.9999,
+          "cranial_self_similarity": 0.9982,
+          "torso_self_similarity": 0.9998,
+          "zone_scores": {
+            "cranial_cap": 0.9982,
+            "upper_torso": 0.9998,
+            "moto_chassis": 0.9999
+          }
+        },
+        {
+          "pair_id": "pair_019",
+          "entity_type": "orphan",
+          "camera_id": "back",
+          "track_id": "back_orphan_0001",
+          "720p_available": true,
+          "4k_available": true,
+          "720p_quality": 0.8604,
+          "4k_quality": 0.9199,
+          "720p_valid_crops": 4,
+          "4k_valid_crops": 4,
+          "both_available": true,
+          "reason": null,
+          "composite_self_similarity": 0.9934,
+          "chassis_self_similarity": null,
+          "cranial_self_similarity": 0.9861,
+          "torso_self_similarity": 0.9982,
+          "zone_scores": {
+            "cranial_cap": 0.9861,
+            "upper_torso": 0.9982
+          }
+        },
+        {
+          "pair_id": "pair_019",
+          "entity_type": "orphan",
+          "camera_id": "back",
+          "track_id": "back_orphan_0003",
+          "720p_available": true,
+          "4k_available": true,
+          "720p_quality": 0.8911,
+          "4k_quality": 0.8762,
+          "720p_valid_crops": 3,
+          "4k_valid_crops": 4,
+          "both_available": true,
+          "reason": null,
+          "composite_self_similarity": 0.9857,
+          "chassis_self_similarity": null,
+          "cranial_self_similarity": 0.9694,
+          "torso_self_similarity": 0.9967,
+          "zone_scores": {
+            "cranial_cap": 0.9694,
+            "upper_torso": 0.9967
+          }
+        },
+        {
+          "pair_id": "pair_019",
+          "entity_type": "orphan",
+          "camera_id": "back",
+          "track_id": "back_orphan_0007",
+          "720p_available": true,
+          "4k_available": true,
+          "720p_quality": 1.0,
+          "4k_quality": 0.8694,
+          "720p_valid_crops": 1,
+          "4k_valid_crops": 2,
+          "both_available": true,
+          "reason": null,
+          "composite_self_similarity": 0.9969,
+          "chassis_self_similarity": null,
+          "cranial_self_similarity": null,
+          "torso_self_similarity": 0.9969,
+          "zone_scores": {
+            "upper_torso": 0.9969
+          }
+        },
+        {
+          "pair_id": "pair_019",
+          "entity_type": "orphan",
+          "camera_id": "back",
+          "track_id": "back_orphan_0009",
+          "720p_available": true,
+          "4k_available": true,
+          "720p_quality": 0.8436,
+          "4k_quality": 0.8941,
+          "720p_valid_crops": 10,
+          "4k_valid_crops": 10,
+          "both_available": true,
+          "reason": null,
+          "composite_self_similarity": 0.996,
+          "chassis_self_similarity": null,
+          "cranial_self_similarity": 0.9913,
+          "torso_self_similarity": 0.9992,
+          "zone_scores": {
+            "cranial_cap": 0.9913,
+            "upper_torso": 0.9992
+          }
+        },
+        {
+          "pair_id": "pair_019",
+          "entity_type": "orphan",
+          "camera_id": "back",
+          "track_id": "back_orphan_0011",
+          "720p_available": true,
+          "4k_available": true,
+          "720p_quality": 0.8911,
+          "4k_quality": 0.8672,
+          "720p_valid_crops": 3,
+          "4k_valid_crops": 4,
+          "both_available": true,
+          "reason": null,
+          "composite_self_similarity": 0.9861,
+          "chassis_self_similarity": null,
+          "cranial_self_similarity": 0.9677,
+          "torso_self_similarity": 0.9984,
+          "zone_scores": {
+            "cranial_cap": 0.9677,
+            "upper_torso": 0.9984
+          }
+        },
+        {
+          "pair_id": "pair_019",
+          "entity_type": "orphan",
+          "camera_id": "back",
+          "track_id": "back_orphan_0012",
+          "720p_available": true,
+          "4k_available": true,
+          "720p_quality": 0.8844,
+          "4k_quality": 0.9566,
+          "720p_valid_crops": 16,
+          "4k_valid_crops": 16,
+          "both_available": true,
+          "reason": null,
+          "composite_self_similarity": 0.9987,
+          "chassis_self_similarity": null,
+          "cranial_self_similarity": 0.9975,
+          "torso_self_similarity": 0.9995,
+          "zone_scores": {
+            "cranial_cap": 0.9975,
+            "upper_torso": 0.9995
+          }
+        },
+        {
+          "pair_id": "pair_019",
+          "entity_type": "orphan",
+          "camera_id": "back",
+          "track_id": "back_orphan_0013",
+          "720p_available": true,
+          "4k_available": true,
+          "720p_quality": 0.9613,
+          "4k_quality": 1.0,
+          "720p_valid_crops": 2,
+          "4k_valid_crops": 2,
+          "both_available": true,
+          "reason": null,
+          "composite_self_similarity": 0.9953,
+          "chassis_self_similarity": null,
+          "cranial_self_similarity": 0.9924,
+          "torso_self_similarity": 0.9973,
+          "zone_scores": {
+            "cranial_cap": 0.9924,
+            "upper_torso": 0.9973
+          }
+        },
+        {
+          "pair_id": "pair_019",
+          "entity_type": "orphan",
+          "camera_id": "back",
+          "track_id": "back_orphan_0016",
+          "720p_available": true,
+          "4k_available": true,
+          "720p_quality": 0.9495,
+          "4k_quality": 1.0,
+          "720p_valid_crops": 2,
+          "4k_valid_crops": 2,
+          "both_available": true,
+          "reason": null,
+          "composite_self_similarity": 0.9963,
+          "chassis_self_similarity": null,
+          "cranial_self_similarity": 0.9924,
+          "torso_self_similarity": 0.9988,
+          "zone_scores": {
+            "cranial_cap": 0.9924,
+            "upper_torso": 0.9988
+          }
+        },
+        {
+          "pair_id": "pair_019",
+          "entity_type": "orphan",
+          "camera_id": "back",
+          "track_id": "back_orphan_0017",
+          "720p_available": true,
+          "4k_available": true,
+          "720p_quality": 1.0,
+          "4k_quality": 0.9553,
+          "720p_valid_crops": 2,
+          "4k_valid_crops": 2,
+          "both_available": true,
+          "reason": null,
+          "composite_self_similarity": 0.9966,
+          "chassis_self_similarity": null,
+          "cranial_self_similarity": 0.9924,
+          "torso_self_similarity": 0.9994,
+          "zone_scores": {
+            "cranial_cap": 0.9924,
+            "upper_torso": 0.9994
+          }
+        },
+        {
+          "pair_id": "pair_019",
+          "entity_type": "orphan",
+          "camera_id": "front",
+          "track_id": "front_orphan_0001",
+          "720p_available": true,
+          "4k_available": true,
+          "720p_quality": 1.0,
+          "4k_quality": 1.0,
+          "720p_valid_crops": 1,
+          "4k_valid_crops": 1,
+          "both_available": true,
+          "reason": null,
+          "composite_self_similarity": 0.9957,
+          "chassis_self_similarity": null,
+          "cranial_self_similarity": 0.9957,
+          "torso_self_similarity": null,
+          "zone_scores": {
+            "cranial_cap": 0.9957
+          }
+        },
+        {
+          "pair_id": "pair_019",
+          "entity_type": "orphan",
+          "camera_id": "front",
+          "track_id": "front_orphan_0008",
+          "720p_available": true,
+          "4k_available": true,
+          "720p_quality": 1.0,
+          "4k_quality": 1.0,
+          "720p_valid_crops": 4,
+          "4k_valid_crops": 4,
+          "both_available": true,
+          "reason": null,
+          "composite_self_similarity": 0.9988,
+          "chassis_self_similarity": null,
+          "cranial_self_similarity": 0.9973,
+          "torso_self_similarity": 0.9998,
+          "zone_scores": {
+            "cranial_cap": 0.9973,
+            "upper_torso": 0.9998
+          }
+        },
+        {
+          "pair_id": "pair_019",
+          "entity_type": "orphan",
+          "camera_id": "front",
+          "track_id": "front_orphan_0010",
+          "720p_available": true,
+          "4k_available": true,
+          "720p_quality": 1.0,
+          "4k_quality": 1.0,
+          "720p_valid_crops": 4,
+          "4k_valid_crops": 4,
+          "both_available": true,
+          "reason": null,
+          "composite_self_similarity": 0.9989,
+          "chassis_self_similarity": null,
+          "cranial_self_similarity": 0.9989,
+          "torso_self_similarity": 0.9989,
+          "zone_scores": {
+            "cranial_cap": 0.9989,
+            "upper_torso": 0.9989
+          }
+        },
+        {
+          "pair_id": "pair_019",
+          "entity_type": "rider",
+          "camera_id": "back",
+          "track_id": "back_moto_0002_rider_s0",
+          "720p_available": true,
+          "4k_available": true,
+          "720p_quality": 1.0,
+          "4k_quality": 1.0,
+          "720p_valid_crops": 7,
+          "4k_valid_crops": 8,
+          "both_available": true,
+          "reason": null,
+          "composite_self_similarity": 0.986,
+          "chassis_self_similarity": null,
+          "cranial_self_similarity": 0.9651,
+          "torso_self_similarity": 0.9999,
+          "zone_scores": {
+            "cranial_cap": 0.9651,
+            "upper_torso": 0.9999
+          }
+        },
+        {
+          "pair_id": "pair_019",
+          "entity_type": "rider",
+          "camera_id": "back",
+          "track_id": "back_moto_0002_rider_s1",
+          "720p_available": true,
+          "4k_available": true,
+          "720p_quality": 1.0,
+          "4k_quality": 1.0,
+          "720p_valid_crops": 2,
+          "4k_valid_crops": 2,
+          "both_available": true,
+          "reason": null,
+          "composite_self_similarity": 0.9951,
+          "chassis_self_similarity": null,
+          "cranial_self_similarity": 0.9951,
+          "torso_self_similarity": null,
+          "zone_scores": {
+            "cranial_cap": 0.9951
+          }
+        },
+        {
+          "pair_id": "pair_019",
+          "entity_type": "rider",
+          "camera_id": "front",
+          "track_id": "front_moto_0001_rider_s0",
+          "720p_available": true,
+          "4k_available": true,
+          "720p_quality": 0.9239,
+          "4k_quality": 0.9866,
+          "720p_valid_crops": 27,
+          "4k_valid_crops": 27,
+          "both_available": true,
+          "reason": null,
+          "composite_self_similarity": 0.9997,
+          "chassis_self_similarity": null,
+          "cranial_self_similarity": 0.9997,
+          "torso_self_similarity": 0.9997,
+          "zone_scores": {
+            "cranial_cap": 0.9997,
+            "upper_torso": 0.9997
+          }
+        },
+        {
+          "pair_id": "pair_019",
+          "entity_type": "rider",
+          "camera_id": "front",
+          "track_id": "front_moto_0001_rider_s1",
+          "720p_available": true,
+          "4k_available": true,
+          "720p_quality": 0.9526,
+          "4k_quality": 1.0,
+          "720p_valid_crops": 17,
+          "4k_valid_crops": 17,
+          "both_available": true,
+          "reason": null,
+          "composite_self_similarity": 0.9993,
+          "chassis_self_similarity": null,
+          "cranial_self_similarity": 0.999,
+          "torso_self_similarity": 0.9995,
+          "zone_scores": {
+            "cranial_cap": 0.999,
+            "upper_torso": 0.9995
+          }
+        },
+        {
+          "pair_id": "pair_019",
+          "entity_type": "rider",
+          "camera_id": "front",
+          "track_id": "front_moto_0002_rider_s0",
+          "720p_available": true,
+          "4k_available": true,
+          "720p_quality": 1.0,
+          "4k_quality": 1.0,
+          "720p_valid_crops": 3,
+          "4k_valid_crops": 3,
+          "both_available": true,
+          "reason": null,
+          "composite_self_similarity": 0.9992,
+          "chassis_self_similarity": null,
+          "cranial_self_similarity": 0.9986,
+          "torso_self_similarity": 0.9996,
+          "zone_scores": {
+            "cranial_cap": 0.9986,
+            "upper_torso": 0.9996
+          }
+        },
+        {
+          "pair_id": "pair_019",
+          "entity_type": "rider",
+          "camera_id": "front",
+          "track_id": "front_moto_0002_rider_s1",
+          "720p_available": true,
+          "4k_available": true,
+          "720p_quality": 1.0,
+          "4k_quality": 1.0,
+          "720p_valid_crops": 2,
+          "4k_valid_crops": 2,
+          "both_available": true,
+          "reason": null,
+          "composite_self_similarity": 0.9989,
+          "chassis_self_similarity": null,
+          "cranial_self_similarity": 0.9987,
+          "torso_self_similarity": 0.999,
+          "zone_scores": {
+            "cranial_cap": 0.9987,
+            "upper_torso": 0.999
+          }
+        },
+        {
+          "pair_id": "pair_019",
+          "entity_type": "rider",
+          "camera_id": "front",
+          "track_id": "front_moto_0002_rider_s2",
+          "720p_available": true,
+          "4k_available": true,
+          "720p_quality": 1.0,
+          "4k_quality": 0.9149,
+          "720p_valid_crops": 9,
+          "4k_valid_crops": 7,
+          "both_available": true,
+          "reason": null,
+          "composite_self_similarity": 0.9887,
+          "chassis_self_similarity": null,
+          "cranial_self_similarity": 0.9719,
+          "torso_self_similarity": 1.0,
+          "zone_scores": {
+            "cranial_cap": 0.9719,
+            "upper_torso": 1.0
+          }
+        },
+        {
+          "pair_id": "pair_019",
+          "entity_type": "rider",
+          "camera_id": "front",
+          "track_id": "front_moto_0003_rider_s0",
+          "720p_available": true,
+          "4k_available": true,
+          "720p_quality": 1.0,
+          "4k_quality": 1.0,
+          "720p_valid_crops": 4,
+          "4k_valid_crops": 4,
+          "both_available": true,
+          "reason": null,
+          "composite_self_similarity": 0.9991,
+          "chassis_self_similarity": null,
+          "cranial_self_similarity": 0.9982,
+          "torso_self_similarity": 0.9998,
+          "zone_scores": {
+            "cranial_cap": 0.9982,
+            "upper_torso": 0.9998
+          }
+        },
+        {
+          "pair_id": "pair_019",
+          "entity_type": "rider",
+          "camera_id": "front",
+          "track_id": "front_moto_0003_rider_s1",
+          "720p_available": true,
+          "4k_available": true,
+          "720p_quality": 1.0,
+          "4k_quality": 1.0,
+          "720p_valid_crops": 2,
+          "4k_valid_crops": 2,
+          "both_available": true,
+          "reason": null,
+          "composite_self_similarity": 0.9995,
+          "chassis_self_similarity": null,
+          "cranial_self_similarity": 0.9992,
+          "torso_self_similarity": 0.9997,
+          "zone_scores": {
+            "cranial_cap": 0.9992,
+            "upper_torso": 0.9997
+          }
+        }
+      ],
+      "pairwise_discrimination": [
+        {
+          "pair_id": "pair_019",
+          "entity_type": "motorcycle",
+          "front_id": "front_moto_0001",
+          "back_id": "back_moto_0001",
+          "label": "NON_MATCH_OR_UNLINKED",
+          "cue_c_720p_avail": true,
+          "cue_c_720p_score": 0.2495,
+          "cue_c_720p_qual": 0.962,
+          "cue_c_720p_reason": null,
+          "cue_c_720p_zones": {
+            "moto_chassis": 0.2495
+          },
+          "cue_c_4k_avail": true,
+          "cue_c_4k_score": 0.2558,
+          "cue_c_4k_qual": 0.9933,
+          "cue_c_4k_reason": null,
+          "cue_c_4k_zones": {
+            "moto_chassis": 0.2558
+          },
+          "abs_score_diff_720_vs_4k": 0.0063,
+          "c0_composite": 0.2072,
+          "c2_composite": 0.2146,
+          "c3_composite": 0.2157,
+          "c0_outcome": "NOT_MATCHED",
+          "c2_outcome": "NOT_MATCHED",
+          "c3_outcome": "NOT_MATCHED"
+        },
+        {
+          "pair_id": "pair_019",
+          "entity_type": "motorcycle",
+          "front_id": "front_moto_0001",
+          "back_id": "back_moto_0002",
+          "label": "NON_MATCH_OR_UNLINKED",
+          "cue_c_720p_avail": true,
+          "cue_c_720p_score": 0.5418,
+          "cue_c_720p_qual": 0.962,
+          "cue_c_720p_reason": null,
+          "cue_c_720p_zones": {
+            "cranial_cap": 0.3703,
+            "upper_torso": 0.6384,
+            "moto_chassis": 0.5739
+          },
+          "cue_c_4k_avail": true,
+          "cue_c_4k_score": 0.567,
+          "cue_c_4k_qual": 0.9933,
+          "cue_c_4k_reason": null,
+          "cue_c_4k_zones": {
+            "cranial_cap": 0.4487,
+            "upper_torso": 0.6424,
+            "moto_chassis": 0.5732
+          },
+          "abs_score_diff_720_vs_4k": 0.0251,
+          "c0_composite": 0.412,
+          "c2_composite": 0.4349,
+          "c3_composite": 0.4394,
+          "c0_outcome": "NOT_MATCHED",
+          "c2_outcome": "NOT_MATCHED",
+          "c3_outcome": "NOT_MATCHED"
+        },
+        {
+          "pair_id": "pair_019",
+          "entity_type": "motorcycle",
+          "front_id": "front_moto_0002",
+          "back_id": "back_moto_0001",
+          "label": "NON_MATCH_OR_UNLINKED",
+          "cue_c_720p_avail": true,
+          "cue_c_720p_score": 0.3731,
+          "cue_c_720p_qual": 1.0,
+          "cue_c_720p_reason": null,
+          "cue_c_720p_zones": {
+            "moto_chassis": 0.3731
+          },
+          "cue_c_4k_avail": true,
+          "cue_c_4k_score": 0.3762,
+          "cue_c_4k_qual": 0.9574,
+          "cue_c_4k_reason": null,
+          "cue_c_4k_zones": {
+            "moto_chassis": 0.3762
+          },
+          "abs_score_diff_720_vs_4k": 0.0031,
+          "c0_composite": 0.8608,
+          "c2_composite": 0.7748,
+          "c3_composite": 0.7753,
+          "c0_outcome": "NOT_MATCHED",
+          "c2_outcome": "NOT_MATCHED",
+          "c3_outcome": "NOT_MATCHED"
+        },
+        {
+          "pair_id": "pair_019",
+          "entity_type": "motorcycle",
+          "front_id": "front_moto_0002",
+          "back_id": "back_moto_0002",
+          "label": "GT_LINKED",
+          "cue_c_720p_avail": true,
+          "cue_c_720p_score": 0.7346,
+          "cue_c_720p_qual": 1.0,
+          "cue_c_720p_reason": null,
+          "cue_c_720p_zones": {
+            "cranial_cap": 0.7721,
+            "upper_torso": 0.723,
+            "moto_chassis": 0.7104
+          },
+          "cue_c_4k_avail": true,
+          "cue_c_4k_score": 0.7304,
+          "cue_c_4k_qual": 0.9574,
+          "cue_c_4k_reason": null,
+          "cue_c_4k_zones": {
+            "cranial_cap": 0.7606,
+            "upper_torso": 0.722,
+            "moto_chassis": 0.7093
+          },
+          "abs_score_diff_720_vs_4k": 0.0042,
+          "c0_composite": 0.8592,
+          "c2_composite": 0.8372,
+          "c3_composite": 0.8364,
+          "c0_outcome": "LINKED",
+          "c2_outcome": "LINKED",
+          "c3_outcome": "LINKED"
+        },
+        {
+          "pair_id": "pair_019",
+          "entity_type": "motorcycle",
+          "front_id": "front_moto_0003",
+          "back_id": "back_moto_0001",
+          "label": "NON_MATCH_OR_UNLINKED",
+          "cue_c_720p_avail": true,
+          "cue_c_720p_score": 0.3328,
+          "cue_c_720p_qual": 1.0,
+          "cue_c_720p_reason": null,
+          "cue_c_720p_zones": {
+            "moto_chassis": 0.3328
+          },
+          "cue_c_4k_avail": true,
+          "cue_c_4k_score": 0.3364,
+          "cue_c_4k_qual": 1.0,
+          "cue_c_4k_reason": null,
+          "cue_c_4k_zones": {
+            "moto_chassis": 0.3364
+          },
+          "abs_score_diff_720_vs_4k": 0.0036,
+          "c0_composite": 0.6141,
+          "c2_composite": 0.5645,
+          "c3_composite": 0.5651,
+          "c0_outcome": "NOT_MATCHED",
+          "c2_outcome": "NOT_MATCHED",
+          "c3_outcome": "NOT_MATCHED"
+        },
+        {
+          "pair_id": "pair_019",
+          "entity_type": "motorcycle",
+          "front_id": "front_moto_0003",
+          "back_id": "back_moto_0002",
+          "label": "NON_MATCH_OR_UNLINKED",
+          "cue_c_720p_avail": true,
+          "cue_c_720p_score": 0.7323,
+          "cue_c_720p_qual": 1.0,
+          "cue_c_720p_reason": null,
+          "cue_c_720p_zones": {
+            "cranial_cap": 0.6081,
+            "upper_torso": 0.8396,
+            "moto_chassis": 0.688
+          },
+          "cue_c_4k_avail": true,
+          "cue_c_4k_score": 0.745,
+          "cue_c_4k_qual": 0.9949,
+          "cue_c_4k_reason": null,
+          "cue_c_4k_zones": {
+            "cranial_cap": 0.652,
+            "upper_torso": 0.8397,
+            "moto_chassis": 0.6862
+          },
+          "abs_score_diff_720_vs_4k": 0.0127,
+          "c0_composite": 0.7275,
+          "c2_composite": 0.7284,
+          "c3_composite": 0.7306,
+          "c0_outcome": "NOT_MATCHED",
+          "c2_outcome": "NOT_MATCHED",
+          "c3_outcome": "NOT_MATCHED"
+        },
+        {
+          "pair_id": "pair_019",
+          "entity_type": "rider",
+          "front_id": "front_moto_0002_rider_s2",
+          "back_id": "back_moto_0002_rider_s0",
+          "label": "GAPC_RECOVERED_GT_DRIVER",
+          "cue_c_720p_avail": true,
+          "cue_c_720p_score": 0.7426,
+          "cue_c_720p_qual": 1.0,
+          "cue_c_720p_reason": null,
+          "cue_c_720p_zones": {
+            "cranial_cap": 0.7721,
+            "upper_torso": 0.723
+          },
+          "cue_c_4k_avail": true,
+          "cue_c_4k_score": 0.7374,
+          "cue_c_4k_qual": 0.9149,
+          "cue_c_4k_reason": null,
+          "cue_c_4k_zones": {
+            "cranial_cap": 0.7606,
+            "upper_torso": 0.722
+          },
+          "abs_score_diff_720_vs_4k": 0.0052,
+          "c0_composite": null,
+          "c2_composite": null,
+          "c3_composite": null,
+          "c0_outcome": "LINKED",
+          "c2_outcome": "LINKED",
+          "c3_outcome": "LINKED"
+        },
+        {
+          "pair_id": "pair_019",
+          "entity_type": "rider",
+          "front_id": "front_moto_0002_rider_s0",
+          "back_id": "back_moto_0002_rider_s0",
+          "label": "SAME_MOTO_OTHER_RIDER",
+          "cue_c_720p_avail": true,
+          "cue_c_720p_score": 0.5557,
+          "cue_c_720p_qual": 1.0,
+          "cue_c_720p_reason": null,
+          "cue_c_720p_zones": {
+            "cranial_cap": 0.488,
+            "upper_torso": 0.6008
+          },
+          "cue_c_4k_avail": true,
+          "cue_c_4k_score": 0.5835,
+          "cue_c_4k_qual": 1.0,
+          "cue_c_4k_reason": null,
+          "cue_c_4k_zones": {
+            "cranial_cap": 0.5528,
+            "upper_torso": 0.604
+          },
+          "abs_score_diff_720_vs_4k": 0.0278,
+          "c0_composite": null,
+          "c2_composite": null,
+          "c3_composite": null,
+          "c0_outcome": "NOT_LINKED",
+          "c2_outcome": "NOT_LINKED",
+          "c3_outcome": "NOT_LINKED"
+        }
+      ]
+    }
+  ]
+}
