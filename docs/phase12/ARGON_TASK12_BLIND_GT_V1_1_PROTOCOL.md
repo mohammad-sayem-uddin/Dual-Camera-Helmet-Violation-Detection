@@ -59,7 +59,7 @@ Experiments completed across `TASK-09A` through `TASK-11` exposed three concrete
 Every workqueue row represents one anonymized physical pass candidate indexed by `(workqueue_id, pair_id, sync_quality, priority_stratum, front_clip_t_ref_hint, back_clip_t_ref_hint)` with zero AI verdict leakage into annotator response columns:
 - **`STRATUM_1_GAPC_DIVERGENCE`:** Pairs/passes where GAP-C (`A4_DUAL_FUSED_SPLIT`) & `A0` / `GT v1.0` diverged on rider count, pillion recovery, or event classification (`pair_003`, `pair_004`, `pair_013`, `pair_018`, `pair_020`, `pair_021`, `pair_022`, `pair_024`, `pair_007`, plus residual delta pairs `pair_002`, `pair_005`, `pair_009`, `pair_010`, `pair_011`, `pair_012`, `pair_014`, `pair_015`, `pair_016`).
 - **`STRATUM_2_INSUFFICIENT_AND_AMBIGUOUS`:** `v1.0` passes with `INSUFFICIENT_VISUAL_EVIDENCE` (`24` events), `AMBIGUOUS_HUMAN_UNCERTAIN` (`4` events including `pair_020`), and unlinked orphan/conflict inspections (`pair_009`, `pair_015`).
-- **`STRATUM_3_BASELINE_VERIFICATION_AND_PLATES`:** Remaining `v1.0` decided physical passes to confirm 100% corpus coverage (`70` baseline physical passes + `16` GAP-C recovery candidate passes = `86` physical workqueue items across all `25` pairs) AND upgrade `70/70` `NOT_ASSESSED` license plates.
+- **`STRATUM_3_BASELINE_VERIFICATION_AND_PLATES`:** Remaining `v1.0` decided physical passes to confirm 100% corpus coverage (`70` baseline physical passes + `22` GAP-C recovery / split / excluded candidate transits = `92` physical workqueue items across all `25` pairs: `46` Stratum 1, `33` Stratum 2, `13` Stratum 3) AND upgrade `70/70` `NOT_ASSESSED` license plates.
 
 ---
 
