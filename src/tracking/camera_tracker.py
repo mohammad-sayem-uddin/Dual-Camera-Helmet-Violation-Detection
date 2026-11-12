@@ -44,6 +44,7 @@ from src.tracking.rider_kinematics import (
     RiderRelativeKalmanState,
     bbox_to_moto_relative,
     clamp_bbox_to_frame,
+    compute_moto_travel_axis,
     relative_distance,
     relative_scale_consistency,
     role_name_for_rank,
@@ -220,7 +221,10 @@ class RiderSubTrack:
         self.slot_role = slot_role
         self.ordering_confident = ordering_confident
         self.slot_role_provisional = bool(getattr(initial_obs, "slot_role_provisional", False))
-        self.raw_obs_slot_role = str(initial_obs.slot_role)
+        self.raw_obs_slot_role = str(getattr(initial_obs, "raw_slot_role", initial_obs.slot_role))
+        self.consensus_slot_role = str(self.slot_role)
+        self.role_consensus_status: str = "provisional" if self.slot_role_provisional else "initial"
+        self.role_change_reason: str = "initial"
         self.subtrack_id = f"{parent_moto_id}_rider_s{slot_index}"
         self.p10_config = p10_config
         self.bt_config = bt_config or ByteTrackConfig()
@@ -293,7 +297,8 @@ class RiderSubTrack:
                 ),
                 "coupling_score": float(initial_obs.coupling_score),
                 "slot_role": str(self.slot_role),
-                "raw_obs_slot_role": str(initial_obs.slot_role),
+                "raw_obs_slot_role": str(getattr(initial_obs, "raw_slot_role", initial_obs.slot_role)),
+                "consensus_slot_role": str(self.slot_role),
                 "ordering_confident": bool(self.ordering_confident),
                 "kalman_bbox": tuple(float(c) for c in self.kalman.current_bbox_xyxy),
                 "velocity_xy": tuple(float(v) for v in self.kalman.velocity_xy),
@@ -331,17 +336,39 @@ class RiderSubTrack:
             return (int(self.bt_config.frame_width), int(self.bt_config.frame_height))
         return None
 
+    @property
+    def raw_majority_slot_role(self) -> str:
+        """Majority frame-level geometric slot role before consensus override."""
+        counts: dict[str, int] = {}
+        for entry in self.observation_log:
+            r = str(entry.get("raw_obs_slot_role") or self.raw_obs_slot_role)
+            counts[r] = counts.get(r, 0) + 1
+        if not counts:
+            return self.raw_obs_slot_role
+        return max(sorted(counts), key=lambda r: counts[r])
+
     def _sync_consensus_role(
         self,
         resolved_role: str,
         ordering_confident: bool,
         provisional: bool = False,
+        reason: str = "consensus_update",
+        status: str | None = None,
     ) -> None:
         self.slot_role = str(resolved_role)
+        self.consensus_slot_role = self.slot_role
         self.ordering_confident = bool(ordering_confident)
         self.slot_role_provisional = bool(provisional)
+        self.role_change_reason = str(reason)
+        if status is not None:
+            self.role_consensus_status = str(status)
+        elif self.slot_role != self.raw_majority_slot_role:
+            self.role_consensus_status = "consensus_overridden"
+        else:
+            self.role_consensus_status = "provisional" if provisional else "agreed"
         for entry in self.observation_log:
             entry["slot_role"] = self.slot_role
+            entry["consensus_slot_role"] = self.slot_role
             entry["ordering_confident"] = self.ordering_confident
 
     def anchor_to_parent(
@@ -591,6 +618,11 @@ class RiderSubTrack:
             "slot_role": self.slot_role,
             "ordering_confident": self.ordering_confident,
             "slot_role_provisional": self.slot_role_provisional,
+            "raw_obs_slot_role": self.raw_obs_slot_role,
+            "raw_majority_slot_role": self.raw_majority_slot_role,
+            "consensus_slot_role": self.consensus_slot_role,
+            "role_consensus_status": self.role_consensus_status,
+            "role_change_reason": self.role_change_reason,
             "coast_state": self.coast_state,
             "unmatched_frames": self.unmatched_frames,
             "is_coast_expired": self.is_coast_expired,
@@ -803,16 +835,36 @@ class MotoTrack:
                 min_speed_px=self.bt_config.role_min_moto_speed_px,
                 min_sep_px=self.bt_config.role_min_proj_sep_px,
             )
+            if ordered_slots is not None and mode_label == "motion_vector":
+                travel_dir, _ = compute_moto_travel_axis(
+                    vel_xy,
+                    min_speed_px=self.bt_config.role_min_moto_speed_px,
+                )
+                # Guard against 2D oblique perspective parallax on mostly lateral paths
+                if travel_dir is not None and abs(travel_dir[1]) < 0.35:
+                    persp_ordered, persp_mode = score_longitudinal_ranks(
+                        centroids,
+                        camera_id=self.camera_id,
+                        velocity_xy=None,
+                        min_speed_px=self.bt_config.role_min_moto_speed_px,
+                        min_sep_px=max(20.0, self.bt_config.role_min_proj_sep_px * 2.5),
+                    )
+                    if (
+                        persp_ordered is not None
+                        and persp_mode == "perspective_y"
+                        and persp_ordered[0] != ordered_slots[0]
+                    ):
+                        ordered_slots = persp_ordered
             if ordered_slots is not None:
                 self.multi_rider_consensus_frames += 1
-                # Direct travel-vector observations carry 2x vote weight over startup perspective fallback
-                vote_weight = 2 if mode_label == "motion_vector" else 1
+                vote_weight = 1
                 for rank_idx, s_key in enumerate(ordered_slots):
                     vmap = self.role_votes.setdefault(s_key, {})
                     vmap[rank_idx] = vmap.get(rank_idx, 0) + vote_weight
 
-        # Resolve longitudinal consensus roles once minimum evidence frames are gathered;
-        # require >= min_confirm_hits when unlocked so 1-hit transient ghosts never demote confirmed riders.
+        # Resolve longitudinal consensus roles once minimum distinct multi-rider frames are gathered;
+        # require >= min_vote_hits AND >= min_role_consensus_frames distinct co-occurring votes per candidate.
+        min_c = max(1, int(self.bt_config.min_role_consensus_frames))
         min_vote_hits = max(1, int(self.bt_config.min_confirm_hits)) if self.bt_config.unlock_slot_conflicts else 1
         voted_keys = [
             k
@@ -820,12 +872,12 @@ class MotoTrack:
             if k in self.rider_subtracks
             and not self.rider_subtracks[k].is_coast_expired
             and len(self.rider_subtracks[k].observation_log) >= min_vote_hits
+            and sum(self.role_votes[k].values()) >= min_c
         ]
         if (
-            self.multi_rider_consensus_frames >= self.bt_config.min_role_consensus_frames
+            self.multi_rider_consensus_frames >= min_c
             and len(voted_keys) >= 2
         ):
-            # Net rank score: average rank (lower = more likely driver); check for exact tie
             avg_ranks: list[tuple[float, int, int]] = []
             for k in sorted(voted_keys):
                 vmap = self.role_votes[k]
@@ -834,7 +886,6 @@ class MotoTrack:
                 avg_ranks.append((mean_r, -total_v, k))
             avg_ranks_sorted = sorted(avg_ranks)
 
-            # Check if adjacent ranks are strictly tied on mean rank
             has_tie = any(
                 abs(avg_ranks_sorted[i][0] - avg_ranks_sorted[i + 1][0]) < 1e-6
                 for i in range(len(avg_ranks_sorted) - 1)
@@ -843,45 +894,138 @@ class MotoTrack:
                 for _, _, k in avg_ranks_sorted:
                     sub = self.rider_subtracks[k]
                     if sub.slot_role in ("driver", "pillion_1", "pillion_2") or sub.slot_role.startswith("ambiguous_slot_"):
-                        sub._sync_consensus_role("uncertain", ordering_confident=False, provisional=True)
+                        sub._sync_consensus_role(
+                            "uncertain",
+                            ordering_confident=False,
+                            provisional=True,
+                            reason="role_consensus_tie",
+                            status="abstained_tie",
+                        )
             else:
-                for assigned_rank, (_, _, k) in enumerate(avg_ranks_sorted):
+                # Protect sustained established drivers against transient/short challengers
+                inc_drivers = [
+                    k
+                    for k in voted_keys
+                    if self.rider_subtracks[k].slot_role == "driver"
+                    and len(self.rider_subtracks[k].observation_log) >= 10
+                ]
+                ordered_final = [k for _, _, k in avg_ranks_sorted]
+                reason_tag = "multi_frame_consensus"
+                if inc_drivers:
+                    inc_k = max(inc_drivers, key=lambda k: len(self.rider_subtracks[k].observation_log))
+                    top_k = ordered_final[0]
+                    if top_k != inc_k:
+                        inc_hits = len(self.rider_subtracks[inc_k].observation_log)
+                        top_hits = len(self.rider_subtracks[top_k].observation_log)
+                        if top_hits < max(8, int(0.20 * inc_hits)):
+                            ordered_final = [inc_k] + [k for k in ordered_final if k != inc_k]
+                            reason_tag = "sustained_incumbent_protected"
+                for assigned_rank, k in enumerate(ordered_final):
                     sub = self.rider_subtracks[k]
                     target_role = role_name_for_rank(assigned_rank)
-                    sub._sync_consensus_role(target_role, ordering_confident=True, provisional=False)
+                    sub._sync_consensus_role(
+                        target_role,
+                        ordering_confident=True,
+                        provisional=False,
+                        reason=reason_tag,
+                    )
         elif (
             (self.multi_rider_consensus_frames == 0 or self.bt_config.unlock_slot_conflicts)
             and len(active_slots) == 1
         ):
-            # Single surviving sustained rider with zero multi-rider co-occurrence
             sole_k = active_slots[0]
             sole_sub = self.rider_subtracks[sole_k]
-            other_sustained = any(
-                len(self.rider_subtracks[k].observation_log) >= self.bt_config.min_role_consensus_frames
+            sole_hits = len(sole_sub.observation_log)
+            other_sustained_drivers = [
+                k
+                for k, s in self.rider_subtracks.items()
+                if k != sole_k
+                and s.slot_role == "driver"
+                and len(s.observation_log) >= max(10, min_c)
+            ]
+            other_sustained_any = any(
+                len(self.rider_subtracks[k].observation_log) >= min_c
                 for k in self.rider_subtracks
                 if k != sole_k
             )
-            if not other_sustained and (
+            max_other_hits = max(
+                (len(self.rider_subtracks[k].observation_log) for k in self.rider_subtracks if k != sole_k),
+                default=0,
+            )
+            can_promote = (
+                not other_sustained_any
+                or (not other_sustained_drivers and sole_hits >= max(5, min_c))
+                or sole_hits >= max(10, 2 * max_other_hits)
+            )
+            if can_promote and (
                 not sole_sub.ordering_confident
                 or sole_sub.slot_role_provisional
                 or sole_sub.slot_role != "driver"
                 or any(e.get("slot_role") != "driver" for e in sole_sub.observation_log)
             ):
                 min_sole_frames = (
-                    self.bt_config.min_role_consensus_frames
+                    min_c
                     if len(self.rider_subtracks) == 1
-                    else max(5, self.bt_config.min_role_consensus_frames)
+                    else max(5, min_c)
                 )
-                if len(sole_sub.observation_log) >= min_sole_frames:
-                    sole_sub._sync_consensus_role("driver", ordering_confident=True, provisional=False)
+                if sole_hits >= min_sole_frames:
+                    sole_sub._sync_consensus_role(
+                        "driver",
+                        ordering_confident=True,
+                        provisional=False,
+                        reason="sole_survivor_promotion",
+                        status="sole_survivor_promoted",
+                    )
+
+        # Enforce strict single-driver uniqueness invariant per motorcycle
+        driver_keys = [
+            k for k, s in sorted(self.rider_subtracks.items()) if s.slot_role == "driver"
+        ]
+        if len(driver_keys) > 1:
+            winner = max(
+                driver_keys,
+                key=lambda k: (
+                    len(self.rider_subtracks[k].observation_log) >= 10,
+                    not self.rider_subtracks[k].is_coast_expired,
+                    len(self.rider_subtracks[k].observation_log),
+                    -k,
+                ),
+            )
+            used_roles = {
+                s.slot_role
+                for k, s in self.rider_subtracks.items()
+                if k not in driver_keys or k == winner
+            }
+            next_rank = 1
+            for k in driver_keys:
+                if k == winner:
+                    continue
+                while role_name_for_rank(next_rank) in used_roles:
+                    next_rank += 1
+                demoted_role = role_name_for_rank(next_rank)
+                used_roles.add(demoted_role)
+                next_rank += 1
+                sub_d = self.rider_subtracks[k]
+                sub_d._sync_consensus_role(
+                    demoted_role,
+                    ordering_confident=sub_d.ordering_confident,
+                    provisional=True,
+                    reason="single_driver_uniqueness",
+                    status="single_driver_enforced",
+                )
 
         # Guarantee intra-tracklet role consistency between observation_log and subtrack.slot_role
         for sub in self.rider_subtracks.values():
-            if any(e.get("slot_role") != sub.slot_role for e in sub.observation_log):
+            if any(
+                e.get("slot_role") != sub.slot_role or e.get("consensus_slot_role") != sub.slot_role
+                for e in sub.observation_log
+            ):
                 sub._sync_consensus_role(
                     sub.slot_role,
                     ordering_confident=sub.ordering_confident,
                     provisional=sub.slot_role_provisional,
+                    reason=sub.role_change_reason,
+                    status=sub.role_consensus_status,
                 )
 
     def _spawn_subtrack(
@@ -1232,14 +1376,16 @@ class MotoTrack:
                     abstained_slots.add(slot_k)
                     used_obs.add(j)
                     continue
+                sub_existing = self.rider_subtracks[slot_k]
                 preserve_existing = bool(
                     self.bt_config.role_consensus_enabled
+                    and not sub_existing.slot_role.startswith("ambiguous_slot_")
                     and (
                         self.multi_rider_consensus_frames >= 1
+                        or len(sub_existing.observation_log) >= 1
                         or getattr(r_obs, "slot_role_provisional", False)
                         or not r_obs.ordering_confident
                     )
-                    and not self.rider_subtracks[slot_k].slot_role.startswith("ambiguous_slot_")
                 )
                 alerts = self.rider_subtracks[slot_k].update_matched(
                     r_obs,
@@ -1973,6 +2119,41 @@ class CameraTrackingPipeline:
             seen.add(o.orphan_track_id)
             exported.append(o)
         return exported
+
+    def orphan_lifecycle_breakdown(self) -> dict[str, Any]:
+        """Return end-of-stream conservation accounting for all spawned orphan tracks."""
+        exported = self.exported_orphan_tracks()
+        exported_ids = {o.orphan_track_id for o in exported}
+        discarded = list(self.discarded_tentative_orphan_tracks)
+        discarded_ids = {o.orphan_track_id for o in discarded}
+        end_of_clip_unconfirmed = [
+            o
+            for o in (list(self.active_orphan_tracks.values()) + list(self.terminated_orphan_tracks))
+            if o.orphan_track_id not in exported_ids
+            and o.orphan_track_id not in discarded_ids
+            and not getattr(o, "_ever_confirmed", False)
+        ]
+        # Deduplicate end_of_clip_unconfirmed in case any id spans lists
+        seen_eoc: set[str] = set()
+        eoc_unique: list[OrphanRiderTrack] = []
+        for o in end_of_clip_unconfirmed:
+            if o.orphan_track_id not in seen_eoc:
+                seen_eoc.add(o.orphan_track_id)
+                eoc_unique.append(o)
+        total_spawned = int(self._next_orphan_id - 1)
+        total_accounted = len(exported) + len(discarded) + len(eoc_unique)
+        return {
+            "exported_count": len(exported),
+            "exported_ge3_count": sum(1 for o in exported if o.phase10_track.hits >= 3),
+            "discarded_tentative_expired_count": len(discarded),
+            "end_of_clip_unconfirmed_active_count": len(eoc_unique),
+            "end_of_clip_unconfirmed_ids": [o.orphan_track_id for o in eoc_unique],
+            "duplicate_suppressed_count": int(self.duplicate_orphan_suppressed),
+            "low_conf_filtered_count": int(self.low_conf_orphan_filtered),
+            "total_accounted_orphan_tracks": total_accounted,
+            "total_spawned_orphan_tracks": total_spawned,
+            "conservation_exact": total_accounted == total_spawned,
+        }
 
     def _alloc_rider_id(self) -> int:
         rid = self._next_rider_id

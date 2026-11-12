@@ -377,6 +377,25 @@ class OrphanAssociationEngine:
                 ok, sc, brk, r_list = self._score_pair(
                     fi, bj, epsilon_sync_ms, delta_pts_front_ms, delta_pts_back_ms
                 )
+                # Without appearance similarity, prevent brief orphan fragments from
+                # matching or creating false ambiguity against sustained coupled riders
+                # of rejected/unmatched motorcycles via temporal-centroid shift.
+                if (
+                    ok
+                    and fi.track_kind != bj.track_kind
+                    and "appearance_hsv_score" not in brk
+                ):
+                    obs_f = int(fi.tracklet.observed_frame_count)
+                    obs_b = int(bj.tracklet.observed_frame_count)
+                    obs_min = min(obs_f, obs_b)
+                    obs_max = max(1, max(obs_f, obs_b))
+                    if obs_min < 15 and (obs_min / float(obs_max)) < 0.20:
+                        ok = False
+                        sc = 0.0
+                        brk = {"temporal_transit_score": float(brk.get("temporal_transit_score", 0.0))}
+                        r_list = [
+                            f"UNMATCHED_MOTO_RIDER_DURATION_ASYMMETRY_{obs_f}vs{obs_b}_WITHOUT_APPEARANCE"
+                        ]
                 score_mat[i, j] = sc
                 gated_mat[i, j] = ok
                 breakdowns[(i, j)] = brk

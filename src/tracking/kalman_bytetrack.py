@@ -63,11 +63,11 @@ class ByteTrackConfig:
     max_total_subtracks_per_moto: int = 6
     role_consensus_enabled: bool = True
     min_role_consensus_frames: int = 3
-    role_min_moto_speed_px: float = 2.0
+    role_min_moto_speed_px: float = 8.0
     role_min_proj_sep_px: float = 8.0
     orphan_lifecycle_gating_enabled: bool = True
     orphan_min_confirm_hits: int = 2
-    orphan_tentative_max_lost_frames: int = 3
+    orphan_tentative_max_lost_frames: int = 4
     orphan_tentative_min_conf: float = 0.18
     export_confirmed_orphans_only: bool = True
     frame_width: int | None = None

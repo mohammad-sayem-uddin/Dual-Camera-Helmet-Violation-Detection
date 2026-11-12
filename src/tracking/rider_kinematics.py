@@ -374,17 +374,17 @@ class RiderRelativeKalmanState:
 
 
 def compute_moto_travel_axis(
-    velocity_xy: Sequence[float],
+    velocity_xy: Sequence[float] | None,
     min_speed_px: float = 2.0,
 ) -> tuple[tuple[float, float] | None, float]:
     """Return normalized motorcycle travel unit vector ``(dx, dy)`` and speed if above floor."""
-    if len(velocity_xy) != 2:
+    if velocity_xy is None or len(velocity_xy) != 2:
         return None, 0.0
     vx, vy = float(velocity_xy[0]), float(velocity_xy[1])
     if not (math.isfinite(vx) and math.isfinite(vy)):
         return None, 0.0
     speed = math.hypot(vx, vy)
-    if speed < min_speed_px:
+    if speed < float(min_speed_px):
         return None, speed
     return (vx / speed, vy / speed), speed
 
@@ -392,7 +392,7 @@ def compute_moto_travel_axis(
 def score_longitudinal_ranks(
     centroids_by_slot: Mapping[int, tuple[float, float]],
     camera_id: str,
-    velocity_xy: Sequence[float],
+    velocity_xy: Sequence[float] | None = None,
     min_speed_px: float = 2.0,
     min_sep_px: float = 8.0,
 ) -> tuple[list[int] | None, str]:

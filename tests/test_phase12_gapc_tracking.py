@@ -596,3 +596,230 @@ def test_stagej_forensic_focus_pairs_real_replay():
     assert len(linked_riders) == 1
     assert linked_riders[0]["front_subtrack_id"] == "front_moto_0004_rider_s0"
     assert linked_riders[0]["back_subtrack_id"] == "back_moto_0002_rider_s0"
+
+
+# ============================================================================
+# TASK-09A Regression Suite: GAP-C3/C4 Hardening, Association & Pipeline Plumb
+# ============================================================================
+
+
+def test_task09a_compute_moto_travel_axis_none_and_non_finite_safe():
+    from src.tracking.rider_kinematics import (
+        compute_moto_travel_axis,
+        score_longitudinal_ranks,
+        role_name_for_rank,
+    )
+
+    assert compute_moto_travel_axis(None) == (None, 0.0)
+    assert compute_moto_travel_axis((float("nan"), 1.0)) == (None, 0.0)
+    assert compute_moto_travel_axis((1.0,)) == (None, 0.0)
+
+    # Back camera receding perspective fallback when velocity_xy=None:
+    # smaller cy (further ahead along road) ranks first -> driver (slot 0), larger cy -> pillion_1 (slot 1)
+    ordered, mode = score_longitudinal_ranks(
+        {0: (120.0, 225.0), 1: (125.0, 335.0)},
+        camera_id="back",
+        velocity_xy=None,
+        min_speed_px=8.0,
+    )
+    assert ordered == [0, 1]
+    assert mode == "perspective_y"
+    assert role_name_for_rank(0) == "driver"
+    assert role_name_for_rank(1) == "pillion_1"
+
+
+def test_task09a_raw_vs_consensus_preservation_and_single_driver_invariant():
+    pipe = CameraTrackingPipeline.from_yaml("back", yaml_path=CONFIG_PATH, frame_dimensions=(1280, 720))
+    # Rear-camera receding oblique moto: frame 0 has only rear pillion (lower/larger y in back view),
+    # then frames 1..11 include both rear pillion (larger y) and ahead driver (smaller y).
+    # Horizontal-dominant motion (+x) with distinct y separation triggers perspective cross-check.
+    for f in range(12):
+        x = 200.0 + f * 12.0
+        moto = _make_det(x, 400.0, x + 200.0, 620.0, "motorcycle", 0.9, "back", f)
+        pillion_head = _make_det(x + 90.0, 385.0, x + 130.0, 430.0, "no_helmet", 0.9, "back", f)
+        driver_head = _make_det(x + 115.0, 320.0, x + 155.0, 365.0, "helmet", 0.9, "back", f)
+        heads = [pillion_head] if f == 0 else [pillion_head, driver_head]
+        pipe.step(_make_bundle("back", f, f * 0.0167, [moto], [], heads))
+
+    m = pipe.active_moto_tracks["back_moto_0001"]
+    drivers = [s for s in m.rider_subtracks.values() if s.slot_role == "driver"]
+    assert len(drivers) == 1
+    assert all("raw_obs_slot_role" in row for s in m.rider_subtracks.values() for row in s.observation_log)
+    # Initial single-rider subtrack 0 should preserve immutable raw_obs_slot_role == "driver" on frame 0
+    assert m.rider_subtracks[0].observation_log[0]["raw_obs_slot_role"] == "driver"
+    # Ahead/smaller-y rider in back view (s1) ends as consensus driver; s0 becomes pillion_1
+    assert m.rider_subtracks[1].consensus_slot_role == "driver"
+    assert m.rider_subtracks[0].consensus_slot_role == "pillion_1"
+
+
+def test_task09a_sparse_3hit_orphan_preserved_and_conservation_exact():
+    pipe = CameraTrackingPipeline.from_yaml("back", yaml_path=CONFIG_PATH, frame_dimensions=(1280, 720))
+    # Sparse 3-hit orphan at frames [10, 15, 20] (5-frame cadence -> 4 empty frames in between)
+    # Plus 1-hit low-conf expired orphan at f=0 and end-of-clip active tentative 1-hit at f=30
+    for f in range(31):
+        heads = []
+        if f == 0:
+            heads.append(_make_det(100.0, 100.0, 140.0, 140.0, "no_helmet", 0.30, "back", f))
+        elif f in (10, 15, 20):
+            dx = (f - 10) * 1.5
+            heads.append(_make_det(500.0 + dx, 300.0, 560.0 + dx, 360.0, "no_helmet", 0.85, "back", f))
+        elif f == 30:
+            heads.append(_make_det(900.0, 200.0, 950.0, 250.0, "helmet", 0.35, "back", f))
+        pipe.step(_make_bundle("back", f, f * 0.0167, [], [], heads))
+
+    exp = pipe.exported_orphan_tracks()
+    exp_ge3 = [o for o in exp if o.phase10_track.hits >= 3]
+    assert len(exp_ge3) == 1
+    assert exp_ge3[0].phase10_track.hits == 3
+    bd = pipe.orphan_lifecycle_breakdown()
+    assert bd["conservation_exact"] is True
+    assert bd["exported_ge3_count"] == 1
+    assert bd["discarded_tentative_expired_count"] >= 1
+    assert bd["end_of_clip_unconfirmed_active_count"] == 1
+
+
+def test_task09a_rider_cardinality_cue_uses_modal_not_sequential_fragments():
+    from src.association.association_features import evaluate_rider_cardinality_cue, RiderCardinalityConfig
+    from src.association.tracklet_models import MotorcycleTracklet
+
+    common = dict(
+        schema_version="1.0.0",
+        lifecycle_state="CONFIRMED",
+        ever_confirmed=True,
+        t_start_sec=0.0,
+        t_end_sec=3.0,
+        t_peak_sec=1.5,
+        t_centroid_sec=1.5,
+        camera_pts_start_sec=0.0,
+        camera_pts_end_sec=3.0,
+        first_frame_index=0,
+        last_frame_index=100,
+        observed_frame_count=100,
+        predicted_only_frame_count=0,
+        total_span_frames=101,
+        observation_density=1.0,
+        stage2_low_conf_matches=0,
+        recovery_count=0,
+        occlusion_intervals=[],
+        entry_bbox=(100.0, 100.0, 300.0, 400.0),
+        exit_bbox=(200.0, 100.0, 400.0, 400.0),
+        peak_area_bbox=(150.0, 100.0, 350.0, 400.0),
+        entry_velocity_xy=(1.0, 0.0),
+        exit_velocity_xy=(1.0, 0.0),
+        mean_velocity_xy=(1.0, 0.0),
+        motion_direction_unit_xy=(1.0, 0.0),
+        mean_detection_confidence=0.9,
+        entry_near_border=False,
+        exit_near_border=False,
+        rider_count_distribution={1: 100},
+        modal_rider_count=1,
+        max_rider_count=1,
+        slot_spatial_conflicts_detected=0,
+        rider_abstained_updates=0,
+        spatial_identity_overrides=0,
+        completeness="COMPLETE",
+        completeness_reasons=[],
+    )
+    front = MotorcycleTracklet(camera_id="front", moto_track_id="front_moto_0001", rider_subtrack_count=5, **common)
+    back = MotorcycleTracklet(camera_id="back", moto_track_id="back_moto_0001", rider_subtrack_count=1, **common)
+    detail = evaluate_rider_cardinality_cue(front, back, RiderCardinalityConfig())
+    assert detail.normalized_score == 1.0
+    assert detail.raw_value == {"front_riders": 1, "back_riders": 1, "diff": 0}
+    assert detail.diagnostics["front_modal_riders"] == 1
+    assert detail.diagnostics["front_subtrack_count"] == 5
+    assert detail.diagnostics["match_regime"] == "EXACT_RIDER_COUNT_MATCH"
+
+
+def test_task09a_orphan_asymmetry_guard_blocks_short_no_appearance_mismatch():
+    from src.association.tracklet_models import TimestampQualityRecord
+
+    fp = CameraTrackingPipeline.from_yaml("front", yaml_path=CONFIG_PATH, frame_dimensions=(3840, 2160))
+    bp = CameraTrackingPipeline.from_yaml("back", yaml_path=CONFIG_PATH, frame_dimensions=(1280, 720))
+    # Front has only a short 9-hit orphan (no parent moto); back has a sustained 118-hit motorcycle rider
+    # with an unmatched motorcycle -> enters orphan_association without HSV appearance.
+    for f in range(118):
+        pts = f * (1.0 / 60.0)
+        f_heads = [_make_det(1000.0, 600.0, 1080.0, 680.0, "no_helmet", 0.9, "front", f, pts)] if f < 9 else []
+        fp.step(_make_bundle("front", f, pts, [], [], f_heads))
+
+        bm = _make_det(500.0, 400.0, 700.0, 650.0, "motorcycle", 0.9, "back", f, pts)
+        bh = _make_det(560.0, 320.0, 620.0, 380.0, "no_helmet", 0.9, "back", f, pts)
+        bp.step(_make_bundle("back", f, pts, [bm], [], [bh]))
+
+    assoc = CrossCameraAssociationEngine.from_yaml().associate_pipelines(
+        pair_id="pair_005_synth",
+        front_pipeline=fp,
+        back_pipeline=bp,
+        timestamp_quality=TimestampQualityRecord(pair_id="pair_005_synth", is_in_overlap=True),
+    )
+    assert all(o.outcome.value != "LINKED" for o in assoc.orphan_results)
+
+
+def test_task09a_pipeline_merged_riders_and_frame_dimensions_plumbing():
+    import ast
+    from pathlib import Path
+    from src.pipeline.dual_camera_pipeline import _merged_riders, _event_type_for
+
+    # Cross-camera swapped slot indices (back s0=pillion_1, s1=driver) merge by consensus role
+    obs = {
+        "front": {
+            "t_start_ref_sec": 0.0,
+            "t_end_ref_sec": 1.0,
+            "rider_subtracks": {
+                0: {"track_helmet_state": "NO_HELMET", "slot_role": "driver", "consensus_slot_role": "driver", "alert_ids": []},
+                1: {"track_helmet_state": "HELMET", "slot_role": "pillion_1", "consensus_slot_role": "pillion_1", "alert_ids": []},
+            },
+        },
+        "back": {
+            "t_start_ref_sec": 0.0,
+            "t_end_ref_sec": 1.0,
+            "rider_subtracks": {
+                0: {"track_helmet_state": "HELMET", "slot_role": "pillion_1", "consensus_slot_role": "pillion_1", "alert_ids": []},
+                1: {"track_helmet_state": "NO_HELMET", "slot_role": "driver", "consensus_slot_role": "driver", "alert_ids": []},
+            },
+        },
+    }
+    riders, detail = _merged_riders(obs)
+    assert [r["rider_slot"] for r in riders] == [0, 1]
+    assert detail[0]["state"] == "NO_HELMET"
+    assert detail[1]["state"] == "HELMET"
+    assert _event_type_for(detail) == ("DRIVER_NO_HELMET", True)
+
+    # Uncertain role only does not promote false violation when slot 0 absent
+    unc_obs = {
+        "front": {
+            "t_start_ref_sec": 0.0,
+            "t_end_ref_sec": 1.0,
+            "rider_subtracks": {
+                1: {"track_helmet_state": "NO_HELMET", "slot_role": "uncertain", "alert_ids": []},
+            },
+        }
+    }
+    _, unc_detail = _merged_riders(unc_obs)
+    assert _event_type_for(unc_detail) == ("INSUFFICIENT_VISUAL_EVIDENCE", None)
+
+    # Legacy ambiguous_slot_1 keeps positional Stage J parity
+    amb_obs = {
+        "front": {
+            "t_start_ref_sec": 0.0,
+            "t_end_ref_sec": 1.0,
+            "rider_subtracks": {
+                1: {"track_helmet_state": "NO_HELMET", "slot_role": "ambiguous_slot_1", "alert_ids": []},
+            },
+        }
+    }
+    _, amb_detail = _merged_riders(amb_obs)
+    assert _event_type_for(amb_detail) == ("PILLION_NO_HELMET", True)
+
+    # Both CameraTrackingPipeline creation sites forward frame_dimensions
+    repo_root = Path(__file__).resolve().parents[1]
+    pipe_src = (repo_root / "src" / "pipeline" / "dual_camera_pipeline.py").read_text(encoding="utf-8")
+    tree = ast.parse(pipe_src)
+    from_yaml_calls = [
+        [kw.arg for kw in node.keywords]
+        for node in ast.walk(tree)
+        if isinstance(node, ast.Call) and isinstance(node.func, ast.Attribute) and node.func.attr == "from_yaml"
+    ]
+    tracker_calls = [kws for kws in from_yaml_calls if "frame_dimensions" in kws]
+    assert len(tracker_calls) >= 2
+

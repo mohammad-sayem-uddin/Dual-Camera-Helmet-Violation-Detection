@@ -146,6 +146,19 @@
         "0": "NO_HELMET"
       }
     },
+    "sustained_raw_role_inversions": [
+      {
+        "pair": "pair_019",
+        "camera": "back",
+        "moto_track_id": "back_moto_0002",
+        "subtrack_id": "back_moto_0002_rider_s1",
+        "hits": 96,
+        "raw_majority_slot_role": "driver",
+        "consensus_slot_role": "pillion_1",
+        "role_consensus_status": "initial",
+        "role_change_reason": "initial"
+      }
+    ],
     "pair_021/back/back_moto_0001_rider_s0": {
       "hits": 1,
       "slot_role": "driver",
@@ -266,6 +279,30 @@
         "0": "NO_HELMET"
       }
     },
+    "sustained_raw_role_inversions": [
+      {
+        "pair": "pair_010",
+        "camera": "back",
+        "moto_track_id": "back_moto_0001",
+        "subtrack_id": "back_moto_0001_rider_s1",
+        "hits": 11,
+        "raw_majority_slot_role": "driver",
+        "consensus_slot_role": "pillion_1",
+        "role_consensus_status": "initial",
+        "role_change_reason": "initial"
+      },
+      {
+        "pair": "pair_019",
+        "camera": "front",
+        "moto_track_id": "front_moto_0002",
+        "subtrack_id": "front_moto_0002_rider_s1",
+        "hits": 27,
+        "raw_majority_slot_role": "driver",
+        "consensus_slot_role": "pillion_1",
+        "role_consensus_status": "initial",
+        "role_change_reason": "initial"
+      }
+    ],
     "pair_012/back/back_moto_0002_rider_s0": {
       "hits": 166,
       "slot_role": "driver",
@@ -392,6 +429,63 @@
     }
   },
   "A2": {
+    "sustained_raw_role_inversions": [
+      {
+        "pair": "pair_001",
+        "camera": "back",
+        "moto_track_id": "back_moto_0001",
+        "subtrack_id": "back_moto_0001_rider_s0",
+        "hits": 133,
+        "raw_majority_slot_role": "driver",
+        "consensus_slot_role": "pillion_1",
+        "role_consensus_status": "provisional",
+        "role_change_reason": "initial"
+      },
+      {
+        "pair": "pair_004",
+        "camera": "front",
+        "moto_track_id": "front_moto_0002",
+        "subtrack_id": "front_moto_0002_rider_s3",
+        "hits": 23,
+        "raw_majority_slot_role": "pillion_1",
+        "consensus_slot_role": "driver",
+        "role_consensus_status": "provisional",
+        "role_change_reason": "initial"
+      },
+      {
+        "pair": "pair_004",
+        "camera": "front",
+        "moto_track_id": "front_moto_0002",
+        "subtrack_id": "front_moto_0002_rider_s4",
+        "hits": 15,
+        "raw_majority_slot_role": "driver",
+        "consensus_slot_role": "pillion_1",
+        "role_consensus_status": "provisional",
+        "role_change_reason": "initial"
+      },
+      {
+        "pair": "pair_007",
+        "camera": "back",
+        "moto_track_id": "back_moto_0002",
+        "subtrack_id": "back_moto_0002_rider_s0",
+        "hits": 14,
+        "raw_majority_slot_role": "driver",
+        "consensus_slot_role": "pillion_1",
+        "role_consensus_status": "provisional",
+        "role_change_reason": "initial"
+      },
+      {
+        "pair": "pair_008",
+        "camera": "front",
+        "moto_track_id": "front_moto_0001",
+        "subtrack_id": "front_moto_0001_rider_s0",
+        "hits": 115,
+        "raw_majority_slot_role": "driver",
+        "consensus_slot_role": "pillion_1",
+        "role_consensus_status": "provisional",
+        "role_change_reason": "initial"
+      }
+    ],
     "pair_002/front/front_moto_0001_rider_s0": {
       "hits": 271,
       "slot_role": "driver",
@@ -548,7 +642,7 @@
   "A3": {
     "pair_002/front/front_moto_0001_rider_s0": {
       "hits": 271,
-      "slot_role": "pillion_1",
+      "slot_role": "driver",
       "ordering_confident": true,
       "slot_role_provisional": false,
       "track_helmet_state": "NO_HELMET",
@@ -569,14 +663,71 @@
       "total_subtrack_hits": 277,
       "discarded_tentative_subtracks": 1,
       "subtrack_roles": {
-        "0": "pillion_1",
-        "1": "driver"
+        "0": "driver",
+        "1": "pillion_1"
       },
       "subtrack_states": {
         "0": "NO_HELMET",
         "1": "NO_HELMET"
       }
     },
+    "sustained_raw_role_inversions": [
+      {
+        "pair": "pair_004",
+        "camera": "front",
+        "moto_track_id": "front_moto_0002",
+        "subtrack_id": "front_moto_0002_rider_s1",
+        "hits": 54,
+        "raw_majority_slot_role": "driver",
+        "consensus_slot_role": "pillion_2",
+        "role_consensus_status": "single_driver_enforced",
+        "role_change_reason": "single_driver_uniqueness"
+      },
+      {
+        "pair": "pair_010",
+        "camera": "back",
+        "moto_track_id": "back_moto_0002",
+        "subtrack_id": "back_moto_0002_rider_s1",
+        "hits": 52,
+        "raw_majority_slot_role": "driver",
+        "consensus_slot_role": "pillion_1",
+        "role_consensus_status": "consensus_overridden",
+        "role_change_reason": "sustained_incumbent_protected"
+      },
+      {
+        "pair": "pair_013",
+        "camera": "back",
+        "moto_track_id": "back_moto_0001",
+        "subtrack_id": "back_moto_0001_rider_s0",
+        "hits": 15,
+        "raw_majority_slot_role": "driver",
+        "consensus_slot_role": "pillion_1",
+        "role_consensus_status": "single_driver_enforced",
+        "role_change_reason": "single_driver_uniqueness"
+      },
+      {
+        "pair": "pair_016",
+        "camera": "back",
+        "moto_track_id": "back_moto_0001",
+        "subtrack_id": "back_moto_0001_rider_s0",
+        "hits": 12,
+        "raw_majority_slot_role": "driver",
+        "consensus_slot_role": "pillion_1",
+        "role_consensus_status": "provisional",
+        "role_change_reason": "initial"
+      },
+      {
+        "pair": "pair_020",
+        "camera": "back",
+        "moto_track_id": "back_moto_0002",
+        "subtrack_id": "back_moto_0002_rider_s0",
+        "hits": 75,
+        "raw_majority_slot_role": "driver",
+        "consensus_slot_role": "pillion_1",
+        "role_consensus_status": "initial",
+        "role_change_reason": "initial"
+      }
+    ],
     "pair_006/back/back_moto_0002_rider_s0": {
       "hits": 128,
       "slot_role": "driver",
@@ -637,7 +788,7 @@
       "hits": 2,
       "slot_role": "pillion_1",
       "ordering_confident": true,
-      "slot_role_provisional": false,
+      "slot_role_provisional": true,
       "track_helmet_state": "UNCERTAIN",
       "parent_abstained": 28,
       "parent_conflicts": 53,
@@ -658,8 +809,8 @@
       "discarded_tentative_subtracks": 2,
       "subtrack_roles": {
         "0": "pillion_1",
-        "1": "driver",
-        "2": "pillion_1"
+        "1": "pillion_1",
+        "2": "driver"
       },
       "subtrack_states": {
         "0": "UNCERTAIN",
@@ -671,7 +822,7 @@
       "hits": 5,
       "slot_role": "pillion_1",
       "ordering_confident": true,
-      "slot_role_provisional": false,
+      "slot_role_provisional": true,
       "track_helmet_state": "NO_HELMET",
       "parent_abstained": 4,
       "parent_conflicts": 23,
@@ -702,7 +853,7 @@
   "A4": {
     "pair_002/front/front_moto_0001_rider_s0": {
       "hits": 271,
-      "slot_role": "pillion_1",
+      "slot_role": "driver",
       "ordering_confident": true,
       "slot_role_provisional": false,
       "track_helmet_state": "NO_HELMET",
@@ -723,14 +874,79 @@
       "total_subtrack_hits": 277,
       "discarded_tentative_subtracks": 1,
       "subtrack_roles": {
-        "0": "pillion_1",
-        "1": "driver"
+        "0": "driver",
+        "1": "pillion_1"
       },
       "subtrack_states": {
         "0": "NO_HELMET",
         "1": "NO_HELMET"
       }
     },
+    "end_of_clip_unconfirmed_orphans": {
+      "pair_002/front": [
+        "front_orphan_0004"
+      ],
+      "pair_021/back": [
+        "back_orphan_0004"
+      ]
+    },
+    "sustained_raw_role_inversions": [
+      {
+        "pair": "pair_004",
+        "camera": "front",
+        "moto_track_id": "front_moto_0002",
+        "subtrack_id": "front_moto_0002_rider_s1",
+        "hits": 54,
+        "raw_majority_slot_role": "driver",
+        "consensus_slot_role": "pillion_2",
+        "role_consensus_status": "single_driver_enforced",
+        "role_change_reason": "single_driver_uniqueness"
+      },
+      {
+        "pair": "pair_010",
+        "camera": "back",
+        "moto_track_id": "back_moto_0002",
+        "subtrack_id": "back_moto_0002_rider_s1",
+        "hits": 52,
+        "raw_majority_slot_role": "driver",
+        "consensus_slot_role": "pillion_1",
+        "role_consensus_status": "consensus_overridden",
+        "role_change_reason": "sustained_incumbent_protected"
+      },
+      {
+        "pair": "pair_013",
+        "camera": "back",
+        "moto_track_id": "back_moto_0001",
+        "subtrack_id": "back_moto_0001_rider_s0",
+        "hits": 15,
+        "raw_majority_slot_role": "driver",
+        "consensus_slot_role": "pillion_1",
+        "role_consensus_status": "single_driver_enforced",
+        "role_change_reason": "single_driver_uniqueness"
+      },
+      {
+        "pair": "pair_016",
+        "camera": "back",
+        "moto_track_id": "back_moto_0001",
+        "subtrack_id": "back_moto_0001_rider_s0",
+        "hits": 12,
+        "raw_majority_slot_role": "driver",
+        "consensus_slot_role": "pillion_1",
+        "role_consensus_status": "provisional",
+        "role_change_reason": "initial"
+      },
+      {
+        "pair": "pair_020",
+        "camera": "back",
+        "moto_track_id": "back_moto_0002",
+        "subtrack_id": "back_moto_0002_rider_s0",
+        "hits": 75,
+        "raw_majority_slot_role": "driver",
+        "consensus_slot_role": "pillion_1",
+        "role_consensus_status": "initial",
+        "role_change_reason": "initial"
+      }
+    ],
     "pair_006/back/back_moto_0002_rider_s0": {
       "hits": 128,
       "slot_role": "driver",
@@ -791,7 +1007,7 @@
       "hits": 2,
       "slot_role": "pillion_1",
       "ordering_confident": true,
-      "slot_role_provisional": false,
+      "slot_role_provisional": true,
       "track_helmet_state": "UNCERTAIN",
       "parent_abstained": 28,
       "parent_conflicts": 53,
@@ -812,8 +1028,8 @@
       "discarded_tentative_subtracks": 2,
       "subtrack_roles": {
         "0": "pillion_1",
-        "1": "driver",
-        "2": "pillion_1"
+        "1": "pillion_1",
+        "2": "driver"
       },
       "subtrack_states": {
         "0": "UNCERTAIN",
@@ -825,7 +1041,7 @@
       "hits": 5,
       "slot_role": "pillion_1",
       "ordering_confident": true,
-      "slot_role_provisional": false,
+      "slot_role_provisional": true,
       "track_helmet_state": "NO_HELMET",
       "parent_abstained": 4,
       "parent_conflicts": 23,

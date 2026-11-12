@@ -9,10 +9,26 @@
     "gapc_exact_id_uncertain": 0,
     "gapc_exact_id_missing": 0,
     "orphan_gt_dropped_by_gate": 0,
+    "gapc_exported_physical_aligned_agree": 207,
+    "gapc_exported_physical_aligned_disagree": 2,
+    "gapc_exported_physical_aligned_uncertain": 0,
+    "gapc_exported_physical_aligned_missing": 0,
     "gapc_physical_aligned_agree": 207,
     "gapc_physical_aligned_disagree": 2,
     "gapc_physical_aligned_uncertain": 0,
     "gapc_physical_aligned_missing": 0,
+    "gt_209_pool_breakdown": {
+      "exported_only_agree": 207,
+      "exported_only_disagree": 2,
+      "exported_only_uncertain": 0,
+      "exported_only_missing": 0,
+      "full_pool_agree_by_source": {
+        "exported": 207
+      },
+      "full_pool_rows_by_source": {
+        "exported": 209
+      }
+    },
     "diff_category_counts": {
       "other_state_change": 2
     },
@@ -29,6 +45,7 @@
         "gapc_exact_hits": 10,
         "present_in_exact_export": true,
         "gapc_physical_id": "front_moto_0001_rider_s0",
+        "gapc_physical_source": "exported",
         "gapc_physical_state": "HELMET",
         "gapc_physical_hits": 10,
         "gapc_physical_iou": 1.0,
@@ -46,6 +63,7 @@
         "gapc_exact_hits": 4,
         "present_in_exact_export": true,
         "gapc_physical_id": "front_orphan_0005",
+        "gapc_physical_source": "exported",
         "gapc_physical_state": "NO_HELMET",
         "gapc_physical_hits": 4,
         "gapc_physical_iou": 1.0,
@@ -53,7 +71,7 @@
       }
     ],
     "offline_association_moto_outcomes": {
-      "UNMATCHED": 40,
+      "UNMATCHED": 39,
       "LINKED": 12,
       "INSUFFICIENT_EVIDENCE": 27,
       "AMBIGUOUS_ABSTAIN": 6
@@ -63,11 +81,17 @@
       "UNMATCHED": 6,
       "LINKED": 5
     },
+    "offline_association_orphan_outcomes": {
+      "INSUFFICIENT_EVIDENCE": 56,
+      "AMBIGUOUS_ABSTAIN": 13,
+      "UNMATCHED": 46,
+      "LINKED": 3
+    },
     "offline_association_rider_details": [
       {
         "pair": "pair_004",
-        "front_moto_id": null,
-        "back_moto_id": null,
+        "front_moto_id": "front_moto_0002",
+        "back_moto_id": "back_moto_0001",
         "front_subtrack_id": "front_moto_0002_rider_s1",
         "back_subtrack_id": "back_moto_0001_rider_s0",
         "outcome": "INSUFFICIENT_EVIDENCE",
@@ -76,8 +100,8 @@
       },
       {
         "pair": "pair_004",
-        "front_moto_id": null,
-        "back_moto_id": null,
+        "front_moto_id": "front_moto_0002",
+        "back_moto_id": "back_moto_0001",
         "front_subtrack_id": "front_moto_0002_rider_s0",
         "back_subtrack_id": null,
         "outcome": "UNMATCHED",
@@ -86,8 +110,8 @@
       },
       {
         "pair": "pair_006",
-        "front_moto_id": null,
-        "back_moto_id": null,
+        "front_moto_id": "front_moto_0001",
+        "back_moto_id": "back_moto_0002",
         "front_subtrack_id": "front_moto_0001_rider_s0",
         "back_subtrack_id": "back_moto_0002_rider_s0",
         "outcome": "INSUFFICIENT_EVIDENCE",
@@ -96,8 +120,8 @@
       },
       {
         "pair": "pair_008",
-        "front_moto_id": null,
-        "back_moto_id": null,
+        "front_moto_id": "front_moto_0001",
+        "back_moto_id": "back_moto_0001",
         "front_subtrack_id": "front_moto_0001_rider_s0",
         "back_subtrack_id": "back_moto_0001_rider_s0",
         "outcome": "LINKED",
@@ -106,8 +130,8 @@
       },
       {
         "pair": "pair_008",
-        "front_moto_id": null,
-        "back_moto_id": null,
+        "front_moto_id": "front_moto_0001",
+        "back_moto_id": "back_moto_0001",
         "front_subtrack_id": "front_moto_0001_rider_s1",
         "back_subtrack_id": null,
         "outcome": "UNMATCHED",
@@ -116,8 +140,8 @@
       },
       {
         "pair": "pair_009",
-        "front_moto_id": null,
-        "back_moto_id": null,
+        "front_moto_id": "front_moto_0001",
+        "back_moto_id": "back_moto_0001",
         "front_subtrack_id": "front_moto_0001_rider_s0",
         "back_subtrack_id": null,
         "outcome": "UNMATCHED",
@@ -126,8 +150,8 @@
       },
       {
         "pair": "pair_009",
-        "front_moto_id": null,
-        "back_moto_id": null,
+        "front_moto_id": "front_moto_0001",
+        "back_moto_id": "back_moto_0001",
         "front_subtrack_id": "front_moto_0001_rider_s1",
         "back_subtrack_id": null,
         "outcome": "UNMATCHED",
@@ -136,8 +160,8 @@
       },
       {
         "pair": "pair_010",
-        "front_moto_id": null,
-        "back_moto_id": null,
+        "front_moto_id": "front_moto_0001",
+        "back_moto_id": "back_moto_0001",
         "front_subtrack_id": "front_moto_0001_rider_s0",
         "back_subtrack_id": "back_moto_0001_rider_s0",
         "outcome": "LINKED",
@@ -146,8 +170,8 @@
       },
       {
         "pair": "pair_010",
-        "front_moto_id": null,
-        "back_moto_id": null,
+        "front_moto_id": "front_moto_0001",
+        "back_moto_id": "back_moto_0001",
         "front_subtrack_id": "front_moto_0001_rider_s1",
         "back_subtrack_id": "back_moto_0001_rider_s1",
         "outcome": "INSUFFICIENT_EVIDENCE",
@@ -156,8 +180,8 @@
       },
       {
         "pair": "pair_011",
-        "front_moto_id": null,
-        "back_moto_id": null,
+        "front_moto_id": "front_moto_0001",
+        "back_moto_id": "back_moto_0002",
         "front_subtrack_id": "front_moto_0001_rider_s0",
         "back_subtrack_id": "back_moto_0002_rider_s0",
         "outcome": "LINKED",
@@ -166,8 +190,8 @@
       },
       {
         "pair": "pair_012",
-        "front_moto_id": null,
-        "back_moto_id": null,
+        "front_moto_id": "front_moto_0004",
+        "back_moto_id": "back_moto_0002",
         "front_subtrack_id": "front_moto_0004_rider_s0",
         "back_subtrack_id": "back_moto_0002_rider_s0",
         "outcome": "INSUFFICIENT_EVIDENCE",
@@ -176,8 +200,8 @@
       },
       {
         "pair": "pair_012",
-        "front_moto_id": null,
-        "back_moto_id": null,
+        "front_moto_id": "front_moto_0004",
+        "back_moto_id": "back_moto_0002",
         "front_subtrack_id": "front_moto_0004_rider_s1",
         "back_subtrack_id": null,
         "outcome": "UNMATCHED",
@@ -186,8 +210,8 @@
       },
       {
         "pair": "pair_015",
-        "front_moto_id": null,
-        "back_moto_id": null,
+        "front_moto_id": "front_moto_0003",
+        "back_moto_id": "back_moto_0001",
         "front_subtrack_id": "front_moto_0003_rider_s0",
         "back_subtrack_id": "back_moto_0001_rider_s0",
         "outcome": "INSUFFICIENT_EVIDENCE",
@@ -196,8 +220,8 @@
       },
       {
         "pair": "pair_018",
-        "front_moto_id": null,
-        "back_moto_id": null,
+        "front_moto_id": "front_moto_0001",
+        "back_moto_id": "back_moto_0001",
         "front_subtrack_id": "front_moto_0001_rider_s0",
         "back_subtrack_id": "back_moto_0001_rider_s0",
         "outcome": "LINKED",
@@ -206,8 +230,8 @@
       },
       {
         "pair": "pair_018",
-        "front_moto_id": null,
-        "back_moto_id": null,
+        "front_moto_id": "front_moto_0001",
+        "back_moto_id": "back_moto_0001",
         "front_subtrack_id": "front_moto_0001_rider_s1",
         "back_subtrack_id": "back_moto_0001_rider_s1",
         "outcome": "INSUFFICIENT_EVIDENCE",
@@ -216,8 +240,8 @@
       },
       {
         "pair": "pair_019",
-        "front_moto_id": null,
-        "back_moto_id": null,
+        "front_moto_id": "front_moto_0002",
+        "back_moto_id": "back_moto_0002",
         "front_subtrack_id": "front_moto_0002_rider_s0",
         "back_subtrack_id": "back_moto_0002_rider_s0",
         "outcome": "INSUFFICIENT_EVIDENCE",
@@ -226,8 +250,8 @@
       },
       {
         "pair": "pair_019",
-        "front_moto_id": null,
-        "back_moto_id": null,
+        "front_moto_id": "front_moto_0002",
+        "back_moto_id": "back_moto_0002",
         "front_subtrack_id": null,
         "back_subtrack_id": "back_moto_0002_rider_s1",
         "outcome": "UNMATCHED",
@@ -236,8 +260,8 @@
       },
       {
         "pair": "pair_021",
-        "front_moto_id": null,
-        "back_moto_id": null,
+        "front_moto_id": "front_moto_0001",
+        "back_moto_id": "back_moto_0001",
         "front_subtrack_id": "front_moto_0001_rider_s0",
         "back_subtrack_id": "back_moto_0001_rider_s0",
         "outcome": "INSUFFICIENT_EVIDENCE",
@@ -246,8 +270,8 @@
       },
       {
         "pair": "pair_024",
-        "front_moto_id": null,
-        "back_moto_id": null,
+        "front_moto_id": "front_moto_0001",
+        "back_moto_id": "back_moto_0001",
         "front_subtrack_id": "front_moto_0001_rider_s0",
         "back_subtrack_id": "back_moto_0001_rider_s0",
         "outcome": "LINKED",
@@ -256,36 +280,1024 @@
       },
       {
         "pair": "pair_024",
-        "front_moto_id": null,
-        "back_moto_id": null,
+        "front_moto_id": "front_moto_0001",
+        "back_moto_id": "back_moto_0001",
         "front_subtrack_id": "front_moto_0001_rider_s1",
         "back_subtrack_id": "back_moto_0001_rider_s1",
         "outcome": "INSUFFICIENT_EVIDENCE",
         "abstain_reason": null,
         "fused_helmet_state": null
       }
-    ]
+    ],
+    "offline_association_orphan_details": [
+      {
+        "pair": "pair_001",
+        "front_track_id": "front_orphan_0005",
+        "back_track_id": null,
+        "outcome": "INSUFFICIENT_EVIDENCE",
+        "abstain_reason": null,
+        "association_score": 0.0
+      },
+      {
+        "pair": "pair_001",
+        "front_track_id": "front_orphan_0006",
+        "back_track_id": null,
+        "outcome": "INSUFFICIENT_EVIDENCE",
+        "abstain_reason": null,
+        "association_score": 0.0
+      },
+      {
+        "pair": "pair_001",
+        "front_track_id": "front_orphan_0007",
+        "back_track_id": null,
+        "outcome": "INSUFFICIENT_EVIDENCE",
+        "abstain_reason": null,
+        "association_score": 0.0
+      },
+      {
+        "pair": "pair_001",
+        "front_track_id": "front_orphan_0001",
+        "back_track_id": "back_orphan_0001",
+        "outcome": "AMBIGUOUS_ABSTAIN",
+        "abstain_reason": null,
+        "association_score": 0.9164
+      },
+      {
+        "pair": "pair_001",
+        "front_track_id": "front_orphan_0003",
+        "back_track_id": "back_orphan_0003",
+        "outcome": "AMBIGUOUS_ABSTAIN",
+        "abstain_reason": null,
+        "association_score": 0.8292
+      },
+      {
+        "pair": "pair_001",
+        "front_track_id": "front_moto_0001_rider_s0",
+        "back_track_id": "back_orphan_0002",
+        "outcome": "AMBIGUOUS_ABSTAIN",
+        "abstain_reason": null,
+        "association_score": 0.9681
+      },
+      {
+        "pair": "pair_001",
+        "front_track_id": "front_orphan_0002",
+        "back_track_id": null,
+        "outcome": "UNMATCHED",
+        "abstain_reason": null,
+        "association_score": 0.8911
+      },
+      {
+        "pair": "pair_001",
+        "front_track_id": "front_orphan_0004",
+        "back_track_id": null,
+        "outcome": "UNMATCHED",
+        "abstain_reason": null,
+        "association_score": 0.8402
+      },
+      {
+        "pair": "pair_002",
+        "front_track_id": "front_orphan_0001",
+        "back_track_id": null,
+        "outcome": "INSUFFICIENT_EVIDENCE",
+        "abstain_reason": null,
+        "association_score": 0.0
+      },
+      {
+        "pair": "pair_002",
+        "front_track_id": "front_orphan_0004",
+        "back_track_id": null,
+        "outcome": "INSUFFICIENT_EVIDENCE",
+        "abstain_reason": null,
+        "association_score": 0.0
+      },
+      {
+        "pair": "pair_002",
+        "front_track_id": null,
+        "back_track_id": "back_orphan_0001",
+        "outcome": "INSUFFICIENT_EVIDENCE",
+        "abstain_reason": null,
+        "association_score": 0.0
+      },
+      {
+        "pair": "pair_002",
+        "front_track_id": "front_orphan_0002",
+        "back_track_id": "back_moto_0001_rider_s0",
+        "outcome": "AMBIGUOUS_ABSTAIN",
+        "abstain_reason": null,
+        "association_score": 0.7753
+      },
+      {
+        "pair": "pair_002",
+        "front_track_id": "front_orphan_0003",
+        "back_track_id": null,
+        "outcome": "UNMATCHED",
+        "abstain_reason": null,
+        "association_score": 0.7561
+      },
+      {
+        "pair": "pair_003",
+        "front_track_id": null,
+        "back_track_id": "back_orphan_0004",
+        "outcome": "INSUFFICIENT_EVIDENCE",
+        "abstain_reason": null,
+        "association_score": 0.0
+      },
+      {
+        "pair": "pair_003",
+        "front_track_id": null,
+        "back_track_id": "back_orphan_0006",
+        "outcome": "INSUFFICIENT_EVIDENCE",
+        "abstain_reason": null,
+        "association_score": 0.0
+      },
+      {
+        "pair": "pair_003",
+        "front_track_id": null,
+        "back_track_id": "back_orphan_0008",
+        "outcome": "INSUFFICIENT_EVIDENCE",
+        "abstain_reason": null,
+        "association_score": 0.0
+      },
+      {
+        "pair": "pair_003",
+        "front_track_id": null,
+        "back_track_id": "back_orphan_0011",
+        "outcome": "INSUFFICIENT_EVIDENCE",
+        "abstain_reason": null,
+        "association_score": 0.0
+      },
+      {
+        "pair": "pair_003",
+        "front_track_id": "front_moto_0001_rider_s0",
+        "back_track_id": "back_orphan_0002",
+        "outcome": "LINKED",
+        "abstain_reason": null,
+        "association_score": 0.9425
+      },
+      {
+        "pair": "pair_003",
+        "front_track_id": null,
+        "back_track_id": "back_orphan_0001",
+        "outcome": "UNMATCHED",
+        "abstain_reason": null,
+        "association_score": 0.0
+      },
+      {
+        "pair": "pair_003",
+        "front_track_id": null,
+        "back_track_id": "back_orphan_0003",
+        "outcome": "UNMATCHED",
+        "abstain_reason": null,
+        "association_score": 0.0
+      },
+      {
+        "pair": "pair_003",
+        "front_track_id": null,
+        "back_track_id": "back_orphan_0005",
+        "outcome": "UNMATCHED",
+        "abstain_reason": null,
+        "association_score": 0.0
+      },
+      {
+        "pair": "pair_003",
+        "front_track_id": null,
+        "back_track_id": "back_orphan_0007",
+        "outcome": "UNMATCHED",
+        "abstain_reason": null,
+        "association_score": 0.0
+      },
+      {
+        "pair": "pair_003",
+        "front_track_id": null,
+        "back_track_id": "back_orphan_0009",
+        "outcome": "UNMATCHED",
+        "abstain_reason": null,
+        "association_score": 0.7852
+      },
+      {
+        "pair": "pair_003",
+        "front_track_id": null,
+        "back_track_id": "back_orphan_0010",
+        "outcome": "UNMATCHED",
+        "abstain_reason": null,
+        "association_score": 0.5373
+      },
+      {
+        "pair": "pair_004",
+        "front_track_id": "front_orphan_0004",
+        "back_track_id": null,
+        "outcome": "INSUFFICIENT_EVIDENCE",
+        "abstain_reason": null,
+        "association_score": 0.0
+      },
+      {
+        "pair": "pair_004",
+        "front_track_id": "front_orphan_0001",
+        "back_track_id": null,
+        "outcome": "UNMATCHED",
+        "abstain_reason": null,
+        "association_score": 0.0
+      },
+      {
+        "pair": "pair_004",
+        "front_track_id": "front_orphan_0002",
+        "back_track_id": null,
+        "outcome": "UNMATCHED",
+        "abstain_reason": null,
+        "association_score": 0.0
+      },
+      {
+        "pair": "pair_004",
+        "front_track_id": "front_orphan_0003",
+        "back_track_id": null,
+        "outcome": "UNMATCHED",
+        "abstain_reason": null,
+        "association_score": 0.0
+      },
+      {
+        "pair": "pair_004",
+        "front_track_id": "front_orphan_0005",
+        "back_track_id": null,
+        "outcome": "UNMATCHED",
+        "abstain_reason": null,
+        "association_score": 0.0
+      },
+      {
+        "pair": "pair_004",
+        "front_track_id": "front_orphan_0006",
+        "back_track_id": null,
+        "outcome": "UNMATCHED",
+        "abstain_reason": null,
+        "association_score": 0.0
+      },
+      {
+        "pair": "pair_004",
+        "front_track_id": "front_orphan_0007",
+        "back_track_id": null,
+        "outcome": "UNMATCHED",
+        "abstain_reason": null,
+        "association_score": 0.0
+      },
+      {
+        "pair": "pair_004",
+        "front_track_id": "front_orphan_0008",
+        "back_track_id": null,
+        "outcome": "UNMATCHED",
+        "abstain_reason": null,
+        "association_score": 0.0
+      },
+      {
+        "pair": "pair_005",
+        "front_track_id": "front_orphan_0001",
+        "back_track_id": null,
+        "outcome": "INSUFFICIENT_EVIDENCE",
+        "abstain_reason": null,
+        "association_score": 0.0
+      },
+      {
+        "pair": "pair_005",
+        "front_track_id": "front_orphan_0002",
+        "back_track_id": null,
+        "outcome": "UNMATCHED",
+        "abstain_reason": null,
+        "association_score": 0.0
+      },
+      {
+        "pair": "pair_006",
+        "front_track_id": null,
+        "back_track_id": "back_orphan_0003",
+        "outcome": "INSUFFICIENT_EVIDENCE",
+        "abstain_reason": null,
+        "association_score": 0.0
+      },
+      {
+        "pair": "pair_006",
+        "front_track_id": null,
+        "back_track_id": "back_orphan_0004",
+        "outcome": "INSUFFICIENT_EVIDENCE",
+        "abstain_reason": null,
+        "association_score": 0.0
+      },
+      {
+        "pair": "pair_006",
+        "front_track_id": null,
+        "back_track_id": "back_orphan_0001",
+        "outcome": "UNMATCHED",
+        "abstain_reason": null,
+        "association_score": 0.0
+      },
+      {
+        "pair": "pair_006",
+        "front_track_id": null,
+        "back_track_id": "back_orphan_0002",
+        "outcome": "UNMATCHED",
+        "abstain_reason": null,
+        "association_score": 0.0
+      },
+      {
+        "pair": "pair_007",
+        "front_track_id": "front_orphan_0002",
+        "back_track_id": null,
+        "outcome": "INSUFFICIENT_EVIDENCE",
+        "abstain_reason": null,
+        "association_score": 0.0
+      },
+      {
+        "pair": "pair_007",
+        "front_track_id": "front_orphan_0003",
+        "back_track_id": null,
+        "outcome": "INSUFFICIENT_EVIDENCE",
+        "abstain_reason": null,
+        "association_score": 0.0
+      },
+      {
+        "pair": "pair_007",
+        "front_track_id": "front_orphan_0004",
+        "back_track_id": null,
+        "outcome": "INSUFFICIENT_EVIDENCE",
+        "abstain_reason": null,
+        "association_score": 0.0
+      },
+      {
+        "pair": "pair_007",
+        "front_track_id": "front_orphan_0006",
+        "back_track_id": null,
+        "outcome": "INSUFFICIENT_EVIDENCE",
+        "abstain_reason": null,
+        "association_score": 0.0
+      },
+      {
+        "pair": "pair_007",
+        "front_track_id": "front_orphan_0005",
+        "back_track_id": "back_orphan_0001",
+        "outcome": "AMBIGUOUS_ABSTAIN",
+        "abstain_reason": null,
+        "association_score": 0.8746
+      },
+      {
+        "pair": "pair_007",
+        "front_track_id": "front_orphan_0001",
+        "back_track_id": null,
+        "outcome": "UNMATCHED",
+        "abstain_reason": null,
+        "association_score": 0.8732
+      },
+      {
+        "pair": "pair_008",
+        "front_track_id": "front_orphan_0003",
+        "back_track_id": null,
+        "outcome": "INSUFFICIENT_EVIDENCE",
+        "abstain_reason": null,
+        "association_score": 0.0
+      },
+      {
+        "pair": "pair_008",
+        "front_track_id": "front_orphan_0004",
+        "back_track_id": null,
+        "outcome": "INSUFFICIENT_EVIDENCE",
+        "abstain_reason": null,
+        "association_score": 0.0
+      },
+      {
+        "pair": "pair_008",
+        "front_track_id": "front_orphan_0005",
+        "back_track_id": null,
+        "outcome": "INSUFFICIENT_EVIDENCE",
+        "abstain_reason": null,
+        "association_score": 0.0
+      },
+      {
+        "pair": "pair_008",
+        "front_track_id": null,
+        "back_track_id": "back_orphan_0001",
+        "outcome": "INSUFFICIENT_EVIDENCE",
+        "abstain_reason": null,
+        "association_score": 0.0
+      },
+      {
+        "pair": "pair_008",
+        "front_track_id": null,
+        "back_track_id": "back_orphan_0002",
+        "outcome": "INSUFFICIENT_EVIDENCE",
+        "abstain_reason": null,
+        "association_score": 0.0
+      },
+      {
+        "pair": "pair_008",
+        "front_track_id": "front_orphan_0001",
+        "back_track_id": null,
+        "outcome": "UNMATCHED",
+        "abstain_reason": null,
+        "association_score": 0.0
+      },
+      {
+        "pair": "pair_008",
+        "front_track_id": "front_orphan_0002",
+        "back_track_id": null,
+        "outcome": "UNMATCHED",
+        "abstain_reason": null,
+        "association_score": 0.0
+      },
+      {
+        "pair": "pair_009",
+        "front_track_id": "front_orphan_0001",
+        "back_track_id": null,
+        "outcome": "INSUFFICIENT_EVIDENCE",
+        "abstain_reason": null,
+        "association_score": 0.0
+      },
+      {
+        "pair": "pair_009",
+        "front_track_id": null,
+        "back_track_id": "back_orphan_0002",
+        "outcome": "INSUFFICIENT_EVIDENCE",
+        "abstain_reason": null,
+        "association_score": 0.0
+      },
+      {
+        "pair": "pair_009",
+        "front_track_id": "front_orphan_0002",
+        "back_track_id": "back_orphan_0001",
+        "outcome": "LINKED",
+        "abstain_reason": null,
+        "association_score": 0.8538
+      },
+      {
+        "pair": "pair_010",
+        "front_track_id": "front_orphan_0002",
+        "back_track_id": null,
+        "outcome": "INSUFFICIENT_EVIDENCE",
+        "abstain_reason": null,
+        "association_score": 0.0
+      },
+      {
+        "pair": "pair_010",
+        "front_track_id": null,
+        "back_track_id": "back_orphan_0001",
+        "outcome": "INSUFFICIENT_EVIDENCE",
+        "abstain_reason": null,
+        "association_score": 0.0
+      },
+      {
+        "pair": "pair_010",
+        "front_track_id": "front_orphan_0001",
+        "back_track_id": null,
+        "outcome": "UNMATCHED",
+        "abstain_reason": null,
+        "association_score": 0.769
+      },
+      {
+        "pair": "pair_010",
+        "front_track_id": null,
+        "back_track_id": "back_orphan_0002",
+        "outcome": "UNMATCHED",
+        "abstain_reason": null,
+        "association_score": 0.769
+      },
+      {
+        "pair": "pair_010",
+        "front_track_id": null,
+        "back_track_id": "back_orphan_0003",
+        "outcome": "UNMATCHED",
+        "abstain_reason": null,
+        "association_score": 0.7668
+      },
+      {
+        "pair": "pair_011",
+        "front_track_id": "front_orphan_0001",
+        "back_track_id": null,
+        "outcome": "INSUFFICIENT_EVIDENCE",
+        "abstain_reason": null,
+        "association_score": 0.0
+      },
+      {
+        "pair": "pair_012",
+        "front_track_id": "front_orphan_0002",
+        "back_track_id": null,
+        "outcome": "INSUFFICIENT_EVIDENCE",
+        "abstain_reason": null,
+        "association_score": 0.0
+      },
+      {
+        "pair": "pair_012",
+        "front_track_id": "front_orphan_0004",
+        "back_track_id": null,
+        "outcome": "INSUFFICIENT_EVIDENCE",
+        "abstain_reason": null,
+        "association_score": 0.0
+      },
+      {
+        "pair": "pair_012",
+        "front_track_id": "front_orphan_0001",
+        "back_track_id": null,
+        "outcome": "UNMATCHED",
+        "abstain_reason": null,
+        "association_score": 0.0
+      },
+      {
+        "pair": "pair_012",
+        "front_track_id": "front_orphan_0003",
+        "back_track_id": null,
+        "outcome": "UNMATCHED",
+        "abstain_reason": null,
+        "association_score": 0.0
+      },
+      {
+        "pair": "pair_014",
+        "front_track_id": "front_orphan_0001",
+        "back_track_id": null,
+        "outcome": "INSUFFICIENT_EVIDENCE",
+        "abstain_reason": null,
+        "association_score": 0.0
+      },
+      {
+        "pair": "pair_014",
+        "front_track_id": "front_orphan_0002",
+        "back_track_id": null,
+        "outcome": "UNMATCHED",
+        "abstain_reason": null,
+        "association_score": 0.0
+      },
+      {
+        "pair": "pair_015",
+        "front_track_id": "front_orphan_0003",
+        "back_track_id": null,
+        "outcome": "INSUFFICIENT_EVIDENCE",
+        "abstain_reason": null,
+        "association_score": 0.0
+      },
+      {
+        "pair": "pair_015",
+        "front_track_id": "front_orphan_0001",
+        "back_track_id": null,
+        "outcome": "UNMATCHED",
+        "abstain_reason": null,
+        "association_score": 0.0
+      },
+      {
+        "pair": "pair_015",
+        "front_track_id": "front_orphan_0002",
+        "back_track_id": null,
+        "outcome": "UNMATCHED",
+        "abstain_reason": null,
+        "association_score": 0.0
+      },
+      {
+        "pair": "pair_016",
+        "front_track_id": "front_orphan_0001",
+        "back_track_id": null,
+        "outcome": "INSUFFICIENT_EVIDENCE",
+        "abstain_reason": null,
+        "association_score": 0.0
+      },
+      {
+        "pair": "pair_016",
+        "front_track_id": "front_orphan_0002",
+        "back_track_id": null,
+        "outcome": "INSUFFICIENT_EVIDENCE",
+        "abstain_reason": null,
+        "association_score": 0.0
+      },
+      {
+        "pair": "pair_016",
+        "front_track_id": "front_orphan_0003",
+        "back_track_id": null,
+        "outcome": "UNMATCHED",
+        "abstain_reason": null,
+        "association_score": 0.7833
+      },
+      {
+        "pair": "pair_016",
+        "front_track_id": null,
+        "back_track_id": "back_orphan_0001",
+        "outcome": "UNMATCHED",
+        "abstain_reason": null,
+        "association_score": 0.7833
+      },
+      {
+        "pair": "pair_017",
+        "front_track_id": "front_orphan_0001",
+        "back_track_id": null,
+        "outcome": "INSUFFICIENT_EVIDENCE",
+        "abstain_reason": null,
+        "association_score": 0.0
+      },
+      {
+        "pair": "pair_018",
+        "front_track_id": null,
+        "back_track_id": "back_orphan_0001",
+        "outcome": "UNMATCHED",
+        "abstain_reason": null,
+        "association_score": 0.0
+      },
+      {
+        "pair": "pair_019",
+        "front_track_id": "front_orphan_0002",
+        "back_track_id": null,
+        "outcome": "INSUFFICIENT_EVIDENCE",
+        "abstain_reason": null,
+        "association_score": 0.0
+      },
+      {
+        "pair": "pair_019",
+        "front_track_id": "front_orphan_0003",
+        "back_track_id": null,
+        "outcome": "INSUFFICIENT_EVIDENCE",
+        "abstain_reason": null,
+        "association_score": 0.0
+      },
+      {
+        "pair": "pair_019",
+        "front_track_id": "front_orphan_0004",
+        "back_track_id": null,
+        "outcome": "INSUFFICIENT_EVIDENCE",
+        "abstain_reason": null,
+        "association_score": 0.0
+      },
+      {
+        "pair": "pair_019",
+        "front_track_id": "front_orphan_0005",
+        "back_track_id": null,
+        "outcome": "INSUFFICIENT_EVIDENCE",
+        "abstain_reason": null,
+        "association_score": 0.0
+      },
+      {
+        "pair": "pair_019",
+        "front_track_id": "front_orphan_0006",
+        "back_track_id": null,
+        "outcome": "INSUFFICIENT_EVIDENCE",
+        "abstain_reason": null,
+        "association_score": 0.0
+      },
+      {
+        "pair": "pair_019",
+        "front_track_id": "front_orphan_0007",
+        "back_track_id": null,
+        "outcome": "INSUFFICIENT_EVIDENCE",
+        "abstain_reason": null,
+        "association_score": 0.0
+      },
+      {
+        "pair": "pair_019",
+        "front_track_id": "front_orphan_0009",
+        "back_track_id": null,
+        "outcome": "INSUFFICIENT_EVIDENCE",
+        "abstain_reason": null,
+        "association_score": 0.0
+      },
+      {
+        "pair": "pair_019",
+        "front_track_id": null,
+        "back_track_id": "back_orphan_0002",
+        "outcome": "INSUFFICIENT_EVIDENCE",
+        "abstain_reason": null,
+        "association_score": 0.0
+      },
+      {
+        "pair": "pair_019",
+        "front_track_id": null,
+        "back_track_id": "back_orphan_0005",
+        "outcome": "INSUFFICIENT_EVIDENCE",
+        "abstain_reason": null,
+        "association_score": 0.0
+      },
+      {
+        "pair": "pair_019",
+        "front_track_id": null,
+        "back_track_id": "back_orphan_0007",
+        "outcome": "INSUFFICIENT_EVIDENCE",
+        "abstain_reason": null,
+        "association_score": 0.0
+      },
+      {
+        "pair": "pair_019",
+        "front_track_id": null,
+        "back_track_id": "back_orphan_0009",
+        "outcome": "INSUFFICIENT_EVIDENCE",
+        "abstain_reason": null,
+        "association_score": 0.0
+      },
+      {
+        "pair": "pair_019",
+        "front_track_id": "front_orphan_0001",
+        "back_track_id": "back_orphan_0001",
+        "outcome": "AMBIGUOUS_ABSTAIN",
+        "abstain_reason": null,
+        "association_score": 0.872
+      },
+      {
+        "pair": "pair_019",
+        "front_track_id": "front_orphan_0008",
+        "back_track_id": "back_orphan_0003",
+        "outcome": "AMBIGUOUS_ABSTAIN",
+        "abstain_reason": null,
+        "association_score": 0.9124
+      },
+      {
+        "pair": "pair_019",
+        "front_track_id": "front_orphan_0010",
+        "back_track_id": "back_orphan_0010",
+        "outcome": "AMBIGUOUS_ABSTAIN",
+        "abstain_reason": null,
+        "association_score": 0.9993
+      },
+      {
+        "pair": "pair_019",
+        "front_track_id": "front_moto_0003_rider_s0",
+        "back_track_id": "back_orphan_0011",
+        "outcome": "AMBIGUOUS_ABSTAIN",
+        "abstain_reason": null,
+        "association_score": 0.8973
+      },
+      {
+        "pair": "pair_019",
+        "front_track_id": null,
+        "back_track_id": "back_orphan_0004",
+        "outcome": "UNMATCHED",
+        "abstain_reason": null,
+        "association_score": 0.8273
+      },
+      {
+        "pair": "pair_019",
+        "front_track_id": null,
+        "back_track_id": "back_orphan_0006",
+        "outcome": "UNMATCHED",
+        "abstain_reason": null,
+        "association_score": 0.8809
+      },
+      {
+        "pair": "pair_019",
+        "front_track_id": null,
+        "back_track_id": "back_orphan_0008",
+        "outcome": "UNMATCHED",
+        "abstain_reason": null,
+        "association_score": 0.9374
+      },
+      {
+        "pair": "pair_019",
+        "front_track_id": null,
+        "back_track_id": "back_orphan_0012",
+        "outcome": "UNMATCHED",
+        "abstain_reason": null,
+        "association_score": 0.7949
+      },
+      {
+        "pair": "pair_019",
+        "front_track_id": null,
+        "back_track_id": "back_orphan_0013",
+        "outcome": "UNMATCHED",
+        "abstain_reason": null,
+        "association_score": 0.6472
+      },
+      {
+        "pair": "pair_019",
+        "front_track_id": null,
+        "back_track_id": "back_orphan_0014",
+        "outcome": "UNMATCHED",
+        "abstain_reason": null,
+        "association_score": 0.7235
+      },
+      {
+        "pair": "pair_019",
+        "front_track_id": null,
+        "back_track_id": "back_orphan_0015",
+        "outcome": "UNMATCHED",
+        "abstain_reason": null,
+        "association_score": 0.4703
+      },
+      {
+        "pair": "pair_020",
+        "front_track_id": "front_orphan_0002",
+        "back_track_id": "back_orphan_0001",
+        "outcome": "AMBIGUOUS_ABSTAIN",
+        "abstain_reason": null,
+        "association_score": 0.8831
+      },
+      {
+        "pair": "pair_020",
+        "front_track_id": "front_orphan_0001",
+        "back_track_id": null,
+        "outcome": "UNMATCHED",
+        "abstain_reason": null,
+        "association_score": 0.848
+      },
+      {
+        "pair": "pair_021",
+        "front_track_id": null,
+        "back_track_id": "back_orphan_0003",
+        "outcome": "INSUFFICIENT_EVIDENCE",
+        "abstain_reason": null,
+        "association_score": 0.0
+      },
+      {
+        "pair": "pair_021",
+        "front_track_id": null,
+        "back_track_id": "back_orphan_0004",
+        "outcome": "INSUFFICIENT_EVIDENCE",
+        "abstain_reason": null,
+        "association_score": 0.0
+      },
+      {
+        "pair": "pair_021",
+        "front_track_id": "front_orphan_0001",
+        "back_track_id": "back_orphan_0001",
+        "outcome": "AMBIGUOUS_ABSTAIN",
+        "abstain_reason": null,
+        "association_score": 0.8603
+      },
+      {
+        "pair": "pair_021",
+        "front_track_id": "front_orphan_0002",
+        "back_track_id": "back_orphan_0002",
+        "outcome": "AMBIGUOUS_ABSTAIN",
+        "abstain_reason": null,
+        "association_score": 0.9953
+      },
+      {
+        "pair": "pair_022",
+        "front_track_id": "front_orphan_0001",
+        "back_track_id": null,
+        "outcome": "INSUFFICIENT_EVIDENCE",
+        "abstain_reason": null,
+        "association_score": 0.0
+      },
+      {
+        "pair": "pair_022",
+        "front_track_id": null,
+        "back_track_id": "back_orphan_0001",
+        "outcome": "INSUFFICIENT_EVIDENCE",
+        "abstain_reason": null,
+        "association_score": 0.0
+      },
+      {
+        "pair": "pair_023",
+        "front_track_id": null,
+        "back_track_id": "back_orphan_0001",
+        "outcome": "INSUFFICIENT_EVIDENCE",
+        "abstain_reason": null,
+        "association_score": 0.0
+      },
+      {
+        "pair": "pair_023",
+        "front_track_id": "front_orphan_0001",
+        "back_track_id": "back_orphan_0002",
+        "outcome": "LINKED",
+        "abstain_reason": null,
+        "association_score": 0.8577
+      },
+      {
+        "pair": "pair_024",
+        "front_track_id": "front_orphan_0001",
+        "back_track_id": null,
+        "outcome": "INSUFFICIENT_EVIDENCE",
+        "abstain_reason": null,
+        "association_score": 0.0
+      },
+      {
+        "pair": "pair_024",
+        "front_track_id": null,
+        "back_track_id": "back_orphan_0002",
+        "outcome": "INSUFFICIENT_EVIDENCE",
+        "abstain_reason": null,
+        "association_score": 0.0
+      },
+      {
+        "pair": "pair_024",
+        "front_track_id": null,
+        "back_track_id": "back_orphan_0003",
+        "outcome": "INSUFFICIENT_EVIDENCE",
+        "abstain_reason": null,
+        "association_score": 0.0
+      },
+      {
+        "pair": "pair_024",
+        "front_track_id": "front_orphan_0003",
+        "back_track_id": "back_orphan_0001",
+        "outcome": "AMBIGUOUS_ABSTAIN",
+        "abstain_reason": null,
+        "association_score": 0.8802
+      },
+      {
+        "pair": "pair_024",
+        "front_track_id": "front_orphan_0002",
+        "back_track_id": null,
+        "outcome": "UNMATCHED",
+        "abstain_reason": null,
+        "association_score": 0.8029
+      },
+      {
+        "pair": "pair_024",
+        "front_track_id": "front_orphan_0004",
+        "back_track_id": null,
+        "outcome": "UNMATCHED",
+        "abstain_reason": null,
+        "association_score": 0.8687
+      },
+      {
+        "pair": "pair_024",
+        "front_track_id": "front_orphan_0005",
+        "back_track_id": null,
+        "outcome": "UNMATCHED",
+        "abstain_reason": null,
+        "association_score": 0.6402
+      },
+      {
+        "pair": "pair_024",
+        "front_track_id": null,
+        "back_track_id": "back_orphan_0004",
+        "outcome": "UNMATCHED",
+        "abstain_reason": null,
+        "association_score": 0.4172
+      },
+      {
+        "pair": "pair_024",
+        "front_track_id": null,
+        "back_track_id": "back_orphan_0005",
+        "outcome": "UNMATCHED",
+        "abstain_reason": null,
+        "association_score": 0.3322
+      },
+      {
+        "pair": "pair_025",
+        "front_track_id": null,
+        "back_track_id": "back_orphan_0001",
+        "outcome": "INSUFFICIENT_EVIDENCE",
+        "abstain_reason": null,
+        "association_score": 0.0
+      },
+      {
+        "pair": "pair_025",
+        "front_track_id": null,
+        "back_track_id": "back_orphan_0002",
+        "outcome": "INSUFFICIENT_EVIDENCE",
+        "abstain_reason": null,
+        "association_score": 0.0
+      }
+    ],
+    "non_motorcycle_gt_links_matched": 5,
+    "non_motorcycle_gt_links_total": 5,
+    "non_motorcycle_gt_links_matched_ids": [
+      "pair_008:rider:front_moto_0001_rider_s0<->back_moto_0001_rider_s0",
+      "pair_009:orphan_rider:front_orphan_0002<->back_orphan_0001",
+      "pair_011:rider:front_moto_0001_rider_s0<->back_moto_0002_rider_s0",
+      "pair_018:rider:front_moto_0001_rider_s0<->back_moto_0001_rider_s0",
+      "pair_024:rider:front_moto_0001_rider_s0<->back_moto_0001_rider_s0"
+    ],
+    "non_motorcycle_gt_links_missed_ids": [],
+    "motorcycle_gt_links_matched": 10,
+    "motorcycle_gt_links_total": 10,
+    "association_regression_checks": {
+      "pair_004_moto_linked": true,
+      "pair_024_moto_linked": true,
+      "pair_020_back_moto_0003_non_linked": true,
+      "pair_020_back_moto_0003_outcome": "AMBIGUOUS_ABSTAIN",
+      "pair_005_orphan_linked_count": 0,
+      "pair_009_orphan_linked": true,
+      "pair_019_driver_s2_s0_linked": false
+    }
   },
   "A4": {
     "total_decided_gt_tracks_baseline": 209,
     "stagej_baseline_decided": 209,
     "stagej_baseline_agree": 207,
-    "gapc_exact_id_decided": 133,
+    "gapc_exact_id_decided": 134,
     "gapc_exact_id_agree": 121,
-    "gapc_exact_id_disagree": 12,
-    "gapc_exact_id_uncertain": 76,
-    "gapc_exact_id_missing": 74,
-    "orphan_gt_dropped_by_gate": 63,
-    "gapc_physical_aligned_agree": 195,
+    "gapc_exact_id_disagree": 13,
+    "gapc_exact_id_uncertain": 75,
+    "gapc_exact_id_missing": 73,
+    "orphan_gt_dropped_by_gate": 62,
+    "gapc_exported_physical_aligned_agree": 140,
+    "gapc_exported_physical_aligned_disagree": 15,
+    "gapc_exported_physical_aligned_uncertain": 2,
+    "gapc_exported_physical_aligned_missing": 52,
+    "gapc_physical_aligned_agree": 196,
     "gapc_physical_aligned_disagree": 12,
     "gapc_physical_aligned_uncertain": 1,
-    "gapc_physical_aligned_missing": 1,
+    "gapc_physical_aligned_missing": 0,
+    "gt_209_pool_breakdown": {
+      "exported_only_agree": 140,
+      "exported_only_disagree": 15,
+      "exported_only_uncertain": 2,
+      "exported_only_missing": 52,
+      "full_pool_agree_by_source": {
+        "exported": 129,
+        "discarded_tentative": 65,
+        "end_of_clip_tentative": 2
+      },
+      "full_pool_rows_by_source": {
+        "exported": 142,
+        "discarded_tentative": 65,
+        "end_of_clip_tentative": 2
+      }
+    },
     "diff_category_counts": {
-      "orphan_tentative_1hit_pruned": 46,
+      "orphan_tentative_1hit_pruned": 45,
       "recovered_multihit_contradicts_1hit_ai_gt": 7,
       "none_both_agree": 1,
-      "orphan_renumbered_id_shift": 14,
+      "orphan_tentative_1hit_end_of_clip_active": 2,
       "orphan_renumbered_or_deduped": 8,
+      "orphan_renumbered_id_shift": 14,
       "other_state_change": 13
     },
     "per_track_diffs": [
@@ -301,6 +1313,7 @@
         "gapc_exact_hits": 0,
         "present_in_exact_export": false,
         "gapc_physical_id": "front_orphan_0005",
+        "gapc_physical_source": "discarded_tentative",
         "gapc_physical_state": "NO_HELMET",
         "gapc_physical_hits": 1,
         "gapc_physical_iou": 1.0,
@@ -318,6 +1331,7 @@
         "gapc_exact_hits": 0,
         "present_in_exact_export": false,
         "gapc_physical_id": "front_orphan_0006",
+        "gapc_physical_source": "discarded_tentative",
         "gapc_physical_state": "HELMET",
         "gapc_physical_hits": 1,
         "gapc_physical_iou": 1.0,
@@ -335,6 +1349,7 @@
         "gapc_exact_hits": 0,
         "present_in_exact_export": false,
         "gapc_physical_id": "front_orphan_0007",
+        "gapc_physical_source": "discarded_tentative",
         "gapc_physical_state": "HELMET",
         "gapc_physical_hits": 1,
         "gapc_physical_iou": 1.0,
@@ -352,6 +1367,7 @@
         "gapc_exact_hits": 120,
         "present_in_exact_export": true,
         "gapc_physical_id": "back_moto_0001_rider_s0",
+        "gapc_physical_source": "exported",
         "gapc_physical_state": "NO_HELMET",
         "gapc_physical_hits": 120,
         "gapc_physical_iou": 1.0,
@@ -369,6 +1385,7 @@
         "gapc_exact_hits": 271,
         "present_in_exact_export": true,
         "gapc_physical_id": "front_moto_0001_rider_s0",
+        "gapc_physical_source": "exported",
         "gapc_physical_state": "NO_HELMET",
         "gapc_physical_hits": 271,
         "gapc_physical_iou": 0.939,
@@ -386,6 +1403,7 @@
         "gapc_exact_hits": 0,
         "present_in_exact_export": false,
         "gapc_physical_id": "front_orphan_0001",
+        "gapc_physical_source": "discarded_tentative",
         "gapc_physical_state": "NO_HELMET",
         "gapc_physical_hits": 1,
         "gapc_physical_iou": 1.0,
@@ -394,19 +1412,20 @@
       {
         "pair": "pair_002",
         "camera": "front",
-        "track_id": "front_orphan_0003",
+        "track_id": "front_orphan_0004",
         "kind": "orphan",
         "gt": "NO_HELMET",
         "stagej_primary": "NO_HELMET",
-        "stagej_hits": 4,
+        "stagej_hits": 1,
         "gapc_exact_state": "UNCERTAIN",
         "gapc_exact_hits": 0,
         "present_in_exact_export": false,
         "gapc_physical_id": "front_orphan_0004",
+        "gapc_physical_source": "end_of_clip_tentative",
         "gapc_physical_state": "NO_HELMET",
-        "gapc_physical_hits": 3,
+        "gapc_physical_hits": 1,
         "gapc_physical_iou": 1.0,
-        "category": "orphan_renumbered_id_shift"
+        "category": "orphan_tentative_1hit_end_of_clip_active"
       },
       {
         "pair": "pair_003",
@@ -420,6 +1439,7 @@
         "gapc_exact_hits": 0,
         "present_in_exact_export": false,
         "gapc_physical_id": "back_orphan_0004",
+        "gapc_physical_source": "discarded_tentative",
         "gapc_physical_state": "NO_HELMET",
         "gapc_physical_hits": 1,
         "gapc_physical_iou": 1.0,
@@ -433,10 +1453,11 @@
         "gt": "HELMET",
         "stagej_primary": "HELMET",
         "stagej_hits": 1,
-        "gapc_exact_state": "UNCERTAIN",
-        "gapc_exact_hits": 0,
-        "present_in_exact_export": false,
+        "gapc_exact_state": "HELMET",
+        "gapc_exact_hits": 3,
+        "present_in_exact_export": true,
         "gapc_physical_id": "back_orphan_0005",
+        "gapc_physical_source": "exported",
         "gapc_physical_state": "NO_HELMET",
         "gapc_physical_hits": 2,
         "gapc_physical_iou": 0.834,
@@ -454,10 +1475,11 @@
         "gapc_exact_hits": 0,
         "present_in_exact_export": false,
         "gapc_physical_id": "back_orphan_0006",
+        "gapc_physical_source": "exported",
         "gapc_physical_state": "HELMET",
-        "gapc_physical_hits": 1,
+        "gapc_physical_hits": 3,
         "gapc_physical_iou": 1.0,
-        "category": "orphan_tentative_1hit_pruned"
+        "category": "orphan_renumbered_id_shift"
       },
       {
         "pair": "pair_003",
@@ -467,14 +1489,15 @@
         "gt": "HELMET",
         "stagej_primary": "HELMET",
         "stagej_hits": 1,
-        "gapc_exact_state": "UNCERTAIN",
-        "gapc_exact_hits": 0,
-        "present_in_exact_export": false,
-        "gapc_physical_id": "back_orphan_0009",
+        "gapc_exact_state": "NO_HELMET",
+        "gapc_exact_hits": 12,
+        "present_in_exact_export": true,
+        "gapc_physical_id": "back_orphan_0007",
+        "gapc_physical_source": "discarded_tentative",
         "gapc_physical_state": "HELMET",
         "gapc_physical_hits": 1,
         "gapc_physical_iou": 1.0,
-        "category": "orphan_tentative_1hit_pruned"
+        "category": "orphan_renumbered_or_deduped"
       },
       {
         "pair": "pair_003",
@@ -484,14 +1507,15 @@
         "gt": "NO_HELMET",
         "stagej_primary": "NO_HELMET",
         "stagej_hits": 12,
-        "gapc_exact_state": "UNCERTAIN",
-        "gapc_exact_hits": 0,
-        "present_in_exact_export": false,
-        "gapc_physical_id": "back_orphan_0010",
+        "gapc_exact_state": "HELMET",
+        "gapc_exact_hits": 7,
+        "present_in_exact_export": true,
+        "gapc_physical_id": "back_orphan_0008",
+        "gapc_physical_source": "exported",
         "gapc_physical_state": "NO_HELMET",
         "gapc_physical_hits": 12,
         "gapc_physical_iou": 1.0,
-        "category": "orphan_renumbered_id_shift"
+        "category": "orphan_renumbered_or_deduped"
       },
       {
         "pair": "pair_003",
@@ -501,14 +1525,33 @@
         "gt": "HELMET",
         "stagej_primary": "HELMET",
         "stagej_hits": 7,
-        "gapc_exact_state": "NO_HELMET",
-        "gapc_exact_hits": 12,
-        "present_in_exact_export": true,
-        "gapc_physical_id": "back_orphan_0011",
+        "gapc_exact_state": "UNCERTAIN",
+        "gapc_exact_hits": 0,
+        "present_in_exact_export": false,
+        "gapc_physical_id": "back_orphan_0009",
+        "gapc_physical_source": "exported",
         "gapc_physical_state": "HELMET",
         "gapc_physical_hits": 7,
         "gapc_physical_iou": 1.0,
-        "category": "orphan_renumbered_or_deduped"
+        "category": "orphan_renumbered_id_shift"
+      },
+      {
+        "pair": "pair_003",
+        "camera": "back",
+        "track_id": "back_orphan_0011",
+        "kind": "orphan",
+        "gt": "HELMET",
+        "stagej_primary": "HELMET",
+        "stagej_hits": 1,
+        "gapc_exact_state": "UNCERTAIN",
+        "gapc_exact_hits": 0,
+        "present_in_exact_export": false,
+        "gapc_physical_id": "back_orphan_0010",
+        "gapc_physical_source": "discarded_tentative",
+        "gapc_physical_state": "HELMET",
+        "gapc_physical_hits": 1,
+        "gapc_physical_iou": 1.0,
+        "category": "orphan_tentative_1hit_pruned"
       },
       {
         "pair": "pair_004",
@@ -522,6 +1565,7 @@
         "gapc_exact_hits": 98,
         "present_in_exact_export": true,
         "gapc_physical_id": "back_moto_0001_rider_s0",
+        "gapc_physical_source": "exported",
         "gapc_physical_state": "NO_HELMET",
         "gapc_physical_hits": 98,
         "gapc_physical_iou": 1.0,
@@ -539,6 +1583,7 @@
         "gapc_exact_hits": 8,
         "present_in_exact_export": true,
         "gapc_physical_id": "front_moto_0002_rider_s0",
+        "gapc_physical_source": "exported",
         "gapc_physical_state": "HELMET",
         "gapc_physical_hits": 8,
         "gapc_physical_iou": 0.961,
@@ -556,6 +1601,7 @@
         "gapc_exact_hits": 10,
         "present_in_exact_export": true,
         "gapc_physical_id": "front_orphan_0001",
+        "gapc_physical_source": "exported",
         "gapc_physical_state": "NO_HELMET",
         "gapc_physical_hits": 9,
         "gapc_physical_iou": 0.933,
@@ -573,6 +1619,7 @@
         "gapc_exact_hits": 30,
         "present_in_exact_export": true,
         "gapc_physical_id": "front_orphan_0002",
+        "gapc_physical_source": "exported",
         "gapc_physical_state": "NO_HELMET",
         "gapc_physical_hits": 10,
         "gapc_physical_iou": 1.0,
@@ -590,6 +1637,7 @@
         "gapc_exact_hits": 2,
         "present_in_exact_export": true,
         "gapc_physical_id": "front_orphan_0002",
+        "gapc_physical_source": "exported",
         "gapc_physical_state": "NO_HELMET",
         "gapc_physical_hits": 10,
         "gapc_physical_iou": 0.906,
@@ -607,6 +1655,7 @@
         "gapc_exact_hits": 0,
         "present_in_exact_export": false,
         "gapc_physical_id": "front_orphan_0003",
+        "gapc_physical_source": "exported",
         "gapc_physical_state": "HELMET",
         "gapc_physical_hits": 30,
         "gapc_physical_iou": 0.95,
@@ -624,6 +1673,7 @@
         "gapc_exact_hits": 0,
         "present_in_exact_export": false,
         "gapc_physical_id": "front_orphan_0003",
+        "gapc_physical_source": "exported",
         "gapc_physical_state": "HELMET",
         "gapc_physical_hits": 30,
         "gapc_physical_iou": 0.994,
@@ -641,6 +1691,7 @@
         "gapc_exact_hits": 0,
         "present_in_exact_export": false,
         "gapc_physical_id": "front_orphan_0003",
+        "gapc_physical_source": "exported",
         "gapc_physical_state": "HELMET",
         "gapc_physical_hits": 30,
         "gapc_physical_iou": 0.997,
@@ -658,6 +1709,7 @@
         "gapc_exact_hits": 0,
         "present_in_exact_export": false,
         "gapc_physical_id": "front_orphan_0004",
+        "gapc_physical_source": "exported",
         "gapc_physical_state": "NO_HELMET",
         "gapc_physical_hits": 2,
         "gapc_physical_iou": 1.0,
@@ -675,6 +1727,7 @@
         "gapc_exact_hits": 118,
         "present_in_exact_export": true,
         "gapc_physical_id": "back_moto_0001_rider_s0",
+        "gapc_physical_source": "discarded_tentative",
         "gapc_physical_state": "NO_HELMET",
         "gapc_physical_hits": 1,
         "gapc_physical_iou": 1.0,
@@ -692,6 +1745,7 @@
         "gapc_exact_hits": 0,
         "present_in_exact_export": false,
         "gapc_physical_id": "front_orphan_0001",
+        "gapc_physical_source": "discarded_tentative",
         "gapc_physical_state": "NO_HELMET",
         "gapc_physical_hits": 1,
         "gapc_physical_iou": 1.0,
@@ -709,6 +1763,7 @@
         "gapc_exact_hits": 0,
         "present_in_exact_export": false,
         "gapc_physical_id": "back_orphan_0003",
+        "gapc_physical_source": "discarded_tentative",
         "gapc_physical_state": "NO_HELMET",
         "gapc_physical_hits": 1,
         "gapc_physical_iou": 1.0,
@@ -726,6 +1781,7 @@
         "gapc_exact_hits": 0,
         "present_in_exact_export": false,
         "gapc_physical_id": "front_moto_0001_rider_s1",
+        "gapc_physical_source": "discarded_tentative",
         "gapc_physical_state": "NO_HELMET",
         "gapc_physical_hits": 1,
         "gapc_physical_iou": 1.0,
@@ -743,6 +1799,7 @@
         "gapc_exact_hits": 0,
         "present_in_exact_export": false,
         "gapc_physical_id": "front_orphan_0002",
+        "gapc_physical_source": "discarded_tentative",
         "gapc_physical_state": "NO_HELMET",
         "gapc_physical_hits": 1,
         "gapc_physical_iou": 1.0,
@@ -760,6 +1817,7 @@
         "gapc_exact_hits": 0,
         "present_in_exact_export": false,
         "gapc_physical_id": "front_orphan_0003",
+        "gapc_physical_source": "discarded_tentative",
         "gapc_physical_state": "NO_HELMET",
         "gapc_physical_hits": 1,
         "gapc_physical_iou": 1.0,
@@ -777,6 +1835,7 @@
         "gapc_exact_hits": 0,
         "present_in_exact_export": false,
         "gapc_physical_id": "front_orphan_0004",
+        "gapc_physical_source": "discarded_tentative",
         "gapc_physical_state": "NO_HELMET",
         "gapc_physical_hits": 1,
         "gapc_physical_iou": 1.0,
@@ -794,6 +1853,7 @@
         "gapc_exact_hits": 0,
         "present_in_exact_export": false,
         "gapc_physical_id": "front_orphan_0001",
+        "gapc_physical_source": "exported",
         "gapc_physical_state": "NO_HELMET",
         "gapc_physical_hits": 9,
         "gapc_physical_iou": 1.0,
@@ -811,6 +1871,7 @@
         "gapc_exact_hits": 0,
         "present_in_exact_export": false,
         "gapc_physical_id": "back_orphan_0001",
+        "gapc_physical_source": "discarded_tentative",
         "gapc_physical_state": "NO_HELMET",
         "gapc_physical_hits": 1,
         "gapc_physical_iou": 1.0,
@@ -828,6 +1889,7 @@
         "gapc_exact_hits": 0,
         "present_in_exact_export": false,
         "gapc_physical_id": "back_orphan_0002",
+        "gapc_physical_source": "discarded_tentative",
         "gapc_physical_state": "NO_HELMET",
         "gapc_physical_hits": 1,
         "gapc_physical_iou": 1.0,
@@ -845,6 +1907,7 @@
         "gapc_exact_hits": 0,
         "present_in_exact_export": false,
         "gapc_physical_id": "front_orphan_0003",
+        "gapc_physical_source": "discarded_tentative",
         "gapc_physical_state": "NO_HELMET",
         "gapc_physical_hits": 1,
         "gapc_physical_iou": 1.0,
@@ -862,6 +1925,7 @@
         "gapc_exact_hits": 0,
         "present_in_exact_export": false,
         "gapc_physical_id": "front_orphan_0004",
+        "gapc_physical_source": "discarded_tentative",
         "gapc_physical_state": "HELMET",
         "gapc_physical_hits": 1,
         "gapc_physical_iou": 1.0,
@@ -879,6 +1943,7 @@
         "gapc_exact_hits": 0,
         "present_in_exact_export": false,
         "gapc_physical_id": "front_orphan_0005",
+        "gapc_physical_source": "discarded_tentative",
         "gapc_physical_state": "NO_HELMET",
         "gapc_physical_hits": 1,
         "gapc_physical_iou": 1.0,
@@ -896,6 +1961,7 @@
         "gapc_exact_hits": 0,
         "present_in_exact_export": false,
         "gapc_physical_id": "back_orphan_0002",
+        "gapc_physical_source": "discarded_tentative",
         "gapc_physical_state": "NO_HELMET",
         "gapc_physical_hits": 1,
         "gapc_physical_iou": 1.0,
@@ -913,6 +1979,7 @@
         "gapc_exact_hits": 0,
         "present_in_exact_export": false,
         "gapc_physical_id": "front_moto_0001_rider_s1",
+        "gapc_physical_source": "discarded_tentative",
         "gapc_physical_state": "NO_HELMET",
         "gapc_physical_hits": 1,
         "gapc_physical_iou": 1.0,
@@ -930,6 +1997,7 @@
         "gapc_exact_hits": 0,
         "present_in_exact_export": false,
         "gapc_physical_id": "front_orphan_0001",
+        "gapc_physical_source": "discarded_tentative",
         "gapc_physical_state": "NO_HELMET",
         "gapc_physical_hits": 1,
         "gapc_physical_iou": 1.0,
@@ -947,6 +2015,7 @@
         "gapc_exact_hits": 0,
         "present_in_exact_export": false,
         "gapc_physical_id": "back_moto_0001_rider_s0",
+        "gapc_physical_source": "exported",
         "gapc_physical_state": "HELMET",
         "gapc_physical_hits": 163,
         "gapc_physical_iou": 0.798,
@@ -964,6 +2033,7 @@
         "gapc_exact_hits": 0,
         "present_in_exact_export": false,
         "gapc_physical_id": "back_moto_0004_rider_s0",
+        "gapc_physical_source": "exported",
         "gapc_physical_state": "HELMET",
         "gapc_physical_hits": 57,
         "gapc_physical_iou": 0.808,
@@ -981,6 +2051,7 @@
         "gapc_exact_hits": 0,
         "present_in_exact_export": false,
         "gapc_physical_id": "back_orphan_0001",
+        "gapc_physical_source": "discarded_tentative",
         "gapc_physical_state": "HELMET",
         "gapc_physical_hits": 1,
         "gapc_physical_iou": 1.0,
@@ -998,6 +2069,7 @@
         "gapc_exact_hits": 0,
         "present_in_exact_export": false,
         "gapc_physical_id": "back_orphan_0002",
+        "gapc_physical_source": "exported",
         "gapc_physical_state": "HELMET",
         "gapc_physical_hits": 4,
         "gapc_physical_iou": 0.934,
@@ -1015,6 +2087,7 @@
         "gapc_exact_hits": 0,
         "present_in_exact_export": false,
         "gapc_physical_id": "front_moto_0001_rider_s1",
+        "gapc_physical_source": "discarded_tentative",
         "gapc_physical_state": "NO_HELMET",
         "gapc_physical_hits": 1,
         "gapc_physical_iou": 1.0,
@@ -1032,6 +2105,7 @@
         "gapc_exact_hits": 0,
         "present_in_exact_export": false,
         "gapc_physical_id": "front_orphan_0001",
+        "gapc_physical_source": "exported",
         "gapc_physical_state": "HELMET",
         "gapc_physical_hits": 4,
         "gapc_physical_iou": 1.0,
@@ -1049,6 +2123,7 @@
         "gapc_exact_hits": 0,
         "present_in_exact_export": false,
         "gapc_physical_id": "front_orphan_0001",
+        "gapc_physical_source": "discarded_tentative",
         "gapc_physical_state": "HELMET",
         "gapc_physical_hits": 1,
         "gapc_physical_iou": 1.0,
@@ -1066,6 +2141,7 @@
         "gapc_exact_hits": 167,
         "present_in_exact_export": true,
         "gapc_physical_id": "back_moto_0002_rider_s0",
+        "gapc_physical_source": "exported",
         "gapc_physical_state": "HELMET",
         "gapc_physical_hits": 167,
         "gapc_physical_iou": 1.0,
@@ -1083,6 +2159,7 @@
         "gapc_exact_hits": 0,
         "present_in_exact_export": false,
         "gapc_physical_id": "front_moto_0004_rider_s1",
+        "gapc_physical_source": "discarded_tentative",
         "gapc_physical_state": "NO_HELMET",
         "gapc_physical_hits": 1,
         "gapc_physical_iou": 1.0,
@@ -1100,6 +2177,7 @@
         "gapc_exact_hits": 0,
         "present_in_exact_export": false,
         "gapc_physical_id": "front_orphan_0002",
+        "gapc_physical_source": "discarded_tentative",
         "gapc_physical_state": "NO_HELMET",
         "gapc_physical_hits": 1,
         "gapc_physical_iou": 1.0,
@@ -1117,6 +2195,7 @@
         "gapc_exact_hits": 0,
         "present_in_exact_export": false,
         "gapc_physical_id": "front_orphan_0004",
+        "gapc_physical_source": "discarded_tentative",
         "gapc_physical_state": "NO_HELMET",
         "gapc_physical_hits": 1,
         "gapc_physical_iou": 1.0,
@@ -1134,6 +2213,7 @@
         "gapc_exact_hits": 0,
         "present_in_exact_export": false,
         "gapc_physical_id": "front_orphan_0001",
+        "gapc_physical_source": "discarded_tentative",
         "gapc_physical_state": "NO_HELMET",
         "gapc_physical_hits": 1,
         "gapc_physical_iou": 1.0,
@@ -1151,6 +2231,7 @@
         "gapc_exact_hits": 58,
         "present_in_exact_export": true,
         "gapc_physical_id": "back_moto_0001_rider_s0",
+        "gapc_physical_source": "exported",
         "gapc_physical_state": "HELMET",
         "gapc_physical_hits": 58,
         "gapc_physical_iou": 1.0,
@@ -1168,6 +2249,7 @@
         "gapc_exact_hits": 0,
         "present_in_exact_export": false,
         "gapc_physical_id": "front_orphan_0003",
+        "gapc_physical_source": "discarded_tentative",
         "gapc_physical_state": "HELMET",
         "gapc_physical_hits": 1,
         "gapc_physical_iou": 1.0,
@@ -1185,6 +2267,7 @@
         "gapc_exact_hits": 12,
         "present_in_exact_export": true,
         "gapc_physical_id": "back_moto_0001_rider_s0",
+        "gapc_physical_source": "discarded_tentative",
         "gapc_physical_state": "NO_HELMET",
         "gapc_physical_hits": 1,
         "gapc_physical_iou": 1.0,
@@ -1202,6 +2285,7 @@
         "gapc_exact_hits": 0,
         "present_in_exact_export": false,
         "gapc_physical_id": "front_orphan_0001",
+        "gapc_physical_source": "discarded_tentative",
         "gapc_physical_state": "NO_HELMET",
         "gapc_physical_hits": 1,
         "gapc_physical_iou": 1.0,
@@ -1219,6 +2303,7 @@
         "gapc_exact_hits": 0,
         "present_in_exact_export": false,
         "gapc_physical_id": "front_orphan_0002",
+        "gapc_physical_source": "discarded_tentative",
         "gapc_physical_state": "NO_HELMET",
         "gapc_physical_hits": 1,
         "gapc_physical_iou": 1.0,
@@ -1236,6 +2321,7 @@
         "gapc_exact_hits": 2,
         "present_in_exact_export": true,
         "gapc_physical_id": "front_moto_0001_rider_s1",
+        "gapc_physical_source": "discarded_tentative",
         "gapc_physical_state": "HELMET",
         "gapc_physical_hits": 1,
         "gapc_physical_iou": 1.0,
@@ -1253,6 +2339,7 @@
         "gapc_exact_hits": 0,
         "present_in_exact_export": false,
         "gapc_physical_id": "front_orphan_0001",
+        "gapc_physical_source": "discarded_tentative",
         "gapc_physical_state": "HELMET",
         "gapc_physical_hits": 1,
         "gapc_physical_iou": 1.0,
@@ -1270,6 +2357,7 @@
         "gapc_exact_hits": 0,
         "present_in_exact_export": false,
         "gapc_physical_id": "back_moto_0001_rider_s1",
+        "gapc_physical_source": "discarded_tentative",
         "gapc_physical_state": "HELMET",
         "gapc_physical_hits": 1,
         "gapc_physical_iou": 1.0,
@@ -1287,6 +2375,7 @@
         "gapc_exact_hits": 0,
         "present_in_exact_export": false,
         "gapc_physical_id": "back_orphan_0002",
+        "gapc_physical_source": "discarded_tentative",
         "gapc_physical_state": "HELMET",
         "gapc_physical_hits": 1,
         "gapc_physical_iou": 1.0,
@@ -1304,6 +2393,7 @@
         "gapc_exact_hits": 0,
         "present_in_exact_export": false,
         "gapc_physical_id": "back_orphan_0004",
+        "gapc_physical_source": "discarded_tentative",
         "gapc_physical_state": "HELMET",
         "gapc_physical_hits": 1,
         "gapc_physical_iou": 1.0,
@@ -1321,6 +2411,7 @@
         "gapc_exact_hits": 0,
         "present_in_exact_export": false,
         "gapc_physical_id": "back_orphan_0005",
+        "gapc_physical_source": "discarded_tentative",
         "gapc_physical_state": "NO_HELMET",
         "gapc_physical_hits": 1,
         "gapc_physical_iou": 1.0,
@@ -1338,6 +2429,7 @@
         "gapc_exact_hits": 0,
         "present_in_exact_export": false,
         "gapc_physical_id": "back_orphan_0007",
+        "gapc_physical_source": "exported",
         "gapc_physical_state": "NO_HELMET",
         "gapc_physical_hits": 3,
         "gapc_physical_iou": 1.0,
@@ -1355,6 +2447,7 @@
         "gapc_exact_hits": 0,
         "present_in_exact_export": false,
         "gapc_physical_id": "back_orphan_0009",
+        "gapc_physical_source": "exported",
         "gapc_physical_state": "NO_HELMET",
         "gapc_physical_hits": 7,
         "gapc_physical_iou": 1.0,
@@ -1372,6 +2465,7 @@
         "gapc_exact_hits": 0,
         "present_in_exact_export": false,
         "gapc_physical_id": "back_orphan_0011",
+        "gapc_physical_source": "exported",
         "gapc_physical_state": "HELMET",
         "gapc_physical_hits": 4,
         "gapc_physical_iou": 1.0,
@@ -1389,6 +2483,7 @@
         "gapc_exact_hits": 31,
         "present_in_exact_export": true,
         "gapc_physical_id": "back_orphan_0013",
+        "gapc_physical_source": "exported",
         "gapc_physical_state": "NO_HELMET",
         "gapc_physical_hits": 2,
         "gapc_physical_iou": 1.0,
@@ -1406,6 +2501,7 @@
         "gapc_exact_hits": 0,
         "present_in_exact_export": false,
         "gapc_physical_id": "back_orphan_0016",
+        "gapc_physical_source": "exported",
         "gapc_physical_state": "NO_HELMET",
         "gapc_physical_hits": 8,
         "gapc_physical_iou": 1.0,
@@ -1423,6 +2519,7 @@
         "gapc_exact_hits": 0,
         "present_in_exact_export": false,
         "gapc_physical_id": "back_orphan_0017",
+        "gapc_physical_source": "exported",
         "gapc_physical_state": "NO_HELMET",
         "gapc_physical_hits": 24,
         "gapc_physical_iou": 1.0,
@@ -1440,6 +2537,7 @@
         "gapc_exact_hits": 0,
         "present_in_exact_export": false,
         "gapc_physical_id": "front_moto_0001_rider_s1",
+        "gapc_physical_source": "exported",
         "gapc_physical_state": "NO_HELMET",
         "gapc_physical_hits": 78,
         "gapc_physical_iou": 0.397,
@@ -1457,6 +2555,7 @@
         "gapc_exact_hits": 2,
         "present_in_exact_export": true,
         "gapc_physical_id": "front_moto_0002_rider_s0",
+        "gapc_physical_source": "exported",
         "gapc_physical_state": "UNCERTAIN",
         "gapc_physical_hits": 2,
         "gapc_physical_iou": 1.0,
@@ -1474,6 +2573,7 @@
         "gapc_exact_hits": 0,
         "present_in_exact_export": false,
         "gapc_physical_id": "front_orphan_0002",
+        "gapc_physical_source": "discarded_tentative",
         "gapc_physical_state": "HELMET",
         "gapc_physical_hits": 1,
         "gapc_physical_iou": 1.0,
@@ -1491,6 +2591,7 @@
         "gapc_exact_hits": 0,
         "present_in_exact_export": false,
         "gapc_physical_id": "front_orphan_0003",
+        "gapc_physical_source": "discarded_tentative",
         "gapc_physical_state": "HELMET",
         "gapc_physical_hits": 1,
         "gapc_physical_iou": 1.0,
@@ -1508,6 +2609,7 @@
         "gapc_exact_hits": 0,
         "present_in_exact_export": false,
         "gapc_physical_id": "front_orphan_0004",
+        "gapc_physical_source": "discarded_tentative",
         "gapc_physical_state": "HELMET",
         "gapc_physical_hits": 1,
         "gapc_physical_iou": 1.0,
@@ -1525,6 +2627,7 @@
         "gapc_exact_hits": 0,
         "present_in_exact_export": false,
         "gapc_physical_id": "front_orphan_0005",
+        "gapc_physical_source": "discarded_tentative",
         "gapc_physical_state": "HELMET",
         "gapc_physical_hits": 1,
         "gapc_physical_iou": 1.0,
@@ -1542,6 +2645,7 @@
         "gapc_exact_hits": 0,
         "present_in_exact_export": false,
         "gapc_physical_id": "front_orphan_0006",
+        "gapc_physical_source": "discarded_tentative",
         "gapc_physical_state": "HELMET",
         "gapc_physical_hits": 1,
         "gapc_physical_iou": 1.0,
@@ -1559,6 +2663,7 @@
         "gapc_exact_hits": 0,
         "present_in_exact_export": false,
         "gapc_physical_id": "front_orphan_0007",
+        "gapc_physical_source": "discarded_tentative",
         "gapc_physical_state": "NO_HELMET",
         "gapc_physical_hits": 1,
         "gapc_physical_iou": 1.0,
@@ -1576,6 +2681,7 @@
         "gapc_exact_hits": 0,
         "present_in_exact_export": false,
         "gapc_physical_id": "front_orphan_0009",
+        "gapc_physical_source": "discarded_tentative",
         "gapc_physical_state": "NO_HELMET",
         "gapc_physical_hits": 1,
         "gapc_physical_iou": 1.0,
@@ -1593,6 +2699,7 @@
         "gapc_exact_hits": 0,
         "present_in_exact_export": false,
         "gapc_physical_id": "back_orphan_0003",
+        "gapc_physical_source": "discarded_tentative",
         "gapc_physical_state": "NO_HELMET",
         "gapc_physical_hits": 1,
         "gapc_physical_iou": 1.0,
@@ -1609,11 +2716,12 @@
         "gapc_exact_state": "UNCERTAIN",
         "gapc_exact_hits": 0,
         "present_in_exact_export": false,
-        "gapc_physical_id": null,
-        "gapc_physical_state": "MISSING",
-        "gapc_physical_hits": 0,
-        "gapc_physical_iou": 0.0,
-        "category": "orphan_renumbered_or_deduped"
+        "gapc_physical_id": "back_orphan_0004",
+        "gapc_physical_source": "end_of_clip_tentative",
+        "gapc_physical_state": "NO_HELMET",
+        "gapc_physical_hits": 1,
+        "gapc_physical_iou": 1.0,
+        "category": "orphan_tentative_1hit_end_of_clip_active"
       },
       {
         "pair": "pair_022",
@@ -1627,6 +2735,7 @@
         "gapc_exact_hits": 0,
         "present_in_exact_export": false,
         "gapc_physical_id": "back_orphan_0001",
+        "gapc_physical_source": "discarded_tentative",
         "gapc_physical_state": "NO_HELMET",
         "gapc_physical_hits": 1,
         "gapc_physical_iou": 1.0,
@@ -1644,6 +2753,7 @@
         "gapc_exact_hits": 0,
         "present_in_exact_export": false,
         "gapc_physical_id": "front_orphan_0001",
+        "gapc_physical_source": "discarded_tentative",
         "gapc_physical_state": "NO_HELMET",
         "gapc_physical_hits": 1,
         "gapc_physical_iou": 1.0,
@@ -1661,6 +2771,7 @@
         "gapc_exact_hits": 0,
         "present_in_exact_export": false,
         "gapc_physical_id": "front_moto_0001_rider_s1",
+        "gapc_physical_source": "exported",
         "gapc_physical_state": "NO_HELMET",
         "gapc_physical_hits": 35,
         "gapc_physical_iou": 0.444,
@@ -1678,6 +2789,7 @@
         "gapc_exact_hits": 0,
         "present_in_exact_export": false,
         "gapc_physical_id": "back_moto_0001_rider_s0",
+        "gapc_physical_source": "exported",
         "gapc_physical_state": "NO_HELMET",
         "gapc_physical_hits": 168,
         "gapc_physical_iou": 0.755,
@@ -1695,6 +2807,7 @@
         "gapc_exact_hits": 0,
         "present_in_exact_export": false,
         "gapc_physical_id": "back_orphan_0002",
+        "gapc_physical_source": "discarded_tentative",
         "gapc_physical_state": "HELMET",
         "gapc_physical_hits": 1,
         "gapc_physical_iou": 1.0,
@@ -1712,6 +2825,7 @@
         "gapc_exact_hits": 0,
         "present_in_exact_export": false,
         "gapc_physical_id": "back_orphan_0003",
+        "gapc_physical_source": "discarded_tentative",
         "gapc_physical_state": "NO_HELMET",
         "gapc_physical_hits": 1,
         "gapc_physical_iou": 1.0,
@@ -1729,6 +2843,7 @@
         "gapc_exact_hits": 0,
         "present_in_exact_export": false,
         "gapc_physical_id": "front_orphan_0001",
+        "gapc_physical_source": "discarded_tentative",
         "gapc_physical_state": "NO_HELMET",
         "gapc_physical_hits": 1,
         "gapc_physical_iou": 1.0,
@@ -1746,6 +2861,7 @@
         "gapc_exact_hits": 0,
         "present_in_exact_export": false,
         "gapc_physical_id": "front_orphan_0005",
+        "gapc_physical_source": "exported",
         "gapc_physical_state": "NO_HELMET",
         "gapc_physical_hits": 3,
         "gapc_physical_iou": 1.0,
@@ -1763,6 +2879,7 @@
         "gapc_exact_hits": 0,
         "present_in_exact_export": false,
         "gapc_physical_id": "back_moto_0001_rider_s0",
+        "gapc_physical_source": "discarded_tentative",
         "gapc_physical_state": "NO_HELMET",
         "gapc_physical_hits": 1,
         "gapc_physical_iou": 1.0,
@@ -1780,6 +2897,7 @@
         "gapc_exact_hits": 0,
         "present_in_exact_export": false,
         "gapc_physical_id": "back_orphan_0001",
+        "gapc_physical_source": "discarded_tentative",
         "gapc_physical_state": "NO_HELMET",
         "gapc_physical_hits": 1,
         "gapc_physical_iou": 1.0,
@@ -1797,6 +2915,7 @@
         "gapc_exact_hits": 0,
         "present_in_exact_export": false,
         "gapc_physical_id": "back_orphan_0002",
+        "gapc_physical_source": "discarded_tentative",
         "gapc_physical_state": "NO_HELMET",
         "gapc_physical_hits": 1,
         "gapc_physical_iou": 1.0,
@@ -1804,21 +2923,76 @@
       }
     ],
     "offline_association_moto_outcomes": {
-      "UNMATCHED": 43,
-      "AMBIGUOUS_ABSTAIN": 4,
+      "UNMATCHED": 39,
+      "LINKED": 12,
       "INSUFFICIENT_EVIDENCE": 27,
-      "LINKED": 12
+      "AMBIGUOUS_ABSTAIN": 6
     },
     "offline_association_rider_outcomes": {
-      "LINKED": 9,
-      "AMBIGUOUS_ABSTAIN": 1,
-      "UNMATCHED": 8
+      "LINKED": 10,
+      "UNMATCHED": 13,
+      "AMBIGUOUS_ABSTAIN": 1
+    },
+    "offline_association_orphan_outcomes": {
+      "AMBIGUOUS_ABSTAIN": 13,
+      "UNMATCHED": 41,
+      "LINKED": 3
     },
     "offline_association_rider_details": [
       {
+        "pair": "pair_004",
+        "front_moto_id": "front_moto_0002",
+        "back_moto_id": "back_moto_0001",
+        "front_subtrack_id": "front_moto_0002_rider_s4",
+        "back_subtrack_id": "back_moto_0001_rider_s0",
+        "outcome": "LINKED",
+        "abstain_reason": null,
+        "fused_helmet_state": null
+      },
+      {
+        "pair": "pair_004",
+        "front_moto_id": "front_moto_0002",
+        "back_moto_id": "back_moto_0001",
+        "front_subtrack_id": "front_moto_0002_rider_s0",
+        "back_subtrack_id": null,
+        "outcome": "UNMATCHED",
+        "abstain_reason": null,
+        "fused_helmet_state": null
+      },
+      {
+        "pair": "pair_004",
+        "front_moto_id": "front_moto_0002",
+        "back_moto_id": "back_moto_0001",
+        "front_subtrack_id": "front_moto_0002_rider_s1",
+        "back_subtrack_id": null,
+        "outcome": "UNMATCHED",
+        "abstain_reason": null,
+        "fused_helmet_state": null
+      },
+      {
+        "pair": "pair_004",
+        "front_moto_id": "front_moto_0002",
+        "back_moto_id": "back_moto_0001",
+        "front_subtrack_id": "front_moto_0002_rider_s2",
+        "back_subtrack_id": null,
+        "outcome": "UNMATCHED",
+        "abstain_reason": null,
+        "fused_helmet_state": null
+      },
+      {
+        "pair": "pair_004",
+        "front_moto_id": "front_moto_0002",
+        "back_moto_id": "back_moto_0001",
+        "front_subtrack_id": "front_moto_0002_rider_s3",
+        "back_subtrack_id": null,
+        "outcome": "UNMATCHED",
+        "abstain_reason": null,
+        "fused_helmet_state": null
+      },
+      {
         "pair": "pair_006",
-        "front_moto_id": null,
-        "back_moto_id": null,
+        "front_moto_id": "front_moto_0001",
+        "back_moto_id": "back_moto_0002",
         "front_subtrack_id": "front_moto_0001_rider_s0",
         "back_subtrack_id": "back_moto_0002_rider_s0",
         "outcome": "LINKED",
@@ -1826,9 +3000,9 @@
         "fused_helmet_state": null
       },
       {
-        "pair": "pair_007",
-        "front_moto_id": null,
-        "back_moto_id": null,
+        "pair": "pair_008",
+        "front_moto_id": "front_moto_0001",
+        "back_moto_id": "back_moto_0001",
         "front_subtrack_id": "front_moto_0001_rider_s0",
         "back_subtrack_id": "back_moto_0001_rider_s0",
         "outcome": "LINKED",
@@ -1837,28 +3011,8 @@
       },
       {
         "pair": "pair_008",
-        "front_moto_id": null,
-        "back_moto_id": null,
-        "front_subtrack_id": "front_moto_0001_rider_s2",
-        "back_subtrack_id": "back_moto_0001_rider_s0",
-        "outcome": "AMBIGUOUS_ABSTAIN",
-        "abstain_reason": null,
-        "fused_helmet_state": null
-      },
-      {
-        "pair": "pair_008",
-        "front_moto_id": null,
-        "back_moto_id": null,
-        "front_subtrack_id": "front_moto_0001_rider_s0",
-        "back_subtrack_id": null,
-        "outcome": "UNMATCHED",
-        "abstain_reason": null,
-        "fused_helmet_state": null
-      },
-      {
-        "pair": "pair_008",
-        "front_moto_id": null,
-        "back_moto_id": null,
+        "front_moto_id": "front_moto_0001",
+        "back_moto_id": "back_moto_0001",
         "front_subtrack_id": "front_moto_0001_rider_s1",
         "back_subtrack_id": null,
         "outcome": "UNMATCHED",
@@ -1866,9 +3020,19 @@
         "fused_helmet_state": null
       },
       {
+        "pair": "pair_008",
+        "front_moto_id": "front_moto_0001",
+        "back_moto_id": "back_moto_0001",
+        "front_subtrack_id": "front_moto_0001_rider_s2",
+        "back_subtrack_id": null,
+        "outcome": "UNMATCHED",
+        "abstain_reason": null,
+        "fused_helmet_state": null
+      },
+      {
         "pair": "pair_009",
-        "front_moto_id": null,
-        "back_moto_id": null,
+        "front_moto_id": "front_moto_0001",
+        "back_moto_id": "back_moto_0001",
         "front_subtrack_id": "front_moto_0001_rider_s0",
         "back_subtrack_id": null,
         "outcome": "UNMATCHED",
@@ -1877,8 +3041,8 @@
       },
       {
         "pair": "pair_010",
-        "front_moto_id": null,
-        "back_moto_id": null,
+        "front_moto_id": "front_moto_0001",
+        "back_moto_id": "back_moto_0001",
         "front_subtrack_id": "front_moto_0001_rider_s0",
         "back_subtrack_id": "back_moto_0001_rider_s0",
         "outcome": "LINKED",
@@ -1887,8 +3051,8 @@
       },
       {
         "pair": "pair_011",
-        "front_moto_id": null,
-        "back_moto_id": null,
+        "front_moto_id": "front_moto_0001",
+        "back_moto_id": "back_moto_0002",
         "front_subtrack_id": "front_moto_0001_rider_s0",
         "back_subtrack_id": "back_moto_0002_rider_s0",
         "outcome": "LINKED",
@@ -1897,8 +3061,8 @@
       },
       {
         "pair": "pair_012",
-        "front_moto_id": null,
-        "back_moto_id": null,
+        "front_moto_id": "front_moto_0004",
+        "back_moto_id": "back_moto_0002",
         "front_subtrack_id": "front_moto_0004_rider_s0",
         "back_subtrack_id": "back_moto_0002_rider_s0",
         "outcome": "LINKED",
@@ -1907,8 +3071,8 @@
       },
       {
         "pair": "pair_015",
-        "front_moto_id": null,
-        "back_moto_id": null,
+        "front_moto_id": "front_moto_0003",
+        "back_moto_id": "back_moto_0001",
         "front_subtrack_id": "front_moto_0003_rider_s0",
         "back_subtrack_id": "back_moto_0001_rider_s0",
         "outcome": "UNMATCHED",
@@ -1917,8 +3081,8 @@
       },
       {
         "pair": "pair_018",
-        "front_moto_id": null,
-        "back_moto_id": null,
+        "front_moto_id": "front_moto_0001",
+        "back_moto_id": "back_moto_0001",
         "front_subtrack_id": "front_moto_0001_rider_s0",
         "back_subtrack_id": "back_moto_0001_rider_s0",
         "outcome": "LINKED",
@@ -1927,8 +3091,8 @@
       },
       {
         "pair": "pair_018",
-        "front_moto_id": null,
-        "back_moto_id": null,
+        "front_moto_id": "front_moto_0001",
+        "back_moto_id": "back_moto_0001",
         "front_subtrack_id": "front_moto_0001_rider_s1",
         "back_subtrack_id": null,
         "outcome": "UNMATCHED",
@@ -1937,18 +3101,18 @@
       },
       {
         "pair": "pair_019",
-        "front_moto_id": null,
-        "back_moto_id": null,
-        "front_subtrack_id": "front_moto_0002_rider_s1",
+        "front_moto_id": "front_moto_0002",
+        "back_moto_id": "back_moto_0002",
+        "front_subtrack_id": "front_moto_0002_rider_s0",
         "back_subtrack_id": "back_moto_0002_rider_s1",
-        "outcome": "LINKED",
+        "outcome": "AMBIGUOUS_ABSTAIN",
         "abstain_reason": null,
         "fused_helmet_state": null
       },
       {
         "pair": "pair_019",
-        "front_moto_id": null,
-        "back_moto_id": null,
+        "front_moto_id": "front_moto_0002",
+        "back_moto_id": "back_moto_0002",
         "front_subtrack_id": "front_moto_0002_rider_s2",
         "back_subtrack_id": "back_moto_0002_rider_s0",
         "outcome": "LINKED",
@@ -1957,19 +3121,9 @@
       },
       {
         "pair": "pair_019",
-        "front_moto_id": null,
-        "back_moto_id": null,
-        "front_subtrack_id": "front_moto_0002_rider_s0",
-        "back_subtrack_id": null,
-        "outcome": "UNMATCHED",
-        "abstain_reason": null,
-        "fused_helmet_state": null
-      },
-      {
-        "pair": "pair_020",
-        "front_moto_id": null,
-        "back_moto_id": null,
-        "front_subtrack_id": "front_moto_0001_rider_s0",
+        "front_moto_id": "front_moto_0002",
+        "back_moto_id": "back_moto_0002",
+        "front_subtrack_id": "front_moto_0002_rider_s1",
         "back_subtrack_id": null,
         "outcome": "UNMATCHED",
         "abstain_reason": null,
@@ -1977,8 +3131,8 @@
       },
       {
         "pair": "pair_021",
-        "front_moto_id": null,
-        "back_moto_id": null,
+        "front_moto_id": "front_moto_0001",
+        "back_moto_id": "back_moto_0001",
         "front_subtrack_id": "front_moto_0001_rider_s0",
         "back_subtrack_id": "back_moto_0001_rider_s1",
         "outcome": "LINKED",
@@ -1987,14 +3141,523 @@
       },
       {
         "pair": "pair_021",
-        "front_moto_id": null,
-        "back_moto_id": null,
+        "front_moto_id": "front_moto_0001",
+        "back_moto_id": "back_moto_0001",
         "front_subtrack_id": null,
         "back_subtrack_id": "back_moto_0001_rider_s0",
         "outcome": "UNMATCHED",
         "abstain_reason": null,
         "fused_helmet_state": null
+      },
+      {
+        "pair": "pair_024",
+        "front_moto_id": "front_moto_0001",
+        "back_moto_id": "back_moto_0001",
+        "front_subtrack_id": "front_moto_0001_rider_s0",
+        "back_subtrack_id": "back_moto_0001_rider_s0",
+        "outcome": "LINKED",
+        "abstain_reason": null,
+        "fused_helmet_state": null
+      },
+      {
+        "pair": "pair_024",
+        "front_moto_id": "front_moto_0001",
+        "back_moto_id": "back_moto_0001",
+        "front_subtrack_id": "front_moto_0001_rider_s1",
+        "back_subtrack_id": null,
+        "outcome": "UNMATCHED",
+        "abstain_reason": null,
+        "fused_helmet_state": null
+      },
+      {
+        "pair": "pair_024",
+        "front_moto_id": "front_moto_0001",
+        "back_moto_id": "back_moto_0001",
+        "front_subtrack_id": "front_moto_0001_rider_s2",
+        "back_subtrack_id": null,
+        "outcome": "UNMATCHED",
+        "abstain_reason": null,
+        "fused_helmet_state": null
       }
-    ]
+    ],
+    "offline_association_orphan_details": [
+      {
+        "pair": "pair_001",
+        "front_track_id": "front_orphan_0001",
+        "back_track_id": "back_orphan_0001",
+        "outcome": "AMBIGUOUS_ABSTAIN",
+        "abstain_reason": null,
+        "association_score": 0.9164
+      },
+      {
+        "pair": "pair_001",
+        "front_track_id": "front_moto_0001_rider_s0",
+        "back_track_id": "back_orphan_0002",
+        "outcome": "AMBIGUOUS_ABSTAIN",
+        "abstain_reason": null,
+        "association_score": 0.966
+      },
+      {
+        "pair": "pair_001",
+        "front_track_id": "front_moto_0001_rider_s3",
+        "back_track_id": "back_orphan_0003",
+        "outcome": "AMBIGUOUS_ABSTAIN",
+        "abstain_reason": null,
+        "association_score": 0.8422
+      },
+      {
+        "pair": "pair_001",
+        "front_track_id": "front_orphan_0002",
+        "back_track_id": null,
+        "outcome": "UNMATCHED",
+        "abstain_reason": null,
+        "association_score": 0.8911
+      },
+      {
+        "pair": "pair_001",
+        "front_track_id": "front_orphan_0003",
+        "back_track_id": null,
+        "outcome": "UNMATCHED",
+        "abstain_reason": null,
+        "association_score": 0.8292
+      },
+      {
+        "pair": "pair_001",
+        "front_track_id": "front_orphan_0004",
+        "back_track_id": null,
+        "outcome": "UNMATCHED",
+        "abstain_reason": null,
+        "association_score": 0.8402
+      },
+      {
+        "pair": "pair_002",
+        "front_track_id": "front_orphan_0002",
+        "back_track_id": null,
+        "outcome": "UNMATCHED",
+        "abstain_reason": null,
+        "association_score": 0.5275
+      },
+      {
+        "pair": "pair_002",
+        "front_track_id": "front_orphan_0003",
+        "back_track_id": null,
+        "outcome": "UNMATCHED",
+        "abstain_reason": null,
+        "association_score": 0.6125
+      },
+      {
+        "pair": "pair_003",
+        "front_track_id": "front_moto_0001_rider_s0",
+        "back_track_id": "back_orphan_0002",
+        "outcome": "LINKED",
+        "abstain_reason": null,
+        "association_score": 0.9433
+      },
+      {
+        "pair": "pair_003",
+        "front_track_id": "front_moto_0001_rider_s1",
+        "back_track_id": "back_orphan_0009",
+        "outcome": "AMBIGUOUS_ABSTAIN",
+        "abstain_reason": null,
+        "association_score": 0.7397
+      },
+      {
+        "pair": "pair_003",
+        "front_track_id": null,
+        "back_track_id": "back_orphan_0001",
+        "outcome": "UNMATCHED",
+        "abstain_reason": null,
+        "association_score": 0.3712
+      },
+      {
+        "pair": "pair_003",
+        "front_track_id": null,
+        "back_track_id": "back_orphan_0003",
+        "outcome": "UNMATCHED",
+        "abstain_reason": null,
+        "association_score": 0.5539
+      },
+      {
+        "pair": "pair_003",
+        "front_track_id": null,
+        "back_track_id": "back_orphan_0005",
+        "outcome": "UNMATCHED",
+        "abstain_reason": null,
+        "association_score": 0.6939
+      },
+      {
+        "pair": "pair_003",
+        "front_track_id": null,
+        "back_track_id": "back_orphan_0006",
+        "outcome": "UNMATCHED",
+        "abstain_reason": null,
+        "association_score": 0.7159
+      },
+      {
+        "pair": "pair_003",
+        "front_track_id": null,
+        "back_track_id": "back_orphan_0008",
+        "outcome": "UNMATCHED",
+        "abstain_reason": null,
+        "association_score": 0.7862
+      },
+      {
+        "pair": "pair_004",
+        "front_track_id": "front_orphan_0001",
+        "back_track_id": null,
+        "outcome": "UNMATCHED",
+        "abstain_reason": null,
+        "association_score": 0.0
+      },
+      {
+        "pair": "pair_004",
+        "front_track_id": "front_orphan_0002",
+        "back_track_id": null,
+        "outcome": "UNMATCHED",
+        "abstain_reason": null,
+        "association_score": 0.0
+      },
+      {
+        "pair": "pair_004",
+        "front_track_id": "front_orphan_0003",
+        "back_track_id": null,
+        "outcome": "UNMATCHED",
+        "abstain_reason": null,
+        "association_score": 0.0
+      },
+      {
+        "pair": "pair_004",
+        "front_track_id": "front_orphan_0004",
+        "back_track_id": null,
+        "outcome": "UNMATCHED",
+        "abstain_reason": null,
+        "association_score": 0.0
+      },
+      {
+        "pair": "pair_005",
+        "front_track_id": "front_orphan_0002",
+        "back_track_id": null,
+        "outcome": "UNMATCHED",
+        "abstain_reason": null,
+        "association_score": 0.0
+      },
+      {
+        "pair": "pair_006",
+        "front_track_id": null,
+        "back_track_id": "back_orphan_0001",
+        "outcome": "UNMATCHED",
+        "abstain_reason": null,
+        "association_score": 0.0
+      },
+      {
+        "pair": "pair_006",
+        "front_track_id": null,
+        "back_track_id": "back_orphan_0002",
+        "outcome": "UNMATCHED",
+        "abstain_reason": null,
+        "association_score": 0.0
+      },
+      {
+        "pair": "pair_007",
+        "front_track_id": "front_orphan_0005",
+        "back_track_id": "back_orphan_0001",
+        "outcome": "AMBIGUOUS_ABSTAIN",
+        "abstain_reason": null,
+        "association_score": 0.8746
+      },
+      {
+        "pair": "pair_007",
+        "front_track_id": "front_orphan_0001",
+        "back_track_id": null,
+        "outcome": "UNMATCHED",
+        "abstain_reason": null,
+        "association_score": 0.8735
+      },
+      {
+        "pair": "pair_008",
+        "front_track_id": "front_orphan_0001",
+        "back_track_id": null,
+        "outcome": "UNMATCHED",
+        "abstain_reason": null,
+        "association_score": 0.0
+      },
+      {
+        "pair": "pair_008",
+        "front_track_id": "front_orphan_0002",
+        "back_track_id": null,
+        "outcome": "UNMATCHED",
+        "abstain_reason": null,
+        "association_score": 0.0
+      },
+      {
+        "pair": "pair_009",
+        "front_track_id": "front_orphan_0002",
+        "back_track_id": "back_orphan_0001",
+        "outcome": "LINKED",
+        "abstain_reason": null,
+        "association_score": 0.8538
+      },
+      {
+        "pair": "pair_010",
+        "front_track_id": "front_orphan_0001",
+        "back_track_id": null,
+        "outcome": "UNMATCHED",
+        "abstain_reason": null,
+        "association_score": 0.8338
+      },
+      {
+        "pair": "pair_010",
+        "front_track_id": null,
+        "back_track_id": "back_orphan_0002",
+        "outcome": "UNMATCHED",
+        "abstain_reason": null,
+        "association_score": 0.8338
+      },
+      {
+        "pair": "pair_012",
+        "front_track_id": "front_orphan_0001",
+        "back_track_id": null,
+        "outcome": "UNMATCHED",
+        "abstain_reason": null,
+        "association_score": 0.0
+      },
+      {
+        "pair": "pair_012",
+        "front_track_id": "front_orphan_0003",
+        "back_track_id": null,
+        "outcome": "UNMATCHED",
+        "abstain_reason": null,
+        "association_score": 0.0
+      },
+      {
+        "pair": "pair_014",
+        "front_track_id": "front_orphan_0002",
+        "back_track_id": null,
+        "outcome": "UNMATCHED",
+        "abstain_reason": null,
+        "association_score": 0.7748
+      },
+      {
+        "pair": "pair_015",
+        "front_track_id": "front_orphan_0001",
+        "back_track_id": null,
+        "outcome": "UNMATCHED",
+        "abstain_reason": null,
+        "association_score": 0.0
+      },
+      {
+        "pair": "pair_015",
+        "front_track_id": "front_orphan_0002",
+        "back_track_id": null,
+        "outcome": "UNMATCHED",
+        "abstain_reason": null,
+        "association_score": 0.0
+      },
+      {
+        "pair": "pair_016",
+        "front_track_id": "front_orphan_0003",
+        "back_track_id": null,
+        "outcome": "UNMATCHED",
+        "abstain_reason": null,
+        "association_score": 0.7833
+      },
+      {
+        "pair": "pair_016",
+        "front_track_id": null,
+        "back_track_id": "back_orphan_0001",
+        "outcome": "UNMATCHED",
+        "abstain_reason": null,
+        "association_score": 0.7833
+      },
+      {
+        "pair": "pair_018",
+        "front_track_id": null,
+        "back_track_id": "back_orphan_0001",
+        "outcome": "UNMATCHED",
+        "abstain_reason": null,
+        "association_score": 0.0
+      },
+      {
+        "pair": "pair_019",
+        "front_track_id": "front_orphan_0001",
+        "back_track_id": "back_orphan_0001",
+        "outcome": "AMBIGUOUS_ABSTAIN",
+        "abstain_reason": null,
+        "association_score": 0.872
+      },
+      {
+        "pair": "pair_019",
+        "front_track_id": "front_orphan_0008",
+        "back_track_id": "back_orphan_0003",
+        "outcome": "AMBIGUOUS_ABSTAIN",
+        "abstain_reason": null,
+        "association_score": 0.9124
+      },
+      {
+        "pair": "pair_019",
+        "front_track_id": "front_orphan_0010",
+        "back_track_id": "back_orphan_0011",
+        "outcome": "AMBIGUOUS_ABSTAIN",
+        "abstain_reason": null,
+        "association_score": 0.9993
+      },
+      {
+        "pair": "pair_019",
+        "front_track_id": "front_moto_0003_rider_s0",
+        "back_track_id": "back_orphan_0012",
+        "outcome": "AMBIGUOUS_ABSTAIN",
+        "abstain_reason": null,
+        "association_score": 0.8973
+      },
+      {
+        "pair": "pair_019",
+        "front_track_id": null,
+        "back_track_id": "back_orphan_0007",
+        "outcome": "UNMATCHED",
+        "abstain_reason": null,
+        "association_score": 0.8809
+      },
+      {
+        "pair": "pair_019",
+        "front_track_id": null,
+        "back_track_id": "back_orphan_0009",
+        "outcome": "UNMATCHED",
+        "abstain_reason": null,
+        "association_score": 0.9374
+      },
+      {
+        "pair": "pair_019",
+        "front_track_id": null,
+        "back_track_id": "back_orphan_0013",
+        "outcome": "UNMATCHED",
+        "abstain_reason": null,
+        "association_score": 0.7949
+      },
+      {
+        "pair": "pair_019",
+        "front_track_id": null,
+        "back_track_id": "back_orphan_0016",
+        "outcome": "UNMATCHED",
+        "abstain_reason": null,
+        "association_score": 0.7235
+      },
+      {
+        "pair": "pair_019",
+        "front_track_id": null,
+        "back_track_id": "back_orphan_0017",
+        "outcome": "UNMATCHED",
+        "abstain_reason": null,
+        "association_score": 0.4703
+      },
+      {
+        "pair": "pair_020",
+        "front_track_id": "front_orphan_0002",
+        "back_track_id": "back_orphan_0001",
+        "outcome": "AMBIGUOUS_ABSTAIN",
+        "abstain_reason": null,
+        "association_score": 0.8831
+      },
+      {
+        "pair": "pair_020",
+        "front_track_id": "front_orphan_0001",
+        "back_track_id": null,
+        "outcome": "UNMATCHED",
+        "abstain_reason": null,
+        "association_score": 0.848
+      },
+      {
+        "pair": "pair_021",
+        "front_track_id": "front_orphan_0001",
+        "back_track_id": "back_orphan_0001",
+        "outcome": "AMBIGUOUS_ABSTAIN",
+        "abstain_reason": null,
+        "association_score": 0.8603
+      },
+      {
+        "pair": "pair_021",
+        "front_track_id": "front_orphan_0002",
+        "back_track_id": "back_orphan_0002",
+        "outcome": "AMBIGUOUS_ABSTAIN",
+        "abstain_reason": null,
+        "association_score": 0.9953
+      },
+      {
+        "pair": "pair_023",
+        "front_track_id": "front_orphan_0001",
+        "back_track_id": "back_orphan_0002",
+        "outcome": "LINKED",
+        "abstain_reason": null,
+        "association_score": 0.8577
+      },
+      {
+        "pair": "pair_024",
+        "front_track_id": "front_orphan_0003",
+        "back_track_id": "back_orphan_0001",
+        "outcome": "AMBIGUOUS_ABSTAIN",
+        "abstain_reason": null,
+        "association_score": 0.8802
+      },
+      {
+        "pair": "pair_024",
+        "front_track_id": "front_orphan_0002",
+        "back_track_id": null,
+        "outcome": "UNMATCHED",
+        "abstain_reason": null,
+        "association_score": 0.8029
+      },
+      {
+        "pair": "pair_024",
+        "front_track_id": "front_orphan_0005",
+        "back_track_id": null,
+        "outcome": "UNMATCHED",
+        "abstain_reason": null,
+        "association_score": 0.8868
+      },
+      {
+        "pair": "pair_024",
+        "front_track_id": "front_orphan_0007",
+        "back_track_id": null,
+        "outcome": "UNMATCHED",
+        "abstain_reason": null,
+        "association_score": 0.6682
+      },
+      {
+        "pair": "pair_024",
+        "front_track_id": null,
+        "back_track_id": "back_orphan_0004",
+        "outcome": "UNMATCHED",
+        "abstain_reason": null,
+        "association_score": 0.4379
+      },
+      {
+        "pair": "pair_024",
+        "front_track_id": null,
+        "back_track_id": "back_orphan_0005",
+        "outcome": "UNMATCHED",
+        "abstain_reason": null,
+        "association_score": 0.3598
+      }
+    ],
+    "non_motorcycle_gt_links_matched": 5,
+    "non_motorcycle_gt_links_total": 5,
+    "non_motorcycle_gt_links_matched_ids": [
+      "pair_008:rider:front_moto_0001_rider_s0<->back_moto_0001_rider_s0",
+      "pair_009:orphan_rider:front_orphan_0002<->back_orphan_0001",
+      "pair_011:rider:front_moto_0001_rider_s0<->back_moto_0002_rider_s0",
+      "pair_018:rider:front_moto_0001_rider_s0<->back_moto_0001_rider_s0",
+      "pair_024:rider:front_moto_0001_rider_s0<->back_moto_0001_rider_s0"
+    ],
+    "non_motorcycle_gt_links_missed_ids": [],
+    "motorcycle_gt_links_matched": 10,
+    "motorcycle_gt_links_total": 10,
+    "association_regression_checks": {
+      "pair_004_moto_linked": true,
+      "pair_024_moto_linked": true,
+      "pair_020_back_moto_0003_non_linked": true,
+      "pair_020_back_moto_0003_outcome": "AMBIGUOUS_ABSTAIN",
+      "pair_005_orphan_linked_count": 0,
+      "pair_009_orphan_linked": true,
+      "pair_019_driver_s2_s0_linked": true
+    }
   }
 }

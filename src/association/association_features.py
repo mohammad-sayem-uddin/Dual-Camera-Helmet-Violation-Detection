@@ -57,8 +57,16 @@ def evaluate_rider_cardinality_cue(
     """
     Evaluate Cue B (`rider_cardinality`) between `front_tracklet` and `back_tracklet`.
     """
-    f_count = max(front_tracklet.modal_rider_count, front_tracklet.rider_subtrack_count)
-    b_count = max(back_tracklet.modal_rider_count, back_tracklet.rider_subtrack_count)
+    f_count = (
+        front_tracklet.modal_rider_count
+        if front_tracklet.modal_rider_count > 0
+        else front_tracklet.max_rider_count
+    )
+    b_count = (
+        back_tracklet.modal_rider_count
+        if back_tracklet.modal_rider_count > 0
+        else back_tracklet.max_rider_count
+    )
 
     if f_count == 0 and b_count == 0:
         return CueScoreDetail(

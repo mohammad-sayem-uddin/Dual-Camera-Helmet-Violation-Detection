@@ -236,8 +236,16 @@ def _empty_cam_stats() -> dict[str, Any]:
         "low_conf_orphan_filtered": 0,
         "duplicate_orphan_suppressed": 0,
         "role_mismatches": 0,
+        "multi_driver_motos": 0,
+        "sustained_raw_role_inversions_ge10": 0,
+        "raw_to_consensus_role_changes": 0,
         "uncertain_subtracks": 0,
         "ambiguous_subtracks": 0,
+        "orphans_end_of_clip_unconfirmed_active": 0,
+        "orphans_spawned_total": 0,
+        "orphans_accounted_total": 0,
+        "orphan_conservation_exact_streams": 0,
+        "orphan_streams_total": 0,
         "frame_box_states": Counter(),
         "subtrack_frame_total": 0,
         "out_of_bounds_boxes": 0,
@@ -343,6 +351,9 @@ def run_ablation_mode(
             cam_sub_hits = 0
             cam_abstained = sum(m.rider_abstained_updates for m in all_motos)
             for m in all_motos:
+                driver_subs = [s for s in m.rider_subtracks.values() if s.slot_role == "driver"]
+                if len(driver_subs) > 1:
+                    cs["multi_driver_motos"] += 1
                 for sk, sub in m.rider_subtracks.items():
                     cs["subtracks_total"] += 1
                     hits = sub.phase10_track.hits
@@ -353,8 +364,29 @@ def run_ablation_mode(
                         if _is_multiframe_eligible_k1(m, sub):
                             cs["subtracks_k1_multiframe_eligible"] += 1
                     rec_roles = {e.get("slot_role") for e in sub.observation_log if "slot_role" in e}
-                    if rec_roles != {sub.slot_role}:
+                    cons_role = getattr(sub, "consensus_slot_role", None)
+                    if (
+                        rec_roles != {sub.slot_role}
+                        or (cons_role and cons_role != sub.slot_role)
+                        or (len(driver_subs) > 1 and sub.slot_role == "driver")
+                    ):
                         cs["role_mismatches"] += 1
+                    raw_maj = getattr(sub, "raw_majority_slot_role", None)
+                    if raw_maj is not None and raw_maj != sub.slot_role:
+                        cs["raw_to_consensus_role_changes"] += 1
+                        if hits >= 10:
+                            cs["sustained_raw_role_inversions_ge10"] += 1
+                            forensics.setdefault("sustained_raw_role_inversions", []).append({
+                                "pair": pair,
+                                "camera": cam,
+                                "moto_track_id": m.moto_track_id,
+                                "subtrack_id": sub.subtrack_id,
+                                "hits": hits,
+                                "raw_majority_slot_role": raw_maj,
+                                "consensus_slot_role": sub.slot_role,
+                                "role_consensus_status": getattr(sub, "role_consensus_status", None),
+                                "role_change_reason": getattr(sub, "role_change_reason", None),
+                            })
                     if sub.slot_role == "uncertain":
                         cs["uncertain_subtracks"] += 1
                     if sub.slot_role.startswith("ambiguous"):
@@ -415,6 +447,20 @@ def run_ablation_mode(
                 cs["orphans_discarded_tentative"] += 1
                 if o.phase10_track.hits >= 3:
                     cs["orphans_discarded_ge3"] += 1
+
+            bd = pipe.orphan_lifecycle_breakdown()
+            cs["orphans_end_of_clip_unconfirmed_active"] += int(bd["end_of_clip_unconfirmed_active_count"])
+            cs["orphans_spawned_total"] += int(bd["total_spawned_orphan_tracks"])
+            cs["orphans_accounted_total"] += int(bd["total_accounted_orphan_tracks"])
+            cs["orphan_streams_total"] += 1
+            if bd["conservation_exact"]:
+                cs["orphan_conservation_exact_streams"] += 1
+            else:
+                forensics.setdefault("orphan_conservation_mismatches", {})[f"{pair}/{cam}"] = bd
+            if bd["end_of_clip_unconfirmed_ids"]:
+                forensics.setdefault("end_of_clip_unconfirmed_orphans", {})[f"{pair}/{cam}"] = list(
+                    bd["end_of_clip_unconfirmed_ids"]
+                )
 
             pair_metrics[f"{cam}_raw_heads"] = raw_h
             pair_metrics[f"{cam}_coupled_heads"] = coupled_h
@@ -480,6 +526,8 @@ def _extract_track_records(
                             sub.phase10_track.aggregator.get_aggregated_confidence()
                         )["coupled_state_switches"],
                         "is_discarded_tentative": is_disc,
+                        "is_end_of_clip_tentative": False,
+                        "track_source": "discarded_tentative" if is_disc else "exported",
                         "pts_map": {int(f_i): tuple(float(c) for c in bb) for f_i, _, bb, _, _ in sub.pts_history},
                     }
                     if not is_disc or (pair, cam, sub.subtrack_id) not in pred_map:
@@ -487,11 +535,28 @@ def _extract_track_records(
                     pool_by_cam_kind.setdefault((pair, cam, "moto_subtrack"), []).append(info)
 
             orphans = list(pipe.exported_orphan_tracks())
+            exported_ids = {o.orphan_track_id for o in orphans}
             n_exp = len(orphans)
-            if include_discarded_tentative:
-                orphans.extend(list(pipe.discarded_tentative_orphan_tracks))
-            for idx, o in enumerate(orphans):
-                is_disc = idx >= n_exp
+            disc_orphs = list(pipe.discarded_tentative_orphan_tracks) if include_discarded_tentative else []
+            n_disc = len(disc_orphs)
+            eoc_orphs = (
+                [
+                    o
+                    for o in pipe.active_orphan_tracks.values()
+                    if not getattr(o, "confirmed", False) and o.orphan_track_id not in exported_ids
+                ]
+                if include_discarded_tentative
+                else []
+            )
+            combined_orphs = orphans + disc_orphs + eoc_orphs
+            for idx, o in enumerate(combined_orphs):
+                is_disc = n_exp <= idx < (n_exp + n_disc)
+                is_eoc = idx >= (n_exp + n_disc)
+                src_label = (
+                    "discarded_tentative"
+                    if is_disc
+                    else ("end_of_clip_tentative" if is_eoc else "exported")
+                )
                 info = {
                     "subtrack_id": o.orphan_track_id,
                     "moto_track_id": None,
@@ -503,9 +568,11 @@ def _extract_track_records(
                         o.phase10_track.aggregator.get_aggregated_confidence()
                     )["coupled_state_switches"],
                     "is_discarded_tentative": is_disc,
+                    "is_end_of_clip_tentative": is_eoc,
+                    "track_source": src_label,
                     "pts_map": {int(f_i): tuple(float(c) for c in bb) for f_i, _, bb, _, _ in o.pts_history},
                 }
-                if not is_disc or (pair, cam, o.orphan_track_id) not in pred_map:
+                if (not is_disc and not is_eoc) or (pair, cam, o.orphan_track_id) not in pred_map:
                     pred_map[(pair, cam, o.orphan_track_id)] = info
                 pool_by_cam_kind.setdefault((pair, cam, "orphan"), []).append(info)
     return pred_map, pool_by_cam_kind
@@ -543,7 +610,7 @@ def evaluate_gt_209_and_association(
     streams: dict[tuple[str, str], dict[str, Any]],
     baseline_pipelines: dict[tuple[str, str], CameraTrackingPipeline] | None = None,
 ) -> dict[str, Any]:
-    pred_map, _ = _extract_track_records(pipelines, include_discarded_tentative=False)
+    pred_map, pred_pool = _extract_track_records(pipelines, include_discarded_tentative=False)
     full_map, full_pool = _extract_track_records(pipelines, include_discarded_tentative=True)
     base_map, _ = (
         _extract_track_records(baseline_pipelines, include_discarded_tentative=True)
@@ -561,10 +628,17 @@ def evaluate_gt_209_and_association(
     exact_uncertain = 0
     exact_missing = 0
 
+    exported_aligned_agree = 0
+    exported_aligned_disagree = 0
+    exported_aligned_uncertain = 0
+    exported_aligned_missing = 0
+
     aligned_agree = 0
     aligned_disagree = 0
     aligned_uncertain = 0
     aligned_missing = 0
+    pool_agree_by_source: Counter[str] = Counter()
+    pool_rows_by_source: Counter[str] = Counter()
     diffs: list[dict[str, Any]] = []
     orphan_gt_dropped_by_gate = 0
     diff_categories: Counter[str] = Counter()
@@ -593,10 +667,29 @@ def evaluate_gt_209_and_association(
             else:
                 exact_disagree += 1
 
-        # Physical trajectory alignment (handles GAP-C4 orphan renumbering & includes discarded 1-hit records)
+        # Exported-only physical trajectory alignment (no discarded or end-of-clip tentative blending)
         b_rec = base_map.get(key)
         base_pts = b_rec["pts_map"] if b_rec is not None else {}
         base_moto_id = b_rec["moto_track_id"] if b_rec is not None else None
+        exp_rec, _ = _best_spatial_match(
+            base_pts,
+            pred_pool.get((pair, cam, r["kind"]), []),
+            prefer_moto_id=base_moto_id,
+        )
+        if exp_rec is None:
+            exp_rec = pred_map.get(key)
+        if exp_rec is None:
+            exported_aligned_missing += 1
+        else:
+            e_state = exp_rec["track_helmet_state"]
+            if e_state == "UNCERTAIN":
+                exported_aligned_uncertain += 1
+            elif e_state == gt_state:
+                exported_aligned_agree += 1
+            else:
+                exported_aligned_disagree += 1
+
+        # Physical trajectory alignment across exported + discarded + end_of_clip_tentative pools
         aligned_rec, aligned_iou = _best_spatial_match(
             base_pts,
             full_pool.get((pair, cam, r["kind"]), []),
@@ -610,22 +703,28 @@ def evaluate_gt_209_and_association(
             al_state = "MISSING"
             al_hits = 0
             al_id = None
+            al_src = "missing"
             aligned_missing += 1
         else:
             al_state = aligned_rec["track_helmet_state"]
             al_hits = aligned_rec["hits"]
             al_id = aligned_rec["subtrack_id"]
+            al_src = str(aligned_rec.get("track_source", "exported"))
+            pool_rows_by_source[al_src] += 1
             if al_state == "UNCERTAIN":
                 aligned_uncertain += 1
             elif al_state == gt_state:
                 aligned_agree += 1
+                pool_agree_by_source[al_src] += 1
             else:
                 aligned_disagree += 1
 
         if cur_state != sj_state or p_info is None or al_state != gt_state:
             # Classify discrepancy
             if al_state == gt_state and p_info is None and r["kind"] == "orphan":
-                if aligned_rec is not None and aligned_rec["is_discarded_tentative"]:
+                if aligned_rec is not None and aligned_rec.get("is_end_of_clip_tentative"):
+                    cat = "orphan_tentative_1hit_end_of_clip_active"
+                elif aligned_rec is not None and aligned_rec["is_discarded_tentative"]:
                     cat = "orphan_tentative_1hit_pruned"
                 else:
                     cat = "orphan_renumbered_id_shift"
@@ -655,6 +754,7 @@ def evaluate_gt_209_and_association(
                 "gapc_exact_hits": cur_hits,
                 "present_in_exact_export": p_info is not None,
                 "gapc_physical_id": al_id,
+                "gapc_physical_source": al_src,
                 "gapc_physical_state": al_state,
                 "gapc_physical_hits": al_hits,
                 "gapc_physical_iou": round(aligned_iou, 3),
@@ -665,7 +765,15 @@ def evaluate_gt_209_and_association(
     engine = CrossCameraAssociationEngine.from_yaml()
     rider_outcomes: Counter[str] = Counter()
     moto_outcomes: Counter[str] = Counter()
+    orphan_outcomes: Counter[str] = Counter()
     rider_assoc_details: list[dict[str, Any]] = []
+    orphan_assoc_details: list[dict[str, Any]] = []
+    linked_moto_pairs: set[tuple[str, str, str]] = set()
+    linked_rider_pairs: set[tuple[str, str, str]] = set()
+    linked_orphan_pairs: set[tuple[str, str, str]] = set()
+    moto_outcome_by_front: dict[tuple[str, str], str] = {}
+    moto_outcome_by_back: dict[tuple[str, str], str] = {}
+
     for pair in PAIRS:
         pdir = STAGEJ_DIR / pair
         sj_assoc = json.loads((pdir / f"{pair}_association.json").read_text(encoding="utf-8"))
@@ -687,18 +795,81 @@ def evaluate_gt_209_and_association(
         res_dict = res.to_dict()
         for mr_dict in res_dict.get("motorcycle_results", []):
             moto_outcomes[mr_dict["outcome"]] += 1
+            fm = mr_dict.get("front_moto_track_id")
+            bm = mr_dict.get("back_moto_track_id")
+            if fm:
+                moto_outcome_by_front[(pair, str(fm))] = str(mr_dict["outcome"])
+            if bm:
+                moto_outcome_by_back[(pair, str(bm))] = str(mr_dict["outcome"])
+            if mr_dict["outcome"] == "LINKED" and fm and bm:
+                linked_moto_pairs.add((pair, str(fm), str(bm)))
             for ra_dict in mr_dict.get("rider_associations", []):
                 rider_outcomes[ra_dict["outcome"]] += 1
+                fs = ra_dict.get("front_subtrack_id")
+                bs = ra_dict.get("back_subtrack_id")
+                if ra_dict["outcome"] == "LINKED" and fs and bs:
+                    linked_rider_pairs.add((pair, str(fs), str(bs)))
                 rider_assoc_details.append({
                     "pair": pair,
-                    "front_moto_id": mr_dict.get("front_moto_id"),
-                    "back_moto_id": mr_dict.get("back_moto_id"),
-                    "front_subtrack_id": ra_dict.get("front_subtrack_id"),
-                    "back_subtrack_id": ra_dict.get("back_subtrack_id"),
+                    "front_moto_id": fm,
+                    "back_moto_id": bm,
+                    "front_subtrack_id": fs,
+                    "back_subtrack_id": bs,
                     "outcome": ra_dict.get("outcome"),
                     "abstain_reason": ra_dict.get("abstain_reason"),
                     "fused_helmet_state": ra_dict.get("fused_helmet_state"),
                 })
+        for or_dict in res_dict.get("orphan_results", []):
+            orphan_outcomes[or_dict["outcome"]] += 1
+            fo = or_dict.get("front_track_id")
+            bo = or_dict.get("back_track_id")
+            if or_dict["outcome"] == "LINKED" and fo and bo:
+                linked_orphan_pairs.add((pair, str(fo), str(bo)))
+            orphan_assoc_details.append({
+                "pair": pair,
+                "front_track_id": fo,
+                "back_track_id": bo,
+                "outcome": or_dict.get("outcome"),
+                "abstain_reason": or_dict.get("abstain_reason"),
+                "association_score": or_dict.get("association_score"),
+            })
+
+    # Verify against released GT cross_camera_identity_links.csv (exact 5 non-motorcycle LINKED rows & 10 moto LINKED rows)
+    gt_non_moto_links: list[tuple[str, str, str, str]] = []
+    gt_moto_links: list[tuple[str, str, str]] = []
+    links_csv = REL_DIR / "cross_camera_identity_links.csv"
+    if links_csv.exists():
+        with open(links_csv, "r", encoding="utf-8") as f:
+            for row in csv.DictReader(f):
+                if row.get("outcome") != "LINKED":
+                    continue
+                if row.get("kind") == "motorcycle":
+                    gt_moto_links.append((row["pair"], row["front_track_id"], row["back_track_id"]))
+                else:
+                    gt_non_moto_links.append(
+                        (row["pair"], row["kind"], row["front_track_id"], row["back_track_id"])
+                    )
+    matched_non_moto = []
+    missed_non_moto = []
+    for pair_id, kind, ftid, btid in gt_non_moto_links:
+        pool = linked_rider_pairs if kind == "rider" else linked_orphan_pairs
+        if (pair_id, ftid, btid) in pool:
+            matched_non_moto.append(f"{pair_id}:{kind}:{ftid}<->{btid}")
+        else:
+            missed_non_moto.append(f"{pair_id}:{kind}:{ftid}<->{btid}")
+    matched_moto_gt = [
+        f"{p}:{f}<->{b}" for p, f, b in gt_moto_links if (p, f, b) in linked_moto_pairs
+    ]
+
+    regression_checks = {
+        "pair_004_moto_linked": ("pair_004", "front_moto_0002", "back_moto_0001") in linked_moto_pairs,
+        "pair_024_moto_linked": ("pair_024", "front_moto_0001", "back_moto_0001") in linked_moto_pairs,
+        "pair_020_back_moto_0003_non_linked": moto_outcome_by_back.get(("pair_020", "back_moto_0003")) != "LINKED",
+        "pair_020_back_moto_0003_outcome": moto_outcome_by_back.get(("pair_020", "back_moto_0003")),
+        "pair_005_orphan_linked_count": sum(1 for p, _, _ in linked_orphan_pairs if p == "pair_005"),
+        "pair_009_orphan_linked": ("pair_009", "front_orphan_0002", "back_orphan_0001") in linked_orphan_pairs,
+        "pair_019_driver_s2_s0_linked": ("pair_019", "front_moto_0002_rider_s2", "back_moto_0002_rider_s0") in linked_rider_pairs,
+    }
 
     return {
         "total_decided_gt_tracks_baseline": len(sj_rows),
@@ -710,15 +881,36 @@ def evaluate_gt_209_and_association(
         "gapc_exact_id_uncertain": exact_uncertain,
         "gapc_exact_id_missing": exact_missing,
         "orphan_gt_dropped_by_gate": orphan_gt_dropped_by_gate,
+        "gapc_exported_physical_aligned_agree": exported_aligned_agree,
+        "gapc_exported_physical_aligned_disagree": exported_aligned_disagree,
+        "gapc_exported_physical_aligned_uncertain": exported_aligned_uncertain,
+        "gapc_exported_physical_aligned_missing": exported_aligned_missing,
         "gapc_physical_aligned_agree": aligned_agree,
         "gapc_physical_aligned_disagree": aligned_disagree,
         "gapc_physical_aligned_uncertain": aligned_uncertain,
         "gapc_physical_aligned_missing": aligned_missing,
+        "gt_209_pool_breakdown": {
+            "exported_only_agree": exported_aligned_agree,
+            "exported_only_disagree": exported_aligned_disagree,
+            "exported_only_uncertain": exported_aligned_uncertain,
+            "exported_only_missing": exported_aligned_missing,
+            "full_pool_agree_by_source": dict(pool_agree_by_source),
+            "full_pool_rows_by_source": dict(pool_rows_by_source),
+        },
         "diff_category_counts": dict(diff_categories),
         "per_track_diffs": diffs,
         "offline_association_moto_outcomes": dict(moto_outcomes),
         "offline_association_rider_outcomes": dict(rider_outcomes),
+        "offline_association_orphan_outcomes": dict(orphan_outcomes),
         "offline_association_rider_details": rider_assoc_details,
+        "offline_association_orphan_details": orphan_assoc_details,
+        "non_motorcycle_gt_links_matched": len(matched_non_moto),
+        "non_motorcycle_gt_links_total": len(gt_non_moto_links),
+        "non_motorcycle_gt_links_matched_ids": matched_non_moto,
+        "non_motorcycle_gt_links_missed_ids": missed_non_moto,
+        "motorcycle_gt_links_matched": len(matched_moto_gt),
+        "motorcycle_gt_links_total": len(gt_moto_links),
+        "association_regression_checks": regression_checks,
     }
 
 
@@ -776,8 +968,13 @@ def _check_acceptance_criteria(
         "c2_k1_multiframe_reduction_ge_70pct": (1.0 - (k1_a4_elig / k1_a0_elig)) >= 0.70,
         "c2_focus_4_motos_primary_gt_10_hits": focus_moto_ok,
         "c3_role_mismatches_zero": a4["combined"]["role_mismatches"] == 0,
+        "c3_no_multi_driver_motos": a4["combined"]["multi_driver_motos"] == 0,
         "c3_orphan_1hit_lt045_reduction_ge_90pct": (1.0 - (o_a4_lt / o_a0_lt)) >= 0.90,
         "c3_orphan_ge3_preserved": a4["combined"]["orphans_discarded_ge3"] == 0,
+        "c3_orphan_conservation_exact": (
+            a4["combined"]["orphan_conservation_exact_streams"]
+            == a4["combined"]["orphan_streams_total"]
+        ),
         "c4_a0_reproduces_baseline": (
             a0["combined"]["abstained"] == 2943
             and a0["combined"]["subtrack_hits"] == 6157
@@ -786,6 +983,14 @@ def _check_acceptance_criteria(
         ),
         "c4_a4_moto_id_exact_match": bool(a4["moto_id_exact_match"]),
         "c4_gt_full_pool_aligned_audited_ge_207": audited_physical_total >= 207,
+        "c4_non_motorcycle_gt_links_5_of_5": gt_eval["non_motorcycle_gt_links_matched"] == 5,
+        "c4_pair004_and_024_moto_links_restored": bool(
+            gt_eval["association_regression_checks"].get("pair_004_moto_linked", False)
+            and gt_eval["association_regression_checks"].get("pair_024_moto_linked", False)
+        ),
+        "c4_no_pair020_false_link": bool(
+            gt_eval["association_regression_checks"].get("pair_020_back_moto_0003_non_linked", False)
+        ),
     }
     return acceptance, focus_diagnostics
 
@@ -838,7 +1043,12 @@ def main() -> None:
                 "orphans_exported_1hit_lt045": cs["orphans_exported_1hit_lt045"],
                 "orphans_exported_ge3": cs["orphans_exported_ge3"],
                 "orphans_discarded_ge3": cs["orphans_discarded_ge3"],
+                "orphans_end_of_clip_unconfirmed_active": cs["orphans_end_of_clip_unconfirmed_active"],
+                "orphan_conservation_exact_streams": cs["orphan_conservation_exact_streams"],
                 "role_mismatches": cs["role_mismatches"],
+                "multi_driver_motos": cs["multi_driver_motos"],
+                "sustained_raw_role_inversions_ge10": cs["sustained_raw_role_inversions_ge10"],
+                "raw_to_consensus_role_changes": cs["raw_to_consensus_role_changes"],
                 "out_of_bounds_boxes": cs["out_of_bounds_boxes"],
                 "non_coupled_frame_fraction": cs["non_coupled_frame_fraction"],
                 "moto_tracks": cs["moto_tracks"],
@@ -891,7 +1101,10 @@ def main() -> None:
             f"B_ret={b['subtrack_hits']}/{b['coupled_heads']} ({b['coupled_retention_rate']*100:.1f}%) | "
             f"C_ret={c['subtrack_hits']}/{c['coupled_heads']} ({c['coupled_retention_rate']*100:.1f}%) | "
             f"OOB={c['out_of_bounds_boxes']} | K1_elig={c['subtracks_k1_multiframe_eligible']} | "
-            f"role_err={c['role_mismatches']} | orph_1h(<.45)={c['orphans_exported_1hit']}({c['orphans_exported_1hit_lt045']}) | "
+            f"role_err={c['role_mismatches']} multi_drv={c['multi_driver_motos']} "
+            f"raw_inv10={c['sustained_raw_role_inversions_ge10']} | "
+            f"orph_ge3={c['orphans_exported_ge3']} eoc={c['orphans_end_of_clip_unconfirmed_active']} "
+            f"cons={c['orphan_conservation_exact_streams']}/{c['orphan_streams_total']} "
             f"orph_disc_ge3={c['orphans_discarded_ge3']} | moto_id_ok={r['moto_id_exact_match']}"
         )
     print(
@@ -899,14 +1112,22 @@ def main() -> None:
         f"{gt_a0['gapc_exact_id_agree']}/{gt_a0['total_decided_gt_tracks_baseline']}",
         "A4:",
         f"{gt_a4['gapc_exact_id_agree']}/{gt_a4['total_decided_gt_tracks_baseline']}",
-        "| physical_aligned A4:",
+        "| exported_phys A4:",
+        f"{gt_a4['gapc_exported_physical_aligned_agree']}/{gt_a4['total_decided_gt_tracks_baseline']}",
+        "| full_pool_phys A4:",
         f"{gt_a4['gapc_physical_aligned_agree']}/{gt_a4['total_decided_gt_tracks_baseline']}",
+        "pool:",
+        gt_a4["gt_209_pool_breakdown"],
         "cats:",
         gt_a4["diff_category_counts"],
+        "| Non-moto GT links:",
+        f"{gt_a4['non_motorcycle_gt_links_matched']}/{gt_a4['non_motorcycle_gt_links_total']}",
         "| Assoc A0 rider:",
         gt_a0["offline_association_rider_outcomes"],
         "-> A4 rider:",
         gt_a4["offline_association_rider_outcomes"],
+        "| A4 reg_checks:",
+        gt_a4["association_regression_checks"],
     )
     print("Acceptance:", acceptance)
     print("Focus diagnostics:", focus_diagnostics)

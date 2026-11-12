@@ -841,7 +841,8 @@ def run_camera(
     shift = ctx.canonical_shift_sec(camera_id)
 
     try:
-        pipe = CameraTrackingPipeline.from_yaml(camera_id, config.tracking_config_path)
+        dims = (int(reader.width), int(reader.height)) if getattr(reader, "width", 0) > 0 and getattr(reader, "height", 0) > 0 else None
+        pipe = CameraTrackingPipeline.from_yaml(camera_id, config.tracking_config_path, frame_dimensions=dims)
     except Exception as e:
         raise PipelineError(ERR_TRACKING, f"{pair_id}/{camera_id}: tracker init: {e}") from e
 
@@ -1108,19 +1109,60 @@ def _track_records(cam_out: CameraRunOutput) -> dict[str, dict[str, Any]]:
     return records
 
 
+def _canonical_slot_and_role(
+    raw_slot: int,
+    sub: dict[str, Any],
+) -> tuple[int, str]:
+    """Resolve canonical event slot index and human-readable role from consensus role."""
+    role = str(sub.get("consensus_slot_role") or sub.get("slot_role") or "").strip()
+    if role == "driver":
+        return 0, "driver"
+    if role == "pillion_1":
+        return 1, "pillion_1"
+    if role == "pillion_2":
+        return 2, "pillion_2"
+    if role.startswith("pillion_"):
+        try:
+            idx = int(role.split("_", 1)[1])
+            if idx >= 1:
+                return idx, role
+        except (ValueError, IndexError):
+            pass
+    if not role or role.startswith("ambiguous_slot_"):
+        fallback = {0: "driver", 1: "pillion_1", 2: "pillion_2"}.get(raw_slot, f"slot_{raw_slot}")
+        return int(raw_slot), fallback
+    # Preserve genuinely tied/uncertain roles outside driver slot 0
+    return 100 + int(raw_slot), role
+
+
 def _merged_riders(
     obs: dict[str, dict[str, Any]],
 ) -> tuple[list[dict[str, Any]], dict[int, dict[str, Any]]]:
-    """Merge per-slot rider states across views (package `merged_riders` semantics)."""
-    slots: dict[int, list[tuple[str, str, dict[str, Any], dict[str, Any]]]] = {}
+    """Merge per-role rider states across views using authoritative consensus slot roles."""
+    slots: dict[int, list[tuple[str, str, dict[str, Any], dict[str, Any], int, str]]] = {}
+    used_roles_by_cam: dict[str, set[int]] = {}
     for cam, rec in obs.items():
-        for slot, sub in rec["rider_subtracks"].items():
-            slots.setdefault(slot, []).append((cam, sub["track_helmet_state"], sub, rec))
+        cam_used = used_roles_by_cam.setdefault(cam, set())
+        for raw_slot, sub in sorted(rec["rider_subtracks"].items()):
+            canon_slot, role_label = _canonical_slot_and_role(int(raw_slot), sub)
+            # Never merge two distinct subtracks from the same camera into one slot bucket
+            if canon_slot in cam_used:
+                raw_int = int(raw_slot)
+                if raw_int not in cam_used:
+                    canon_slot = raw_int
+                    role_label = {0: "driver", 1: "pillion_1", 2: "pillion_2"}.get(raw_int, role_label)
+                else:
+                    while canon_slot in cam_used:
+                        canon_slot = max(canon_slot + 1, 100 + raw_int)
+            cam_used.add(canon_slot)
+            slots.setdefault(canon_slot, []).append(
+                (cam, sub["track_helmet_state"], sub, rec, int(raw_slot), role_label)
+            )
     riders: list[dict[str, Any]] = []
     detail: dict[int, dict[str, Any]] = {}
     for slot in sorted(slots):
         entries = slots[slot]
-        conf = {s for (_, s, _, _) in entries if s in ("HELMET", "NO_HELMET")}
+        conf = {s for (_, s, _, _, _, _) in entries if s in ("HELMET", "NO_HELMET")}
         if conf == {"HELMET"}:
             state, prov = "HELMET", "AI_DIRECT"
         elif conf == {"NO_HELMET"}:
@@ -1130,15 +1172,16 @@ def _merged_riders(
         win = None
         if state == "NO_HELMET":
             starts = [
-                t["t_start_ref_sec"] for (_, s, _, t) in entries if s == "NO_HELMET"
+                t["t_start_ref_sec"] for (_, s, _, t, _, _) in entries if s == "NO_HELMET"
             ]
-            ends = [t["t_end_ref_sec"] for (_, s, _, t) in entries if s == "NO_HELMET"]
+            ends = [t["t_end_ref_sec"] for (_, s, _, t, _, _) in entries if s == "NO_HELMET"]
             if starts and ends:
                 win = [min(starts), max(ends)]
-        role = {0: "driver", 1: "pillion_1", 2: "pillion_2"}.get(slot, f"slot_{slot}")
+        role = entries[0][5]
         riders.append(
             {
                 "rider_slot": slot,
+                "raw_subtrack_slots": sorted({e[4] for e in entries}),
                 "role": role,
                 "recorded_slot_roles": sorted({e[2]["slot_role"] for e in entries}),
                 "helmet_state": state,
@@ -1148,18 +1191,29 @@ def _merged_riders(
         )
         detail[slot] = {
             "state": state,
+            "role": role,
             "window": win,
-            "per_view": {cam: s for (cam, s, _, _) in entries},
+            "per_view": {cam: s for (cam, s, _, _, _, _) in entries},
         }
     return riders, detail
 
 
 def _event_type_for(detail: dict[int, dict[str, Any]]) -> tuple[str, bool | None]:
-    """Package `event_type_for` semantics, verbatim."""
+    """Package `event_type_for` semantics, verbatim (with unresolved-role guard)."""
     if not detail:
         return "INSUFFICIENT_VISUAL_EVIDENCE", None
+    unresolved = [
+        d for d in detail.values()
+        if str(d.get("role", "")).startswith("ambiguous_slot_") or d.get("role") == "uncertain"
+    ]
+    if unresolved and 0 not in detail:
+        return "INSUFFICIENT_VISUAL_EVIDENCE", None
     driver = detail.get(0, {}).get("state", "UNCERTAIN")
-    pillions = [d["state"] for s, d in detail.items() if s > 0]
+    pillions = [
+        d["state"]
+        for s, d in detail.items()
+        if s > 0 and not (str(d.get("role", "")).startswith("ambiguous_slot_") or d.get("role") == "uncertain")
+    ]
     d_nh = driver == "NO_HELMET"
     p_nh = any(s == "NO_HELMET" for s in pillions)
     if d_nh and p_nh:
@@ -1815,8 +1869,18 @@ def run_pair_tick_mode(pair_id: str, config: PipelineConfig) -> dict[str, Any]:
             )
             for cam in ("front", "back")
         }
+        def _cam_dims(cam: str) -> tuple[int, int] | None:
+            rdr = getattr(ctx.reader, f"reader_{cam}", None)
+            if rdr is not None and getattr(rdr, "width", 0) > 0 and getattr(rdr, "height", 0) > 0:
+                return (int(rdr.width), int(rdr.height))
+            return None
+
         pipes = {
-            cam: CameraTrackingPipeline.from_yaml(cam, config.tracking_config_path)
+            cam: CameraTrackingPipeline.from_yaml(
+                cam,
+                config.tracking_config_path,
+                frame_dimensions=_cam_dims(cam),
+            )
             for cam in ("front", "back")
         }
         gate = DeduplicatedTemporalGate()

@@ -84,11 +84,11 @@ kalman_bytetrack:
   max_total_subtracks_per_moto: 6
   role_consensus_enabled: true
   min_role_consensus_frames: 3
-  role_min_moto_speed_px: 2.0
+  role_min_moto_speed_px: 8.0
   role_min_proj_sep_px: 8.0
   orphan_lifecycle_gating_enabled: true
   orphan_min_confirm_hits: 2
-  orphan_tentative_max_lost_frames: 3
+  orphan_tentative_max_lost_frames: 4
   orphan_tentative_min_conf: 0.18
   export_confirmed_orphans_only: true
   frame_width: 3840
