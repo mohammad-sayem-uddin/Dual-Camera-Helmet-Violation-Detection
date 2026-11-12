@@ -30,12 +30,28 @@ def prf(tp, fp, fn):
     return {'precision': round(p, 4), 'recall': round(r, 4), 'f1': round(f, 4), 'tp': tp, 'fp': fp, 'fn': fn}
 
 
+def compute_tiou(a, b, *, mode: str = 'fixed', tol: float = 1e-9):
+    """Temporal IoU between [w0, w1] intervals; handles 1-frame point intervals [t, t]."""
+    if a[0] is None or a[1] is None or b[0] is None or b[1] is None:
+        return None
+    inter = max(0.0, min(a[1], b[1]) - max(a[0], b[0]))
+    union = max(a[1], b[1]) - min(a[0], b[0])
+    if mode == 'legacy':
+        return inter / union if union > 0 else 0.0
+    if union <= tol:
+        return 1.0 if (abs(a[0] - b[0]) <= tol and abs(a[1] - b[1]) <= tol) else 0.0
+    return inter / union
+
+
 def run_evaluation(
     out_dir: str | None = None,
     rel_dir: str | None = None,
     sj_dir: str | None = None,
     write_files: bool = True,
+    tiou_mode: str = 'fixed',
 ):
+    if tiou_mode not in ('fixed', 'legacy'):
+        raise ValueError(f'Unsupported tiou_mode: {tiou_mode!r}')
     gt = load_gt(rel_dir=rel_dir)
     pred = load_pred(sj_dir=sj_dir)
     R = {}            # master results
@@ -425,10 +441,7 @@ def run_evaluation(
 
     # ---------------------------------------------------------------- event family
     def tiou(a, b):
-        if a[0] is None or b[0] is None: return None
-        inter = max(0.0, min(a[1], b[1]) - max(a[0], b[0]))
-        union = max(a[1], b[1]) - min(a[0], b[0])
-        return inter / union if union > 0 else 0.0
+        return compute_tiou(a, b, mode=tiou_mode)
 
     gt_ev = {(e['pair'], e['front'] or '', e['back'] or ''): e for e in gt['events']}
     pr_ev = {(e['pair'], e['front'] or '', e['back'] or ''): e for e in pred['events']}
@@ -569,8 +582,15 @@ def main() -> None:
     ap.add_argument('--out', default=DEFAULT_OUT)
     ap.add_argument('--rel', default=None)
     ap.add_argument('--sj', default=None)
+    ap.add_argument('--tiou-mode', choices=('fixed', 'legacy'), default='fixed')
     args = ap.parse_args()
-    R, _ = run_evaluation(out_dir=args.out, rel_dir=args.rel, sj_dir=args.sj, write_files=True)
+    R, _ = run_evaluation(
+        out_dir=args.out,
+        rel_dir=args.rel,
+        sj_dir=args.sj,
+        write_files=True,
+        tiou_mode=args.tiou_mode,
+    )
     print('EVALUATE DONE ->', args.out)
     print(json.dumps({
         'detection_head_operating_point': R.get('detection_head_operating_point'),

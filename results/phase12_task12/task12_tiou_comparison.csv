@@ -1,0 +1,3 @@
+mode,precision,recall,f1,tp,fp,fn,overall_precision,overall_recall,overall_f1,overall_tp,overall_fp,overall_fn,timing_n
+legacy,0.8519,0.8519,0.8519,23,4,4,0.7529,0.9143,0.8258,64,21,6,34
+fixed,0.9259,0.9259,0.9259,25,2,2,0.7765,0.9429,0.8516,66,19,4,36

@@ -1,0 +1,38 @@
+{
+  "release_id": "dual_camera_gt_v1.1_blind_human",
+  "schema_version": "1.1.0-pending-review",
+  "dataset_id": "dual_camera_test_v1",
+  "human_verification_status": "PENDING_HUMAN_REVIEW",
+  "human_verified": false,
+  "executed_human_units": 0,
+  "pending_human_units": 92,
+  "fabricated_labels_present": false,
+  "parent_ai_assisted_release": "dual_camera_gt_v1.0_ai_assisted_audited",
+  "protocol_document": "docs/phase12/ARGON_TASK12_BLIND_GT_V1_1_PROTOCOL.md",
+  "corpus_scope": {
+    "pairs": 25,
+    "videos": 50,
+    "total_decoded_frames": 15241,
+    "front_frames": 6557,
+    "back_frames": 8684
+  },
+  "workqueue_summary": {
+    "total_items": 92,
+    "from_physical_transit_corpus": 70,
+    "from_gapc_unlinked_or_split_candidates": 22,
+    "by_priority_stratum": {
+      "STRATUM_3_BASELINE_AND_PLATE_AUDIT": 13,
+      "STRATUM_2_UNCERTAIN_AMBIGUOUS_OR_DELTA": 33,
+      "STRATUM_1_GAPC_PILLION_OR_CONFLICT": 46
+    },
+    "pairs_covered": 25,
+    "unassessed_plates_targeted": 70
+  },
+  "acceptance_targets_before_freeze": {
+    "min_cohens_kappa_binary_violation": 0.85,
+    "min_cohens_kappa_rider_helmet": 0.85,
+    "min_cohens_kappa_cross_camera_link": 0.9,
+    "min_annotators_per_unit": 2,
+    "requires_independent_adjudication_on_disagreements": true
+  }
+}

@@ -1,0 +1,120 @@
+{
+  "all_checks_passed": true,
+  "checks": {
+    "c1_legacy_events_exact_parity_with_frozen_stagek": true,
+    "c2_fixed_tiou_gains_exact_two_tp": true,
+    "c3_recovered_matches_are_pair012_and_pair015_point_intervals": true,
+    "c4_non_event_metrics_invariant_to_tiou_fix": true,
+    "c5_gt_v1_1_non_destructive_and_pending_human_review": true,
+    "c6_timing_mean_errors_remain_zero_after_recovery": true
+  },
+  "deltas_fixed_minus_legacy": {
+    "f1": 0.0258,
+    "fn": -2,
+    "fp": -2,
+    "precision": 0.0236,
+    "recall": 0.0286,
+    "tp": 2
+  },
+  "fixed_eval_summary": {
+    "driver_no_helmet": {
+      "f1": 0.9259,
+      "fn": 2,
+      "fp": 2,
+      "precision": 0.9259,
+      "recall": 0.9259,
+      "tp": 25
+    },
+    "f1": 0.8516,
+    "fn": 4,
+    "fp": 19,
+    "precision": 0.7765,
+    "recall": 0.9429,
+    "strict_identity_matches": 67,
+    "timing_d_end_mean_abs": 0.0,
+    "timing_d_onset_mean_abs": 0.0,
+    "timing_n": 36,
+    "tp": 66,
+    "type_agreeing": 66,
+    "unmatched_gt_classes": {
+      "would_match_differs_only_by_excluded_track": 3
+    },
+    "unmatched_pred_classes": {
+      "correction_delta_excluded_track": 18
+    }
+  },
+  "frozen_csv_byte_parity_legacy": {
+    "events_detail.csv": true,
+    "sync_by_pair.csv": true
+  },
+  "gt_v1_1_package_audit": {
+    "all_rows_pending_status": true,
+    "blind_response_columns_checked": 17,
+    "executed_human_units": 0,
+    "fabricated_labels_present": false,
+    "files_present": true,
+    "human_verification_status": "PENDING_HUMAN_REVIEW",
+    "human_verified": false,
+    "non_empty_blind_cells": 0,
+    "pairs_covered": 25,
+    "pending_human_units": 92,
+    "schema_id": "dual_camera_gt_v1_1_blind_human.schema.json",
+    "v1_0_dir_exists": true,
+    "workqueue_rows": 92
+  },
+  "legacy_eval_summary": {
+    "driver_no_helmet": {
+      "f1": 0.8519,
+      "fn": 4,
+      "fp": 4,
+      "precision": 0.8519,
+      "recall": 0.8519,
+      "tp": 23
+    },
+    "f1": 0.8258,
+    "fn": 6,
+    "fp": 21,
+    "precision": 0.7529,
+    "recall": 0.9143,
+    "strict_identity_matches": 65,
+    "timing_d_end_mean_abs": 0.0,
+    "timing_d_onset_mean_abs": 0.0,
+    "timing_n": 34,
+    "tp": 64,
+    "type_agreeing": 64,
+    "unmatched_gt_classes": {
+      "would_match_differs_only_by_excluded_track": 5
+    },
+    "unmatched_pred_classes": {
+      "correction_delta_excluded_track": 18,
+      "would_match_differs_only_by_excluded_track": 2
+    }
+  },
+  "recovered_point_interval_events": [
+    {
+      "back": "",
+      "d_end": 0.0,
+      "d_onset": 0.0,
+      "front": "front_moto_0003",
+      "gt_type": "DRIVER_NO_HELMET",
+      "pair": "pair_012",
+      "pred_type": "DRIVER_NO_HELMET",
+      "tiou": 1.0
+    },
+    {
+      "back": "",
+      "d_end": 0.0,
+      "d_onset": 0.0,
+      "front": "front_moto_0001",
+      "gt_type": "DRIVER_NO_HELMET",
+      "pair": "pair_015",
+      "pred_type": "DRIVER_NO_HELMET",
+      "tiou": 1.0
+    }
+  ],
+  "runtime_metrics": {
+    "peak_rss_mb": 214.97,
+    "total_wall_sec": 31.743
+  },
+  "schema_version": "task12_eval_and_gt_v1_1_v1"
+}

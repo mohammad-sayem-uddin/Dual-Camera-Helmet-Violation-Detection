@@ -1,0 +1,107 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "dual_camera_gt_v1_1_blind_human.schema.json",
+  "title": "dual_camera_gt_v1.1_blind_human — Blind Dual-Reviewer Ground Truth Schema (PENDING_HUMAN_REVIEW)",
+  "description": "Schema for blind two-annotator + independent adjudicator human verification over dual_camera_test_v1, cleanly separated from frozen AI-assisted v1.0.",
+  "type": "object",
+  "required": [
+    "release_id",
+    "schema_version",
+    "dataset_id",
+    "human_verification_status",
+    "human_verified",
+    "executed_human_units",
+    "pending_human_units",
+    "fabricated_labels_present",
+    "parent_ai_assisted_release",
+    "workqueue_summary"
+  ],
+  "properties": {
+    "release_id": {
+      "const": "dual_camera_gt_v1.1_blind_human"
+    },
+    "schema_version": {
+      "type": "string"
+    },
+    "dataset_id": {
+      "const": "dual_camera_test_v1"
+    },
+    "human_verification_status": {
+      "enum": [
+        "PENDING_HUMAN_REVIEW",
+        "IN_PROGRESS",
+        "COMPLETE_ADJUDICATED"
+      ]
+    },
+    "human_verified": {
+      "type": "boolean"
+    },
+    "executed_human_units": {
+      "type": "integer",
+      "minimum": 0
+    },
+    "pending_human_units": {
+      "type": "integer",
+      "minimum": 0
+    },
+    "fabricated_labels_present": {
+      "const": false
+    },
+    "inter_annotator_agreement": {
+      "type": [
+        "object",
+        "null"
+      ],
+      "properties": {
+        "cohens_kappa_binary_violation": {
+          "type": "number"
+        },
+        "cohens_kappa_rider_helmet": {
+          "type": "number"
+        },
+        "cohens_kappa_cross_camera_link": {
+          "type": "number"
+        },
+        "adjudicated_disagreement_count": {
+          "type": "integer",
+          "minimum": 0
+        }
+      }
+    }
+  },
+  "$defs": {
+    "plate_visibility_tier": {
+      "enum": [
+        "PLATE_CLEAR",
+        "PLATE_PARTIAL",
+        "PLATE_UNREADABLE_MOTION_BLUR",
+        "PLATE_NOT_VISIBLE_FRONT_ONLY"
+      ]
+    },
+    "human_helmet_label": {
+      "enum": [
+        "helmet",
+        "no_helmet",
+        "occluded_unknown"
+      ]
+    },
+    "human_link_status": {
+      "enum": [
+        "LINKED_BOTH_VIEWS",
+        "FRONT_VIEW_ONLY",
+        "BACK_VIEW_ONLY",
+        "AMBIGUOUS_HUMAN_UNCERTAIN",
+        "NOT_A_MOTORCYCLE_TRANSIT"
+      ]
+    },
+    "workqueue_item_status": {
+      "enum": [
+        "PENDING_HUMAN_REVIEW",
+        "A_ONLY_COMPLETE",
+        "B_ONLY_COMPLETE",
+        "AB_AGREED",
+        "ADJUDICATED_COMPLETE"
+      ]
+    }
+  }
+}
