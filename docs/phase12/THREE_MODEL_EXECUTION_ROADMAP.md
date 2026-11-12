@@ -112,6 +112,7 @@ To preserve tokens, compute, and scientific integrity, the following operations 
 | **P1** | **TASK-04** | Track-Level Evaluation Reproduction & Discrepancy Reconciliation under Amended Protocol | **Flash High** | **VALIDATED (`GEMINI_FLASH_TASK04_VALIDATION_REPORT.md`, 207/209 = 99.04% primary agreement)** |
 | **P2** | **TASK-05 / TASK-05B** | Dynamic Drift Sensitivity (original) / Next Research Gap Architecture Assessment (`GAP-B1..B4`) | **Argon (Design)** | **GAP-B DESIGN COMPLETE (`ARGON_TASK05B_NEXT_RESEARCH_GAP_ASSESSMENT.md`)** |
 | **P2** | **TASK-06** | GAP-B Implementation: Cross-Camera Tracklet Construction, Appearance Cue Recovery & Evaluation Integrity | **Sonnet (Impl)** | **IMPLEMENTED (`SONNET_TASK06_IMPLEMENTATION_REPORT.md`, offline re-eval in `results/phase12_gapb_redesign/`, `171` pytest pass)** |
+| **P2** | **TASK-06A** | Keyframe Retention Shared-Anchor Protection & Simulator Hardening (TASK-07 remediation) | **Sonnet (Impl)** | **IMPLEMENTED (`SONNET_TASK06A_IMPLEMENTATION_REPORT.md`, `100/100` coverage `<= 24` keyframes on all 50 streams, `181` pytest pass)** |
 | **P3** | **TASK-07** | Independent Human Validation Protocol Execution (399 Units, 2 Blind Reviewers, v1.1 Dataset Release) | **Flash / Human** | **PLANNED** |
 | **P3** | **TASK-08** | Formal Documentation of Research Limitations & NOT COMPUTABLE Metric Boundaries for Publication | **Flash High** | **PLANNED** |
 
@@ -245,3 +246,13 @@ flowchart TD
 4. **Kaggle GPU Quota Management:**
    - *Current Status:* 25.01 GPU-hours remain on the active Kaggle account.
    - *Policy:* All routine test execution, unit testing, and analytical evaluation must run on the local Mac CPU/MPS. Kaggle GPU quota should only be used if a complete 25-pair rerun is explicitly authorized following the Gap A track-export fix.
+
+---
+
+# SECTION 9 — TASK-06A FOLLOW-UP (2026-11-12): KEYFRAME RETENTION & SIMULATOR HARDENING
+
+- **Trigger:** Independent TASK-07 validation (`docs/phase12/GEMINI_FLASH_TASK06_VALIDATION_REPORT.md`, `PASS WITH LIMITATIONS`) identified shared-anchor eviction in `should_retain_keyframe()` (evicting frames `152` and `159` on `pair_012/front`, leaving `front_moto_0007` and `front_moto_0008` with 0 keyframes) and unpruned `gapb_stored`/`track_to_kf` bookkeeping in `scripts/reproducibility/evaluate_gapb_redesign.py` (allowing `sim_keyframes` to reach 37 frames across 39/50 streams).
+- **Resolution (`SONNET_TASK06A_IMPLEMENTATION_REPORT.md`):**
+  1. Added global sole-anchor protection and deterministic multi-criteria safe candidate ranking to `should_retain_keyframe()`, plus unified `apply_keyframe_retention_step()` shared between `src/pipeline/dual_camera_pipeline.py` and `scripts/reproducibility/evaluate_gapb_redesign.py`.
+  2. Synchronized `track_to_keyframes` pruning on eviction, aligned `has_det = bool(bundle.motorcycles or bundle.all_heads)` in replay to match Stage J/G (`63/100` legacy coverage matching `100 - 37`), enforced `<= 24` keyframes and `0` stale refs across all `50` camera streams, and raised TASK-06A offline coverage to `100/100` motorcycles (`0` conflicts), `86/86` rider subtracks, and `130/130` orphans.
+  3. Preserved historical `results/phase12_gapb_redesign/` artifacts from commit `1c544f3d`; verified determinism via temporary-directory dual runs and expanded pytest suite to **`181` passing tests**.

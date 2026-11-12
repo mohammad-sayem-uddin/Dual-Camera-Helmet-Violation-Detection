@@ -74,6 +74,7 @@ import sys
 import time
 import traceback
 from collections import Counter
+from collections.abc import Callable, Collection, Mapping
 from dataclasses import dataclass
 from datetime import datetime, timezone
 from enum import Enum
@@ -488,16 +489,70 @@ def _observed_track_ids_at_step(step: dict[str, Any]) -> list[str]:
     return observed
 
 
+@dataclass(frozen=True)
+class KeyframeRetentionStepResult:
+    """Deterministic outcome of a single synchronized keyframe retention step."""
+
+    retained: bool
+    evicted_frame_index: int | None
+    needs_anchor: bool
+    capacity_conflict: bool
+    observed_track_ids: tuple[str, ...]
+
+
+def _active_keyframes_by_track(
+    track_to_keyframes: Mapping[str, Collection[int]],
+    stored_indices: set[int],
+) -> dict[str, list[int]]:
+    """Return sorted, deduplicated active frame indices per track present in `stored_indices`."""
+    active_by_tid: dict[str, list[int]] = {}
+    for tid in sorted(track_to_keyframes.keys()):
+        active_f = sorted({int(f) for f in track_to_keyframes[tid] if f in stored_indices})
+        if active_f:
+            active_by_tid[str(tid)] = active_f
+    return active_by_tid
+
+
+def _eviction_priority_key(
+    frame_idx: int,
+    refs_by_frame: Mapping[int, list[str]],
+    active_by_tid: Mapping[str, list[int]],
+) -> tuple[bool, int, int, int, int]:
+    """Deterministic eviction ranking among safe (non-sole-anchor) candidate frames.
+
+    Higher keys are preferred for eviction:
+    1. Strictly interior to every referencing track (preserves first & latest endpoints).
+    2. Largest minimum remaining keyframe count across all referencing tracks (>= 1).
+    3. Largest maximum keyframe count among referencing tracks.
+    4. Fewest referencing tracks (smaller shared impact).
+    5. Largest frame index (matching legacy second-most-recent preference on ties).
+    """
+    r_tids = refs_by_frame[frame_idx]
+    is_endpoint_anywhere = any(
+        frame_idx == active_by_tid[tid][0] or frame_idx == active_by_tid[tid][-1]
+        for tid in r_tids
+    )
+    min_remaining_after_evict = min(len(active_by_tid[tid]) - 1 for tid in r_tids)
+    max_track_count = max(len(active_by_tid[tid]) for tid in r_tids)
+    return (
+        not is_endpoint_anywhere,
+        min_remaining_after_evict,
+        max_track_count,
+        -len(r_tids),
+        frame_idx,
+    )
+
+
 def should_retain_keyframe(
     frame_index: int,
     has_detections: bool,
-    observed_track_ids: list[str],
-    stored_indices: set[int],
-    track_to_keyframes: dict[str, list[int]],
+    observed_track_ids: Collection[str],
+    stored_indices: Collection[int],
+    track_to_keyframes: Mapping[str, Collection[int]],
     keyframe_stride: int,
     keyframe_max_per_camera: int,
 ) -> tuple[bool, int | None]:
-    """Deterministic GAP-B1 keyframe selection and bounded eviction policy.
+    """Deterministic GAP-B1 keyframe selection and sole-anchor-safe eviction policy.
 
     Returns `(should_store, evict_frame_index)`:
     1. A frame is a mandatory track-anchor keyframe whenever any track updated on
@@ -506,50 +561,173 @@ def should_retain_keyframe(
     2. Otherwise, a detection-bearing frame on `frame_index % max(1, keyframe_stride) == 0`
        is stored while `len(stored_indices) < keyframe_max_per_camera`.
     3. If `needs_anchor` is True and `len(stored_indices) >= keyframe_max_per_camera`,
-       deterministically evict either the oldest uncoupled keyframe (not referenced by
-       any track) or an interior keyframe of the track holding the most keyframes (> 1),
-       strictly preserving the `keyframe_max_per_camera` memory bound.
+       deterministically evict either an uncoupled keyframe (not referenced by any
+       track) or a safe candidate keyframe whose removal leaves EVERY referencing
+       track with >= 1 retained keyframe (`cand not in sole_anchor_frames`). If zero
+       safe candidates exist (every stored keyframe is some track's sole anchor),
+       refuse eviction `(False, None)` rather than breaking an existing track anchor
+       or exceeding `keyframe_max_per_camera`.
     """
     if keyframe_max_per_camera <= 0:
         return False, None
-    needs_anchor = any(
-        len([f for f in track_to_keyframes.get(tid, ()) if f in stored_indices]) == 0
-        for tid in observed_track_ids
-    )
+    stored_set = {int(f) for f in stored_indices}
+    if frame_index in stored_set:
+        return False, None
+
+    obs_unique = sorted({str(tid) for tid in observed_track_ids if tid})
+    active_by_tid = _active_keyframes_by_track(track_to_keyframes, stored_set)
+    needs_anchor = any(tid not in active_by_tid for tid in obs_unique)
     stride = max(1, int(keyframe_stride))
     is_stride = bool(has_detections and (frame_index % stride == 0))
 
-    if len(stored_indices) < keyframe_max_per_camera:
+    if len(stored_set) < keyframe_max_per_camera:
         return (needs_anchor or is_stride), None
 
     if not needs_anchor:
         return False, None
 
-    # Buffer is at capacity, but a newly observed track has 0 keyframes: find an evictable frame
-    referenced_counts: Counter[int] = Counter()
-    for tid, f_list in track_to_keyframes.items():
-        active_f = [f for f in f_list if f in stored_indices]
+    # Buffer is at capacity, but an observed track has 0 keyframes: find a safe eviction.
+    refs_by_frame: dict[int, list[str]] = {}
+    protected: set[int] = set()
+    for tid, active_f in active_by_tid.items():
+        if len(active_f) == 1:
+            protected.add(active_f[0])
         for f in active_f:
-            referenced_counts[f] += 1
+            refs_by_frame.setdefault(f, []).append(tid)
 
-    uncoupled = sorted(f for f in stored_indices if referenced_counts[f] == 0)
+    uncoupled = sorted(f for f in stored_set if f not in refs_by_frame)
     if uncoupled:
         return True, uncoupled[0]
 
-    # Find the track with the largest number of stored keyframes (> 1)
-    best_tid: str | None = None
-    best_frames: list[int] = []
-    for tid in sorted(track_to_keyframes.keys()):
-        active_f = sorted(f for f in track_to_keyframes[tid] if f in stored_indices)
-        if len(active_f) > len(best_frames):
-            best_tid = tid
-            best_frames = active_f
+    safe_candidates = sorted(stored_set - protected)
+    if not safe_candidates:
+        # Impossible capacity conflict: every stored frame is some track's sole anchor.
+        return False, None
 
-    if best_tid is not None and len(best_frames) > 1:
-        # Evict the second-most-recent frame of the most-represented track so its first and latest remain
-        return True, best_frames[-2]
+    evict_idx = max(
+        safe_candidates,
+        key=lambda f: _eviction_priority_key(f, refs_by_frame, active_by_tid),
+    )
+    return True, evict_idx
 
-    return False, None
+
+def _prune_evicted_frame(
+    track_to_keyframes: dict[str, Any],
+    evicted_frame_index: int,
+) -> None:
+    """Remove `evicted_frame_index` from all track entries and drop empty entries."""
+    for tid in list(track_to_keyframes.keys()):
+        container = track_to_keyframes[tid]
+        if isinstance(container, set):
+            container.discard(evicted_frame_index)
+        else:
+            track_to_keyframes[tid] = [f for f in container if f != evicted_frame_index]
+        if not track_to_keyframes[tid]:
+            del track_to_keyframes[tid]
+
+
+def _record_frame_observations(
+    track_to_keyframes: dict[str, Any],
+    observed_track_ids: Collection[str],
+    frame_index: int,
+) -> None:
+    """Associate `frame_index` with each observed track without duplicates."""
+    for tid in observed_track_ids:
+        container = track_to_keyframes.get(tid)
+        if container is None:
+            track_to_keyframes[tid] = {frame_index}
+        elif isinstance(container, set):
+            container.add(frame_index)
+        elif frame_index not in container:
+            container.append(frame_index)
+
+
+def _resize_keyframe(frame: np.ndarray, max_width: int) -> np.ndarray:
+    """Downscale a native frame to at most `max_width` pixels wide for keyframe retention."""
+    if frame.shape[1] > max_width:
+        scale = max_width / float(frame.shape[1])
+        return cv2.resize(
+            frame,
+            (
+                int(max_width),
+                max(1, int(round(frame.shape[0] * scale))),
+            ),
+        )
+    return frame.copy()
+
+
+def apply_keyframe_retention_step(
+    *,
+    frame_index: int,
+    has_detections: bool,
+    frames_by_index: dict[int, Any],
+    track_to_keyframes: dict[str, Any],
+    keyframe_stride: int,
+    keyframe_max_per_camera: int,
+    build_frame_value: Callable[[], Any],
+    step: Mapping[str, Any] | None = None,
+    observed_track_ids: Collection[str] | None = None,
+) -> KeyframeRetentionStepResult:
+    """Execute one synchronized keyframe retention, eviction, and bookkeeping step.
+
+    Shared by production (`run_camera`) and offline replay (`evaluate_gapb_redesign.py`)
+    so the retained frame dictionary and `track_to_keyframes` stay strictly synchronized:
+    - Evicted frame indices are removed from BOTH `frames_by_index` and every entry of
+      `track_to_keyframes` (with empty track entries pruned).
+    - Every frame index stored in any `track_to_keyframes` entry exists in `frames_by_index`.
+    - `len(frames_by_index)` never exceeds `max(0, keyframe_max_per_camera)`.
+    """
+    raw_obs = (
+        observed_track_ids
+        if observed_track_ids is not None
+        else (_observed_track_ids_at_step(step) if step is not None else ())
+    )
+    obs_unique = tuple(sorted({str(tid) for tid in raw_obs if tid}))
+
+    stored_set = set(frames_by_index.keys())
+    active_by_tid = _active_keyframes_by_track(track_to_keyframes, stored_set)
+    needs_anchor = any(tid not in active_by_tid for tid in obs_unique)
+
+    store_kf, evict_kf = should_retain_keyframe(
+        frame_index=frame_index,
+        has_detections=has_detections,
+        observed_track_ids=obs_unique,
+        stored_indices=stored_set,
+        track_to_keyframes=track_to_keyframes,
+        keyframe_stride=keyframe_stride,
+        keyframe_max_per_camera=keyframe_max_per_camera,
+    )
+
+    capacity_conflict = bool(
+        keyframe_max_per_camera > 0
+        and needs_anchor
+        and not store_kf
+        and frame_index not in stored_set
+        and len(stored_set) >= keyframe_max_per_camera
+    )
+
+    if store_kf:
+        if evict_kf is not None:
+            frames_by_index.pop(evict_kf, None)
+            _prune_evicted_frame(track_to_keyframes, evict_kf)
+        if keyframe_max_per_camera > 0 and len(frames_by_index) >= keyframe_max_per_camera:
+            raise PipelineError(
+                ERR_INTERNAL,
+                f"keyframe retention budget invariant violated at frame {frame_index}: "
+                f"{len(frames_by_index)} >= {keyframe_max_per_camera} without eviction",
+            )
+        frames_by_index[frame_index] = build_frame_value()
+        _record_frame_observations(track_to_keyframes, obs_unique, frame_index)
+    elif frame_index in frames_by_index:
+        _record_frame_observations(track_to_keyframes, obs_unique, frame_index)
+
+    return KeyframeRetentionStepResult(
+        retained=store_kf,
+        evicted_frame_index=evict_kf,
+        needs_anchor=needs_anchor,
+        capacity_conflict=capacity_conflict,
+        observed_track_ids=obs_unique,
+    )
 
 
 def _derived_state(aggregated_confidence: dict[str, float] | None) -> str:
@@ -670,7 +848,7 @@ def run_camera(
     tracks_final_path = out_dir / f"{pair_id}_{camera_id}_tracks_final.json"
 
     frames_by_index: dict[int, np.ndarray] = {}
-    track_to_keyframes: dict[str, list[int]] = {}
+    track_to_keyframes: dict[str, set[int]] = {}
     native_frame_dimensions: tuple[int, int] | None = None
     subtrack_state_counts: dict[str, Counter] = {}
     pts_assertions = 0
@@ -773,38 +951,26 @@ def run_camera(
 
             # Appearance keyframes — Pass 1 policy + GAP-B1 track-anchor guarantee:
             # detection-bearing frames (motorcycle or head) every keyframe_stride-th
-            # frame PLUS first observed frame of any track lacking a keyframe, capped
-            # at keyframe_max_per_camera and downscaled to keyframe_max_width.
-            obs_tids = _observed_track_ids_at_step(step)
-            store_kf, evict_kf = should_retain_keyframe(
+            # frame PLUS anchor frames so active tracks retain >= 1 keyframe within
+            # keyframe_max_per_camera, with sole-anchor-safe deterministic eviction.
+            ret = apply_keyframe_retention_step(
                 frame_index=n,
                 has_detections=bool(bundle.motorcycles or bundle.all_heads),
-                observed_track_ids=obs_tids,
-                stored_indices=set(frames_by_index.keys()),
+                step=step,
+                frames_by_index=frames_by_index,
                 track_to_keyframes=track_to_keyframes,
                 keyframe_stride=config.keyframe_stride,
                 keyframe_max_per_camera=config.keyframe_max_per_camera,
+                build_frame_value=lambda: _resize_keyframe(
+                    frame, config.keyframe_max_width
+                ),
             )
-            if store_kf:
-                if evict_kf is not None and evict_kf in frames_by_index:
-                    frames_by_index.pop(evict_kf, None)
-                if frame.shape[1] > config.keyframe_max_width:
-                    scale = config.keyframe_max_width / float(frame.shape[1])
-                    small = cv2.resize(
-                        frame,
-                        (
-                            int(config.keyframe_max_width),
-                            max(1, int(round(frame.shape[0] * scale))),
-                        ),
-                    )
-                else:
-                    small = frame.copy()
-                frames_by_index[n] = small
-                for tid in obs_tids:
-                    track_to_keyframes.setdefault(tid, []).append(n)
-            elif n in frames_by_index:
-                for tid in obs_tids:
-                    track_to_keyframes.setdefault(tid, []).append(n)
+            if ret.capacity_conflict:
+                _log(
+                    f"[{pair_id}] {camera_id}: keyframe capacity conflict at frame {n} "
+                    f"(all {config.keyframe_max_per_camera} slots are sole track anchors; "
+                    f"preserving protected anchors for {list(ret.observed_track_ids)})"
+                )
 
             if (n + 1) % 250 == 0:
                 _log(f"[{pair_id}] {camera_id}: frame {n + 1}/{index.frame_count}")

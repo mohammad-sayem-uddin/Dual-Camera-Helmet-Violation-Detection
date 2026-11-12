@@ -62,8 +62,7 @@ from src.association.tracklet_models import (  # noqa: E402
 )
 from src.detection.camera_detector import FrameDetectionBundle, StructuredDetection  # noqa: E402
 from src.pipeline.dual_camera_pipeline import (  # noqa: E402
-    _observed_track_ids_at_step,
-    should_retain_keyframe,
+    apply_keyframe_retention_step,
 )
 from src.tracking.camera_tracker import CameraTrackingPipeline  # noqa: E402
 
@@ -204,7 +203,6 @@ def _replay_camera(
 
     # Simulate BOTH retention policies identically along the frame stream:
     legacy_stored: list[int] = []
-    gapb_stored: list[int] = []
     track_to_kf: dict[str, set[int]] = {}
     sim_keyframes: dict[int, np.ndarray] = {}
 
@@ -219,34 +217,33 @@ def _replay_camera(
             summary = pipeline.step(bundle, should_update_state=should_update)
 
             if should_update:
-                has_det = bool(bundle.motorcycles or bundle.persons or bundle.all_heads)
+                has_det = bool(bundle.motorcycles or bundle.all_heads)
                 if has_det and fidx % KEYFRAME_STRIDE == 0 and len(legacy_stored) < KEYFRAME_MAX_PER_CAMERA:
                     legacy_stored.append(fidx)
 
-                obs_ids = _observed_track_ids_at_step(summary)
-                retain, evicted_idx = should_retain_keyframe(
-                    frame_index=fidx,
-                    has_detections=has_det,
-                    observed_track_ids=obs_ids,
-                    stored_indices=gapb_stored,
-                    track_to_keyframes=track_to_kf,
-                    keyframe_stride=KEYFRAME_STRIDE,
-                    keyframe_max_per_camera=KEYFRAME_MAX_PER_CAMERA,
-                )
-                if retain:
-                    if evicted_idx is not None:
-                        sim_keyframes.pop(evicted_idx, None)
-                    # Build deterministic textured 720p frame from active track boxes at this frame
+                def _build_sim_frame() -> np.ndarray:
                     active_boxes = []
                     for m in summary.get("active_moto_tracks", []):
                         tid_num = int(str(m.get("moto_track_id", "0")).rsplit("_", 1)[-1])
                         bbox = tuple(float(v) for v in m["bbox"])
                         active_boxes.append((tid_num, bbox))
-                    sim_keyframes[fidx] = _synthesize_textured_720p_frame(native_wh, active_boxes)
-                    gapb_stored.append(fidx)
-                    for tid in obs_ids:
-                        track_to_kf.setdefault(tid, set()).add(fidx)
+                    return _synthesize_textured_720p_frame(native_wh, active_boxes)
 
+                apply_keyframe_retention_step(
+                    frame_index=fidx,
+                    has_detections=has_det,
+                    step=summary,
+                    frames_by_index=sim_keyframes,
+                    track_to_keyframes=track_to_kf,
+                    keyframe_stride=KEYFRAME_STRIDE,
+                    keyframe_max_per_camera=KEYFRAME_MAX_PER_CAMERA,
+                    build_frame_value=_build_sim_frame,
+                )
+                assert len(sim_keyframes) <= KEYFRAME_MAX_PER_CAMERA
+                for _kf_set in track_to_kf.values():
+                    assert _kf_set.issubset(sim_keyframes.keys())
+
+    gapb_stored = sorted(sim_keyframes.keys())
     return pipeline, pts_map, sim_keyframes, legacy_stored, track_to_kf, gapb_stored
 
 
@@ -383,6 +380,10 @@ def main() -> int:
     gapb_available_count = 0
     legacy_kf_covered = 0
     gapb_kf_covered = 0
+    max_gapb_keyframes_observed = 0
+    streams_within_keyframe_cap = 0
+    streams_synced_index_dict = 0
+    stale_track_keyframe_refs = 0
 
     border_legacy_counts = Counter()
     border_gapb_counts = Counter()
@@ -417,6 +418,17 @@ def main() -> int:
         b_pipe, b_pts, b_kf, b_leg_idx, b_track_kf, b_gapb_idx = _replay_camera(
             "back", pdir / f"{pair_id}_back_detections.jsonl", pdir / f"{pair_id}_back_coverage.csv", back_wh
         )
+        for cam_kf, cam_track_kf, cam_gapb_idx in [
+            (f_kf, f_track_kf, f_gapb_idx),
+            (b_kf, b_track_kf, b_gapb_idx),
+        ]:
+            max_gapb_keyframes_observed = max(max_gapb_keyframes_observed, len(cam_kf))
+            if len(cam_kf) <= KEYFRAME_MAX_PER_CAMERA:
+                streams_within_keyframe_cap += 1
+            if set(cam_kf.keys()) == set(cam_gapb_idx) and len(cam_kf) == len(cam_gapb_idx):
+                streams_synced_index_dict += 1
+            for _kf_set in cam_track_kf.values():
+                stale_track_keyframe_refs += sum(1 for _f in _kf_set if _f not in cam_kf)
 
         result = engine.associate_pipelines(
             pair_id=pair_id,
@@ -682,6 +694,10 @@ def main() -> int:
             "stagej_unavailable_reasons": dict(sorted(stagej_unavailable_reasons.items())),
             "legacy_stride_keyframe_moto_coverage": legacy_kf_covered,
             "gapb_retention_keyframe_moto_coverage": gapb_kf_covered,
+            "gapb_max_keyframes_per_camera_observed": max_gapb_keyframes_observed,
+            "gapb_streams_within_keyframe_cap": streams_within_keyframe_cap,
+            "gapb_streams_synced_index_dict": streams_synced_index_dict,
+            "gapb_stale_track_keyframe_refs": stale_track_keyframe_refs,
             "gapb_sim_moto_descriptor_available": gapb_available_count,
             "gapb_sim_unavailable_reasons": dict(sorted(gapb_unavailable_reasons.items())),
             "real_example_frames": {
