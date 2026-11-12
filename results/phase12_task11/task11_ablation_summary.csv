@@ -1,0 +1,11 @@
+arm,tracker_level,fusion_mode,strict_f1_fixed_tiou,strict_precision,strict_recall,strict_tp,strict_fp,strict_fn,physical_coverage,physical_type_f1,decided_pass_acc,viol_binary_recall,viol_binary_precision,viol_binary_f1,viol_caught_count,front_only_viol_caught,back_only_viol_caught,dual_visible_viol_caught,pred_events_total,conflict_abstains,quarantined_events
+A0_DUAL_LEGACY,A0,legacy,0.8182,0.75,0.9,63,21,7,0.9571,0.8312,0.8913,0.925,0.925,0.925,37,14,13,10,84,0,0
+A0_FRONT_ONLY,A0,front_only,0.4746,0.5833,0.4,28,20,42,0.6,0.5763,0.5,0.6,0.9231,0.7273,24,16,0,8,48,0,0
+A0_BACK_ONLY,A0,back_only,0.3443,0.4038,0.3,21,31,49,0.5714,0.4426,0.3261,0.35,1.0,0.5185,14,0,7,7,52,0,0
+A0_DUAL_FUSED,A0,dual_fused,0.6753,0.619,0.7429,52,32,18,0.9571,0.6883,0.6522,0.675,0.9,0.7714,27,14,6,7,84,1,4
+A4_FRONT_ONLY,A4,front_only,0.4915,0.6042,0.4143,29,19,41,0.6,0.5932,0.5217,0.6,0.9231,0.7273,24,16,0,8,48,0,0
+A4_BACK_ONLY,A4,back_only,0.3115,0.3654,0.2714,19,33,51,0.5714,0.3934,0.2609,0.45,0.9,0.6,18,0,10,8,52,0,0
+A4_DUAL_LEGACY,A4,legacy,0.6494,0.5952,0.7143,50,34,20,0.9571,0.6623,0.6304,0.8,0.8889,0.8421,32,14,10,8,84,0,0
+A4_DUAL_FUSED,A4,dual_fused,0.6494,0.5952,0.7143,50,34,20,0.9571,0.6623,0.6087,0.725,0.9062,0.8056,29,14,9,6,84,1,4
+A4_DUAL_FUSED_SPLIT,A4,dual_fused,0.6582,0.5909,0.7429,52,36,18,0.9714,0.6709,0.6522,0.825,0.9167,0.8684,33,15,10,8,88,1,8
+A4_DUAL_FUSED_MINOBS2,A4,dual_fused,0.6234,0.5714,0.6857,48,36,22,0.9571,0.6364,0.5652,0.675,0.9,0.7714,27,12,9,6,84,1,4

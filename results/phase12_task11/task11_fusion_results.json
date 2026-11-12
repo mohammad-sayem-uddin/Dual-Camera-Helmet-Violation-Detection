@@ -1,0 +1,1588 @@
+{
+  "all_checks_passed": true,
+  "arm_summaries": {
+    "A0_BACK_ONLY": {
+      "arm": "A0_BACK_ONLY",
+      "fusion_event_counters": {},
+      "fusion_mode": "back_only",
+      "orphan_fusion_summary": {
+        "by_decision": {
+          "LOW_CONFIDENCE_ABSTAIN": 16,
+          "SINGLE_VIEW_COMPLIANT_BACK": 12,
+          "SINGLE_VIEW_VIOLATION_BACK": 31
+        },
+        "linked_decided": 0,
+        "quarantined": 0,
+        "total": 59
+      },
+      "physical_pass_eval": {
+        "decided_pass_accuracy": 0.3261,
+        "decided_pass_type_agree": 15,
+        "gt_decided_passes": 46,
+        "gt_passes_total": 70,
+        "gt_violation_passes": 40,
+        "physical_pass_coverage": 0.5714,
+        "physical_pass_prf": {
+          "f1": 0.4426,
+          "fn": 43,
+          "fp": 25,
+          "precision": 0.5192,
+          "recall": 0.3857,
+          "tp": 27
+        },
+        "physical_pass_type_agree": 27,
+        "physical_passes_detected": 40,
+        "pred_on_excluded_tracks": 12,
+        "pred_total": 52,
+        "unmatched_pred_events": 12,
+        "violation_binary_detected": 14,
+        "violation_binary_prf": {
+          "f1": 0.5185,
+          "fn": 26,
+          "fp": 0,
+          "precision": 1.0,
+          "recall": 0.35,
+          "tp": 14
+        },
+        "violation_binary_recall": 0.35,
+        "violation_sources": {
+          "back_only_gt_caught": 7,
+          "dual_visible_gt_caught": 7,
+          "front_only_gt_caught": 0
+        },
+        "violation_strict_type_agree": 12
+      },
+      "rider_decision_states": {
+        "LOW_CONFIDENCE_ABSTAIN": 11,
+        "SINGLE_VIEW_COMPLIANT_BACK": 7,
+        "SINGLE_VIEW_VIOLATION_BACK": 16
+      },
+      "strict_schema_fixed_tiou": {
+        "f1": 0.3443,
+        "fn": 49,
+        "fp": 31,
+        "fp_on_excluded_tracks": 12,
+        "gt_total": 70,
+        "identity_matches": 21,
+        "precision": 0.4038,
+        "pred_total": 52,
+        "recall": 0.3,
+        "tp": 21,
+        "type_mismatches": []
+      },
+      "strict_schema_legacy_tiou": {
+        "f1": 0.3443,
+        "fn": 49,
+        "fp": 31,
+        "fp_on_excluded_tracks": 12,
+        "gt_total": 70,
+        "identity_matches": 21,
+        "precision": 0.4038,
+        "pred_total": 52,
+        "recall": 0.3,
+        "tp": 21,
+        "type_mismatches": []
+      },
+      "tracker_level": "A0",
+      "wall_sec": 0.003
+    },
+    "A0_DUAL_FUSED": {
+      "arm": "A0_DUAL_FUSED",
+      "fusion_event_counters": {
+        "conflict_abstain_events": 1,
+        "cross_view_fused_events": 12,
+        "quarantined_events": 4
+      },
+      "fusion_mode": "dual_fused",
+      "orphan_fusion_summary": {
+        "by_decision": {
+          "AMBIGUOUS_ASSOC_ABSTAIN": 10,
+          "LOW_CONFIDENCE_ABSTAIN": 33,
+          "SINGLE_VIEW_COMPLIANT_BACK": 9,
+          "SINGLE_VIEW_COMPLIANT_FRONT": 12,
+          "SINGLE_VIEW_VIOLATION_BACK": 22,
+          "SINGLE_VIEW_VIOLATION_FRONT": 30,
+          "VERIFIED_DUAL_VIOLATION": 2
+        },
+        "linked_decided": 3,
+        "quarantined": 13,
+        "total": 118
+      },
+      "physical_pass_eval": {
+        "decided_pass_accuracy": 0.6522,
+        "decided_pass_type_agree": 30,
+        "gt_decided_passes": 46,
+        "gt_passes_total": 70,
+        "gt_violation_passes": 40,
+        "physical_pass_coverage": 0.9571,
+        "physical_pass_prf": {
+          "f1": 0.6883,
+          "fn": 17,
+          "fp": 31,
+          "precision": 0.631,
+          "recall": 0.7571,
+          "tp": 53
+        },
+        "physical_pass_type_agree": 53,
+        "physical_passes_detected": 67,
+        "pred_on_excluded_tracks": 18,
+        "pred_total": 84,
+        "unmatched_pred_events": 18,
+        "violation_binary_detected": 27,
+        "violation_binary_prf": {
+          "f1": 0.7714,
+          "fn": 13,
+          "fp": 3,
+          "precision": 0.9,
+          "recall": 0.675,
+          "tp": 27
+        },
+        "violation_binary_recall": 0.675,
+        "violation_sources": {
+          "back_only_gt_caught": 6,
+          "dual_visible_gt_caught": 7,
+          "front_only_gt_caught": 14
+        },
+        "violation_strict_type_agree": 24
+      },
+      "rider_decision_states": {
+        "EVIDENCE_CONFLICT_ABSTAIN": 1,
+        "LOW_CONFIDENCE_ABSTAIN": 13,
+        "SINGLE_VIEW_COMPLIANT_BACK": 5,
+        "SINGLE_VIEW_COMPLIANT_FRONT": 8,
+        "SINGLE_VIEW_VIOLATION_BACK": 9,
+        "SINGLE_VIEW_VIOLATION_FRONT": 24,
+        "VERIFIED_DUAL_COMPLIANT": 2,
+        "VERIFIED_DUAL_VIOLATION": 7
+      },
+      "strict_schema_fixed_tiou": {
+        "f1": 0.6753,
+        "fn": 18,
+        "fp": 32,
+        "fp_on_excluded_tracks": 18,
+        "gt_total": 70,
+        "identity_matches": 56,
+        "precision": 0.619,
+        "pred_total": 84,
+        "recall": 0.7429,
+        "tp": 52,
+        "type_mismatches": [
+          {
+            "back": "",
+            "front": "front_moto_0001",
+            "gt_type": "BOTH_NO_HELMET",
+            "pair": "pair_002",
+            "pred_type": "PILLION_NO_HELMET"
+          },
+          {
+            "back": "back_moto_0001",
+            "front": "front_moto_0002",
+            "gt_type": "INSUFFICIENT_VISUAL_EVIDENCE",
+            "pair": "pair_004",
+            "pred_type": "DRIVER_NO_HELMET"
+          },
+          {
+            "back": "back_moto_0001",
+            "front": "front_moto_0001",
+            "gt_type": "DRIVER_NO_HELMET",
+            "pair": "pair_018",
+            "pred_type": "BOTH_NO_HELMET"
+          },
+          {
+            "back": "back_moto_0001",
+            "front": "front_moto_0001",
+            "gt_type": "DRIVER_NO_HELMET",
+            "pair": "pair_024",
+            "pred_type": "BOTH_NO_HELMET"
+          }
+        ]
+      },
+      "strict_schema_legacy_tiou": {
+        "f1": 0.6494,
+        "fn": 20,
+        "fp": 34,
+        "fp_on_excluded_tracks": 18,
+        "gt_total": 70,
+        "identity_matches": 54,
+        "precision": 0.5952,
+        "pred_total": 84,
+        "recall": 0.7143,
+        "tp": 50,
+        "type_mismatches": [
+          {
+            "back": "",
+            "front": "front_moto_0001",
+            "gt_type": "BOTH_NO_HELMET",
+            "pair": "pair_002",
+            "pred_type": "PILLION_NO_HELMET"
+          },
+          {
+            "back": "back_moto_0001",
+            "front": "front_moto_0002",
+            "gt_type": "INSUFFICIENT_VISUAL_EVIDENCE",
+            "pair": "pair_004",
+            "pred_type": "DRIVER_NO_HELMET"
+          },
+          {
+            "back": "back_moto_0001",
+            "front": "front_moto_0001",
+            "gt_type": "DRIVER_NO_HELMET",
+            "pair": "pair_018",
+            "pred_type": "BOTH_NO_HELMET"
+          },
+          {
+            "back": "back_moto_0001",
+            "front": "front_moto_0001",
+            "gt_type": "DRIVER_NO_HELMET",
+            "pair": "pair_024",
+            "pred_type": "BOTH_NO_HELMET"
+          }
+        ]
+      },
+      "tracker_level": "A0",
+      "wall_sec": 0.007
+    },
+    "A0_DUAL_LEGACY": {
+      "arm": "A0_DUAL_LEGACY",
+      "fusion_event_counters": {},
+      "fusion_mode": "legacy",
+      "orphan_fusion_summary": {
+        "by_decision": {},
+        "linked_decided": 0,
+        "quarantined": 0,
+        "total": 0
+      },
+      "physical_pass_eval": {
+        "decided_pass_accuracy": 0.8913,
+        "decided_pass_type_agree": 41,
+        "gt_decided_passes": 46,
+        "gt_passes_total": 70,
+        "gt_violation_passes": 40,
+        "physical_pass_coverage": 0.9571,
+        "physical_pass_prf": {
+          "f1": 0.8312,
+          "fn": 6,
+          "fp": 20,
+          "precision": 0.7619,
+          "recall": 0.9143,
+          "tp": 64
+        },
+        "physical_pass_type_agree": 64,
+        "physical_passes_detected": 67,
+        "pred_on_excluded_tracks": 18,
+        "pred_total": 84,
+        "unmatched_pred_events": 18,
+        "violation_binary_detected": 37,
+        "violation_binary_prf": {
+          "f1": 0.925,
+          "fn": 3,
+          "fp": 3,
+          "precision": 0.925,
+          "recall": 0.925,
+          "tp": 37
+        },
+        "violation_binary_recall": 0.925,
+        "violation_sources": {
+          "back_only_gt_caught": 13,
+          "dual_visible_gt_caught": 10,
+          "front_only_gt_caught": 14
+        },
+        "violation_strict_type_agree": 35
+      },
+      "rider_decision_states": {},
+      "strict_schema_fixed_tiou": {
+        "f1": 0.8182,
+        "fn": 7,
+        "fp": 21,
+        "fp_on_excluded_tracks": 18,
+        "gt_total": 70,
+        "identity_matches": 64,
+        "precision": 0.75,
+        "pred_total": 84,
+        "recall": 0.9,
+        "tp": 63,
+        "type_mismatches": [
+          {
+            "back": "",
+            "front": "front_moto_0001",
+            "gt_type": "BOTH_NO_HELMET",
+            "pair": "pair_002",
+            "pred_type": "PILLION_NO_HELMET"
+          }
+        ]
+      },
+      "strict_schema_legacy_tiou": {
+        "f1": 0.7922,
+        "fn": 9,
+        "fp": 23,
+        "fp_on_excluded_tracks": 18,
+        "gt_total": 70,
+        "identity_matches": 62,
+        "precision": 0.7262,
+        "pred_total": 84,
+        "recall": 0.8714,
+        "tp": 61,
+        "type_mismatches": [
+          {
+            "back": "",
+            "front": "front_moto_0001",
+            "gt_type": "BOTH_NO_HELMET",
+            "pair": "pair_002",
+            "pred_type": "PILLION_NO_HELMET"
+          }
+        ]
+      },
+      "tracker_level": "A0",
+      "wall_sec": 0.002
+    },
+    "A0_FRONT_ONLY": {
+      "arm": "A0_FRONT_ONLY",
+      "fusion_event_counters": {},
+      "fusion_mode": "front_only",
+      "orphan_fusion_summary": {
+        "by_decision": {
+          "LOW_CONFIDENCE_ABSTAIN": 18,
+          "SINGLE_VIEW_COMPLIANT_FRONT": 14,
+          "SINGLE_VIEW_VIOLATION_FRONT": 39
+        },
+        "linked_decided": 0,
+        "quarantined": 0,
+        "total": 71
+      },
+      "physical_pass_eval": {
+        "decided_pass_accuracy": 0.5,
+        "decided_pass_type_agree": 23,
+        "gt_decided_passes": 46,
+        "gt_passes_total": 70,
+        "gt_violation_passes": 40,
+        "physical_pass_coverage": 0.6,
+        "physical_pass_prf": {
+          "f1": 0.5763,
+          "fn": 36,
+          "fp": 14,
+          "precision": 0.7083,
+          "recall": 0.4857,
+          "tp": 34
+        },
+        "physical_pass_type_agree": 34,
+        "physical_passes_detected": 42,
+        "pred_on_excluded_tracks": 6,
+        "pred_total": 48,
+        "unmatched_pred_events": 6,
+        "violation_binary_detected": 24,
+        "violation_binary_prf": {
+          "f1": 0.7273,
+          "fn": 16,
+          "fp": 2,
+          "precision": 0.9231,
+          "recall": 0.6,
+          "tp": 24
+        },
+        "violation_binary_recall": 0.6,
+        "violation_sources": {
+          "back_only_gt_caught": 0,
+          "dual_visible_gt_caught": 8,
+          "front_only_gt_caught": 16
+        },
+        "violation_strict_type_agree": 19
+      },
+      "rider_decision_states": {
+        "LOW_CONFIDENCE_ABSTAIN": 8,
+        "SINGLE_VIEW_COMPLIANT_FRONT": 11,
+        "SINGLE_VIEW_VIOLATION_FRONT": 33
+      },
+      "strict_schema_fixed_tiou": {
+        "f1": 0.4746,
+        "fn": 42,
+        "fp": 20,
+        "fp_on_excluded_tracks": 6,
+        "gt_total": 70,
+        "identity_matches": 30,
+        "precision": 0.5833,
+        "pred_total": 48,
+        "recall": 0.4,
+        "tp": 28,
+        "type_mismatches": [
+          {
+            "back": "",
+            "front": "front_moto_0001",
+            "gt_type": "BOTH_NO_HELMET",
+            "pair": "pair_002",
+            "pred_type": "PILLION_NO_HELMET"
+          },
+          {
+            "back": "",
+            "front": "front_moto_0001",
+            "gt_type": "BOTH_NO_HELMET",
+            "pair": "pair_009",
+            "pred_type": "DRIVER_NO_HELMET"
+          }
+        ]
+      },
+      "strict_schema_legacy_tiou": {
+        "f1": 0.4407,
+        "fn": 44,
+        "fp": 22,
+        "fp_on_excluded_tracks": 6,
+        "gt_total": 70,
+        "identity_matches": 28,
+        "precision": 0.5417,
+        "pred_total": 48,
+        "recall": 0.3714,
+        "tp": 26,
+        "type_mismatches": [
+          {
+            "back": "",
+            "front": "front_moto_0001",
+            "gt_type": "BOTH_NO_HELMET",
+            "pair": "pair_002",
+            "pred_type": "PILLION_NO_HELMET"
+          },
+          {
+            "back": "",
+            "front": "front_moto_0001",
+            "gt_type": "BOTH_NO_HELMET",
+            "pair": "pair_009",
+            "pred_type": "DRIVER_NO_HELMET"
+          }
+        ]
+      },
+      "tracker_level": "A0",
+      "wall_sec": 0.005
+    },
+    "A4_BACK_ONLY": {
+      "arm": "A4_BACK_ONLY",
+      "fusion_event_counters": {},
+      "fusion_mode": "back_only",
+      "orphan_fusion_summary": {
+        "by_decision": {
+          "LOW_CONFIDENCE_ABSTAIN": 1,
+          "SINGLE_VIEW_COMPLIANT_BACK": 10,
+          "SINGLE_VIEW_VIOLATION_BACK": 22
+        },
+        "linked_decided": 0,
+        "quarantined": 0,
+        "total": 33
+      },
+      "physical_pass_eval": {
+        "decided_pass_accuracy": 0.2609,
+        "decided_pass_type_agree": 12,
+        "gt_decided_passes": 46,
+        "gt_passes_total": 70,
+        "gt_violation_passes": 40,
+        "physical_pass_coverage": 0.5714,
+        "physical_pass_prf": {
+          "f1": 0.3934,
+          "fn": 46,
+          "fp": 28,
+          "precision": 0.4615,
+          "recall": 0.3429,
+          "tp": 24
+        },
+        "physical_pass_type_agree": 24,
+        "physical_passes_detected": 40,
+        "pred_on_excluded_tracks": 12,
+        "pred_total": 52,
+        "unmatched_pred_events": 12,
+        "violation_binary_detected": 18,
+        "violation_binary_prf": {
+          "f1": 0.6,
+          "fn": 22,
+          "fp": 2,
+          "precision": 0.9,
+          "recall": 0.45,
+          "tp": 18
+        },
+        "violation_binary_recall": 0.45,
+        "violation_sources": {
+          "back_only_gt_caught": 10,
+          "dual_visible_gt_caught": 8,
+          "front_only_gt_caught": 0
+        },
+        "violation_strict_type_agree": 10
+      },
+      "rider_decision_states": {
+        "SINGLE_VIEW_COMPLIANT_BACK": 10,
+        "SINGLE_VIEW_VIOLATION_BACK": 30
+      },
+      "strict_schema_fixed_tiou": {
+        "f1": 0.3115,
+        "fn": 51,
+        "fp": 33,
+        "fp_on_excluded_tracks": 12,
+        "gt_total": 70,
+        "identity_matches": 24,
+        "precision": 0.3654,
+        "pred_total": 52,
+        "recall": 0.2714,
+        "tp": 19,
+        "type_mismatches": [
+          {
+            "back": "back_moto_0001",
+            "front": "",
+            "gt_type": "NO_VIOLATION",
+            "pair": "pair_002",
+            "pred_type": "DRIVER_NO_HELMET"
+          },
+          {
+            "back": "back_moto_0001",
+            "front": "",
+            "gt_type": "DRIVER_NO_HELMET",
+            "pair": "pair_003",
+            "pred_type": "BOTH_NO_HELMET"
+          },
+          {
+            "back": "back_moto_0002",
+            "front": "",
+            "gt_type": "DRIVER_NO_HELMET",
+            "pair": "pair_007",
+            "pred_type": "BOTH_NO_HELMET"
+          },
+          {
+            "back": "back_moto_0002",
+            "front": "",
+            "gt_type": "DRIVER_NO_HELMET",
+            "pair": "pair_020",
+            "pred_type": "BOTH_NO_HELMET"
+          },
+          {
+            "back": "back_moto_0001",
+            "front": "",
+            "gt_type": "DRIVER_NO_HELMET",
+            "pair": "pair_022",
+            "pred_type": "BOTH_NO_HELMET"
+          }
+        ]
+      },
+      "strict_schema_legacy_tiou": {
+        "f1": 0.3115,
+        "fn": 51,
+        "fp": 33,
+        "fp_on_excluded_tracks": 12,
+        "gt_total": 70,
+        "identity_matches": 24,
+        "precision": 0.3654,
+        "pred_total": 52,
+        "recall": 0.2714,
+        "tp": 19,
+        "type_mismatches": [
+          {
+            "back": "back_moto_0001",
+            "front": "",
+            "gt_type": "NO_VIOLATION",
+            "pair": "pair_002",
+            "pred_type": "DRIVER_NO_HELMET"
+          },
+          {
+            "back": "back_moto_0001",
+            "front": "",
+            "gt_type": "DRIVER_NO_HELMET",
+            "pair": "pair_003",
+            "pred_type": "BOTH_NO_HELMET"
+          },
+          {
+            "back": "back_moto_0002",
+            "front": "",
+            "gt_type": "DRIVER_NO_HELMET",
+            "pair": "pair_007",
+            "pred_type": "BOTH_NO_HELMET"
+          },
+          {
+            "back": "back_moto_0002",
+            "front": "",
+            "gt_type": "DRIVER_NO_HELMET",
+            "pair": "pair_020",
+            "pred_type": "BOTH_NO_HELMET"
+          },
+          {
+            "back": "back_moto_0001",
+            "front": "",
+            "gt_type": "DRIVER_NO_HELMET",
+            "pair": "pair_022",
+            "pred_type": "BOTH_NO_HELMET"
+          }
+        ]
+      },
+      "tracker_level": "A4",
+      "wall_sec": 0.004
+    },
+    "A4_DUAL_FUSED": {
+      "arm": "A4_DUAL_FUSED",
+      "fusion_event_counters": {
+        "conflict_abstain_events": 1,
+        "cross_view_fused_events": 12,
+        "quarantined_events": 4
+      },
+      "fusion_mode": "dual_fused",
+      "orphan_fusion_summary": {
+        "by_decision": {
+          "AMBIGUOUS_ASSOC_ABSTAIN": 9,
+          "LOW_CONFIDENCE_ABSTAIN": 2,
+          "SINGLE_VIEW_COMPLIANT_BACK": 7,
+          "SINGLE_VIEW_COMPLIANT_FRONT": 4,
+          "SINGLE_VIEW_VIOLATION_BACK": 14,
+          "SINGLE_VIEW_VIOLATION_FRONT": 19,
+          "VERIFIED_DUAL_VIOLATION": 2
+        },
+        "linked_decided": 3,
+        "quarantined": 13,
+        "total": 57
+      },
+      "physical_pass_eval": {
+        "decided_pass_accuracy": 0.6087,
+        "decided_pass_type_agree": 28,
+        "gt_decided_passes": 46,
+        "gt_passes_total": 70,
+        "gt_violation_passes": 40,
+        "physical_pass_coverage": 0.9571,
+        "physical_pass_prf": {
+          "f1": 0.6623,
+          "fn": 19,
+          "fp": 33,
+          "precision": 0.6071,
+          "recall": 0.7286,
+          "tp": 51
+        },
+        "physical_pass_type_agree": 51,
+        "physical_passes_detected": 67,
+        "pred_on_excluded_tracks": 18,
+        "pred_total": 84,
+        "unmatched_pred_events": 18,
+        "violation_binary_detected": 29,
+        "violation_binary_prf": {
+          "f1": 0.8056,
+          "fn": 11,
+          "fp": 3,
+          "precision": 0.9062,
+          "recall": 0.725,
+          "tp": 29
+        },
+        "violation_binary_recall": 0.725,
+        "violation_sources": {
+          "back_only_gt_caught": 9,
+          "dual_visible_gt_caught": 6,
+          "front_only_gt_caught": 14
+        },
+        "violation_strict_type_agree": 23
+      },
+      "rider_decision_states": {
+        "AMBIGUOUS_ASSOC_ABSTAIN": 1,
+        "EVIDENCE_CONFLICT_ABSTAIN": 1,
+        "LOW_CONFIDENCE_ABSTAIN": 1,
+        "SINGLE_VIEW_COMPLIANT_BACK": 6,
+        "SINGLE_VIEW_COMPLIANT_FRONT": 10,
+        "SINGLE_VIEW_VIOLATION_BACK": 17,
+        "SINGLE_VIEW_VIOLATION_FRONT": 29,
+        "VERIFIED_DUAL_COMPLIANT": 3,
+        "VERIFIED_DUAL_VIOLATION": 7
+      },
+      "strict_schema_fixed_tiou": {
+        "f1": 0.6494,
+        "fn": 20,
+        "fp": 34,
+        "fp_on_excluded_tracks": 18,
+        "gt_total": 70,
+        "identity_matches": 58,
+        "precision": 0.5952,
+        "pred_total": 84,
+        "recall": 0.7143,
+        "tp": 50,
+        "type_mismatches": [
+          {
+            "back": "back_moto_0001",
+            "front": "",
+            "gt_type": "NO_VIOLATION",
+            "pair": "pair_002",
+            "pred_type": "DRIVER_NO_HELMET"
+          },
+          {
+            "back": "back_moto_0001",
+            "front": "",
+            "gt_type": "DRIVER_NO_HELMET",
+            "pair": "pair_003",
+            "pred_type": "BOTH_NO_HELMET"
+          },
+          {
+            "back": "back_moto_0001",
+            "front": "front_moto_0002",
+            "gt_type": "INSUFFICIENT_VISUAL_EVIDENCE",
+            "pair": "pair_004",
+            "pred_type": "BOTH_NO_HELMET"
+          },
+          {
+            "back": "back_moto_0001",
+            "front": "front_moto_0001",
+            "gt_type": "DRIVER_NO_HELMET",
+            "pair": "pair_018",
+            "pred_type": "BOTH_NO_HELMET"
+          },
+          {
+            "back": "back_moto_0002",
+            "front": "",
+            "gt_type": "DRIVER_NO_HELMET",
+            "pair": "pair_020",
+            "pred_type": "BOTH_NO_HELMET"
+          },
+          {
+            "back": "back_moto_0001",
+            "front": "front_moto_0001",
+            "gt_type": "DRIVER_NO_HELMET",
+            "pair": "pair_021",
+            "pred_type": "BOTH_NO_HELMET"
+          },
+          {
+            "back": "back_moto_0001",
+            "front": "",
+            "gt_type": "DRIVER_NO_HELMET",
+            "pair": "pair_022",
+            "pred_type": "BOTH_NO_HELMET"
+          },
+          {
+            "back": "back_moto_0001",
+            "front": "front_moto_0001",
+            "gt_type": "DRIVER_NO_HELMET",
+            "pair": "pair_024",
+            "pred_type": "BOTH_NO_HELMET"
+          }
+        ]
+      },
+      "strict_schema_legacy_tiou": {
+        "f1": 0.6234,
+        "fn": 22,
+        "fp": 36,
+        "fp_on_excluded_tracks": 18,
+        "gt_total": 70,
+        "identity_matches": 56,
+        "precision": 0.5714,
+        "pred_total": 84,
+        "recall": 0.6857,
+        "tp": 48,
+        "type_mismatches": [
+          {
+            "back": "back_moto_0001",
+            "front": "",
+            "gt_type": "NO_VIOLATION",
+            "pair": "pair_002",
+            "pred_type": "DRIVER_NO_HELMET"
+          },
+          {
+            "back": "back_moto_0001",
+            "front": "",
+            "gt_type": "DRIVER_NO_HELMET",
+            "pair": "pair_003",
+            "pred_type": "BOTH_NO_HELMET"
+          },
+          {
+            "back": "back_moto_0001",
+            "front": "front_moto_0002",
+            "gt_type": "INSUFFICIENT_VISUAL_EVIDENCE",
+            "pair": "pair_004",
+            "pred_type": "BOTH_NO_HELMET"
+          },
+          {
+            "back": "back_moto_0001",
+            "front": "front_moto_0001",
+            "gt_type": "DRIVER_NO_HELMET",
+            "pair": "pair_018",
+            "pred_type": "BOTH_NO_HELMET"
+          },
+          {
+            "back": "back_moto_0002",
+            "front": "",
+            "gt_type": "DRIVER_NO_HELMET",
+            "pair": "pair_020",
+            "pred_type": "BOTH_NO_HELMET"
+          },
+          {
+            "back": "back_moto_0001",
+            "front": "front_moto_0001",
+            "gt_type": "DRIVER_NO_HELMET",
+            "pair": "pair_021",
+            "pred_type": "BOTH_NO_HELMET"
+          },
+          {
+            "back": "back_moto_0001",
+            "front": "",
+            "gt_type": "DRIVER_NO_HELMET",
+            "pair": "pair_022",
+            "pred_type": "BOTH_NO_HELMET"
+          },
+          {
+            "back": "back_moto_0001",
+            "front": "front_moto_0001",
+            "gt_type": "DRIVER_NO_HELMET",
+            "pair": "pair_024",
+            "pred_type": "BOTH_NO_HELMET"
+          }
+        ]
+      },
+      "tracker_level": "A4",
+      "wall_sec": 0.01
+    },
+    "A4_DUAL_FUSED_MINOBS2": {
+      "arm": "A4_DUAL_FUSED_MINOBS2",
+      "fusion_event_counters": {
+        "conflict_abstain_events": 1,
+        "cross_view_fused_events": 12,
+        "quarantined_events": 4
+      },
+      "fusion_mode": "dual_fused",
+      "orphan_fusion_summary": {
+        "by_decision": {
+          "AMBIGUOUS_ASSOC_ABSTAIN": 9,
+          "LOW_CONFIDENCE_ABSTAIN": 2,
+          "SINGLE_VIEW_COMPLIANT_BACK": 7,
+          "SINGLE_VIEW_COMPLIANT_FRONT": 4,
+          "SINGLE_VIEW_VIOLATION_BACK": 14,
+          "SINGLE_VIEW_VIOLATION_FRONT": 19,
+          "VERIFIED_DUAL_VIOLATION": 2
+        },
+        "linked_decided": 3,
+        "quarantined": 13,
+        "total": 57
+      },
+      "physical_pass_eval": {
+        "decided_pass_accuracy": 0.5652,
+        "decided_pass_type_agree": 26,
+        "gt_decided_passes": 46,
+        "gt_passes_total": 70,
+        "gt_violation_passes": 40,
+        "physical_pass_coverage": 0.9571,
+        "physical_pass_prf": {
+          "f1": 0.6364,
+          "fn": 21,
+          "fp": 35,
+          "precision": 0.5833,
+          "recall": 0.7,
+          "tp": 49
+        },
+        "physical_pass_type_agree": 49,
+        "physical_passes_detected": 67,
+        "pred_on_excluded_tracks": 18,
+        "pred_total": 84,
+        "unmatched_pred_events": 18,
+        "violation_binary_detected": 27,
+        "violation_binary_prf": {
+          "f1": 0.7714,
+          "fn": 13,
+          "fp": 3,
+          "precision": 0.9,
+          "recall": 0.675,
+          "tp": 27
+        },
+        "violation_binary_recall": 0.675,
+        "violation_sources": {
+          "back_only_gt_caught": 9,
+          "dual_visible_gt_caught": 6,
+          "front_only_gt_caught": 12
+        },
+        "violation_strict_type_agree": 21
+      },
+      "rider_decision_states": {
+        "AMBIGUOUS_ASSOC_ABSTAIN": 1,
+        "EVIDENCE_CONFLICT_ABSTAIN": 1,
+        "LOW_CONFIDENCE_ABSTAIN": 3,
+        "SINGLE_VIEW_COMPLIANT_BACK": 6,
+        "SINGLE_VIEW_COMPLIANT_FRONT": 10,
+        "SINGLE_VIEW_VIOLATION_BACK": 17,
+        "SINGLE_VIEW_VIOLATION_FRONT": 27,
+        "VERIFIED_DUAL_COMPLIANT": 3,
+        "VERIFIED_DUAL_VIOLATION": 7
+      },
+      "strict_schema_fixed_tiou": {
+        "f1": 0.6234,
+        "fn": 22,
+        "fp": 36,
+        "fp_on_excluded_tracks": 18,
+        "gt_total": 70,
+        "identity_matches": 56,
+        "precision": 0.5714,
+        "pred_total": 84,
+        "recall": 0.6857,
+        "tp": 48,
+        "type_mismatches": [
+          {
+            "back": "back_moto_0001",
+            "front": "",
+            "gt_type": "NO_VIOLATION",
+            "pair": "pair_002",
+            "pred_type": "DRIVER_NO_HELMET"
+          },
+          {
+            "back": "back_moto_0001",
+            "front": "",
+            "gt_type": "DRIVER_NO_HELMET",
+            "pair": "pair_003",
+            "pred_type": "BOTH_NO_HELMET"
+          },
+          {
+            "back": "back_moto_0001",
+            "front": "front_moto_0002",
+            "gt_type": "INSUFFICIENT_VISUAL_EVIDENCE",
+            "pair": "pair_004",
+            "pred_type": "BOTH_NO_HELMET"
+          },
+          {
+            "back": "back_moto_0001",
+            "front": "front_moto_0001",
+            "gt_type": "DRIVER_NO_HELMET",
+            "pair": "pair_018",
+            "pred_type": "BOTH_NO_HELMET"
+          },
+          {
+            "back": "back_moto_0002",
+            "front": "",
+            "gt_type": "DRIVER_NO_HELMET",
+            "pair": "pair_020",
+            "pred_type": "BOTH_NO_HELMET"
+          },
+          {
+            "back": "back_moto_0001",
+            "front": "front_moto_0001",
+            "gt_type": "DRIVER_NO_HELMET",
+            "pair": "pair_021",
+            "pred_type": "BOTH_NO_HELMET"
+          },
+          {
+            "back": "back_moto_0001",
+            "front": "",
+            "gt_type": "DRIVER_NO_HELMET",
+            "pair": "pair_022",
+            "pred_type": "BOTH_NO_HELMET"
+          },
+          {
+            "back": "back_moto_0001",
+            "front": "front_moto_0001",
+            "gt_type": "DRIVER_NO_HELMET",
+            "pair": "pair_024",
+            "pred_type": "BOTH_NO_HELMET"
+          }
+        ]
+      },
+      "strict_schema_legacy_tiou": {
+        "f1": 0.6234,
+        "fn": 22,
+        "fp": 36,
+        "fp_on_excluded_tracks": 18,
+        "gt_total": 70,
+        "identity_matches": 56,
+        "precision": 0.5714,
+        "pred_total": 84,
+        "recall": 0.6857,
+        "tp": 48,
+        "type_mismatches": [
+          {
+            "back": "back_moto_0001",
+            "front": "",
+            "gt_type": "NO_VIOLATION",
+            "pair": "pair_002",
+            "pred_type": "DRIVER_NO_HELMET"
+          },
+          {
+            "back": "back_moto_0001",
+            "front": "",
+            "gt_type": "DRIVER_NO_HELMET",
+            "pair": "pair_003",
+            "pred_type": "BOTH_NO_HELMET"
+          },
+          {
+            "back": "back_moto_0001",
+            "front": "front_moto_0002",
+            "gt_type": "INSUFFICIENT_VISUAL_EVIDENCE",
+            "pair": "pair_004",
+            "pred_type": "BOTH_NO_HELMET"
+          },
+          {
+            "back": "back_moto_0001",
+            "front": "front_moto_0001",
+            "gt_type": "DRIVER_NO_HELMET",
+            "pair": "pair_018",
+            "pred_type": "BOTH_NO_HELMET"
+          },
+          {
+            "back": "back_moto_0002",
+            "front": "",
+            "gt_type": "DRIVER_NO_HELMET",
+            "pair": "pair_020",
+            "pred_type": "BOTH_NO_HELMET"
+          },
+          {
+            "back": "back_moto_0001",
+            "front": "front_moto_0001",
+            "gt_type": "DRIVER_NO_HELMET",
+            "pair": "pair_021",
+            "pred_type": "BOTH_NO_HELMET"
+          },
+          {
+            "back": "back_moto_0001",
+            "front": "",
+            "gt_type": "DRIVER_NO_HELMET",
+            "pair": "pair_022",
+            "pred_type": "BOTH_NO_HELMET"
+          },
+          {
+            "back": "back_moto_0001",
+            "front": "front_moto_0001",
+            "gt_type": "DRIVER_NO_HELMET",
+            "pair": "pair_024",
+            "pred_type": "BOTH_NO_HELMET"
+          }
+        ]
+      },
+      "tracker_level": "A4",
+      "wall_sec": 0.01
+    },
+    "A4_DUAL_FUSED_SPLIT": {
+      "arm": "A4_DUAL_FUSED_SPLIT",
+      "fusion_event_counters": {
+        "conflict_abstain_events": 1,
+        "cross_view_fused_events": 12,
+        "quarantined_events": 8
+      },
+      "fusion_mode": "dual_fused",
+      "orphan_fusion_summary": {
+        "by_decision": {
+          "AMBIGUOUS_ASSOC_ABSTAIN": 9,
+          "LOW_CONFIDENCE_ABSTAIN": 2,
+          "SINGLE_VIEW_COMPLIANT_BACK": 7,
+          "SINGLE_VIEW_COMPLIANT_FRONT": 4,
+          "SINGLE_VIEW_VIOLATION_BACK": 14,
+          "SINGLE_VIEW_VIOLATION_FRONT": 19,
+          "VERIFIED_DUAL_VIOLATION": 2
+        },
+        "linked_decided": 3,
+        "quarantined": 13,
+        "total": 57
+      },
+      "physical_pass_eval": {
+        "decided_pass_accuracy": 0.6522,
+        "decided_pass_type_agree": 30,
+        "gt_decided_passes": 46,
+        "gt_passes_total": 70,
+        "gt_violation_passes": 40,
+        "physical_pass_coverage": 0.9714,
+        "physical_pass_prf": {
+          "f1": 0.6709,
+          "fn": 17,
+          "fp": 35,
+          "precision": 0.6023,
+          "recall": 0.7571,
+          "tp": 53
+        },
+        "physical_pass_type_agree": 53,
+        "physical_passes_detected": 68,
+        "pred_on_excluded_tracks": 18,
+        "pred_total": 88,
+        "unmatched_pred_events": 18,
+        "violation_binary_detected": 33,
+        "violation_binary_prf": {
+          "f1": 0.8684,
+          "fn": 7,
+          "fp": 3,
+          "precision": 0.9167,
+          "recall": 0.825,
+          "tp": 33
+        },
+        "violation_binary_recall": 0.825,
+        "violation_sources": {
+          "back_only_gt_caught": 10,
+          "dual_visible_gt_caught": 8,
+          "front_only_gt_caught": 15
+        },
+        "violation_strict_type_agree": 25
+      },
+      "rider_decision_states": {
+        "AMBIGUOUS_ASSOC_ABSTAIN": 1,
+        "EVIDENCE_CONFLICT_ABSTAIN": 1,
+        "LOW_CONFIDENCE_ABSTAIN": 1,
+        "SINGLE_VIEW_COMPLIANT_BACK": 6,
+        "SINGLE_VIEW_COMPLIANT_FRONT": 10,
+        "SINGLE_VIEW_VIOLATION_BACK": 23,
+        "SINGLE_VIEW_VIOLATION_FRONT": 32,
+        "VERIFIED_DUAL_COMPLIANT": 3,
+        "VERIFIED_DUAL_VIOLATION": 7
+      },
+      "strict_schema_fixed_tiou": {
+        "f1": 0.6582,
+        "fn": 18,
+        "fp": 36,
+        "fp_on_excluded_tracks": 18,
+        "gt_total": 70,
+        "identity_matches": 61,
+        "precision": 0.5909,
+        "pred_total": 88,
+        "recall": 0.7429,
+        "tp": 52,
+        "type_mismatches": [
+          {
+            "back": "back_moto_0001",
+            "front": "",
+            "gt_type": "NO_VIOLATION",
+            "pair": "pair_002",
+            "pred_type": "DRIVER_NO_HELMET"
+          },
+          {
+            "back": "back_moto_0001",
+            "front": "",
+            "gt_type": "DRIVER_NO_HELMET",
+            "pair": "pair_003",
+            "pred_type": "BOTH_NO_HELMET"
+          },
+          {
+            "back": "back_moto_0001",
+            "front": "front_moto_0002",
+            "gt_type": "INSUFFICIENT_VISUAL_EVIDENCE",
+            "pair": "pair_004",
+            "pred_type": "BOTH_NO_HELMET"
+          },
+          {
+            "back": "back_moto_0002",
+            "front": "",
+            "gt_type": "DRIVER_NO_HELMET",
+            "pair": "pair_007",
+            "pred_type": "BOTH_NO_HELMET"
+          },
+          {
+            "back": "back_moto_0001",
+            "front": "front_moto_0001",
+            "gt_type": "DRIVER_NO_HELMET",
+            "pair": "pair_018",
+            "pred_type": "BOTH_NO_HELMET"
+          },
+          {
+            "back": "back_moto_0002",
+            "front": "",
+            "gt_type": "DRIVER_NO_HELMET",
+            "pair": "pair_020",
+            "pred_type": "BOTH_NO_HELMET"
+          },
+          {
+            "back": "back_moto_0001",
+            "front": "front_moto_0001",
+            "gt_type": "DRIVER_NO_HELMET",
+            "pair": "pair_021",
+            "pred_type": "BOTH_NO_HELMET"
+          },
+          {
+            "back": "back_moto_0001",
+            "front": "",
+            "gt_type": "DRIVER_NO_HELMET",
+            "pair": "pair_022",
+            "pred_type": "BOTH_NO_HELMET"
+          },
+          {
+            "back": "back_moto_0001",
+            "front": "front_moto_0001",
+            "gt_type": "DRIVER_NO_HELMET",
+            "pair": "pair_024",
+            "pred_type": "BOTH_NO_HELMET"
+          }
+        ]
+      },
+      "strict_schema_legacy_tiou": {
+        "f1": 0.6329,
+        "fn": 20,
+        "fp": 38,
+        "fp_on_excluded_tracks": 18,
+        "gt_total": 70,
+        "identity_matches": 59,
+        "precision": 0.5682,
+        "pred_total": 88,
+        "recall": 0.7143,
+        "tp": 50,
+        "type_mismatches": [
+          {
+            "back": "back_moto_0001",
+            "front": "",
+            "gt_type": "NO_VIOLATION",
+            "pair": "pair_002",
+            "pred_type": "DRIVER_NO_HELMET"
+          },
+          {
+            "back": "back_moto_0001",
+            "front": "",
+            "gt_type": "DRIVER_NO_HELMET",
+            "pair": "pair_003",
+            "pred_type": "BOTH_NO_HELMET"
+          },
+          {
+            "back": "back_moto_0001",
+            "front": "front_moto_0002",
+            "gt_type": "INSUFFICIENT_VISUAL_EVIDENCE",
+            "pair": "pair_004",
+            "pred_type": "BOTH_NO_HELMET"
+          },
+          {
+            "back": "back_moto_0002",
+            "front": "",
+            "gt_type": "DRIVER_NO_HELMET",
+            "pair": "pair_007",
+            "pred_type": "BOTH_NO_HELMET"
+          },
+          {
+            "back": "back_moto_0001",
+            "front": "front_moto_0001",
+            "gt_type": "DRIVER_NO_HELMET",
+            "pair": "pair_018",
+            "pred_type": "BOTH_NO_HELMET"
+          },
+          {
+            "back": "back_moto_0002",
+            "front": "",
+            "gt_type": "DRIVER_NO_HELMET",
+            "pair": "pair_020",
+            "pred_type": "BOTH_NO_HELMET"
+          },
+          {
+            "back": "back_moto_0001",
+            "front": "front_moto_0001",
+            "gt_type": "DRIVER_NO_HELMET",
+            "pair": "pair_021",
+            "pred_type": "BOTH_NO_HELMET"
+          },
+          {
+            "back": "back_moto_0001",
+            "front": "",
+            "gt_type": "DRIVER_NO_HELMET",
+            "pair": "pair_022",
+            "pred_type": "BOTH_NO_HELMET"
+          },
+          {
+            "back": "back_moto_0001",
+            "front": "front_moto_0001",
+            "gt_type": "DRIVER_NO_HELMET",
+            "pair": "pair_024",
+            "pred_type": "BOTH_NO_HELMET"
+          }
+        ]
+      },
+      "tracker_level": "A4",
+      "wall_sec": 0.01
+    },
+    "A4_DUAL_LEGACY": {
+      "arm": "A4_DUAL_LEGACY",
+      "fusion_event_counters": {},
+      "fusion_mode": "legacy",
+      "orphan_fusion_summary": {
+        "by_decision": {},
+        "linked_decided": 0,
+        "quarantined": 0,
+        "total": 0
+      },
+      "physical_pass_eval": {
+        "decided_pass_accuracy": 0.6304,
+        "decided_pass_type_agree": 29,
+        "gt_decided_passes": 46,
+        "gt_passes_total": 70,
+        "gt_violation_passes": 40,
+        "physical_pass_coverage": 0.9571,
+        "physical_pass_prf": {
+          "f1": 0.6623,
+          "fn": 19,
+          "fp": 33,
+          "precision": 0.6071,
+          "recall": 0.7286,
+          "tp": 51
+        },
+        "physical_pass_type_agree": 51,
+        "physical_passes_detected": 67,
+        "pred_on_excluded_tracks": 18,
+        "pred_total": 84,
+        "unmatched_pred_events": 18,
+        "violation_binary_detected": 32,
+        "violation_binary_prf": {
+          "f1": 0.8421,
+          "fn": 8,
+          "fp": 4,
+          "precision": 0.8889,
+          "recall": 0.8,
+          "tp": 32
+        },
+        "violation_binary_recall": 0.8,
+        "violation_sources": {
+          "back_only_gt_caught": 10,
+          "dual_visible_gt_caught": 8,
+          "front_only_gt_caught": 14
+        },
+        "violation_strict_type_agree": 24
+      },
+      "rider_decision_states": {},
+      "strict_schema_fixed_tiou": {
+        "f1": 0.6494,
+        "fn": 20,
+        "fp": 34,
+        "fp_on_excluded_tracks": 18,
+        "gt_total": 70,
+        "identity_matches": 59,
+        "precision": 0.5952,
+        "pred_total": 84,
+        "recall": 0.7143,
+        "tp": 50,
+        "type_mismatches": [
+          {
+            "back": "back_moto_0001",
+            "front": "",
+            "gt_type": "NO_VIOLATION",
+            "pair": "pair_002",
+            "pred_type": "DRIVER_NO_HELMET"
+          },
+          {
+            "back": "back_moto_0001",
+            "front": "",
+            "gt_type": "DRIVER_NO_HELMET",
+            "pair": "pair_003",
+            "pred_type": "BOTH_NO_HELMET"
+          },
+          {
+            "back": "back_moto_0001",
+            "front": "front_moto_0002",
+            "gt_type": "INSUFFICIENT_VISUAL_EVIDENCE",
+            "pair": "pair_004",
+            "pred_type": "BOTH_NO_HELMET"
+          },
+          {
+            "back": "back_moto_0001",
+            "front": "front_moto_0001",
+            "gt_type": "DRIVER_NO_HELMET",
+            "pair": "pair_013",
+            "pred_type": "BOTH_NO_HELMET"
+          },
+          {
+            "back": "back_moto_0001",
+            "front": "front_moto_0001",
+            "gt_type": "DRIVER_NO_HELMET",
+            "pair": "pair_018",
+            "pred_type": "BOTH_NO_HELMET"
+          },
+          {
+            "back": "back_moto_0002",
+            "front": "",
+            "gt_type": "DRIVER_NO_HELMET",
+            "pair": "pair_020",
+            "pred_type": "BOTH_NO_HELMET"
+          },
+          {
+            "back": "back_moto_0001",
+            "front": "front_moto_0001",
+            "gt_type": "DRIVER_NO_HELMET",
+            "pair": "pair_021",
+            "pred_type": "BOTH_NO_HELMET"
+          },
+          {
+            "back": "back_moto_0001",
+            "front": "",
+            "gt_type": "DRIVER_NO_HELMET",
+            "pair": "pair_022",
+            "pred_type": "BOTH_NO_HELMET"
+          },
+          {
+            "back": "back_moto_0001",
+            "front": "front_moto_0001",
+            "gt_type": "DRIVER_NO_HELMET",
+            "pair": "pair_024",
+            "pred_type": "BOTH_NO_HELMET"
+          }
+        ]
+      },
+      "strict_schema_legacy_tiou": {
+        "f1": 0.6234,
+        "fn": 22,
+        "fp": 36,
+        "fp_on_excluded_tracks": 18,
+        "gt_total": 70,
+        "identity_matches": 57,
+        "precision": 0.5714,
+        "pred_total": 84,
+        "recall": 0.6857,
+        "tp": 48,
+        "type_mismatches": [
+          {
+            "back": "back_moto_0001",
+            "front": "",
+            "gt_type": "NO_VIOLATION",
+            "pair": "pair_002",
+            "pred_type": "DRIVER_NO_HELMET"
+          },
+          {
+            "back": "back_moto_0001",
+            "front": "",
+            "gt_type": "DRIVER_NO_HELMET",
+            "pair": "pair_003",
+            "pred_type": "BOTH_NO_HELMET"
+          },
+          {
+            "back": "back_moto_0001",
+            "front": "front_moto_0002",
+            "gt_type": "INSUFFICIENT_VISUAL_EVIDENCE",
+            "pair": "pair_004",
+            "pred_type": "BOTH_NO_HELMET"
+          },
+          {
+            "back": "back_moto_0001",
+            "front": "front_moto_0001",
+            "gt_type": "DRIVER_NO_HELMET",
+            "pair": "pair_013",
+            "pred_type": "BOTH_NO_HELMET"
+          },
+          {
+            "back": "back_moto_0001",
+            "front": "front_moto_0001",
+            "gt_type": "DRIVER_NO_HELMET",
+            "pair": "pair_018",
+            "pred_type": "BOTH_NO_HELMET"
+          },
+          {
+            "back": "back_moto_0002",
+            "front": "",
+            "gt_type": "DRIVER_NO_HELMET",
+            "pair": "pair_020",
+            "pred_type": "BOTH_NO_HELMET"
+          },
+          {
+            "back": "back_moto_0001",
+            "front": "front_moto_0001",
+            "gt_type": "DRIVER_NO_HELMET",
+            "pair": "pair_021",
+            "pred_type": "BOTH_NO_HELMET"
+          },
+          {
+            "back": "back_moto_0001",
+            "front": "",
+            "gt_type": "DRIVER_NO_HELMET",
+            "pair": "pair_022",
+            "pred_type": "BOTH_NO_HELMET"
+          },
+          {
+            "back": "back_moto_0001",
+            "front": "front_moto_0001",
+            "gt_type": "DRIVER_NO_HELMET",
+            "pair": "pair_024",
+            "pred_type": "BOTH_NO_HELMET"
+          }
+        ]
+      },
+      "tracker_level": "A4",
+      "wall_sec": 0.001
+    },
+    "A4_FRONT_ONLY": {
+      "arm": "A4_FRONT_ONLY",
+      "fusion_event_counters": {},
+      "fusion_mode": "front_only",
+      "orphan_fusion_summary": {
+        "by_decision": {
+          "LOW_CONFIDENCE_ABSTAIN": 2,
+          "SINGLE_VIEW_COMPLIANT_FRONT": 6,
+          "SINGLE_VIEW_VIOLATION_FRONT": 27
+        },
+        "linked_decided": 0,
+        "quarantined": 0,
+        "total": 35
+      },
+      "physical_pass_eval": {
+        "decided_pass_accuracy": 0.5217,
+        "decided_pass_type_agree": 24,
+        "gt_decided_passes": 46,
+        "gt_passes_total": 70,
+        "gt_violation_passes": 40,
+        "physical_pass_coverage": 0.6,
+        "physical_pass_prf": {
+          "f1": 0.5932,
+          "fn": 35,
+          "fp": 13,
+          "precision": 0.7292,
+          "recall": 0.5,
+          "tp": 35
+        },
+        "physical_pass_type_agree": 35,
+        "physical_passes_detected": 42,
+        "pred_on_excluded_tracks": 6,
+        "pred_total": 48,
+        "unmatched_pred_events": 6,
+        "violation_binary_detected": 24,
+        "violation_binary_prf": {
+          "f1": 0.7273,
+          "fn": 16,
+          "fp": 2,
+          "precision": 0.9231,
+          "recall": 0.6,
+          "tp": 24
+        },
+        "violation_binary_recall": 0.6,
+        "violation_sources": {
+          "back_only_gt_caught": 0,
+          "dual_visible_gt_caught": 8,
+          "front_only_gt_caught": 16
+        },
+        "violation_strict_type_agree": 20
+      },
+      "rider_decision_states": {
+        "LOW_CONFIDENCE_ABSTAIN": 3,
+        "SINGLE_VIEW_COMPLIANT_FRONT": 13,
+        "SINGLE_VIEW_VIOLATION_FRONT": 39
+      },
+      "strict_schema_fixed_tiou": {
+        "f1": 0.4915,
+        "fn": 41,
+        "fp": 19,
+        "fp_on_excluded_tracks": 6,
+        "gt_total": 70,
+        "identity_matches": 30,
+        "precision": 0.6042,
+        "pred_total": 48,
+        "recall": 0.4143,
+        "tp": 29,
+        "type_mismatches": [
+          {
+            "back": "",
+            "front": "front_moto_0001",
+            "gt_type": "BOTH_NO_HELMET",
+            "pair": "pair_009",
+            "pred_type": "DRIVER_NO_HELMET"
+          }
+        ]
+      },
+      "strict_schema_legacy_tiou": {
+        "f1": 0.4576,
+        "fn": 43,
+        "fp": 21,
+        "fp_on_excluded_tracks": 6,
+        "gt_total": 70,
+        "identity_matches": 28,
+        "precision": 0.5625,
+        "pred_total": 48,
+        "recall": 0.3857,
+        "tp": 27,
+        "type_mismatches": [
+          {
+            "back": "",
+            "front": "front_moto_0001",
+            "gt_type": "BOTH_NO_HELMET",
+            "pair": "pair_009",
+            "pred_type": "DRIVER_NO_HELMET"
+          }
+        ]
+      },
+      "tracker_level": "A4",
+      "wall_sec": 0.006
+    }
+  },
+  "checks": {
+    "c10_gapc_cuts_low_confidence_fusion_abstains": true,
+    "c1_gapc_unblocked_back_only_violation_recall_above_a0": true,
+    "c2_dual_fused_exceeds_front_only_physical_coverage_and_viol_recall": true,
+    "c3_dual_fused_exceeds_back_only_physical_coverage_and_viol_recall": true,
+    "c4_dual_fused_split_exceeds_a4_dual_legacy": true,
+    "c5_all_three_stagej_k1_vetos_resolved": true,
+    "c6_pair015_false_link_quarantined_by_conflict_gate": true,
+    "c7_pair020_bicycle_quarantined": true,
+    "c8_pair019_rider_assoc_cross_slot_linked_and_pillion_quarantined": true,
+    "c9_pair009_orphan_fused_no_helmet": true
+  },
+  "pairs_evaluated": 25,
+  "runtime_metrics": {
+    "peak_rss_mb": 458.92,
+    "total_wall_sec": 5.304
+  },
+  "schema_version": "task11_dual_camera_fusion_v1",
+  "streams_evaluated": 50
+}

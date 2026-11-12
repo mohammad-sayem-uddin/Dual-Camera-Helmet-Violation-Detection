@@ -1,0 +1,659 @@
+{
+  "pair_009_orphan_link_fused": [
+    {
+      "abstained": false,
+      "association_outcome": "LINKED",
+      "back_track_id": "back_orphan_0001",
+      "contradiction_k": 0.0,
+      "cross_view_fused": true,
+      "decision_reasons": [
+        "DUAL_FUSED_VIOLATION_P_0.731"
+      ],
+      "front_track_id": "front_orphan_0002",
+      "fused_p_no_helmet": 0.7307,
+      "fusion_decision_state": "VERIFIED_DUAL_VIOLATION",
+      "global_orphan_link_id": "global_orphan_link_0001",
+      "helmet_state": "NO_HELMET",
+      "implies_confirmed_motorcycle_link": false,
+      "pair_id": "pair_009",
+      "quarantined": false
+    }
+  ],
+  "pair_012_dual_corroboration": {
+    "association_outcome": "LINKED",
+    "association_score": 0.949,
+    "back_track_id": "back_moto_0002",
+    "cross_camera_link_status": "LINKED_BOTH_VIEWS",
+    "decision_reasons": [
+      "CONFIRMED_1_TO_1_CROSS_CAMERA_MATCH"
+    ],
+    "event_is_violation": false,
+    "front_track_id": "front_moto_0004",
+    "fusion_metadata": {
+      "cross_view_fused": true,
+      "has_evidence_conflict_abstain": false,
+      "max_contradiction_k": 0.0,
+      "quarantined": false,
+      "sync_reliability": 1.0
+    },
+    "global_moto_id": "pair_012_moto_05",
+    "pair_id": "pair_012",
+    "phase10_alert_ids": [
+      "VIOLATION-2-8-EA0F52"
+    ],
+    "plate_ground_truth": {
+      "gt_plate_text_normalized": null,
+      "note": "Plate assessment is out of scope for the integrated pipeline (no Phase 12F/OCR); no plate text is asserted.",
+      "plate_visibility_tier": "NOT_ASSESSED"
+    },
+    "rider_count": 1,
+    "riders": [
+      {
+        "contradiction_k": 0.0,
+        "cross_view_fused": true,
+        "decision_reasons": [
+          "DUAL_FUSED_COMPLIANT_P_0.037"
+        ],
+        "fused_p_no_helmet": 0.0374,
+        "fusion_decision_state": "VERIFIED_DUAL_COMPLIANT",
+        "helmet_state": "HELMET",
+        "helmet_state_provenance": "AI_DIRECT",
+        "per_view_track_states": {
+          "back": "HELMET",
+          "front": "HELMET"
+        },
+        "quarantined": false,
+        "raw_subtrack_slots": [
+          0
+        ],
+        "recorded_slot_roles": [
+          "driver"
+        ],
+        "rider_slot": 0,
+        "role": "driver",
+        "sync_reliability": 1.0,
+        "violation_window_ref_sec": null
+      }
+    ],
+    "violation_event_type": "NO_VIOLATION",
+    "violation_window_ref_sec": null
+  },
+  "pair_015_false_link_conflict": {
+    "dual_fused": {
+      "association_outcome": "LINKED",
+      "association_score": 0.8967,
+      "back_track_id": "back_moto_0001",
+      "cross_camera_link_status": "LINKED_BOTH_VIEWS",
+      "decision_reasons": [
+        "CONFIRMED_1_TO_1_CROSS_CAMERA_MATCH"
+      ],
+      "event_is_violation": null,
+      "front_track_id": "front_moto_0003",
+      "fusion_metadata": {
+        "cross_view_fused": true,
+        "has_evidence_conflict_abstain": true,
+        "max_contradiction_k": 0.35,
+        "quarantined": false,
+        "sync_reliability": 0.9231
+      },
+      "global_moto_id": "pair_015_moto_03",
+      "pair_id": "pair_015",
+      "phase10_alert_ids": [],
+      "plate_ground_truth": {
+        "gt_plate_text_normalized": null,
+        "note": "Plate assessment is out of scope for the integrated pipeline (no Phase 12F/OCR); no plate text is asserted.",
+        "plate_visibility_tier": "NOT_ASSESSED"
+      },
+      "rider_count": 1,
+      "riders": [
+        {
+          "contradiction_k": 0.35,
+          "cross_view_fused": false,
+          "decision_reasons": [
+            "UNMATCHED_DRIVER_CONTRADICTION_ABSTAIN",
+            "EVIDENCE_CONFLICT_K_0.350"
+          ],
+          "fused_p_no_helmet": 0.5,
+          "fusion_decision_state": "EVIDENCE_CONFLICT_ABSTAIN",
+          "helmet_state": "UNCERTAIN",
+          "helmet_state_provenance": "UNCERTAIN",
+          "per_view_track_states": {
+            "back": "HELMET",
+            "front": "NO_HELMET"
+          },
+          "quarantined": true,
+          "raw_subtrack_slots": [
+            0
+          ],
+          "recorded_slot_roles": [
+            "driver"
+          ],
+          "rider_slot": 0,
+          "role": "driver",
+          "sync_reliability": 0.9231,
+          "violation_window_ref_sec": null
+        }
+      ],
+      "violation_event_type": "INSUFFICIENT_VISUAL_EVIDENCE",
+      "violation_window_ref_sec": null
+    },
+    "legacy": {
+      "association_outcome": "LINKED",
+      "association_score": 0.8967,
+      "back_track_id": "back_moto_0001",
+      "cross_camera_link_status": "LINKED_BOTH_VIEWS",
+      "decision_reasons": [
+        "CONFIRMED_1_TO_1_CROSS_CAMERA_MATCH"
+      ],
+      "event_is_violation": null,
+      "front_track_id": "front_moto_0003",
+      "global_moto_id": "pair_015_moto_03",
+      "pair_id": "pair_015",
+      "phase10_alert_ids": [],
+      "plate_ground_truth": {
+        "gt_plate_text_normalized": null,
+        "note": "Plate assessment is out of scope for the integrated pipeline (no Phase 12F/OCR); no plate text is asserted.",
+        "plate_visibility_tier": "NOT_ASSESSED"
+      },
+      "rider_count": 1,
+      "riders": [
+        {
+          "helmet_state": "UNCERTAIN",
+          "helmet_state_provenance": "UNCERTAIN",
+          "raw_subtrack_slots": [
+            0
+          ],
+          "recorded_slot_roles": [
+            "driver"
+          ],
+          "rider_slot": 0,
+          "role": "driver",
+          "violation_window_ref_sec": null
+        }
+      ],
+      "violation_event_type": "INSUFFICIENT_VISUAL_EVIDENCE",
+      "violation_window_ref_sec": null
+    }
+  },
+  "pair_019_rider_association_and_quarantine": {
+    "association_outcome": "LINKED",
+    "association_score": 0.8592,
+    "back_track_id": "back_moto_0002",
+    "cross_camera_link_status": "LINKED_BOTH_VIEWS",
+    "decision_reasons": [
+      "CONFIRMED_1_TO_1_CROSS_CAMERA_MATCH"
+    ],
+    "event_is_violation": true,
+    "front_track_id": "front_moto_0002",
+    "fusion_metadata": {
+      "cross_view_fused": true,
+      "has_evidence_conflict_abstain": false,
+      "max_contradiction_k": 0.0,
+      "quarantined": false,
+      "sync_reliability": 1.0
+    },
+    "global_moto_id": "pair_019_moto_02",
+    "pair_id": "pair_019",
+    "phase10_alert_ids": [
+      "VIOLATION-1-132-8EDB54",
+      "VIOLATION-1-229-7E5D6F",
+      "VIOLATION-2-138-88EB3A",
+      "VIOLATION-6-108-F87D69",
+      "VIOLATION-6-198-EAC769",
+      "VIOLATION-6-288-66831C"
+    ],
+    "plate_ground_truth": {
+      "gt_plate_text_normalized": null,
+      "note": "Plate assessment is out of scope for the integrated pipeline (no Phase 12F/OCR); no plate text is asserted.",
+      "plate_visibility_tier": "NOT_ASSESSED"
+    },
+    "rider_count": 4,
+    "riders": [
+      {
+        "contradiction_k": 0.0,
+        "cross_view_fused": true,
+        "decision_reasons": [
+          "DUAL_FUSED_VIOLATION_P_0.996"
+        ],
+        "fused_p_no_helmet": 0.9958,
+        "fusion_decision_state": "VERIFIED_DUAL_VIOLATION",
+        "helmet_state": "NO_HELMET",
+        "helmet_state_provenance": "AI_DIRECT",
+        "per_view_track_states": {
+          "back": "NO_HELMET",
+          "front": "NO_HELMET"
+        },
+        "quarantined": false,
+        "raw_subtrack_slots": [
+          0,
+          2
+        ],
+        "recorded_slot_roles": [
+          "driver"
+        ],
+        "rider_slot": 0,
+        "role": "driver",
+        "sync_reliability": 1.0,
+        "violation_window_ref_sec": [
+          -0.730422,
+          3.838333
+        ]
+      },
+      {
+        "contradiction_k": 0.0,
+        "cross_view_fused": false,
+        "decision_reasons": [
+          "RIDER_AMBIGUOUS_ASSOC_QUARANTINED",
+          "LOW_CONFIDENCE_POSTERIOR_0.498"
+        ],
+        "fused_p_no_helmet": 0.4977,
+        "fusion_decision_state": "AMBIGUOUS_ASSOC_ABSTAIN",
+        "helmet_state": "UNCERTAIN",
+        "helmet_state_provenance": "UNCERTAIN",
+        "per_view_track_states": {
+          "front": "UNCERTAIN"
+        },
+        "quarantined": true,
+        "raw_subtrack_slots": [
+          0
+        ],
+        "recorded_slot_roles": [
+          "pillion_1"
+        ],
+        "rider_slot": 1,
+        "role": "pillion_1",
+        "sync_reliability": 1.0,
+        "violation_window_ref_sec": null
+      },
+      {
+        "contradiction_k": 0.0,
+        "cross_view_fused": false,
+        "decision_reasons": [
+          "RIDER_AMBIGUOUS_ASSOC_QUARANTINED",
+          "SINGLE_VIEW_BACK_VIOLATION_P_0.969"
+        ],
+        "fused_p_no_helmet": 0.9689,
+        "fusion_decision_state": "SINGLE_VIEW_VIOLATION_BACK",
+        "helmet_state": "NO_HELMET",
+        "helmet_state_provenance": "AI_DIRECT",
+        "per_view_track_states": {
+          "back": "NO_HELMET"
+        },
+        "quarantined": true,
+        "raw_subtrack_slots": [
+          1
+        ],
+        "recorded_slot_roles": [
+          "pillion_1"
+        ],
+        "rider_slot": 101,
+        "role": "pillion_1",
+        "sync_reliability": 1.0,
+        "violation_window_ref_sec": [
+          2.001667,
+          3.838333
+        ]
+      },
+      {
+        "contradiction_k": 0.0,
+        "cross_view_fused": false,
+        "decision_reasons": [
+          "SINGLE_VIEW_FRONT_VIOLATION_P_0.778"
+        ],
+        "fused_p_no_helmet": 0.7776,
+        "fusion_decision_state": "SINGLE_VIEW_VIOLATION_FRONT",
+        "helmet_state": "NO_HELMET",
+        "helmet_state_provenance": "AI_DIRECT",
+        "per_view_track_states": {
+          "front": "NO_HELMET"
+        },
+        "quarantined": false,
+        "raw_subtrack_slots": [
+          1
+        ],
+        "recorded_slot_roles": [
+          "pillion_1"
+        ],
+        "rider_slot": 102,
+        "role": "pillion_1",
+        "sync_reliability": 1.0,
+        "violation_window_ref_sec": [
+          -0.730422,
+          3.801767
+        ]
+      }
+    ],
+    "violation_event_type": "BOTH_NO_HELMET",
+    "violation_window_ref_sec": [
+      -0.730422,
+      3.838333
+    ]
+  },
+  "pair_020_bicycle_quarantine": {
+    "dual_fused_preserve_keys": {
+      "association_outcome": "AMBIGUOUS_ABSTAIN",
+      "association_score": 0.7403,
+      "back_track_id": "back_moto_0003",
+      "cross_camera_link_status": "AMBIGUOUS_HUMAN_UNCERTAIN",
+      "decision_reasons": [
+        "AMBIGUOUS_UNIQUENESS_MARGIN_0.0502_BELOW_0.1",
+        "AMBIGUOUS_ASSOC_ABSTAIN_QUARANTINED"
+      ],
+      "event_is_violation": null,
+      "front_track_id": "front_moto_0001",
+      "fusion_metadata": {
+        "cross_view_fused": false,
+        "has_evidence_conflict_abstain": false,
+        "max_contradiction_k": 0.0,
+        "quarantined": true,
+        "quarantined_single_view_decisions": {
+          "back": {
+            "event_type": "INSUFFICIENT_VISUAL_EVIDENCE",
+            "riders": []
+          },
+          "front": {
+            "event_type": "DRIVER_NO_HELMET",
+            "riders": [
+              {
+                "contradiction_k": 0.0,
+                "cross_view_fused": false,
+                "decision_reasons": [
+                  "AMBIGUOUS_MOTO_ASSOC_QUARANTINED",
+                  "SINGLE_VIEW_FRONT_VIOLATION_P_0.989"
+                ],
+                "fused_p_no_helmet": 0.9893,
+                "fusion_decision_state": "SINGLE_VIEW_VIOLATION_FRONT",
+                "helmet_state": "NO_HELMET",
+                "helmet_state_provenance": "AI_DIRECT",
+                "per_view_track_states": {
+                  "front": "NO_HELMET"
+                },
+                "quarantined": true,
+                "raw_subtrack_slots": [
+                  0
+                ],
+                "recorded_slot_roles": [
+                  "driver"
+                ],
+                "rider_slot": 0,
+                "role": "driver",
+                "sync_reliability": 1.0,
+                "violation_window_ref_sec": [
+                  3.32,
+                  5.319511
+                ]
+              }
+            ]
+          }
+        },
+        "sync_reliability": 1.0
+      },
+      "global_moto_id": "pair_020_moto_01",
+      "pair_id": "pair_020",
+      "phase10_alert_ids": [],
+      "plate_ground_truth": {
+        "cross_camera_plate_link_permitted": false,
+        "gt_plate_text_normalized": null,
+        "note": "Cross-camera plate attribution blocked by AMBIGUOUS_ASSOC_ABSTAIN quarantine.",
+        "plate_visibility_tier": "NOT_ASSESSED"
+      },
+      "rider_count": 0,
+      "riders": [],
+      "violation_event_type": "INSUFFICIENT_VISUAL_EVIDENCE",
+      "violation_window_ref_sec": null
+    },
+    "dual_fused_split_back": {
+      "association_outcome": "AMBIGUOUS_ABSTAIN",
+      "association_score": 0.7403,
+      "back_track_id": "back_moto_0003",
+      "cross_camera_link_status": "AMBIGUOUS_HUMAN_UNCERTAIN",
+      "decision_reasons": [
+        "AMBIGUOUS_UNIQUENESS_MARGIN_0.0502_BELOW_0.1",
+        "QUARANTINED_SINGLE_VIEW_SPLIT"
+      ],
+      "event_is_violation": null,
+      "front_track_id": null,
+      "fusion_metadata": {
+        "cross_view_fused": false,
+        "has_evidence_conflict_abstain": false,
+        "max_contradiction_k": 0.0,
+        "quarantined": true,
+        "sync_reliability": 1.0
+      },
+      "global_moto_id": "pair_020_moto_04",
+      "pair_id": "pair_020",
+      "phase10_alert_ids": [],
+      "plate_ground_truth": {
+        "cross_camera_plate_link_permitted": false,
+        "gt_plate_text_normalized": null,
+        "note": "Cross-camera plate attribution blocked by AMBIGUOUS_ASSOC_ABSTAIN quarantine.",
+        "plate_visibility_tier": "NOT_ASSESSED"
+      },
+      "rider_count": 0,
+      "riders": [],
+      "violation_event_type": "INSUFFICIENT_VISUAL_EVIDENCE",
+      "violation_window_ref_sec": null
+    },
+    "dual_fused_split_front": {
+      "association_outcome": "AMBIGUOUS_ABSTAIN",
+      "association_score": 0.7403,
+      "back_track_id": null,
+      "cross_camera_link_status": "AMBIGUOUS_HUMAN_UNCERTAIN",
+      "decision_reasons": [
+        "AMBIGUOUS_UNIQUENESS_MARGIN_0.0502_BELOW_0.1",
+        "QUARANTINED_SINGLE_VIEW_SPLIT"
+      ],
+      "event_is_violation": true,
+      "front_track_id": "front_moto_0001",
+      "fusion_metadata": {
+        "cross_view_fused": false,
+        "has_evidence_conflict_abstain": false,
+        "max_contradiction_k": 0.0,
+        "quarantined": true,
+        "sync_reliability": 1.0
+      },
+      "global_moto_id": "pair_020_moto_01",
+      "pair_id": "pair_020",
+      "phase10_alert_ids": [
+        "VIOLATION-1-4-4AE77E",
+        "VIOLATION-1-94-F124F0"
+      ],
+      "plate_ground_truth": {
+        "cross_camera_plate_link_permitted": false,
+        "gt_plate_text_normalized": null,
+        "note": "Cross-camera plate attribution blocked by AMBIGUOUS_ASSOC_ABSTAIN quarantine.",
+        "plate_visibility_tier": "NOT_ASSESSED"
+      },
+      "rider_count": 1,
+      "riders": [
+        {
+          "contradiction_k": 0.0,
+          "cross_view_fused": false,
+          "decision_reasons": [
+            "AMBIGUOUS_MOTO_ASSOC_SPLIT_SINGLE_VIEW",
+            "SINGLE_VIEW_FRONT_VIOLATION_P_0.989"
+          ],
+          "fused_p_no_helmet": 0.9893,
+          "fusion_decision_state": "SINGLE_VIEW_VIOLATION_FRONT",
+          "helmet_state": "NO_HELMET",
+          "helmet_state_provenance": "AI_DIRECT",
+          "per_view_track_states": {
+            "front": "NO_HELMET"
+          },
+          "quarantined": true,
+          "raw_subtrack_slots": [
+            0
+          ],
+          "recorded_slot_roles": [
+            "driver"
+          ],
+          "rider_slot": 0,
+          "role": "driver",
+          "sync_reliability": 1.0,
+          "violation_window_ref_sec": [
+            3.32,
+            5.319511
+          ]
+        }
+      ],
+      "violation_event_type": "DRIVER_NO_HELMET",
+      "violation_window_ref_sec": [
+        3.32,
+        5.319511
+      ]
+    },
+    "legacy_merged": {
+      "association_outcome": "AMBIGUOUS_ABSTAIN",
+      "association_score": 0.7403,
+      "back_track_id": "back_moto_0003",
+      "cross_camera_link_status": "AMBIGUOUS_HUMAN_UNCERTAIN",
+      "decision_reasons": [
+        "AMBIGUOUS_UNIQUENESS_MARGIN_0.0502_BELOW_0.1"
+      ],
+      "event_is_violation": true,
+      "front_track_id": "front_moto_0001",
+      "global_moto_id": "pair_020_moto_01",
+      "pair_id": "pair_020",
+      "phase10_alert_ids": [
+        "VIOLATION-1-4-4AE77E",
+        "VIOLATION-1-94-F124F0"
+      ],
+      "plate_ground_truth": {
+        "gt_plate_text_normalized": null,
+        "note": "Plate assessment is out of scope for the integrated pipeline (no Phase 12F/OCR); no plate text is asserted.",
+        "plate_visibility_tier": "NOT_ASSESSED"
+      },
+      "rider_count": 1,
+      "riders": [
+        {
+          "helmet_state": "NO_HELMET",
+          "helmet_state_provenance": "AI_DIRECT",
+          "raw_subtrack_slots": [
+            0
+          ],
+          "recorded_slot_roles": [
+            "driver"
+          ],
+          "rider_slot": 0,
+          "role": "driver",
+          "violation_window_ref_sec": [
+            3.32,
+            5.319511
+          ]
+        }
+      ],
+      "violation_event_type": "DRIVER_NO_HELMET",
+      "violation_window_ref_sec": [
+        3.32,
+        5.319511
+      ]
+    }
+  },
+  "single_vs_dual_complementarity_examples": {
+    "pair_001": {
+      "back_only": [
+        "BOTH_NO_HELMET"
+      ],
+      "dual_fused": [
+        "BOTH_NO_HELMET",
+        "BOTH_NO_HELMET"
+      ],
+      "front_only": [
+        "BOTH_NO_HELMET"
+      ]
+    },
+    "pair_005": {
+      "back_only": [
+        "NO_VIOLATION"
+      ],
+      "dual_fused": [
+        "NO_VIOLATION",
+        "NO_VIOLATION"
+      ],
+      "front_only": [
+        "NO_VIOLATION"
+      ]
+    },
+    "pair_010": {
+      "back_only": [
+        "NO_VIOLATION",
+        "NO_VIOLATION",
+        "INSUFFICIENT_VISUAL_EVIDENCE",
+        "NO_VIOLATION",
+        "INSUFFICIENT_VISUAL_EVIDENCE"
+      ],
+      "dual_fused": [
+        "NO_VIOLATION",
+        "NO_VIOLATION",
+        "INSUFFICIENT_VISUAL_EVIDENCE",
+        "NO_VIOLATION",
+        "INSUFFICIENT_VISUAL_EVIDENCE"
+      ],
+      "front_only": [
+        "NO_VIOLATION"
+      ]
+    }
+  },
+  "stagej_k1_veto_resolutions": [
+    {
+      "back_counts_H_NH": [
+        0,
+        1
+      ],
+      "back_subtrack": "back_moto_0002_rider_s0",
+      "contradiction_k": 0.1303,
+      "expected_state": "HELMET",
+      "front_counts_H_NH": [
+        174,
+        50
+      ],
+      "front_subtrack": "front_moto_0004_rider_s0",
+      "fused_p_no_helmet": 0.2084,
+      "legacy_stagej_state": "UNCERTAIN",
+      "pair_id": "pair_012",
+      "resolved_k1_veto": true,
+      "task11_decision": "VERIFIED_DUAL_COMPLIANT",
+      "task11_fused_state": "HELMET"
+    },
+    {
+      "back_counts_H_NH": [
+        1,
+        0
+      ],
+      "back_subtrack": "back_moto_0001_rider_s1",
+      "contradiction_k": 0.1636,
+      "expected_state": "NO_HELMET",
+      "front_counts_H_NH": [
+        0,
+        31
+      ],
+      "front_subtrack": "front_moto_0001_rider_s1",
+      "fused_p_no_helmet": 0.9137,
+      "legacy_stagej_state": "UNCERTAIN",
+      "pair_id": "pair_018",
+      "resolved_k1_veto": true,
+      "task11_decision": "VERIFIED_DUAL_VIOLATION",
+      "task11_fused_state": "NO_HELMET"
+    },
+    {
+      "back_counts_H_NH": [
+        1,
+        0
+      ],
+      "back_subtrack": "back_moto_0001_rider_s1",
+      "contradiction_k": 0.1115,
+      "expected_state": "NO_HELMET",
+      "front_counts_H_NH": [
+        0,
+        84
+      ],
+      "front_subtrack": "front_moto_0001_rider_s1",
+      "fused_p_no_helmet": 0.956,
+      "legacy_stagej_state": "UNCERTAIN",
+      "pair_id": "pair_024",
+      "resolved_k1_veto": true,
+      "task11_decision": "VERIFIED_DUAL_VIOLATION",
+      "task11_fused_state": "NO_HELMET"
+    }
+  ]
+}

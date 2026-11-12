@@ -184,6 +184,8 @@ class PipelineConfig:
     keyframe_max_width: int = 1280
     tick_hz: float = 60.0  # tick mode / diagnostics only
     resume: bool = True
+    fusion_mode: str = "legacy"  # "legacy" | "dual_fused" | "front_only" | "back_only"
+    fusion_config: Any = None
 
 
 class PairStatus(Enum):
@@ -1233,13 +1235,28 @@ def derive_pair_events(
     front: CameraRunOutput,
     back: CameraRunOutput,
     batch: CrossCameraAssociationBatchResult,
+    *,
+    fusion_mode: str = "legacy",
+    fusion_config: Any = None,
 ) -> list[dict[str, Any]]:
     """Pure derivation of per-pair events from finished pipelines + batch result.
 
-    Reuses the Phase 10 alerts already emitted inside tracker steps (read from
-    the finished subtracks' alert lists). The standalone
-    `TemporalVerificationEngine` is never instantiated (design §5.4/GAP-8).
+    When `fusion_mode == "legacy"` (default), preserves the historical Stage J /
+    TASK-04 derivation path verbatim (`event_regression_task04.py`). When set to
+    `"dual_fused"`, `"front_only"`, or `"back_only"`, delegates to
+    `src.fusion.DualCameraFusionEngine`.
     """
+    if fusion_mode != "legacy":
+        from src.fusion.dual_camera_fusion import DualCameraFusionEngine
+
+        engine = DualCameraFusionEngine(config=fusion_config)
+        return engine.fuse_pair(
+            pair_id,
+            front,
+            back,
+            batch,
+            mode=fusion_mode,
+        ).events
     records = {"front": _track_records(front), "back": _track_records(back)}
     covered: set[tuple[str, str]] = set()
     raw: list[dict[str, Any]] = []
@@ -1453,6 +1470,8 @@ def validate_pair(
     batch: CrossCameraAssociationBatchResult,
     events: list[dict[str, Any]],
     diagnostics: dict[str, Any],
+    *,
+    fusion_mode: str = "legacy",
 ) -> dict[str, Any]:
     outs = {"front": front, "back": back}
     checks: dict[str, bool] = {}
@@ -1476,7 +1495,12 @@ def validate_pair(
         == sum(len(r.rider_associations) for r in batch.motorcycle_results)
         and sum(batch.orphan_outcome_counts.values()) == len(batch.orphan_results)
     )
-    all_moto_ids = set(_track_records(front)) | set(_track_records(back))
+    if fusion_mode == "front_only":
+        all_moto_ids = set(_track_records(front))
+    elif fusion_mode == "back_only":
+        all_moto_ids = set(_track_records(back))
+    else:
+        all_moto_ids = set(_track_records(front)) | set(_track_records(back))
     event_track_ids = {
         tid
         for e in events
@@ -1728,14 +1752,27 @@ def run_pair(pair_id: str, config: PipelineConfig) -> PairRunResult:
         )
         _dump_json(out_dir / f"{pair_id}_association.json", batch.to_dict())
 
-        events = derive_pair_events(pair_id, cam_outs["front"], cam_outs["back"], batch)
+        events = derive_pair_events(
+            pair_id,
+            cam_outs["front"],
+            cam_outs["back"],
+            batch,
+            fusion_mode=config.fusion_mode,
+            fusion_config=config.fusion_config,
+        )
         _dump_json(out_dir / f"{pair_id}_events.json", events)
 
         diagnostics = build_sync_diagnostics(ctx, q5, engine)
         _dump_json(out_dir / f"{pair_id}_sync_diagnostics.json", diagnostics)
 
         validation = validate_pair(
-            ctx, cam_outs["front"], cam_outs["back"], batch, events, diagnostics
+            ctx,
+            cam_outs["front"],
+            cam_outs["back"],
+            batch,
+            events,
+            diagnostics,
+            fusion_mode=config.fusion_mode,
         )
         if not validation["all_passed"]:
             failed = [k for k, v in validation.items() if v is False]
