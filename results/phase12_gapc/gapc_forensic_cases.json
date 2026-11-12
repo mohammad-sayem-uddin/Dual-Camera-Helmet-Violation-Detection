@@ -1,0 +1,856 @@
+{
+  "A0": {
+    "pair_002/front/front_moto_0001_rider_s0": {
+      "hits": 10,
+      "slot_role": "driver",
+      "ordering_confident": true,
+      "slot_role_provisional": false,
+      "track_helmet_state": "HELMET",
+      "parent_abstained": 291,
+      "parent_conflicts": 272,
+      "parent_moto_frames": 284,
+      "abstained_updates_count": 271
+    },
+    "pair_002/front/front_moto_0001": {
+      "moto_hits": 284,
+      "abstained": 291,
+      "conflicts": 272,
+      "subtrack_hits": {
+        "0": 10,
+        "1": 2
+      },
+      "max_subtrack_hits": 10,
+      "total_subtrack_hits": 12,
+      "discarded_tentative_subtracks": 0,
+      "subtrack_roles": {
+        "0": "driver",
+        "1": "pillion_1"
+      },
+      "subtrack_states": {
+        "0": "HELMET",
+        "1": "NO_HELMET"
+      }
+    },
+    "pair_006/back/back_moto_0002_rider_s0": {
+      "hits": 1,
+      "slot_role": "driver",
+      "ordering_confident": true,
+      "slot_role_provisional": true,
+      "track_helmet_state": "NO_HELMET",
+      "parent_abstained": 132,
+      "parent_conflicts": 132,
+      "parent_moto_frames": 137,
+      "abstained_updates_count": 128
+    },
+    "pair_006/back/back_moto_0002": {
+      "moto_hits": 137,
+      "abstained": 132,
+      "conflicts": 132,
+      "subtrack_hits": {
+        "0": 1
+      },
+      "max_subtrack_hits": 1,
+      "total_subtrack_hits": 1,
+      "discarded_tentative_subtracks": 0,
+      "subtrack_roles": {
+        "0": "driver"
+      },
+      "subtrack_states": {
+        "0": "NO_HELMET"
+      }
+    },
+    "pair_012/back/back_moto_0002_rider_s0": {
+      "hits": 1,
+      "slot_role": "driver",
+      "ordering_confident": true,
+      "slot_role_provisional": true,
+      "track_helmet_state": "NO_HELMET",
+      "parent_abstained": 168,
+      "parent_conflicts": 168,
+      "parent_moto_frames": 183,
+      "abstained_updates_count": 167
+    },
+    "pair_012/back/back_moto_0002": {
+      "moto_hits": 183,
+      "abstained": 168,
+      "conflicts": 168,
+      "subtrack_hits": {
+        "0": 1
+      },
+      "max_subtrack_hits": 1,
+      "total_subtrack_hits": 1,
+      "discarded_tentative_subtracks": 0,
+      "subtrack_roles": {
+        "0": "driver"
+      },
+      "subtrack_states": {
+        "0": "NO_HELMET"
+      }
+    },
+    "pair_018/back/back_moto_0001_rider_s1": {
+      "hits": 1,
+      "slot_role": "pillion_1",
+      "ordering_confident": true,
+      "slot_role_provisional": false,
+      "track_helmet_state": "HELMET",
+      "parent_abstained": 91,
+      "parent_conflicts": 88,
+      "parent_moto_frames": 90,
+      "abstained_updates_count": 9
+    },
+    "pair_018/back/back_moto_0001": {
+      "moto_hits": 90,
+      "abstained": 91,
+      "conflicts": 88,
+      "subtrack_hits": {
+        "0": 3,
+        "1": 1
+      },
+      "max_subtrack_hits": 3,
+      "total_subtrack_hits": 4,
+      "discarded_tentative_subtracks": 0,
+      "subtrack_roles": {
+        "0": "driver",
+        "1": "pillion_1"
+      },
+      "subtrack_states": {
+        "0": "NO_HELMET",
+        "1": "HELMET"
+      }
+    },
+    "pair_019/front/front_moto_0002_rider_s0": {
+      "hits": 1,
+      "slot_role": "driver",
+      "ordering_confident": true,
+      "slot_role_provisional": true,
+      "track_helmet_state": "NO_HELMET",
+      "parent_abstained": 295,
+      "parent_conflicts": 295,
+      "parent_moto_frames": 272,
+      "abstained_updates_count": 268
+    },
+    "pair_019/front/front_moto_0002": {
+      "moto_hits": 272,
+      "abstained": 295,
+      "conflicts": 295,
+      "subtrack_hits": {
+        "0": 1
+      },
+      "max_subtrack_hits": 1,
+      "total_subtrack_hits": 1,
+      "discarded_tentative_subtracks": 0,
+      "subtrack_roles": {
+        "0": "driver"
+      },
+      "subtrack_states": {
+        "0": "NO_HELMET"
+      }
+    },
+    "pair_021/back/back_moto_0001_rider_s0": {
+      "hits": 1,
+      "slot_role": "driver",
+      "ordering_confident": true,
+      "slot_role_provisional": true,
+      "track_helmet_state": "NO_HELMET",
+      "parent_abstained": 142,
+      "parent_conflicts": 142,
+      "parent_moto_frames": 149,
+      "abstained_updates_count": 136
+    },
+    "pair_021/back/back_moto_0001": {
+      "moto_hits": 149,
+      "abstained": 142,
+      "conflicts": 142,
+      "subtrack_hits": {
+        "0": 1
+      },
+      "max_subtrack_hits": 1,
+      "total_subtrack_hits": 1,
+      "discarded_tentative_subtracks": 0,
+      "subtrack_roles": {
+        "0": "driver"
+      },
+      "subtrack_states": {
+        "0": "NO_HELMET"
+      }
+    },
+    "pair_024/back/back_moto_0001_rider_s1": {
+      "hits": 1,
+      "slot_role": "pillion_1",
+      "ordering_confident": true,
+      "slot_role_provisional": false,
+      "track_helmet_state": "HELMET",
+      "parent_abstained": 2,
+      "parent_conflicts": 0,
+      "parent_moto_frames": 189,
+      "abstained_updates_count": 0
+    },
+    "pair_024/back/back_moto_0001": {
+      "moto_hits": 189,
+      "abstained": 2,
+      "conflicts": 0,
+      "subtrack_hits": {
+        "0": 166,
+        "1": 1
+      },
+      "max_subtrack_hits": 166,
+      "total_subtrack_hits": 167,
+      "discarded_tentative_subtracks": 0,
+      "subtrack_roles": {
+        "0": "driver",
+        "1": "pillion_1"
+      },
+      "subtrack_states": {
+        "0": "NO_HELMET",
+        "1": "HELMET"
+      }
+    }
+  },
+  "A1": {
+    "pair_002/front/front_moto_0001_rider_s0": {
+      "hits": 258,
+      "slot_role": "driver",
+      "ordering_confident": true,
+      "slot_role_provisional": false,
+      "track_helmet_state": "NO_HELMET",
+      "parent_abstained": 40,
+      "parent_conflicts": 25,
+      "parent_moto_frames": 284,
+      "abstained_updates_count": 31
+    },
+    "pair_002/front/front_moto_0001": {
+      "moto_hits": 284,
+      "abstained": 40,
+      "conflicts": 25,
+      "subtrack_hits": {
+        "0": 258,
+        "1": 7
+      },
+      "max_subtrack_hits": 258,
+      "total_subtrack_hits": 265,
+      "discarded_tentative_subtracks": 0,
+      "subtrack_roles": {
+        "0": "driver",
+        "1": "pillion_1"
+      },
+      "subtrack_states": {
+        "0": "NO_HELMET",
+        "1": "NO_HELMET"
+      }
+    },
+    "pair_006/back/back_moto_0002_rider_s0": {
+      "hits": 124,
+      "slot_role": "driver",
+      "ordering_confident": true,
+      "slot_role_provisional": true,
+      "track_helmet_state": "NO_HELMET",
+      "parent_abstained": 5,
+      "parent_conflicts": 1,
+      "parent_moto_frames": 137,
+      "abstained_updates_count": 5
+    },
+    "pair_006/back/back_moto_0002": {
+      "moto_hits": 137,
+      "abstained": 5,
+      "conflicts": 1,
+      "subtrack_hits": {
+        "0": 124
+      },
+      "max_subtrack_hits": 124,
+      "total_subtrack_hits": 124,
+      "discarded_tentative_subtracks": 0,
+      "subtrack_roles": {
+        "0": "driver"
+      },
+      "subtrack_states": {
+        "0": "NO_HELMET"
+      }
+    },
+    "pair_012/back/back_moto_0002_rider_s0": {
+      "hits": 166,
+      "slot_role": "driver",
+      "ordering_confident": true,
+      "slot_role_provisional": true,
+      "track_helmet_state": "HELMET",
+      "parent_abstained": 2,
+      "parent_conflicts": 1,
+      "parent_moto_frames": 183,
+      "abstained_updates_count": 2
+    },
+    "pair_012/back/back_moto_0002": {
+      "moto_hits": 183,
+      "abstained": 2,
+      "conflicts": 1,
+      "subtrack_hits": {
+        "0": 166
+      },
+      "max_subtrack_hits": 166,
+      "total_subtrack_hits": 166,
+      "discarded_tentative_subtracks": 0,
+      "subtrack_roles": {
+        "0": "driver"
+      },
+      "subtrack_states": {
+        "0": "HELMET"
+      }
+    },
+    "pair_018/back/back_moto_0001_rider_s1": {
+      "hits": 1,
+      "slot_role": "pillion_1",
+      "ordering_confident": false,
+      "slot_role_provisional": true,
+      "track_helmet_state": "HELMET",
+      "parent_abstained": 7,
+      "parent_conflicts": 8,
+      "parent_moto_frames": 90,
+      "abstained_updates_count": 5
+    },
+    "pair_018/back/back_moto_0001": {
+      "moto_hits": 90,
+      "abstained": 7,
+      "conflicts": 8,
+      "subtrack_hits": {
+        "0": 85,
+        "1": 1,
+        "2": 1
+      },
+      "max_subtrack_hits": 85,
+      "total_subtrack_hits": 87,
+      "discarded_tentative_subtracks": 0,
+      "subtrack_roles": {
+        "0": "driver",
+        "1": "pillion_1",
+        "2": "pillion_1"
+      },
+      "subtrack_states": {
+        "0": "NO_HELMET",
+        "1": "HELMET",
+        "2": "NO_HELMET"
+      }
+    },
+    "pair_019/front/front_moto_0002_rider_s0": {
+      "hits": 173,
+      "slot_role": "driver",
+      "ordering_confident": true,
+      "slot_role_provisional": true,
+      "track_helmet_state": "NO_HELMET",
+      "parent_abstained": 91,
+      "parent_conflicts": 99,
+      "parent_moto_frames": 272,
+      "abstained_updates_count": 83
+    },
+    "pair_019/front/front_moto_0002": {
+      "moto_hits": 272,
+      "abstained": 91,
+      "conflicts": 99,
+      "subtrack_hits": {
+        "0": 173,
+        "1": 27,
+        "2": 5
+      },
+      "max_subtrack_hits": 173,
+      "total_subtrack_hits": 205,
+      "discarded_tentative_subtracks": 0,
+      "subtrack_roles": {
+        "0": "driver",
+        "1": "pillion_1",
+        "2": "pillion_2"
+      },
+      "subtrack_states": {
+        "0": "NO_HELMET",
+        "1": "NO_HELMET",
+        "2": "NO_HELMET"
+      }
+    },
+    "pair_021/back/back_moto_0001_rider_s0": {
+      "hits": 1,
+      "slot_role": "driver",
+      "ordering_confident": true,
+      "slot_role_provisional": true,
+      "track_helmet_state": "NO_HELMET",
+      "parent_abstained": 142,
+      "parent_conflicts": 142,
+      "parent_moto_frames": 149,
+      "abstained_updates_count": 136
+    },
+    "pair_021/back/back_moto_0001": {
+      "moto_hits": 149,
+      "abstained": 142,
+      "conflicts": 142,
+      "subtrack_hits": {
+        "0": 1
+      },
+      "max_subtrack_hits": 1,
+      "total_subtrack_hits": 1,
+      "discarded_tentative_subtracks": 0,
+      "subtrack_roles": {
+        "0": "driver"
+      },
+      "subtrack_states": {
+        "0": "NO_HELMET"
+      }
+    }
+  },
+  "A2": {
+    "pair_002/front/front_moto_0001_rider_s0": {
+      "hits": 271,
+      "slot_role": "driver",
+      "ordering_confident": true,
+      "slot_role_provisional": true,
+      "track_helmet_state": "NO_HELMET",
+      "parent_abstained": 13,
+      "parent_conflicts": 9,
+      "parent_moto_frames": 284,
+      "abstained_updates_count": 8
+    },
+    "pair_002/front/front_moto_0001": {
+      "moto_hits": 284,
+      "abstained": 13,
+      "conflicts": 9,
+      "subtrack_hits": {
+        "0": 271,
+        "1": 6
+      },
+      "max_subtrack_hits": 271,
+      "total_subtrack_hits": 277,
+      "discarded_tentative_subtracks": 1,
+      "subtrack_roles": {
+        "0": "driver",
+        "1": "pillion_1"
+      },
+      "subtrack_states": {
+        "0": "NO_HELMET",
+        "1": "NO_HELMET"
+      }
+    },
+    "pair_006/back/back_moto_0002_rider_s0": {
+      "hits": 128,
+      "slot_role": "driver",
+      "ordering_confident": true,
+      "slot_role_provisional": true,
+      "track_helmet_state": "NO_HELMET",
+      "parent_abstained": 1,
+      "parent_conflicts": 1,
+      "parent_moto_frames": 137,
+      "abstained_updates_count": 1
+    },
+    "pair_006/back/back_moto_0002": {
+      "moto_hits": 137,
+      "abstained": 1,
+      "conflicts": 1,
+      "subtrack_hits": {
+        "0": 128
+      },
+      "max_subtrack_hits": 128,
+      "total_subtrack_hits": 128,
+      "discarded_tentative_subtracks": 0,
+      "subtrack_roles": {
+        "0": "driver"
+      },
+      "subtrack_states": {
+        "0": "NO_HELMET"
+      }
+    },
+    "pair_012/back/back_moto_0002_rider_s0": {
+      "hits": 167,
+      "slot_role": "driver",
+      "ordering_confident": true,
+      "slot_role_provisional": true,
+      "track_helmet_state": "HELMET",
+      "parent_abstained": 1,
+      "parent_conflicts": 1,
+      "parent_moto_frames": 183,
+      "abstained_updates_count": 1
+    },
+    "pair_012/back/back_moto_0002": {
+      "moto_hits": 183,
+      "abstained": 1,
+      "conflicts": 1,
+      "subtrack_hits": {
+        "0": 167
+      },
+      "max_subtrack_hits": 167,
+      "total_subtrack_hits": 167,
+      "discarded_tentative_subtracks": 0,
+      "subtrack_roles": {
+        "0": "driver"
+      },
+      "subtrack_states": {
+        "0": "HELMET"
+      }
+    },
+    "pair_019/front/front_moto_0002_rider_s0": {
+      "hits": 2,
+      "slot_role": "pillion_1",
+      "ordering_confident": true,
+      "slot_role_provisional": false,
+      "track_helmet_state": "UNCERTAIN",
+      "parent_abstained": 28,
+      "parent_conflicts": 53,
+      "parent_moto_frames": 272,
+      "abstained_updates_count": 0
+    },
+    "pair_019/front/front_moto_0002": {
+      "moto_hits": 272,
+      "abstained": 28,
+      "conflicts": 53,
+      "subtrack_hits": {
+        "0": 2,
+        "1": 4,
+        "2": 259
+      },
+      "max_subtrack_hits": 259,
+      "total_subtrack_hits": 265,
+      "discarded_tentative_subtracks": 2,
+      "subtrack_roles": {
+        "0": "pillion_1",
+        "1": "pillion_1",
+        "2": "driver"
+      },
+      "subtrack_states": {
+        "0": "UNCERTAIN",
+        "1": "NO_HELMET",
+        "2": "NO_HELMET"
+      }
+    },
+    "pair_021/back/back_moto_0001_rider_s0": {
+      "hits": 5,
+      "slot_role": "pillion_1",
+      "ordering_confident": true,
+      "slot_role_provisional": false,
+      "track_helmet_state": "NO_HELMET",
+      "parent_abstained": 4,
+      "parent_conflicts": 23,
+      "parent_moto_frames": 149,
+      "abstained_updates_count": 4
+    },
+    "pair_021/back/back_moto_0001": {
+      "moto_hits": 149,
+      "abstained": 4,
+      "conflicts": 23,
+      "subtrack_hits": {
+        "0": 5,
+        "1": 132
+      },
+      "max_subtrack_hits": 132,
+      "total_subtrack_hits": 137,
+      "discarded_tentative_subtracks": 2,
+      "subtrack_roles": {
+        "0": "pillion_1",
+        "1": "driver"
+      },
+      "subtrack_states": {
+        "0": "NO_HELMET",
+        "1": "NO_HELMET"
+      }
+    }
+  },
+  "A3": {
+    "pair_002/front/front_moto_0001_rider_s0": {
+      "hits": 271,
+      "slot_role": "pillion_1",
+      "ordering_confident": true,
+      "slot_role_provisional": false,
+      "track_helmet_state": "NO_HELMET",
+      "parent_abstained": 13,
+      "parent_conflicts": 9,
+      "parent_moto_frames": 284,
+      "abstained_updates_count": 8
+    },
+    "pair_002/front/front_moto_0001": {
+      "moto_hits": 284,
+      "abstained": 13,
+      "conflicts": 9,
+      "subtrack_hits": {
+        "0": 271,
+        "1": 6
+      },
+      "max_subtrack_hits": 271,
+      "total_subtrack_hits": 277,
+      "discarded_tentative_subtracks": 1,
+      "subtrack_roles": {
+        "0": "pillion_1",
+        "1": "driver"
+      },
+      "subtrack_states": {
+        "0": "NO_HELMET",
+        "1": "NO_HELMET"
+      }
+    },
+    "pair_006/back/back_moto_0002_rider_s0": {
+      "hits": 128,
+      "slot_role": "driver",
+      "ordering_confident": true,
+      "slot_role_provisional": false,
+      "track_helmet_state": "NO_HELMET",
+      "parent_abstained": 1,
+      "parent_conflicts": 1,
+      "parent_moto_frames": 137,
+      "abstained_updates_count": 1
+    },
+    "pair_006/back/back_moto_0002": {
+      "moto_hits": 137,
+      "abstained": 1,
+      "conflicts": 1,
+      "subtrack_hits": {
+        "0": 128
+      },
+      "max_subtrack_hits": 128,
+      "total_subtrack_hits": 128,
+      "discarded_tentative_subtracks": 0,
+      "subtrack_roles": {
+        "0": "driver"
+      },
+      "subtrack_states": {
+        "0": "NO_HELMET"
+      }
+    },
+    "pair_012/back/back_moto_0002_rider_s0": {
+      "hits": 167,
+      "slot_role": "driver",
+      "ordering_confident": true,
+      "slot_role_provisional": false,
+      "track_helmet_state": "HELMET",
+      "parent_abstained": 1,
+      "parent_conflicts": 1,
+      "parent_moto_frames": 183,
+      "abstained_updates_count": 1
+    },
+    "pair_012/back/back_moto_0002": {
+      "moto_hits": 183,
+      "abstained": 1,
+      "conflicts": 1,
+      "subtrack_hits": {
+        "0": 167
+      },
+      "max_subtrack_hits": 167,
+      "total_subtrack_hits": 167,
+      "discarded_tentative_subtracks": 0,
+      "subtrack_roles": {
+        "0": "driver"
+      },
+      "subtrack_states": {
+        "0": "HELMET"
+      }
+    },
+    "pair_019/front/front_moto_0002_rider_s0": {
+      "hits": 2,
+      "slot_role": "pillion_1",
+      "ordering_confident": true,
+      "slot_role_provisional": false,
+      "track_helmet_state": "UNCERTAIN",
+      "parent_abstained": 28,
+      "parent_conflicts": 53,
+      "parent_moto_frames": 272,
+      "abstained_updates_count": 0
+    },
+    "pair_019/front/front_moto_0002": {
+      "moto_hits": 272,
+      "abstained": 28,
+      "conflicts": 53,
+      "subtrack_hits": {
+        "0": 2,
+        "1": 4,
+        "2": 259
+      },
+      "max_subtrack_hits": 259,
+      "total_subtrack_hits": 265,
+      "discarded_tentative_subtracks": 2,
+      "subtrack_roles": {
+        "0": "pillion_1",
+        "1": "driver",
+        "2": "pillion_1"
+      },
+      "subtrack_states": {
+        "0": "UNCERTAIN",
+        "1": "NO_HELMET",
+        "2": "NO_HELMET"
+      }
+    },
+    "pair_021/back/back_moto_0001_rider_s0": {
+      "hits": 5,
+      "slot_role": "pillion_1",
+      "ordering_confident": true,
+      "slot_role_provisional": false,
+      "track_helmet_state": "NO_HELMET",
+      "parent_abstained": 4,
+      "parent_conflicts": 23,
+      "parent_moto_frames": 149,
+      "abstained_updates_count": 4
+    },
+    "pair_021/back/back_moto_0001": {
+      "moto_hits": 149,
+      "abstained": 4,
+      "conflicts": 23,
+      "subtrack_hits": {
+        "0": 5,
+        "1": 132
+      },
+      "max_subtrack_hits": 132,
+      "total_subtrack_hits": 137,
+      "discarded_tentative_subtracks": 2,
+      "subtrack_roles": {
+        "0": "pillion_1",
+        "1": "driver"
+      },
+      "subtrack_states": {
+        "0": "NO_HELMET",
+        "1": "NO_HELMET"
+      }
+    }
+  },
+  "A4": {
+    "pair_002/front/front_moto_0001_rider_s0": {
+      "hits": 271,
+      "slot_role": "pillion_1",
+      "ordering_confident": true,
+      "slot_role_provisional": false,
+      "track_helmet_state": "NO_HELMET",
+      "parent_abstained": 13,
+      "parent_conflicts": 9,
+      "parent_moto_frames": 284,
+      "abstained_updates_count": 8
+    },
+    "pair_002/front/front_moto_0001": {
+      "moto_hits": 284,
+      "abstained": 13,
+      "conflicts": 9,
+      "subtrack_hits": {
+        "0": 271,
+        "1": 6
+      },
+      "max_subtrack_hits": 271,
+      "total_subtrack_hits": 277,
+      "discarded_tentative_subtracks": 1,
+      "subtrack_roles": {
+        "0": "pillion_1",
+        "1": "driver"
+      },
+      "subtrack_states": {
+        "0": "NO_HELMET",
+        "1": "NO_HELMET"
+      }
+    },
+    "pair_006/back/back_moto_0002_rider_s0": {
+      "hits": 128,
+      "slot_role": "driver",
+      "ordering_confident": true,
+      "slot_role_provisional": false,
+      "track_helmet_state": "NO_HELMET",
+      "parent_abstained": 1,
+      "parent_conflicts": 1,
+      "parent_moto_frames": 137,
+      "abstained_updates_count": 1
+    },
+    "pair_006/back/back_moto_0002": {
+      "moto_hits": 137,
+      "abstained": 1,
+      "conflicts": 1,
+      "subtrack_hits": {
+        "0": 128
+      },
+      "max_subtrack_hits": 128,
+      "total_subtrack_hits": 128,
+      "discarded_tentative_subtracks": 0,
+      "subtrack_roles": {
+        "0": "driver"
+      },
+      "subtrack_states": {
+        "0": "NO_HELMET"
+      }
+    },
+    "pair_012/back/back_moto_0002_rider_s0": {
+      "hits": 167,
+      "slot_role": "driver",
+      "ordering_confident": true,
+      "slot_role_provisional": false,
+      "track_helmet_state": "HELMET",
+      "parent_abstained": 1,
+      "parent_conflicts": 1,
+      "parent_moto_frames": 183,
+      "abstained_updates_count": 1
+    },
+    "pair_012/back/back_moto_0002": {
+      "moto_hits": 183,
+      "abstained": 1,
+      "conflicts": 1,
+      "subtrack_hits": {
+        "0": 167
+      },
+      "max_subtrack_hits": 167,
+      "total_subtrack_hits": 167,
+      "discarded_tentative_subtracks": 0,
+      "subtrack_roles": {
+        "0": "driver"
+      },
+      "subtrack_states": {
+        "0": "HELMET"
+      }
+    },
+    "pair_019/front/front_moto_0002_rider_s0": {
+      "hits": 2,
+      "slot_role": "pillion_1",
+      "ordering_confident": true,
+      "slot_role_provisional": false,
+      "track_helmet_state": "UNCERTAIN",
+      "parent_abstained": 28,
+      "parent_conflicts": 53,
+      "parent_moto_frames": 272,
+      "abstained_updates_count": 0
+    },
+    "pair_019/front/front_moto_0002": {
+      "moto_hits": 272,
+      "abstained": 28,
+      "conflicts": 53,
+      "subtrack_hits": {
+        "0": 2,
+        "1": 4,
+        "2": 259
+      },
+      "max_subtrack_hits": 259,
+      "total_subtrack_hits": 265,
+      "discarded_tentative_subtracks": 2,
+      "subtrack_roles": {
+        "0": "pillion_1",
+        "1": "driver",
+        "2": "pillion_1"
+      },
+      "subtrack_states": {
+        "0": "UNCERTAIN",
+        "1": "NO_HELMET",
+        "2": "NO_HELMET"
+      }
+    },
+    "pair_021/back/back_moto_0001_rider_s0": {
+      "hits": 5,
+      "slot_role": "pillion_1",
+      "ordering_confident": true,
+      "slot_role_provisional": false,
+      "track_helmet_state": "NO_HELMET",
+      "parent_abstained": 4,
+      "parent_conflicts": 23,
+      "parent_moto_frames": 149,
+      "abstained_updates_count": 4
+    },
+    "pair_021/back/back_moto_0001": {
+      "moto_hits": 149,
+      "abstained": 4,
+      "conflicts": 23,
+      "subtrack_hits": {
+        "0": 5,
+        "1": 132
+      },
+      "max_subtrack_hits": 132,
+      "total_subtrack_hits": 137,
+      "discarded_tentative_subtracks": 2,
+      "subtrack_roles": {
+        "0": "pillion_1",
+        "1": "driver"
+      },
+      "subtrack_states": {
+        "0": "NO_HELMET",
+        "1": "NO_HELMET"
+      }
+    }
+  }
+}

@@ -43,6 +43,36 @@ class ByteTrackConfig:
     rider_spatial_override_min_iou: float = 0.35
     rider_ambiguity_iou_margin: float = 0.15
     rider_max_norm_center_dist: float = 0.65
+    # GAP-C: Motorcycle-anchored rider kinematics, finite coasting & role/orphan controls
+    use_motorcycle_relative_kinematics: bool = True
+    rel_damping_factor: float = 0.20
+    rel_pos_alpha: float = 0.70
+    rel_size_alpha: float = 0.50
+    rel_vel_beta: float = 0.25
+    rel_max_vel: float = 0.35
+    rider_rel_match_max_dist: float = 0.58
+    rider_rel_ambiguity_margin: float = 0.08
+    finite_rider_coast_enabled: bool = True
+    max_rider_coast_frames: int = 15
+    tentative_rider_coast_frames: int = 3
+    unlock_slot_conflicts: bool = True
+    duplicate_head_iou_threshold: float = 0.55
+    sibling_overlap_max_iou: float = 0.35
+    conflict_distinct_min_rel_dist: float = 0.58
+    max_active_riders_per_moto: int = 3
+    max_total_subtracks_per_moto: int = 6
+    role_consensus_enabled: bool = True
+    min_role_consensus_frames: int = 3
+    role_min_moto_speed_px: float = 2.0
+    role_min_proj_sep_px: float = 8.0
+    orphan_lifecycle_gating_enabled: bool = True
+    orphan_min_confirm_hits: int = 2
+    orphan_tentative_max_lost_frames: int = 3
+    orphan_tentative_min_conf: float = 0.18
+    export_confirmed_orphans_only: bool = True
+    frame_width: int | None = None
+    frame_height: int | None = None
+    clamp_non_negative_coords: bool = True
 
 
 def bbox_iou_xyxy(
@@ -101,6 +131,7 @@ class KalmanBoxFilter:
         self.P = np.diag(np.square(std))
 
         self.H = np.eye(4, 8, dtype=np.float64)
+        self._synced_bbox_xyxy: tuple[float, float, float, float] | None = None
 
     @staticmethod
     def _xyxy_to_cxcyah(bbox: tuple[float, float, float, float]) -> np.ndarray:
@@ -144,6 +175,7 @@ class KalmanBoxFilter:
         self.x[2] = max(0.05, float(self.x[2]))
         self.x[3] = max(2.0, float(self.x[3]))
         self.P = F @ self.P @ F.T + Q
+        self._synced_bbox_xyxy = None
         return self._cxcyah_to_xyxy(self.x)
 
     def update(self, bbox_xyxy: tuple[float, float, float, float]) -> tuple[float, float, float, float]:
@@ -168,10 +200,33 @@ class KalmanBoxFilter:
         self.x[3] = max(2.0, float(self.x[3]))
         # Joseph stabilized covariance update
         self.P = I_KH @ self.P @ I_KH.T + K @ R @ K.T
+        self._synced_bbox_xyxy = None
         return self._cxcyah_to_xyxy(self.x)
+
+    def sync_bbox_state(
+        self,
+        bbox_xyxy: tuple[float, float, float, float],
+        vx: float | None = None,
+        vy: float | None = None,
+    ) -> None:
+        """Synchronize stored spatial box (and optional pixel velocity) from anchored state."""
+        z = self._xyxy_to_cxcyah(bbox_xyxy)
+        self.x[:4] = z
+        self._synced_bbox_xyxy = (
+            float(bbox_xyxy[0]),
+            float(bbox_xyxy[1]),
+            float(bbox_xyxy[2]),
+            float(bbox_xyxy[3]),
+        )
+        if vx is not None:
+            self.x[4] = float(vx)
+        if vy is not None:
+            self.x[5] = float(vy)
 
     @property
     def current_bbox_xyxy(self) -> tuple[float, float, float, float]:
+        if self._synced_bbox_xyxy is not None:
+            return self._synced_bbox_xyxy
         return self._cxcyah_to_xyxy(self.x)
 
     @property

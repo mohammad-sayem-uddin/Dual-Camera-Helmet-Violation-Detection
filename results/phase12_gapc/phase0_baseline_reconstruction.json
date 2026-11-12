@@ -1,0 +1,106 @@
+{
+  "stagej": {
+    "front": {
+      "raw_heads": 6534,
+      "moto_tracks": 48,
+      "abstained": 841,
+      "conflicts": 811,
+      "overrides": 74,
+      "subtrack_hits": 5297,
+      "orphan_hits": 331
+    },
+    "back": {
+      "raw_heads": 3271,
+      "moto_tracks": 52,
+      "abstained": 2102,
+      "conflicts": 2153,
+      "overrides": 98,
+      "subtrack_hits": 860,
+      "orphan_hits": 288
+    },
+    "combined": {
+      "raw_heads": 9805,
+      "moto_tracks": 100,
+      "abstained": 2943,
+      "conflicts": 2964,
+      "overrides": 172,
+      "subtrack_hits": 6157,
+      "orphan_hits": 619
+    }
+  },
+  "replay": {
+    "front": {
+      "raw_heads": 6534,
+      "coupled_heads": 6246,
+      "uncoupled_heads": 288,
+      "moto_tracks": 48,
+      "abstained": 841,
+      "conflicts": 811,
+      "overrides": 74,
+      "subtrack_hits": 5297,
+      "orphan_hits": 331
+    },
+    "back": {
+      "raw_heads": 3271,
+      "coupled_heads": 2998,
+      "uncoupled_heads": 273,
+      "moto_tracks": 52,
+      "abstained": 2102,
+      "conflicts": 2153,
+      "overrides": 98,
+      "subtrack_hits": 860,
+      "orphan_hits": 288
+    },
+    "combined": {
+      "raw_heads": 9805,
+      "coupled_heads": 9244,
+      "uncoupled_heads": 561,
+      "moto_tracks": 100,
+      "abstained": 2943,
+      "conflicts": 2964,
+      "overrides": 172,
+      "subtrack_hits": 6157,
+      "orphan_hits": 619
+    }
+  },
+  "moto_id_exact_match": true,
+  "subtrack_k1": {
+    "front": 14,
+    "back": 18,
+    "total": 32
+  },
+  "subtrack_total": {
+    "front": 52,
+    "back": 34,
+    "total": 86
+  },
+  "orphan_1hit": {
+    "front": 33,
+    "back": 23,
+    "total": 56,
+    "lt_045": 34
+  },
+  "orphan_total": {
+    "front": 71,
+    "back": 59,
+    "total": 130
+  },
+  "slot_role_anomalies_in_subtracks": {
+    "front": 13,
+    "back": 1,
+    "total": 14
+  },
+  "role_mismatches_in_events": 14,
+  "validity": {
+    "counts": {
+      "COUPLED": 6748,
+      "PROPAGATED_STALE": 6834,
+      "OFF_FRAME": 663,
+      "INVALID": 4
+    },
+    "moto_rows": 12458,
+    "non_coupled_moto_rows": 6308,
+    "off_frame": 663,
+    "spatial_valid": 6727
+  }
+}

@@ -807,8 +807,11 @@ def _tracks_final_dict(pipe: CameraTrackingPipeline) -> dict[str, Any]:
         ],
         "orphan_tracks": [
             orphan_full(o)
-            for o in list(pipe.terminated_orphan_tracks)
-            + list(pipe.active_orphan_tracks.values())
+            for o in (
+                pipe.exported_orphan_tracks()
+                if hasattr(pipe, "exported_orphan_tracks")
+                else list(pipe.terminated_orphan_tracks) + list(pipe.active_orphan_tracks.values())
+            )
         ],
         "frames_updated": pipe.frames_updated,
         "duplicate_ticks_skipped": pipe.duplicate_ticks_skipped,
@@ -1702,11 +1705,17 @@ def run_pair(pair_id: str, config: PipelineConfig) -> PairRunResult:
             "back_moto_tracks": len(cam_outs["back"].pipeline.terminated_moto_tracks)
             + len(cam_outs["back"].pipeline.active_moto_tracks),
             "front_orphan_tracks": len(
-                cam_outs["front"].pipeline.terminated_orphan_tracks
-            )
-            + len(cam_outs["front"].pipeline.active_orphan_tracks),
-            "back_orphan_tracks": len(cam_outs["back"].pipeline.terminated_orphan_tracks)
-            + len(cam_outs["back"].pipeline.active_orphan_tracks),
+                cam_outs["front"].pipeline.exported_orphan_tracks()
+                if hasattr(cam_outs["front"].pipeline, "exported_orphan_tracks")
+                else list(cam_outs["front"].pipeline.terminated_orphan_tracks)
+                + list(cam_outs["front"].pipeline.active_orphan_tracks.values())
+            ),
+            "back_orphan_tracks": len(
+                cam_outs["back"].pipeline.exported_orphan_tracks()
+                if hasattr(cam_outs["back"].pipeline, "exported_orphan_tracks")
+                else list(cam_outs["back"].pipeline.terminated_orphan_tracks)
+                + list(cam_outs["back"].pipeline.active_orphan_tracks.values())
+            ),
             "association_outcome_counts": dict(batch.outcome_counts),
             "rider_outcome_counts": dict(batch.rider_outcome_counts),
             "orphan_outcome_counts": dict(batch.orphan_outcome_counts),

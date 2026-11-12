@@ -34,6 +34,7 @@ class CouplerConfig:
     head_in_person_min_ioa: float = 0.35
     head_person_ambiguity_margin: float = 0.08
     slot_ordering_min_separation_px: float = 8.0
+    provisional_single_rider_unconfident: bool = True
     # Weights when a mounted person box bridges the head and motorcycle
     w_with_person_cone: float = 0.40
     w_with_person_bridge: float = 0.30
@@ -90,6 +91,7 @@ class CoupledRiderObservation:
     second_best_score: float
     margin_over_second_best: float
     geometric_features: CouplingGeometricFeatures
+    slot_role_provisional: bool = False
 
     def to_dict(self) -> dict[str, Any]:
         return {
@@ -500,11 +502,12 @@ class MotoRiderCoupler:
                     person_detection=p,
                     slot_index=0,
                     slot_role="driver",
-                    ordering_confident=True,
+                    ordering_confident=not self.config.provisional_single_rider_unconfident,
                     coupling_score=sc,
                     second_best_score=s2,
                     margin_over_second_best=sc - s2,
                     geometric_features=feat,
+                    slot_role_provisional=True,
                 )
             ]
 

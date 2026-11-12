@@ -35,6 +35,7 @@ moto_rider_coupler:
   head_in_person_min_ioa: 0.35
   head_person_ambiguity_margin: 0.08
   slot_ordering_min_separation_px: 8.0
+  provisional_single_rider_unconfident: true
   weights_with_person:
     cone_ioa: 0.40
     person_bridge: 0.30
@@ -63,6 +64,36 @@ kalman_bytetrack:
   rider_spatial_override_min_iou: 0.35
   rider_ambiguity_iou_margin: 0.15
   rider_max_norm_center_dist: 0.65
+  # GAP-C: Motorcycle-anchored rider kinematics, finite coasting & role/orphan controls
+  use_motorcycle_relative_kinematics: true
+  rel_damping_factor: 0.20
+  rel_pos_alpha: 0.70
+  rel_size_alpha: 0.50
+  rel_vel_beta: 0.25
+  rel_max_vel: 0.35
+  rider_rel_match_max_dist: 0.58
+  rider_rel_ambiguity_margin: 0.08
+  finite_rider_coast_enabled: true
+  max_rider_coast_frames: 15
+  tentative_rider_coast_frames: 3
+  unlock_slot_conflicts: true
+  duplicate_head_iou_threshold: 0.55
+  sibling_overlap_max_iou: 0.35
+  conflict_distinct_min_rel_dist: 0.58
+  max_active_riders_per_moto: 3
+  max_total_subtracks_per_moto: 6
+  role_consensus_enabled: true
+  min_role_consensus_frames: 3
+  role_min_moto_speed_px: 2.0
+  role_min_proj_sep_px: 8.0
+  orphan_lifecycle_gating_enabled: true
+  orphan_min_confirm_hits: 2
+  orphan_tentative_max_lost_frames: 3
+  orphan_tentative_min_conf: 0.18
+  export_confirmed_orphans_only: true
+  frame_width: 3840
+  frame_height: 2160
+  clamp_non_negative_coords: true
 
 phase10_temporal_verification:
   aggregator_method: "ema"

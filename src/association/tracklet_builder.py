@@ -863,7 +863,12 @@ class TrackletBuilder:
 
         seen_orphan_ids: set[str] = set()
         all_orphans: list[OrphanRiderTrack] = []
-        for o in list(pipeline.active_orphan_tracks.values()) + list(pipeline.terminated_orphan_tracks):
+        raw_orphans = (
+            pipeline.exported_orphan_tracks()
+            if hasattr(pipeline, "exported_orphan_tracks")
+            else list(pipeline.active_orphan_tracks.values()) + list(pipeline.terminated_orphan_tracks)
+        )
+        for o in raw_orphans:
             if o.orphan_track_id in seen_orphan_ids:
                 continue
             seen_orphan_ids.add(o.orphan_track_id)
