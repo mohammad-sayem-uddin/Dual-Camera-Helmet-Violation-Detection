@@ -65,7 +65,7 @@ Every arm strictly obeyed `keyframe_max_per_camera = 24` (`keyframe_stride = 3`)
 
 | Pair | Entities (`Front <-> Back`) | Ground-Truth Role | Cue C (`720p` / `4K`) | Zone Breakdown (`720p`: Cranial / Torso / Chassis) | Composite (`C0 -> C2 -> C3`) | Outcome (`C0 / C2 / C3`) |
 |---|---|---|---|---|---|---|
-| `pair_005` | `front_moto_0001 <-> back_moto_0001` | `NON_MATCH` (`UNMATCHED`) | `0.6216 / 0.6253` | `0.5190 / 0.5633 / 0.8497` | `0.6192 -> 0.6197 -> 0.6203` | `UNM / UNM / LINKED*` |
+| `pair_005` | `front_moto_0001 <-> back_moto_0001` | `NON_MATCH` (`UNMATCHED`) | `0.6216 / 0.6253` | `0.5190 / 0.5633 / 0.8497` | `0.6192 -> 0.6197 -> 0.6203` | `UNM / UNM / LINKED†` |
 | `pair_005` | `front_orphan_0002 <-> back_moto_0001_s0` | Asymmetric negative | `0.6565 / 0.6596` | `0.6053 / 0.6907 / —` | — | `NOT_L / NOT_L / NOT_L` |
 | `pair_008` | `front_moto_0001 <-> back_moto_0001` | **`GT_LINKED`** | `0.7962 / 0.7988` | `0.6203 / 0.8868 / 0.8441` | `0.9763 -> 0.9445 -> 0.9450` | **`LNK / LNK / LNK`** |
 | `pair_008` | `rider_s0 <-> back_s0` | **`GT_LINKED_RIDER`** | `0.7802 / 0.7850` | `0.6203 / 0.8868 / —` | — | **`LNK / LNK / LNK`** |
@@ -78,7 +78,8 @@ Every arm strictly obeyed `keyframe_max_per_camera = 24` (`keyframe_stride = 3`)
 | `pair_019` | `moto2_s2 <-> back_moto2_s0` | **`GAPC_RECOVERED_DRV`** | `0.7426 / 0.7374` | `0.7721 / 0.7230 / —` | — | **`LNK / LNK / LNK`** |
 | `pair_019` | `moto2_s0 <-> back_moto2_s0` | Wrong co-rider | `0.5557 / 0.5835` | `0.4880 / 0.6008 / —` | — | `NOT_L / NOT_L / NOT_L` |
 
-*\*Note on `pair_009/front_moto_0001 <-> back_moto_0001`: both Stage J (`0.6707`) and `C0` (`0.8743`) already linked this pair without Cue C (`C2 = 0.8681`, `C3 = 0.8675`), whereas GT excluded `back_moto_0001` in Stage E recalculation (`cross_camera_identity_links.csv` L83).*
+*†Note on `pair_005/front_moto_0001 <-> back_moto_0001`: borderline unmatched pair (`0.6192` in `C0`) stays `UNMATCHED` in `C2 (720p)` (`0.6197`), crosses `min_association_score = 0.62` by `+0.0003` into a false `LINKED` in `C3 (4K)` (`0.6203`, `Cue C = 0.6253`), and also false-linked in `C1 (A0+720p)` at `0.6540` (`Cue C = 0.8161`) because `A0` starved the back rider tracklet.*  
+*Background note on `pair_009/front_moto_0001 <-> back_moto_0001`: both Stage J (`0.6707`) and `C0` (`0.8743`) already linked this pair without Cue C (`C2 = 0.8681`, `C3 = 0.8675`), whereas GT excluded `back_moto_0001` in Stage E recalculation (`cross_camera_identity_links.csv` L83).*
 
 ---
 
