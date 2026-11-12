@@ -21,6 +21,13 @@ from typing import Any
 import cv2
 import numpy as np
 
+from src.association.coordinate_space import (
+    CropResult,
+    REJ_UNKNOWN_DIMS_MISMATCH,
+    UNKNOWN_DIMS_TOLERANCE_PX,
+    crop_native_box,
+    normalize_dimensions,
+)
 from src.association.tracklet_models import AppearanceDescriptorRecord, ObservedFrameRecord
 
 
@@ -46,38 +53,43 @@ def _extract_subbox_crop(
     bbox_xyxy: tuple[float, float, float, float],
     x_rel_range: tuple[float, float] = (0.0, 1.0),
     y_rel_range: tuple[float, float] = (0.0, 1.0),
+    native_wh: tuple[int, int] | None = None,
 ) -> np.ndarray | None:
-    """Safely slice a relative sub-region of `bbox_xyxy` from `image_bgr`."""
-    if image_bgr is None or image_bgr.size == 0 or image_bgr.ndim != 3:
-        return None
-    img_h, img_w = image_bgr.shape[:2]
-    x1, y1, x2, y2 = bbox_xyxy
-    bw = max(0.0, x2 - x1)
-    bh = max(0.0, y2 - y1)
-    if bw < 2.0 or bh < 2.0:
-        return None
+    """Slice a relative sub-region of a native-coordinate `bbox_xyxy` from `image_bgr`.
 
-    sx1 = int(round(max(0.0, min(float(img_w), x1 + x_rel_range[0] * bw))))
-    sx2 = int(round(max(0.0, min(float(img_w), x1 + x_rel_range[1] * bw))))
-    sy1 = int(round(max(0.0, min(float(img_h), y1 + y_rel_range[0] * bh))))
-    sy2 = int(round(max(0.0, min(float(img_h), y1 + y_rel_range[1] * bh))))
-    if sx2 <= sx1 or sy2 <= sy1:
-        return None
-    return image_bgr[sy1:sy2, sx1:sx2]
+    `native_wh` is the `(width, height)` of the frame the box coordinates live in; the
+    stored image may be a downscaled copy of it. With `native_wh=None` the image is
+    treated as native only when the box is consistent with it (see
+    `src.association.coordinate_space`). Returns None on any rejection; use
+    `crop_native_box` directly to obtain the rejection reason.
+    """
+    return crop_native_box(image_bgr, bbox_xyxy, native_wh, x_rel_range, y_rel_range).crop
 
 
 def compute_crop_quality(
     crop_bgr: np.ndarray | None,
     config: AppearanceConfig,
+    min_dim_scale: float = 1.0,
 ) -> tuple[bool, float, str | None]:
     """
     Evaluate whether an observed crop passes minimum resolution and sharpness checks.
     Returns `(is_valid, quality_score_in_0_1, rejection_reason)`.
+
+    `min_dim_scale` (<= 1.0) is the native->stored-image scale of the keyframe the crop
+    came from. The configured minimum crop size is defined in native pixels, so it is
+    scaled by the same factor (floor 8 px) when the keyframe is downscaled
+    (Argon TASK-05B §10). With the default 1.0 behaviour is unchanged.
     """
     if crop_bgr is None or crop_bgr.size == 0:
         return False, 0.0, "EMPTY_CROP"
+    scale = min(1.0, float(min_dim_scale))
+    if scale < 1.0:
+        min_w = max(8, int(round(config.min_crop_width_px * scale)))
+        min_h = max(8, int(round(config.min_crop_height_px * scale)))
+    else:
+        min_w, min_h = config.min_crop_width_px, config.min_crop_height_px
     ch, cw = crop_bgr.shape[:2]
-    if cw < config.min_crop_width_px or ch < config.min_crop_height_px:
+    if cw < min_w or ch < min_h:
         return False, 0.0, "CROP_BELOW_MIN_RESOLUTION"
 
     gray = cv2.cvtColor(crop_bgr, cv2.COLOR_BGR2GRAY)
@@ -85,7 +97,7 @@ def compute_crop_quality(
     if lap_var < config.min_laplacian_sharpness:
         return False, 0.0, "CROP_MOTION_BLUR_BELOW_SHARPNESS"
 
-    size_factor = min(1.0, float(cw * ch) / float(max(1, config.min_crop_width_px * config.min_crop_height_px * 4)))
+    size_factor = min(1.0, float(cw * ch) / float(max(1, min_w * min_h * 4)))
     sharp_factor = min(1.0, lap_var / max(1.0, config.min_laplacian_sharpness * 4.0))
     quality = float(0.55 * size_factor + 0.45 * sharp_factor)
     if quality < config.min_valid_crop_quality:
@@ -168,10 +180,16 @@ def extract_tracklet_appearance_descriptor(
     frame_images_by_index: dict[int, np.ndarray] | None,
     config: AppearanceConfig,
     is_motorcycle_tracklet: bool = True,
+    native_frame_dimensions: tuple[int, int] | None = None,
 ) -> AppearanceDescriptorRecord:
     """
     Extract quality-weighted average appearance histograms strictly from observed
     frames (`ObservedFrameRecord`) when `frame_images_by_index` is supplied.
+
+    `native_frame_dimensions` is the `(width, height)` of the decoded frame in which the
+    record bounding boxes live. Stored keyframes may be downscaled copies; box
+    coordinates are mapped into each image's actual coordinate system via
+    `src.association.coordinate_space`.
     """
     if not config.enabled:
         return AppearanceDescriptorRecord(
@@ -189,59 +207,71 @@ def extract_tracklet_appearance_descriptor(
             unavailable_reason="NO_OBSERVED_FRAMES",
         )
 
+    native_wh = normalize_dimensions(native_frame_dimensions)
+
+    # All boxes belonging to this tracklet so that, when native_wh is None,
+    # an out-of-bounds box on *any* frame flags the coordinate-space mismatch
+    # uniformly rather than extracting wrong-scale 1:1 pixels on earlier frames.
+    all_tracklet_boxes: list[tuple[float, float, float, float]] = [obs.bbox_xyxy for obs in observed_frames]
+    all_tracklet_boxes.extend(
+        obs.person_bbox_xyxy for obs in observed_frames if obs.person_bbox_xyxy is not None
+    )
+
     cranial_hists: list[tuple[float, np.ndarray]] = []
     torso_hists: list[tuple[float, np.ndarray]] = []
     chassis_hists: list[tuple[float, np.ndarray]] = []
     qualities: list[float] = []
     last_rejection: str | None = "NO_MATCHING_FRAME_INDEX"
+    rejection_counts: dict[str, int] = {}
+    frames_with_keyframe = 0
+
+    def _reject(reason: str) -> None:
+        nonlocal last_rejection
+        last_rejection = reason
+        rejection_counts[reason] = rejection_counts.get(reason, 0) + 1
+
+    def _crop_and_hist(
+        frame_bgr: np.ndarray,
+        bbox: tuple[float, float, float, float],
+        x_rel: tuple[float, float],
+        y_rel: tuple[float, float],
+        sink: list[tuple[float, np.ndarray]],
+    ) -> None:
+        if native_wh is None and frame_bgr is not None and frame_bgr.size > 0 and frame_bgr.ndim == 3:
+            img_h, img_w = frame_bgr.shape[:2]
+            if any(
+                b[2] > img_w + UNKNOWN_DIMS_TOLERANCE_PX or b[3] > img_h + UNKNOWN_DIMS_TOLERANCE_PX
+                for b in all_tracklet_boxes
+            ):
+                _reject(REJ_UNKNOWN_DIMS_MISMATCH)
+                return
+        res: CropResult = crop_native_box(frame_bgr, bbox, native_wh, x_rel, y_rel)
+        if res.crop is None:
+            _reject(res.reason or "EMPTY_CROP")
+            return
+        ok, q, rej = compute_crop_quality(res.crop, config, min_dim_scale=min(res.scale_xy))
+        if ok:
+            sink.append((q, compute_hsv_achromatic_histogram(res.crop, config)))
+            qualities.append(q)
+        elif rej:
+            _reject(rej)
 
     for obs in observed_frames:
         frame_bgr = frame_images_by_index.get(obs.frame_index)
         if frame_bgr is None:
             continue
+        frames_with_keyframe += 1
 
         if is_motorcycle_tracklet:
             # 1. Motorcycle chassis core (lower-central 50% of motorcycle box)
-            chassis_crop = _extract_subbox_crop(
-                frame_bgr,
-                obs.bbox_xyxy,
-                x_rel_range=(0.20, 0.80),
-                y_rel_range=(0.35, 0.85),
-            )
-            ok_c, q_c, rej_c = compute_crop_quality(chassis_crop, config)
-            if ok_c and chassis_crop is not None:
-                chassis_hists.append((q_c, compute_hsv_achromatic_histogram(chassis_crop, config)))
-                qualities.append(q_c)
-            elif rej_c:
-                last_rejection = rej_c
+            _crop_and_hist(frame_bgr, obs.bbox_xyxy, (0.20, 0.80), (0.35, 0.85), chassis_hists)
         else:
             # Rider or Orphan Rider tracklet: extract cranial cap core + upper torso
-            cranial_crop = _extract_subbox_crop(
-                frame_bgr,
-                obs.bbox_xyxy,
-                x_rel_range=(0.20, 0.80),
-                y_rel_range=(0.15, 0.75),
-            )
-            ok_h, q_h, rej_h = compute_crop_quality(cranial_crop, config)
-            if ok_h and cranial_crop is not None:
-                cranial_hists.append((q_h, compute_hsv_achromatic_histogram(cranial_crop, config)))
-                qualities.append(q_h)
-            elif rej_h:
-                last_rejection = rej_h
-
+            _crop_and_hist(frame_bgr, obs.bbox_xyxy, (0.20, 0.80), (0.15, 0.75), cranial_hists)
             if obs.person_bbox_xyxy is not None:
-                torso_crop = _extract_subbox_crop(
-                    frame_bgr,
-                    obs.person_bbox_xyxy,
-                    x_rel_range=(0.20, 0.80),
-                    y_rel_range=(0.22, 0.62),
+                _crop_and_hist(
+                    frame_bgr, obs.person_bbox_xyxy, (0.20, 0.80), (0.22, 0.62), torso_hists
                 )
-                ok_t, q_t, rej_t = compute_crop_quality(torso_crop, config)
-                if ok_t and torso_crop is not None:
-                    torso_hists.append((q_t, compute_hsv_achromatic_histogram(torso_crop, config)))
-                    qualities.append(q_t)
-                elif rej_t:
-                    last_rejection = rej_t
 
     def _weighted_avg(items: list[tuple[float, np.ndarray]]) -> list[float]:
         if not items:
@@ -266,6 +296,9 @@ def extract_tracklet_appearance_descriptor(
             unavailable_reason=last_rejection or "NO_VALID_CROPS_AFTER_QUALITY_GATE",
             valid_observed_crops_count=0,
             mean_crop_quality=0.0,
+            observed_frames_total=len(observed_frames),
+            observed_frames_with_keyframe=frames_with_keyframe,
+            crop_rejection_counts=dict(rejection_counts),
         )
 
     mean_q = float(np.mean(qualities)) if qualities else 0.0
@@ -275,6 +308,9 @@ def extract_tracklet_appearance_descriptor(
             unavailable_reason="MEAN_CROP_QUALITY_BELOW_THRESHOLD",
             valid_observed_crops_count=valid_count,
             mean_crop_quality=mean_q,
+            observed_frames_total=len(observed_frames),
+            observed_frames_with_keyframe=frames_with_keyframe,
+            crop_rejection_counts=dict(rejection_counts),
         )
 
     return AppearanceDescriptorRecord(
@@ -285,6 +321,9 @@ def extract_tracklet_appearance_descriptor(
         cranial_cap_histogram=cranial_vec,
         upper_torso_histogram=torso_vec,
         moto_chassis_histogram=chassis_vec,
+        observed_frames_total=len(observed_frames),
+        observed_frames_with_keyframe=frames_with_keyframe,
+        crop_rejection_counts=dict(rejection_counts),
     )
 
 

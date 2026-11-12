@@ -19,8 +19,10 @@ import csv
 import json
 import os
 
-ROOT = os.path.expanduser("~/workspace/research_helmet")
-PC = os.path.join(ROOT, "work/postcompletion")
+from pathlib import Path
+
+REPO = Path(os.environ.get("RESEARCH_HELMET_ROOT", str(Path(__file__).resolve().parents[2])))
+PC = os.environ.get("POSTCOMPLETION_OUT_DIR", str(REPO / "results" / "postcompletion"))
 
 
 def load_csv(path):
@@ -29,8 +31,8 @@ def load_csv(path):
 
 
 def main():
-    forensic = {r["filename"]: r for r in load_csv(os.path.join(
-        ROOT, "repo/results/phase12c_pts_sync/stream_pts_forensics_50_videos.csv"))}
+    forensic = {r["filename"]: r for r in load_csv(str(
+        REPO / "results/phase12c_pts_sync/stream_pts_forensics_50_videos.csv"))}
     measured = {r["filename"]: r for r in load_csv(os.path.join(PC, "frame_counts_measured.csv"))}
     stagej = json.load(open(os.path.join(PC, "stagej_per_pair.json")))   # pair -> [front, back]
     pass1 = json.load(open(os.path.join(PC, "pass1_per_pair.json")))

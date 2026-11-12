@@ -25,6 +25,11 @@ from src.association.appearance_features import (
     AppearanceConfig,
     extract_tracklet_appearance_descriptor,
 )
+from src.association.coordinate_space import (
+    boxes_consistent_with_frame,
+    is_box_near_border,
+    normalize_dimensions,
+)
 from src.association.tracklet_models import (
     AppearanceDescriptorRecord,
     MotorcycleTracklet,
@@ -37,6 +42,7 @@ from src.association.tracklet_models import (
 )
 from src.tracking.camera_tracker import (
     CameraTrackingPipeline,
+    HelmetEvidenceAccumulator,
     MotoTrack,
     OrphanRiderTrack,
     RiderSubTrack,
@@ -53,8 +59,12 @@ class TrackletBuilderConfig:
     min_observation_density: float = 0.30
     border_margin_px: float = 45.0
     exclude_tentative_tracks: bool = False
-    frame_width_px: int = 1920
-    frame_height_px: int = 1080
+    # Optional EXPLICIT override of the frame size (pixels, in the bounding-box
+    # coordinate space). Default None: dimensions must come from the per-call
+    # `frame_dimensions` (authoritative decoded-frame size). There is no implicit
+    # 1920x1080 fallback; unknown geometry yields an explicit "unknown" border status.
+    frame_width_px: int | None = None
+    frame_height_px: int | None = None
     appearance_config: AppearanceConfig = field(default_factory=AppearanceConfig)
 
 
@@ -88,6 +98,10 @@ def _is_bbox_near_border(
     )
 
 
+BORDER_UNKNOWN_REASON = "BORDER_GEOMETRY_UNKNOWN_NO_FRAME_DIMENSIONS"
+BORDER_MISMATCH_REASON = "BORDER_COORDINATE_SPACE_MISMATCH"
+
+
 def _bbox_area(bbox_xyxy: tuple[float, float, float, float]) -> float:
     x1, y1, x2, y2 = bbox_xyxy
     return float(max(0.0, x2 - x1) * max(0.0, y2 - y1))
@@ -101,6 +115,52 @@ class TrackletBuilder:
 
     def __init__(self, config: TrackletBuilderConfig | None = None) -> None:
         self.config = config or TrackletBuilderConfig()
+
+    def _resolve_frame_dimensions(
+        self, frame_dimensions: tuple[int, int] | None
+    ) -> tuple[int, int] | None:
+        """Per-call authoritative `(width, height)` first, then explicit config override."""
+        dims = normalize_dimensions(frame_dimensions)
+        if dims is not None:
+            return dims
+        if self.config.frame_width_px is not None and self.config.frame_height_px is not None:
+            return normalize_dimensions((self.config.frame_width_px, self.config.frame_height_px))
+        return None
+
+    def _border_flags(
+        self,
+        entry_box: tuple[float, float, float, float],
+        exit_box: tuple[float, float, float, float],
+        all_boxes: list[tuple[float, float, float, float]],
+        dims: tuple[int, int] | None,
+    ) -> tuple[bool, bool, str | None]:
+        """Return `(entry_near_border, exit_near_border, status_reason)`.
+
+        `status_reason` is None when classification is valid; otherwise the flags are
+        False (not classified) and the reason documents why.
+        """
+        if dims is None:
+            return False, False, BORDER_UNKNOWN_REASON
+        if not boxes_consistent_with_frame(all_boxes or [entry_box, exit_box], dims):
+            return False, False, BORDER_MISMATCH_REASON
+        m = self.config.border_margin_px
+        return (
+            is_box_near_border(entry_box, dims, m),
+            is_box_near_border(exit_box, dims, m),
+            None,
+        )
+
+    @staticmethod
+    def _export_helmet_evidence(track: Any, ema_ac: dict[str, float]) -> dict[str, Any]:
+        """Copy the TASK-04 export of a source track (single implementation: the tracker's).
+
+        A track without a `helmet_evidence` accumulator exports an EMPTY accumulator, whose
+        canonical state is UNCERTAIN with zero observations - no evidence is invented.
+        """
+        acc = getattr(track, "helmet_evidence", None)
+        if not isinstance(acc, HelmetEvidenceAccumulator):
+            acc = HelmetEvidenceAccumulator()
+        return acc.export(ema_ac)
 
     def _to_canonical_pts(
         self,
@@ -123,6 +183,7 @@ class TrackletBuilder:
         frame_images_by_index: dict[int, np.ndarray] | None = None,
         canonical_pts_by_frame: dict[int, float] | None = None,
         delta_pts_ms_by_frame: dict[int, float] | None = None,
+        frame_dimensions: tuple[int, int] | None = None,
     ) -> RiderTracklet:
         """Build a `RiderTracklet` from a `RiderSubTrack`."""
         obs_records: list[ObservedFrameRecord] = []
@@ -237,6 +298,7 @@ class TrackletBuilder:
             frame_images_by_index=frame_images_by_index,
             config=self.config.appearance_config,
             is_motorcycle_tracklet=False,
+            native_frame_dimensions=self._resolve_frame_dimensions(frame_dimensions),
         )
 
         coupling_scores = [
@@ -282,6 +344,7 @@ class TrackletBuilder:
             completeness=completeness,
             observed_frames=obs_records,
             appearance_descriptor=app_desc,
+            genuine_helmet_evidence=self._export_helmet_evidence(subtrack, subtrack.aggregated_confidence),
         )
 
     def build_motorcycle_tracklet(
@@ -291,6 +354,7 @@ class TrackletBuilder:
         frame_images_by_index: dict[int, np.ndarray] | None = None,
         canonical_pts_by_frame: dict[int, float] | None = None,
         delta_pts_ms_by_frame: dict[int, float] | None = None,
+        frame_dimensions: tuple[int, int] | None = None,
     ) -> MotorcycleTracklet:
         """Build a `MotorcycleTracklet` from a single-camera `MotoTrack`."""
         obs_records: list[ObservedFrameRecord] = []
@@ -365,6 +429,7 @@ class TrackletBuilder:
                 frame_images_by_index=frame_images_by_index,
                 canonical_pts_by_frame=canonical_pts_by_frame,
                 delta_pts_ms_by_frame=delta_pts_ms_by_frame,
+                frame_dimensions=frame_dimensions,
             )
             rider_tracklets[int(s_idx)] = rt
             for r_obs in rt.observed_frames:
@@ -435,17 +500,9 @@ class TrackletBuilder:
             mean_conf = 0.0
 
         density = float(obs_count / max(1, span_frames))
-        entry_border = _is_bbox_near_border(
-            entry_box,
-            self.config.frame_width_px,
-            self.config.frame_height_px,
-            self.config.border_margin_px,
-        )
-        exit_border = _is_bbox_near_border(
-            exit_box,
-            self.config.frame_width_px,
-            self.config.frame_height_px,
-            self.config.border_margin_px,
+        dims = self._resolve_frame_dimensions(frame_dimensions)
+        entry_border, exit_border, border_status = self._border_flags(
+            entry_box, exit_box, [r.bbox_xyxy for r in obs_records], dims
         )
 
         # Rider count summary
@@ -480,10 +537,13 @@ class TrackletBuilder:
             completeness = TrackletCompleteness.COMPLETE
             completeness_reasons.append("SUFFICIENT_OBSERVED_FRAMES_AND_DENSITY")
 
-        if not entry_border and obs_count >= self.config.min_observed_frames_moto:
-            completeness_reasons.append("MID_FRAME_INITIATION")
-        if not exit_border and moto_track.lifecycle_state == TrackLifecycleState.TERMINATED:
-            completeness_reasons.append("MID_FRAME_TERMINATION")
+        if border_status is not None:
+            completeness_reasons.append(border_status)
+        else:
+            if not entry_border and obs_count >= self.config.min_observed_frames_moto:
+                completeness_reasons.append("MID_FRAME_INITIATION")
+            if not exit_border and moto_track.lifecycle_state == TrackLifecycleState.TERMINATED:
+                completeness_reasons.append("MID_FRAME_TERMINATION")
 
         # Extract chassis appearance and combine with driver/rider cranial & torso histograms
         chassis_desc = extract_tracklet_appearance_descriptor(
@@ -491,6 +551,7 @@ class TrackletBuilder:
             frame_images_by_index=frame_images_by_index,
             config=self.config.appearance_config,
             is_motorcycle_tracklet=True,
+            native_frame_dimensions=dims,
         )
         combined_app = self._combine_motorcycle_and_rider_appearance(
             chassis_desc, rider_tracklets
@@ -597,6 +658,9 @@ class TrackletBuilder:
             cranial_cap_histogram=cranial_hist,
             upper_torso_histogram=torso_hist,
             moto_chassis_histogram=chassis_hist,
+            observed_frames_total=chassis_desc.observed_frames_total,
+            observed_frames_with_keyframe=chassis_desc.observed_frames_with_keyframe,
+            crop_rejection_counts=dict(chassis_desc.crop_rejection_counts),
         )
 
     def build_orphan_tracklet(
@@ -606,6 +670,7 @@ class TrackletBuilder:
         frame_images_by_index: dict[int, np.ndarray] | None = None,
         canonical_pts_by_frame: dict[int, float] | None = None,
         delta_pts_ms_by_frame: dict[int, float] | None = None,
+        frame_dimensions: tuple[int, int] | None = None,
     ) -> OrphanRiderTracklet:
         """Build an `OrphanRiderTracklet` from a single-camera `OrphanRiderTrack`."""
         obs_records: list[ObservedFrameRecord] = []
@@ -717,6 +782,7 @@ class TrackletBuilder:
             frame_images_by_index=frame_images_by_index,
             config=self.config.appearance_config,
             is_motorcycle_tracklet=False,
+            native_frame_dimensions=self._resolve_frame_dimensions(frame_dimensions),
         )
 
         return OrphanRiderTracklet(
@@ -748,6 +814,9 @@ class TrackletBuilder:
             timestamp_quality=timestamp_quality,
             observed_frames=obs_records,
             appearance_descriptor=app_desc,
+            genuine_helmet_evidence=self._export_helmet_evidence(
+                orphan_track, orphan_track.phase10_track.aggregator.get_aggregated_confidence()
+            ),
         )
 
     def extract_from_pipeline(
@@ -757,6 +826,7 @@ class TrackletBuilder:
         frame_images_by_index: dict[int, np.ndarray] | None = None,
         canonical_pts_by_frame: dict[int, float] | None = None,
         delta_pts_ms_by_frame: dict[int, float] | None = None,
+        frame_dimensions: tuple[int, int] | None = None,
     ) -> tuple[list[MotorcycleTracklet], list[OrphanRiderTracklet]]:
         """
         Extract deduplicated `MotorcycleTracklet` and `OrphanRiderTracklet` lists
@@ -785,6 +855,7 @@ class TrackletBuilder:
                 frame_images_by_index=frame_images_by_index,
                 canonical_pts_by_frame=canonical_pts_by_frame,
                 delta_pts_ms_by_frame=delta_pts_ms_by_frame,
+                frame_dimensions=frame_dimensions,
             )
             for m in all_motos
         ]
@@ -805,6 +876,7 @@ class TrackletBuilder:
                 frame_images_by_index=frame_images_by_index,
                 canonical_pts_by_frame=canonical_pts_by_frame,
                 delta_pts_ms_by_frame=delta_pts_ms_by_frame,
+                frame_dimensions=frame_dimensions,
             )
             for o in all_orphans
         ]

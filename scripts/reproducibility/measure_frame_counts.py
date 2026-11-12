@@ -16,8 +16,11 @@ import sys
 
 import cv2
 
-ROOT = os.path.expanduser("~/workspace/research_helmet")
-OUT = os.path.join(ROOT, "work/postcompletion/frame_counts_measured.csv")
+from pathlib import Path
+
+REPO = Path(os.environ.get("RESEARCH_HELMET_ROOT", str(Path(__file__).resolve().parents[2])))
+PC = Path(os.environ.get("POSTCOMPLETION_OUT_DIR", str(REPO / "results" / "postcompletion")))
+OUT = str(PC / "frame_counts_measured.csv")
 
 
 def ffprobe_counts(path):
@@ -45,8 +48,8 @@ def opencv_decode_count(path):
 
 
 def main():
-    files = sorted(glob.glob(os.path.join(ROOT, "repo/data/dual_camera_test_v1/front/*.mp4")) +
-                   glob.glob(os.path.join(ROOT, "repo/data/dual_camera_test_v1/back/*.mp4")))
+    files = sorted(glob.glob(str(REPO / "data/dual_camera_test_v1/front/*.mp4")) +
+                   glob.glob(str(REPO / "data/dual_camera_test_v1/back/*.mp4")))
     assert len(files) == 50, len(files)
     rows = []
     for i, path in enumerate(files, 1):
@@ -59,6 +62,7 @@ def main():
                      "opencv_sequential_decode": dec, "opencv_cap_prop_frame_count": prop})
         print(f"[{i}/50] {fn}: packets={pkts} nb_frames={nb_frames} decode={dec} prop={prop}",
               flush=True)
+    os.makedirs(os.path.dirname(OUT), exist_ok=True)
     with open(OUT, "w", newline="") as f:
         w = csv.DictWriter(f, fieldnames=list(rows[0].keys()))
         w.writeheader()

@@ -5,10 +5,13 @@ repo/docs/phase12/track_failure_examples/ and a manifest to work/postcompletion/
 import json, os, glob
 import cv2
 
-ROOT = os.path.expanduser('~/workspace/research_helmet')
-REL = ROOT + '/repo/data/dual_camera_test_v1/releases/dual_camera_gt_v1.0_ai_assisted_audited'
-VID = ROOT + '/repo/data/dual_camera_test_v1'
-OUTDIR = ROOT + '/repo/docs/phase12/track_failure_examples'
+from pathlib import Path
+
+REPO = Path(os.environ.get("RESEARCH_HELMET_ROOT", str(Path(__file__).resolve().parents[2])))
+REL = os.environ.get("GT_RELEASE_DIR", str(REPO / "data/dual_camera_test_v1/releases/dual_camera_gt_v1.0_ai_assisted_audited"))
+VID = os.environ.get("DUAL_CAMERA_VID_DIR", str(REPO / "data/dual_camera_test_v1"))
+OUTDIR = os.environ.get("TRACK_FAILURE_EXAMPLES_DIR", str(REPO / "docs/phase12/track_failure_examples"))
+PC = os.environ.get("POSTCOMPLETION_OUT_DIR", str(REPO / "results/postcompletion"))
 os.makedirs(OUTDIR, exist_ok=True)
 
 # load GT observations per (pair, cam, track)
@@ -96,6 +99,7 @@ for (pair, cam), fmap in sorted(targets.items()):
         cv2.imwrite(os.path.join(OUTDIR, f'{pair}_{track}_f{fi:04d}_crop.png'), crop)
         print('saved', pair, cam, track, 'frame', fi, 'state', o['state'])
 
-with open(ROOT + '/work/postcompletion/examples_manifest.json', 'w') as f:
+os.makedirs(PC, exist_ok=True)
+with open(os.path.join(PC, 'examples_manifest.json'), 'w') as f:
     json.dump(manifest, f, indent=1)
 print('manifest entries:', len(manifest))

@@ -149,6 +149,8 @@ class CrossCameraAssociationEngine:
         )
 
         tb_raw = raw.get("tracklet_builder", {})
+        fw_raw = _unwrap_val(tb_raw, "frame_width_px", None)
+        fh_raw = _unwrap_val(tb_raw, "frame_height_px", None)
         builder_cfg = TrackletBuilderConfig(
             min_observed_frames_moto=int(_unwrap_val(tb_raw, "min_observed_frames_moto", 2)),
             min_observed_frames_rider=int(_unwrap_val(tb_raw, "min_observed_frames_rider", 2)),
@@ -156,6 +158,8 @@ class CrossCameraAssociationEngine:
             min_observation_density=float(_unwrap_val(tb_raw, "min_observation_density", 0.30)),
             border_margin_px=float(_unwrap_val(tb_raw, "border_margin_px", 45.0)),
             exclude_tentative_tracks=bool(_unwrap_val(tb_raw, "exclude_tentative_tracks", False)),
+            frame_width_px=int(fw_raw) if fw_raw is not None else None,
+            frame_height_px=int(fh_raw) if fh_raw is not None else None,
             appearance_config=app_cfg,
         )
 
@@ -403,6 +407,8 @@ class CrossCameraAssociationEngine:
         front_delta_pts_ms_by_frame: dict[int, float] | None = None,
         back_delta_pts_ms_by_frame: dict[int, float] | None = None,
         calibrated_homography_available: bool = False,
+        front_frame_dimensions: tuple[int, int] | None = None,
+        back_frame_dimensions: tuple[int, int] | None = None,
     ) -> CrossCameraAssociationBatchResult:
         """
         Extract tracklets from `front_pipeline` and `back_pipeline` and execute
@@ -415,6 +421,7 @@ class CrossCameraAssociationEngine:
             frame_images_by_index=front_frames_by_index,
             canonical_pts_by_frame=front_canonical_pts_by_frame,
             delta_pts_ms_by_frame=front_delta_pts_ms_by_frame,
+            frame_dimensions=front_frame_dimensions,
         )
         back_motos, back_orphans = self.builder.extract_from_pipeline(
             pipeline=back_pipeline,
@@ -422,6 +429,7 @@ class CrossCameraAssociationEngine:
             frame_images_by_index=back_frames_by_index,
             canonical_pts_by_frame=back_canonical_pts_by_frame,
             delta_pts_ms_by_frame=back_delta_pts_ms_by_frame,
+            frame_dimensions=back_frame_dimensions,
         )
         build_ms = (time.perf_counter() - t0) * 1000.0
 

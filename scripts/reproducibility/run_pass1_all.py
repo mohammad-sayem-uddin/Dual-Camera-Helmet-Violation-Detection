@@ -6,10 +6,11 @@ import json, subprocess, sys, time
 from pathlib import Path
 
 import os
-REPO = Path(os.environ.get("HELMET_REPO", "/home/hatch/workspace/research_helmet/repo"))
-OUT = Path(os.environ.get("HELMET_PASS1_OUT", "/home/hatch/workspace/research_helmet/work/pass1"))
+_DEFAULT_REPO = Path(__file__).resolve().parents[2]
+REPO = Path(os.environ.get("RESEARCH_HELMET_ROOT", os.environ.get("HELMET_REPO", str(_DEFAULT_REPO))))
+OUT = Path(os.environ.get("HELMET_PASS1_OUT", str(REPO / "results/pass1")))
 PY = sys.executable
-SCRIPT = os.environ.get("HELMET_PASS1_SCRIPT", "/home/hatch/workspace/research_helmet/work/annotate_pass1.py")
+SCRIPT = os.environ.get("HELMET_PASS1_SCRIPT", str(Path(__file__).resolve().with_name("annotate_pass1.py")))
 LOG = OUT / "pass1_driver.log"
 OUT.mkdir(parents=True, exist_ok=True)
 

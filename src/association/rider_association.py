@@ -30,6 +30,7 @@ from src.association.tracklet_models import (
     RiderAssociationResult,
     RiderTracklet,
     SCHEMA_VERSION,
+    genuine_evidence_to_dict,
 )
 
 
@@ -57,6 +58,9 @@ def _readonly_phase10_dict(rt: RiderTracklet) -> dict[str, Any]:
         "consecutive_no_helmet_frames": int(rt.phase10_consecutive_no_helmet_frames),
         "consecutive_helmet_frames": int(rt.phase10_consecutive_helmet_frames),
         "alerts_count": int(rt.phase10_alerts_count),
+        "genuine_observation_helmet_evidence": genuine_evidence_to_dict(
+            rt.genuine_helmet_evidence
+        ),
     }
 
 

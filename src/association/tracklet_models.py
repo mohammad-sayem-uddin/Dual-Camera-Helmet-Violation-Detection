@@ -133,6 +133,11 @@ class AppearanceDescriptorRecord:
     cranial_cap_histogram: list[float] = field(default_factory=list)
     upper_torso_histogram: list[float] = field(default_factory=list)
     moto_chassis_histogram: list[float] = field(default_factory=list)
+    # GAP-B1 audit counters (additive): how many observed frames had a stored keyframe
+    # and why individual crops were rejected.
+    observed_frames_total: int = 0
+    observed_frames_with_keyframe: int = 0
+    crop_rejection_counts: dict[str, int] = field(default_factory=dict)
 
     def to_dict(self) -> dict[str, Any]:
         return {
@@ -143,11 +148,131 @@ class AppearanceDescriptorRecord:
             "cranial_cap_bins": len(self.cranial_cap_histogram),
             "upper_torso_bins": len(self.upper_torso_histogram),
             "moto_chassis_bins": len(self.moto_chassis_histogram),
+            "observed_frames_total": int(self.observed_frames_total),
+            "observed_frames_with_keyframe": int(self.observed_frames_with_keyframe),
+            "crop_rejection_counts": {k: int(v) for k, v in sorted(self.crop_rejection_counts.items())},
         }
 
 
+GENUINE_EVIDENCE_PROVENANCE = (
+    "HelmetEvidenceAccumulator (TASK-04): strict majority over genuine coupled head "
+    "observations; unmatched/propagated/abstained frames contribute nothing; "
+    "legacy phase10_snapshot_readonly is the end-of-track EMA and is NOT this evidence."
+)
+
+
+def genuine_evidence_to_dict(evidence: dict[str, Any] | None) -> dict[str, Any]:
+    """Serialise the TASK-04 export verbatim, tagged with provenance.
+
+    An empty/missing export (e.g. a track object that predates TASK-04) is reported as
+    `available=False` with the canonical state `UNCERTAIN`; no evidence is invented.
+    """
+    if not evidence:
+        return {
+            "available": False,
+            "track_helmet_state": "UNCERTAIN",
+            "track_helmet_state_majority": "UNCERTAIN",
+            "track_helmet_state_conf_weighted": "UNCERTAIN",
+            "track_helmet_state_last_coupled": "UNCERTAIN",
+            "track_helmet_state_ema_final": "UNCERTAIN",
+            "last_coupled_aggregated_confidence": {"helmet": 0.0, "no_helmet": 0.0},
+            "coupled_confidence_weights": {"helmet": 0.0, "no_helmet": 0.0},
+            "coupled_observations_count": 0,
+            "coupled_helmet_count": 0,
+            "coupled_no_helmet_count": 0,
+            "coupled_state_switches": 0,
+            "last_coupled_frame_index": None,
+            "last_coupled_pts_sec": None,
+            "provenance": GENUINE_EVIDENCE_PROVENANCE,
+        }
+    out = dict(evidence)
+    out["available"] = bool(out.get("coupled_observations_count", 0) > 0 or "track_helmet_state" in evidence)
+    out["provenance"] = GENUINE_EVIDENCE_PROVENANCE
+    return out
+
+
+class _GenuineHelmetEvidenceMixin:
+    """Read-only property accessors for TASK-04 genuine-observation helmet fields."""
+
+    genuine_helmet_evidence: dict[str, Any]
+
+    @property
+    def _ev(self) -> dict[str, Any]:
+        return genuine_evidence_to_dict(self.genuine_helmet_evidence)
+
+    @property
+    def track_helmet_state(self) -> str:
+        return str(self._ev["track_helmet_state"])
+
+    @property
+    def track_helmet_state_majority(self) -> str:
+        return str(self._ev["track_helmet_state_majority"])
+
+    @property
+    def helmet_state_majority(self) -> str:
+        return self.track_helmet_state_majority
+
+    @property
+    def track_helmet_state_conf_weighted(self) -> str:
+        return str(self._ev["track_helmet_state_conf_weighted"])
+
+    @property
+    def helmet_state_conf_weighted(self) -> str:
+        return self.track_helmet_state_conf_weighted
+
+    @property
+    def track_helmet_state_last_coupled(self) -> str:
+        return str(self._ev["track_helmet_state_last_coupled"])
+
+    @property
+    def helmet_state_last_coupled(self) -> str:
+        return self.track_helmet_state_last_coupled
+
+    @property
+    def track_helmet_state_ema_final(self) -> str:
+        return str(self._ev["track_helmet_state_ema_final"])
+
+    @property
+    def helmet_state_ema_final(self) -> str:
+        return self.track_helmet_state_ema_final
+
+    @property
+    def last_coupled_aggregated_confidence(self) -> dict[str, float]:
+        return dict(self._ev["last_coupled_aggregated_confidence"])
+
+    @property
+    def coupled_observations_count(self) -> int:
+        return int(self._ev["coupled_observations_count"])
+
+    @property
+    def helmet_observation_count(self) -> int:
+        return self.coupled_observations_count
+
+    @property
+    def coupled_helmet_count(self) -> int:
+        return int(self._ev["coupled_helmet_count"])
+
+    @property
+    def coupled_no_helmet_count(self) -> int:
+        return int(self._ev["coupled_no_helmet_count"])
+
+    @property
+    def coupled_state_switches(self) -> int:
+        return int(self._ev["coupled_state_switches"])
+
+    @property
+    def last_coupled_frame_index(self) -> int | None:
+        val = self._ev["last_coupled_frame_index"]
+        return int(val) if val is not None else None
+
+    @property
+    def last_coupled_pts_sec(self) -> float | None:
+        val = self._ev["last_coupled_pts_sec"]
+        return float(val) if val is not None else None
+
+
 @dataclass
-class RiderTracklet:
+class RiderTracklet(_GenuineHelmetEvidenceMixin):
     """
     Structured tracklet summary for an individual `RiderSubTrack` bound to a parent
     `MotorcycleTracklet`. Preserves per-camera Phase 10 verification state read-only.
@@ -186,6 +311,9 @@ class RiderTracklet:
     appearance_descriptor: AppearanceDescriptorRecord = field(
         default_factory=AppearanceDescriptorRecord
     )
+    # TASK-04 genuine-observation helmet evidence (`HelmetEvidenceAccumulator.export`),
+    # copied verbatim from the source track. Never an association cue.
+    genuine_helmet_evidence: dict[str, Any] = field(default_factory=dict)
 
     def to_dict(self) -> dict[str, Any]:
         return {
@@ -220,13 +348,16 @@ class RiderTracklet:
                 "consecutive_helmet_frames": int(self.phase10_consecutive_helmet_frames),
                 "alerts_count": int(self.phase10_alerts_count),
             },
+            "genuine_observation_helmet_evidence": genuine_evidence_to_dict(
+                self.genuine_helmet_evidence
+            ),
             "completeness": self.completeness.value,
             "appearance_descriptor": self.appearance_descriptor.to_dict(),
         }
 
 
 @dataclass
-class OrphanRiderTracklet:
+class OrphanRiderTracklet(_GenuineHelmetEvidenceMixin):
     """
     First-class structured tracklet summary for an `OrphanRiderTrack` whose parent
     motorcycle was not reliably detected or coupled in that camera.
@@ -259,6 +390,7 @@ class OrphanRiderTracklet:
     appearance_descriptor: AppearanceDescriptorRecord = field(
         default_factory=AppearanceDescriptorRecord
     )
+    genuine_helmet_evidence: dict[str, Any] = field(default_factory=dict)
 
     def to_dict(self) -> dict[str, Any]:
         return {
@@ -288,6 +420,9 @@ class OrphanRiderTracklet:
                 },
                 "alerts_count": int(self.phase10_alerts_count),
             },
+            "genuine_observation_helmet_evidence": genuine_evidence_to_dict(
+                self.genuine_helmet_evidence
+            ),
             "completeness": self.completeness.value,
             "timestamp_quality": self.timestamp_quality.to_dict(),
             "appearance_descriptor": self.appearance_descriptor.to_dict(),

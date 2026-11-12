@@ -197,10 +197,14 @@ class AssociationScorer:
                 gate_reasons.append("TEMPORAL_SCORE_BELOW_MIN_GATE")
 
         if len(available_cues) < self.config.min_active_cues_required:
-            # If only 1 cue is available (e.g., no riders coupled and no appearance),
-            # record that active cues are below minimum required
+            # If fewer than min_active_cues_required cues are available (e.g., no riders
+            # coupled and no appearance), fail the candidate gate explicitly (GAP-B3).
+            passed_gate = False
             if "INSUFFICIENT_ACTIVE_CUES" not in gate_reasons:
                 gate_reasons.append("INSUFFICIENT_ACTIVE_CUES")
+
+        if gate_reasons:
+            passed_gate = False
 
         # If candidate failed hard gate, composite score is still computed for auditability,
         # or capped if transit was infeasible

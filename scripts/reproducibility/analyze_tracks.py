@@ -9,10 +9,14 @@ Read-only w.r.t. all frozen artifacts.
 """
 import json, csv, glob, os, collections, statistics
 
-ROOT = os.path.expanduser('~/workspace/research_helmet')
-REL = ROOT + '/repo/data/dual_camera_test_v1/releases/dual_camera_gt_v1.0_ai_assisted_audited'
-SJ = ROOT + '/work/stageJ/outputs/stagej_out'
-OUT = ROOT + '/work/postcompletion'
+from pathlib import Path
+
+REPO = Path(os.environ.get("RESEARCH_HELMET_ROOT", str(Path(__file__).resolve().parents[2])))
+REL = os.environ.get("GT_RELEASE_DIR", str(REPO / "data/dual_camera_test_v1/releases/dual_camera_gt_v1.0_ai_assisted_audited"))
+SJ = os.environ.get("STAGEJ_OUT_DIR", str(REPO / "results/phase12_stagej"))
+OUT = os.environ.get("POSTCOMPLETION_OUT_DIR", str(REPO / "results/postcompletion"))
+STAGEK_RESULTS_JSON = os.environ.get("STAGEK_RESULTS_JSON", str(REPO / "results/phase12_integrated/stagek_results.json"))
+os.makedirs(OUT, exist_ok=True)
 PAIRS = [f'pair_{i:03d}' for i in range(1, 26)]
 CAMS = ('front', 'back')
 
@@ -185,7 +189,7 @@ for (pair, cam, sub), gt in sorted(decided.items()):
         '_gt_obs': gobs, '_pred_hist': phist})
 
 # verify reproduction vs Stage K
-sk = json.load(open(ROOT + '/work/stageK/stagek_results.json'))['helmet_track_level']
+sk = json.load(open(STAGEK_RESULTS_JSON))['helmet_track_level']
 my_conf = {f'{g}->{p}': v for (g, p), v in sorted(conf.items())}
 assert len(rows) == sk['n_decided_gt_tracks'] == 209, (len(rows), sk['n_decided_gt_tracks'])
 assert my_conf == sk['confusion'], (my_conf, sk['confusion'])

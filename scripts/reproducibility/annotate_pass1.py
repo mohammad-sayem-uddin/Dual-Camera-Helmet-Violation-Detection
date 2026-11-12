@@ -16,7 +16,7 @@ from __future__ import annotations
 import argparse, csv, gc, json, os, resource, sys, time
 from pathlib import Path
 
-REPO = Path(os.environ.get("HELMET_REPO", "/home/hatch/workspace/research_helmet/repo"))
+REPO = Path(os.environ.get("RESEARCH_HELMET_ROOT", os.environ.get("HELMET_REPO", str(Path(__file__).resolve().parents[2]))))
 sys.path.insert(0, str(REPO))
 os.chdir(REPO)
 DEVICE = os.environ.get("HELMET_DEVICE", "cpu")
@@ -145,7 +145,7 @@ def run_camera(pair_id: str, cam: str, video_path: Path, out_dir: Path, detector
 def main() -> None:
     ap = argparse.ArgumentParser()
     ap.add_argument("--pair", required=True)
-    ap.add_argument("--out-root", default=os.environ.get("HELMET_PASS1_OUT", "/home/hatch/workspace/research_helmet/work/pass1"))
+    ap.add_argument("--out-root", default=os.environ.get("HELMET_PASS1_OUT", str(REPO / "results/pass1")))
     args = ap.parse_args()
     pair_id = args.pair
     out_dir = Path(args.out_root) / pair_id

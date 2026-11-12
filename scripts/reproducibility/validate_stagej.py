@@ -27,8 +27,12 @@ import sys
 from collections import Counter
 from pathlib import Path
 
-ROOT = Path("/home/hatch/workspace/research_helmet")
-OUT = Path(sys.argv[1])
+import os
+
+REPO = Path(os.environ.get("RESEARCH_HELMET_ROOT", str(Path(__file__).resolve().parents[2])))
+OUT = Path(sys.argv[1]) if len(sys.argv) > 1 else Path(os.environ.get("STAGEJ_OUT_DIR", str(REPO / "results/phase12_stagej")))
+PASS1_DIR = Path(os.environ.get("HELMET_PASS1_OUT", str(REPO / "results/pass1")))
+STAGEJ_VALIDATION_OUT = Path(os.environ.get("STAGEJ_VALIDATION_OUT", str(REPO / "results/stagej_validation/validation_results.json")))
 PAIRS = [f"pair_{i:03d}" for i in range(1, 26)]
 CATS = ["motorcycle", "person", "helmet", "no_helmet"]
 EXPECTED_WEIGHTS = {
@@ -38,13 +42,13 @@ EXPECTED_WEIGHTS = {
 
 # ---- forensic frame counts (independent source: frozen package manifest)
 forensic: dict[tuple[str, str], int] = Counter()
-with open(ROOT / "repo/data/dual_camera_test_v1/annotations/frame_coverage_manifest.csv") as f:
+with open(REPO / "data/dual_camera_test_v1/annotations/frame_coverage_manifest.csv") as f:
     for row in csv.DictReader(f):
         forensic[(row["pair_id"], row["camera"])] += 1
 
 # ---- Pass 1 detection totals per pair/camera/category
 def pass1_totals(pair: str, cam: str) -> Counter:
-    p = ROOT / f"work/pass1/{pair}/{pair}_{cam}_detections.jsonl"
+    p = PASS1_DIR / f"{pair}/{pair}_{cam}_detections.jsonl"
     tot = Counter()
     with open(p) as f:
         for line in f:
@@ -196,7 +200,8 @@ results["aggregate"] = {
     "forensic_totals": {"front": sum(v for (p, c), v in forensic.items() if c == "front"),
                         "back": sum(v for (p, c), v in forensic.items() if c == "back")},
 }
-(ROOT / "work/stageJ/validation_results.json").write_text(json.dumps(results, indent=1, sort_keys=True))
+STAGEJ_VALIDATION_OUT.parent.mkdir(parents=True, exist_ok=True)
+STAGEJ_VALIDATION_OUT.write_text(json.dumps(results, indent=1, sort_keys=True))
 print(f"gate-pass pairs: {gate_pass}/25")
 print(f"manifest: {results['manifest']['counts']} all_complete={results['manifest']['all_complete']}")
 print(f"events total: {agg_events} by_type={dict(agg_events_by_type)}")

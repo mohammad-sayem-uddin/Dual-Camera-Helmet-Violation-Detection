@@ -469,6 +469,87 @@ class CameraRunOutput:
     pts_assertions: int
     subtrack_state_counts: dict[str, Counter]
     canonical_shift_sec: float
+    frame_dimensions: tuple[int, int] | None = None
+
+
+def _observed_track_ids_at_step(step: dict[str, Any]) -> list[str]:
+    """Return deterministic list of track/subtrack/orphan IDs updated on this step (`time_since_update == 0`)."""
+    observed: list[str] = []
+    for m in step.get("active_moto_tracks", []) or []:
+        if int(m.get("time_since_update", 1)) == 0 and m.get("moto_track_id"):
+            observed.append(str(m["moto_track_id"]))
+        subs = m.get("rider_subtracks", {}) or {}
+        for sub in (subs.values() if isinstance(subs, dict) else subs):
+            if int(sub.get("time_since_update", 1)) == 0 and sub.get("subtrack_id"):
+                observed.append(str(sub["subtrack_id"]))
+    for o in step.get("active_orphan_tracks", []) or []:
+        if int(o.get("time_since_update", 1)) == 0 and o.get("orphan_track_id"):
+            observed.append(str(o["orphan_track_id"]))
+    return observed
+
+
+def should_retain_keyframe(
+    frame_index: int,
+    has_detections: bool,
+    observed_track_ids: list[str],
+    stored_indices: set[int],
+    track_to_keyframes: dict[str, list[int]],
+    keyframe_stride: int,
+    keyframe_max_per_camera: int,
+) -> tuple[bool, int | None]:
+    """Deterministic GAP-B1 keyframe selection and bounded eviction policy.
+
+    Returns `(should_store, evict_frame_index)`:
+    1. A frame is a mandatory track-anchor keyframe whenever any track updated on
+       `frame_index` currently has zero stored keyframes in `stored_indices` (so
+       short tracklets off the stride grid and late-entering tracks are covered).
+    2. Otherwise, a detection-bearing frame on `frame_index % max(1, keyframe_stride) == 0`
+       is stored while `len(stored_indices) < keyframe_max_per_camera`.
+    3. If `needs_anchor` is True and `len(stored_indices) >= keyframe_max_per_camera`,
+       deterministically evict either the oldest uncoupled keyframe (not referenced by
+       any track) or an interior keyframe of the track holding the most keyframes (> 1),
+       strictly preserving the `keyframe_max_per_camera` memory bound.
+    """
+    if keyframe_max_per_camera <= 0:
+        return False, None
+    needs_anchor = any(
+        len([f for f in track_to_keyframes.get(tid, ()) if f in stored_indices]) == 0
+        for tid in observed_track_ids
+    )
+    stride = max(1, int(keyframe_stride))
+    is_stride = bool(has_detections and (frame_index % stride == 0))
+
+    if len(stored_indices) < keyframe_max_per_camera:
+        return (needs_anchor or is_stride), None
+
+    if not needs_anchor:
+        return False, None
+
+    # Buffer is at capacity, but a newly observed track has 0 keyframes: find an evictable frame
+    referenced_counts: Counter[int] = Counter()
+    for tid, f_list in track_to_keyframes.items():
+        active_f = [f for f in f_list if f in stored_indices]
+        for f in active_f:
+            referenced_counts[f] += 1
+
+    uncoupled = sorted(f for f in stored_indices if referenced_counts[f] == 0)
+    if uncoupled:
+        return True, uncoupled[0]
+
+    # Find the track with the largest number of stored keyframes (> 1)
+    best_tid: str | None = None
+    best_frames: list[int] = []
+    for tid in sorted(track_to_keyframes.keys()):
+        active_f = sorted(f for f in track_to_keyframes[tid] if f in stored_indices)
+        if len(active_f) > len(best_frames):
+            best_tid = tid
+            best_frames = active_f
+
+    if best_tid is not None and len(best_frames) > 1:
+        # Evict the second-most-recent frame of the most-represented track so its first and latest remain
+        return True, best_frames[-2]
+
+    return False, None
 
 
 def _derived_state(aggregated_confidence: dict[str, float] | None) -> str:
@@ -589,6 +670,8 @@ def run_camera(
     tracks_final_path = out_dir / f"{pair_id}_{camera_id}_tracks_final.json"
 
     frames_by_index: dict[int, np.ndarray] = {}
+    track_to_keyframes: dict[str, list[int]] = {}
+    native_frame_dimensions: tuple[int, int] | None = None
     subtrack_state_counts: dict[str, Counter] = {}
     pts_assertions = 0
     n = 0
@@ -620,6 +703,8 @@ def run_camera(
                     f"{pair_id}/{camera_id}: decode failed at frame {n} "
                     f"of {index.frame_count} (VideoReader returned None)",
                 )
+            if native_frame_dimensions is None and frame.ndim >= 2:
+                native_frame_dimensions = (int(frame.shape[1]), int(frame.shape[0]))
             pts_norm = float(index.pts_norm_sec[n])  # Q2
             pts_raw = float(index.pts_raw_sec[n])  # Q1 (coverage/forensics only)
             try:
@@ -686,15 +771,23 @@ def run_camera(
             tf.write(json.dumps(step, sort_keys=True, default=str) + "\n")
             tf.flush()
 
-            # Appearance keyframes — Pass 1 policy verbatim (design §7.6, OQ-3):
-            # detection-bearing frames (motorcycle or head), every
-            # keyframe_stride-th frame, capped per camera, downscaled so the
-            # width is at most keyframe_max_width (1280x720 at defaults on 4K).
-            if (
-                (bundle.motorcycles or bundle.all_heads)
-                and n % max(1, config.keyframe_stride) == 0
-                and len(frames_by_index) < config.keyframe_max_per_camera
-            ):
+            # Appearance keyframes — Pass 1 policy + GAP-B1 track-anchor guarantee:
+            # detection-bearing frames (motorcycle or head) every keyframe_stride-th
+            # frame PLUS first observed frame of any track lacking a keyframe, capped
+            # at keyframe_max_per_camera and downscaled to keyframe_max_width.
+            obs_tids = _observed_track_ids_at_step(step)
+            store_kf, evict_kf = should_retain_keyframe(
+                frame_index=n,
+                has_detections=bool(bundle.motorcycles or bundle.all_heads),
+                observed_track_ids=obs_tids,
+                stored_indices=set(frames_by_index.keys()),
+                track_to_keyframes=track_to_keyframes,
+                keyframe_stride=config.keyframe_stride,
+                keyframe_max_per_camera=config.keyframe_max_per_camera,
+            )
+            if store_kf:
+                if evict_kf is not None and evict_kf in frames_by_index:
+                    frames_by_index.pop(evict_kf, None)
                 if frame.shape[1] > config.keyframe_max_width:
                     scale = config.keyframe_max_width / float(frame.shape[1])
                     small = cv2.resize(
@@ -707,6 +800,11 @@ def run_camera(
                 else:
                     small = frame.copy()
                 frames_by_index[n] = small
+                for tid in obs_tids:
+                    track_to_keyframes.setdefault(tid, []).append(n)
+            elif n in frames_by_index:
+                for tid in obs_tids:
+                    track_to_keyframes.setdefault(tid, []).append(n)
 
             if (n + 1) % 250 == 0:
                 _log(f"[{pair_id}] {camera_id}: frame {n + 1}/{index.frame_count}")
@@ -740,6 +838,7 @@ def run_camera(
         pts_assertions=pts_assertions,
         subtrack_state_counts=subtrack_state_counts,
         canonical_shift_sec=shift,
+        frame_dimensions=native_frame_dimensions,
     )
 
 
@@ -774,6 +873,8 @@ def run_association(
             front_delta_pts_ms_by_frame=None,
             back_delta_pts_ms_by_frame=None,
             calibrated_homography_available=False,
+            front_frame_dimensions=front.frame_dimensions,
+            back_frame_dimensions=back.frame_dimensions,
         )
     except PipelineError:
         raise

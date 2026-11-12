@@ -34,7 +34,7 @@ Every item below has been verified against actual repository files, checksum man
 | **G. Temporal Violation Detection** | State machine, confidence aggregation & alert suppression | **COMPLETE** | `src/temporal/`, `tests/temporal/`, `results/phase12_integrated/events_detail.csv` | `1a1b3b2` | Strict event F1 0.826 (P 0.753, R 0.914). Zero timing error on matched windows (0.0 s). All 27 error instances completely decomposed (18 correction-delta, 7 constituent-set splits, 1 pair_002 role attribution). |
 | **H. Evaluation & Performance Reports** | Frozen protocol evaluation & bootstrap CIs | **COMPLETE** | `docs/phase12/POST_ANNOTATION_STAGE_K_EVALUATION.md`, `results/phase12_integrated/` (8 checksums OK) | `1a1b3b2` | Protocol frozen before computation (SHA `466f5f31...`). Pair-level bootstrap B=2000. 16/16 mission acceptance criteria satisfied. Observation-level agreement is by-construction perfect. |
 | **I. Repository Delivery & GitHub** | Deliverable sync and remote synchronization | **COMPLETE** | Commit `1a1b3b26c6c7d09d1fccf5daefaf678a37be813e` | `1a1b3b2` | 530 files changed (+638,965 insertions), pushed to `origin/main` and verified via GitHub API. |
-| **J. Test & Environment Status** | Full repository test suite on Python 3.11 | **VERIFIED ON MAC (100% PASS)** | `/opt/homebrew/bin/python3.11`, `tests/` (144 test items) | Current HEAD | **144 passed / 0 failed / 0 errors** in 63.29s. Darwin BSD `ru_maxrss` unit scaling resolved via TASK-01. |
+| **J. Test & Environment Status** | Full repository test suite on Python 3.11 | **VERIFIED ON MAC (100% PASS)** | `/opt/homebrew/bin/python3.11`, `tests/` (171 test items) | Current HEAD | **171 passed / 0 failed / 0 errors** in 108.60s. Covers GAP-A (`test_phase12_track_state_export.py`), GAP-B (`test_phase12_task06_gapb.py`), and Darwin BSD `ru_maxrss` fix (TASK-01). |
 
 ---
 
@@ -108,10 +108,10 @@ To preserve tokens, compute, and scientific integrity, the following operations 
 |---|---|---|---|---|
 | **P0** | **TASK-01** | Platform-Portable RSS Measurement Fix (`ru_maxrss` Darwin byte scaling in `src/pipeline/dual_camera_pipeline.py`) | **Flash High** | **COMPLETE (144/144 tests pass)** |
 | **P0** | **TASK-02** | Commit Authoritative Handover Reports (`MASTER_REPORT_2026-11-12.md`, `POST_COMPLETION_...md`, `THREE_MODEL_ROADMAP.md`) & Clean Transfer Artifacts | **Flash High** | **COMPLETE** |
-| **P1** | **TASK-03** | Helmet Track-Level State Export Redesign (Last Coupled Observation + Majority Fallback) | **Argon (Design) + Sonnet (Impl)** | **DESIGN COMPLETE (`ARGON_TASK03_HELMET_TRACK_STATE_EXPORT_DESIGN.md`); IMPLEMENTED in prompt-numbered TASK-04 — see `SONNET_TASK04_IMPLEMENTATION_REPORT.md`** |
-| **P1** | **TASK-04** | Track-Level Evaluation Reproduction & Discrepancy Reconciliation under Amended Protocol | **Flash High** | **PARTIALLY DONE** — amended re-score of Stage J produced by the implementation (`results/phase12_track_state_redesign/`); independent Flash reconciliation still open |
-| **P2** | **TASK-05** | Dynamic Linear Clock Drift Compensation Engine Design & Implementation | **Argon (Design) + Sonnet (Impl)** | **PLANNED** |
-| **P2** | **TASK-06** | Cross-Camera Association Sensitivity Analysis under Drift Compensation (Pairs 004, 005, 008, 015) | **Argon (Analysis) + Sonnet (Bench)** | **PLANNED** |
+| **P1** | **TASK-03** | Helmet Track-Level State Export Redesign (Last Coupled Observation + Majority Fallback) | **Argon (Design) + Sonnet (Impl)** | **COMPLETED (`ARGON_TASK03_HELMET_TRACK_STATE_EXPORT_DESIGN.md`; implemented as TASK-04 in `SONNET_TASK04_IMPLEMENTATION_REPORT.md`)** |
+| **P1** | **TASK-04** | Track-Level Evaluation Reproduction & Discrepancy Reconciliation under Amended Protocol | **Flash High** | **VALIDATED (`GEMINI_FLASH_TASK04_VALIDATION_REPORT.md`, 207/209 = 99.04% primary agreement)** |
+| **P2** | **TASK-05 / TASK-05B** | Dynamic Drift Sensitivity (original) / Next Research Gap Architecture Assessment (`GAP-B1..B4`) | **Argon (Design)** | **GAP-B DESIGN COMPLETE (`ARGON_TASK05B_NEXT_RESEARCH_GAP_ASSESSMENT.md`)** |
+| **P2** | **TASK-06** | GAP-B Implementation: Cross-Camera Tracklet Construction, Appearance Cue Recovery & Evaluation Integrity | **Sonnet (Impl)** | **IMPLEMENTED (`SONNET_TASK06_IMPLEMENTATION_REPORT.md`, offline re-eval in `results/phase12_gapb_redesign/`, `171` pytest pass)** |
 | **P3** | **TASK-07** | Independent Human Validation Protocol Execution (399 Units, 2 Blind Reviewers, v1.1 Dataset Release) | **Flash / Human** | **PLANNED** |
 | **P3** | **TASK-08** | Formal Documentation of Research Limitations & NOT COMPUTABLE Metric Boundaries for Publication | **Flash High** | **PLANNED** |
 

@@ -1,15 +1,21 @@
 """Stage K extraction: normalize GT (frozen release) + Stage J predictions
 into plain Python structures. No scoring in this module."""
 import json, csv, glob, os, collections
+from pathlib import Path
 
-ROOT = os.path.expanduser('~/workspace/research_helmet')
-REL = ROOT + '/repo/data/dual_camera_test_v1/releases/dual_camera_gt_v1.0_ai_assisted_audited'
-SJ = ROOT + '/work/stageJ/outputs/stagej_out'
+REPO = Path(os.environ.get('RESEARCH_HELMET_ROOT', Path(__file__).resolve().parents[2]))
+REL = os.environ.get(
+    'GT_RELEASE_DIR',
+    str(REPO / 'data/dual_camera_test_v1/releases/dual_camera_gt_v1.0_ai_assisted_audited'),
+)
+SJ = os.environ.get('STAGEJ_OUT_DIR', str(REPO / 'results/phase12_stagej'))
+ROOT = str(REPO)
 PAIRS = [f'pair_{i:03d}' for i in range(1, 26)]
 CAMS = ('front', 'back')
 
 
-def load_gt():
+def load_gt(rel_dir: str | os.PathLike | None = None):
+    rel_base = os.fspath(rel_dir) if rel_dir is not None else os.fspath(REL)
     gt = {'head_obs': [],          # dicts: pair, cam, parent, sub, frame, bbox, state, conf
           'moto_tracks': {},       # (pair, cam, track_id) -> record
           'rider_tracks': {},      # (pair, cam, sub_id) -> {parent, gt_state, track_state}
@@ -20,7 +26,7 @@ def load_gt():
           'validity': {},          # (pair, cam, sub, frame) -> bool spatial_use_valid
           'set_constant_subs': set(),  # (pair, cam, sub) with SET_CONSTANT corrections
           }
-    for pf in sorted(glob.glob(REL + '/pairs/*/pair_*_gt.json')):
+    for pf in sorted(glob.glob(rel_base + '/pairs/*/pair_*_gt.json')):
         g = json.load(open(pf)); pr = g['pair']; pair = pr['pair_id']
         for t in pr.get('excluded_tracks', []):
             gt['excluded'].add((pair, t['camera'], t['track_id']))
@@ -50,22 +56,22 @@ def load_gt():
                         'parent': ot['track_id'], 'sub': ot['track_id'],
                         'frame': o['frame_index'], 'bbox': o['bbox_xyxy'],
                         'state': o['state'], 'conf': o['confidence']})
-    with open(REL + '/dual_camera_gt_events.csv') as f:
+    with open(rel_base + '/dual_camera_gt_events.csv') as f:
         for r in csv.DictReader(f):
             gt['events'].append({'pair': r['pair_id'], 'gid': r['global_moto_id'],
                 'type': r['event_type'],
                 'front': r['front_track_id'] or None, 'back': r['back_track_id'] or None,
                 'w0': float(r['violation_window_start_ref_sec']) if r['violation_window_start_ref_sec'] else None,
                 'w1': float(r['violation_window_end_ref_sec']) if r['violation_window_end_ref_sec'] else None})
-    with open(REL + '/cross_camera_identity_links.csv') as f:
+    with open(rel_base + '/cross_camera_identity_links.csv') as f:
         for r in csv.DictReader(f):
             gt['links'].append({'pair': r['pair'], 'kind': r['kind'],
                 'front': r['front_track_id'] or None, 'back': r['back_track_id'] or None,
                 'outcome': r['outcome'], 'link_status': r['link_status']})
-    with open(REL + '/rider_frame_validity.csv') as f:
+    with open(rel_base + '/rider_frame_validity.csv') as f:
         for r in csv.DictReader(f):
             gt['validity'][(r['pair'], r['cam'], r['subtrack'], int(r['frame']))] = (r['spatial_use_valid'] == 'true')
-    with open(REL + '/annotation_corrections.csv') as f:
+    with open(rel_base + '/annotation_corrections.csv') as f:
         for r in csv.DictReader(f):
             if r['correction_type'] == 'SET_CONSTANT_HELMET_STATE':
                 # ref names the (sub)track the constant was applied to
@@ -76,23 +82,28 @@ def load_gt():
 def _redesign(rec, hist):
     """TASK-04 states: exported fields if present, else pts_history fallback (legacy Stage J)."""
     import sys
-    sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
+    _here = os.path.dirname(os.path.abspath(__file__))
+    if _here not in sys.path:
+        sys.path.insert(0, _here)
     from track_state_redesign import _entry
     return _entry(rec, hist, set())
 
 
-def load_pred():
+def load_pred(sj_dir: str | os.PathLike | None = None, pairs: list[str] | None = None):
+    sj_base = os.fspath(sj_dir) if sj_dir is not None else os.fspath(SJ)
+    pair_list = list(pairs) if pairs is not None else PAIRS
     pred = {'detections': collections.defaultdict(list),  # (pair,cam,frame) -> {'motorcycles':[], 'persons':[], 'heads':[]}
             'coupled': {},        # (pair, cam, sub) -> {frame: (bbox, state, conf)}
             'coupled_parent': {}, # (pair, cam, sub) -> parent track id
             'moto_tracks': {},    # (pair, cam, track_id) -> {first,last,observed}
             'orphan_tracks': set(),
             'track_state': {},    # (pair, cam, sub) -> derived state per protocol §5
-            'events': [], 'assoc_moto': [], 'assoc_orphan': [],
+            'track_state_redesign': {},
+            'events': [], 'assoc_moto': [], 'assoc_orphan': [], 'assoc_rider': [],
             'rider_outcome_counts': collections.Counter(),
             'sync': {}, 'coverage': {}}
-    for pair in PAIRS:
-        d = os.path.join(SJ, pair)
+    for pair in pair_list:
+        d = os.path.join(sj_base, pair)
         for cam in CAMS:
             with open(os.path.join(d, f'{pair}_{cam}_detections.jsonl')) as f:
                 for line in f:
@@ -114,6 +125,7 @@ def load_pred():
                 pred['orphan_tracks'].add((pair, cam, oid))
             # predicted track-level rider states (protocol §5 rule) from rider_subtracks summaries
             for mt in tf['moto_tracks']:
+                rph = mt.get('rider_pts_history', {})
                 _rs = mt.get('rider_subtracks') or []
                 for st in (_rs.values() if isinstance(_rs, dict) else _rs):
                     ac = st.get('aggregated_confidence') or {}
@@ -122,6 +134,8 @@ def load_pred():
                     if mx >= 0.5:
                         state = 'HELMET' if ac.get('helmet', 0) >= ac.get('no_helmet', 0) else 'NO_HELMET'
                     pred['track_state'][(pair, cam, st['subtrack_id'])] = state
+                    pred['track_state_redesign'][(pair, cam, st['subtrack_id'])] = _redesign(
+                        st, rph.get(str(st.get('slot_index')), []))
             for ot in tf['orphan_tracks']:
                 oid = ot.get('orphan_track_id') or ot.get('track_id')
                 ac = ot.get('aggregated_confidence') or {}
@@ -143,6 +157,24 @@ def load_pred():
         for r in a['motorcycle_results']:
             pred['assoc_moto'].append({'pair': pair, 'front': r.get('front_moto_track_id'),
                 'back': r.get('back_moto_track_id'), 'outcome': r['outcome']})
+            for ra in r.get('rider_associations') or []:
+                pred['assoc_rider'].append({
+                    'pair': pair,
+                    'front': ra.get('front_subtrack_id') or ra.get('front_rider_subtrack_id'),
+                    'back': ra.get('back_subtrack_id') or ra.get('back_rider_subtrack_id'),
+                    'outcome': ra['outcome'],
+                    'association_score': ra.get('association_score'),
+                    'parent_front': (
+                        ra.get('front_moto_track_id')
+                        or ra.get('parent_front_moto_track_id')
+                        or r.get('front_moto_track_id')
+                    ),
+                    'parent_back': (
+                        ra.get('back_moto_track_id')
+                        or ra.get('parent_back_moto_track_id')
+                        or r.get('back_moto_track_id')
+                    ),
+                })
         for r in a['orphan_results']:
             pred['assoc_orphan'].append({'pair': pair, 'front': r.get('front_track_id'),
                 'back': r.get('back_track_id'), 'outcome': r['outcome']})

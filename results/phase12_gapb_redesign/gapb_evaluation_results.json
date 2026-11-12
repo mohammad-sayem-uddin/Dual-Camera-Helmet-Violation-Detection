@@ -1,0 +1,729 @@
+{
+  "evaluation_scope": {
+    "moto_tracklets_total": 100,
+    "note": "All 25 pairs replayed offline on CPU from frozen Stage J *_detections.jsonl, *_coverage.csv, and *_sync_diagnostics.json. Synthetic 1280x720 textured frames simulate keyframe retention/cropping end-to-end across all 100 moto tracklets, while real_example_frames tests genuine 1280x720 PNGs from docs/phase12/track_failure_examples/.",
+    "orphan_tracklets_total": 130,
+    "pairs_replayed": 25,
+    "real_example_frames_tested": 9,
+    "rider_subtracks_total": 86
+  },
+  "gap_b1_appearance_and_keyframes": {
+    "gapb_retention_keyframe_moto_coverage": 98,
+    "gapb_sim_moto_descriptor_available": 98,
+    "gapb_sim_unavailable_reasons": {
+      "NO_MATCHING_FRAME_INDEX": 2
+    },
+    "legacy_stride_keyframe_moto_coverage": 49,
+    "real_example_frames": {
+      "details": [
+        {
+          "camera_id": "front",
+          "filename": "pair_002_front_moto_0001_rider_s0_f0000.png",
+          "frame_index": 0,
+          "image_wh": [
+            1280,
+            720
+          ],
+          "pair_id": "pair_002",
+          "per_box_crop_comparison": [
+            {
+              "box_idx": 0,
+              "native_4k_bbox": [
+                2990.59,
+                1102.28,
+                3116.59,
+                1272.19
+              ],
+              "scaled_4k_to_720p_reason": null,
+              "scaled_crop_shape_hw": [
+                57,
+                42
+              ],
+              "unscaled_on_720p_reason": "BOX_OUT_OF_FRAME"
+            }
+          ],
+          "scaled_4k_descriptor": {
+            "available": true,
+            "cranial_cap_bins": 0,
+            "crop_rejection_counts": {},
+            "mean_crop_quality": 1.0,
+            "moto_chassis_bins": 56,
+            "observed_frames_total": 1,
+            "observed_frames_with_keyframe": 1,
+            "unavailable_reason": null,
+            "upper_torso_bins": 0,
+            "valid_observed_crops_count": 1
+          },
+          "stagej_tracklet_appearance": {
+            "available": false,
+            "cranial_cap_bins": 0,
+            "mean_crop_quality": 0.0,
+            "moto_chassis_bins": 0,
+            "unavailable_reason": "EMPTY_CROP",
+            "upper_torso_bins": 0,
+            "valid_observed_crops_count": 0
+          },
+          "unknown_dims_descriptor": {
+            "available": false,
+            "cranial_cap_bins": 0,
+            "crop_rejection_counts": {
+              "COORDINATE_SPACE_MISMATCH_UNKNOWN_NATIVE_DIMENSIONS": 1
+            },
+            "mean_crop_quality": 0.0,
+            "moto_chassis_bins": 0,
+            "observed_frames_total": 1,
+            "observed_frames_with_keyframe": 1,
+            "unavailable_reason": "COORDINATE_SPACE_MISMATCH_UNKNOWN_NATIVE_DIMENSIONS",
+            "upper_torso_bins": 0,
+            "valid_observed_crops_count": 0
+          }
+        },
+        {
+          "camera_id": "front",
+          "filename": "pair_004_front_orphan_0003_f0035.png",
+          "frame_index": 35,
+          "image_wh": [
+            1280,
+            720
+          ],
+          "pair_id": "pair_004",
+          "per_box_crop_comparison": [
+            {
+              "box_idx": 0,
+              "native_4k_bbox": [
+                2498.41,
+                994.95,
+                2715.63,
+                1341.26
+              ],
+              "scaled_4k_to_720p_reason": null,
+              "scaled_crop_shape_hw": [
+                115,
+                72
+              ],
+              "unscaled_on_720p_reason": "BOX_OUT_OF_FRAME"
+            }
+          ],
+          "scaled_4k_descriptor": {
+            "available": true,
+            "cranial_cap_bins": 0,
+            "crop_rejection_counts": {},
+            "mean_crop_quality": 1.0,
+            "moto_chassis_bins": 56,
+            "observed_frames_total": 1,
+            "observed_frames_with_keyframe": 1,
+            "unavailable_reason": null,
+            "upper_torso_bins": 0,
+            "valid_observed_crops_count": 1
+          },
+          "stagej_tracklet_appearance": {
+            "available": false,
+            "cranial_cap_bins": 0,
+            "mean_crop_quality": 0.0,
+            "moto_chassis_bins": 0,
+            "unavailable_reason": "EMPTY_CROP",
+            "upper_torso_bins": 0,
+            "valid_observed_crops_count": 0
+          },
+          "unknown_dims_descriptor": {
+            "available": false,
+            "cranial_cap_bins": 0,
+            "crop_rejection_counts": {
+              "COORDINATE_SPACE_MISMATCH_UNKNOWN_NATIVE_DIMENSIONS": 1
+            },
+            "mean_crop_quality": 0.0,
+            "moto_chassis_bins": 0,
+            "observed_frames_total": 1,
+            "observed_frames_with_keyframe": 1,
+            "unavailable_reason": "COORDINATE_SPACE_MISMATCH_UNKNOWN_NATIVE_DIMENSIONS",
+            "upper_torso_bins": 0,
+            "valid_observed_crops_count": 0
+          }
+        },
+        {
+          "camera_id": "front",
+          "filename": "pair_004_front_orphan_0003_f0042.png",
+          "frame_index": 42,
+          "image_wh": [
+            1280,
+            720
+          ],
+          "pair_id": "pair_004",
+          "per_box_crop_comparison": [
+            {
+              "box_idx": 0,
+              "native_4k_bbox": [
+                2449.35,
+                1024.09,
+                2651.54,
+                1367.91
+              ],
+              "scaled_4k_to_720p_reason": null,
+              "scaled_crop_shape_hw": [
+                115,
+                68
+              ],
+              "unscaled_on_720p_reason": "BOX_OUT_OF_FRAME"
+            }
+          ],
+          "scaled_4k_descriptor": {
+            "available": true,
+            "cranial_cap_bins": 0,
+            "crop_rejection_counts": {},
+            "mean_crop_quality": 1.0,
+            "moto_chassis_bins": 56,
+            "observed_frames_total": 1,
+            "observed_frames_with_keyframe": 1,
+            "unavailable_reason": null,
+            "upper_torso_bins": 0,
+            "valid_observed_crops_count": 1
+          },
+          "stagej_tracklet_appearance": {
+            "available": false,
+            "cranial_cap_bins": 0,
+            "mean_crop_quality": 0.0,
+            "moto_chassis_bins": 0,
+            "unavailable_reason": "EMPTY_CROP",
+            "upper_torso_bins": 0,
+            "valid_observed_crops_count": 0
+          },
+          "unknown_dims_descriptor": {
+            "available": false,
+            "cranial_cap_bins": 0,
+            "crop_rejection_counts": {
+              "COORDINATE_SPACE_MISMATCH_UNKNOWN_NATIVE_DIMENSIONS": 1
+            },
+            "mean_crop_quality": 0.0,
+            "moto_chassis_bins": 0,
+            "observed_frames_total": 1,
+            "observed_frames_with_keyframe": 1,
+            "unavailable_reason": "COORDINATE_SPACE_MISMATCH_UNKNOWN_NATIVE_DIMENSIONS",
+            "upper_torso_bins": 0,
+            "valid_observed_crops_count": 0
+          }
+        },
+        {
+          "camera_id": "front",
+          "filename": "pair_004_front_orphan_0005_f0080.png",
+          "frame_index": 80,
+          "image_wh": [
+            1280,
+            720
+          ],
+          "pair_id": "pair_004",
+          "per_box_crop_comparison": [
+            {
+              "box_idx": 0,
+              "native_4k_bbox": [
+                2097.93,
+                1070.32,
+                2375.43,
+                1585.92
+              ],
+              "scaled_4k_to_720p_reason": null,
+              "scaled_crop_shape_hw": [
+                172,
+                93
+              ],
+              "unscaled_on_720p_reason": "BOX_OUT_OF_FRAME"
+            },
+            {
+              "box_idx": 1,
+              "native_4k_bbox": [
+                3300.68,
+                956.34,
+                3423.29,
+                1249.86
+              ],
+              "scaled_4k_to_720p_reason": null,
+              "scaled_crop_shape_hw": [
+                98,
+                41
+              ],
+              "unscaled_on_720p_reason": "BOX_OUT_OF_FRAME"
+            }
+          ],
+          "scaled_4k_descriptor": {
+            "available": true,
+            "cranial_cap_bins": 0,
+            "crop_rejection_counts": {},
+            "mean_crop_quality": 1.0,
+            "moto_chassis_bins": 56,
+            "observed_frames_total": 1,
+            "observed_frames_with_keyframe": 1,
+            "unavailable_reason": null,
+            "upper_torso_bins": 0,
+            "valid_observed_crops_count": 1
+          },
+          "stagej_tracklet_appearance": {
+            "available": false,
+            "cranial_cap_bins": 0,
+            "mean_crop_quality": 0.0,
+            "moto_chassis_bins": 0,
+            "unavailable_reason": "NO_MATCHING_FRAME_INDEX",
+            "upper_torso_bins": 0,
+            "valid_observed_crops_count": 0
+          },
+          "unknown_dims_descriptor": {
+            "available": false,
+            "cranial_cap_bins": 0,
+            "crop_rejection_counts": {
+              "COORDINATE_SPACE_MISMATCH_UNKNOWN_NATIVE_DIMENSIONS": 1
+            },
+            "mean_crop_quality": 0.0,
+            "moto_chassis_bins": 0,
+            "observed_frames_total": 1,
+            "observed_frames_with_keyframe": 1,
+            "unavailable_reason": "COORDINATE_SPACE_MISMATCH_UNKNOWN_NATIVE_DIMENSIONS",
+            "upper_torso_bins": 0,
+            "valid_observed_crops_count": 0
+          }
+        },
+        {
+          "camera_id": "front",
+          "filename": "pair_004_front_orphan_0007_f0118.png",
+          "frame_index": 118,
+          "image_wh": [
+            1280,
+            720
+          ],
+          "pair_id": "pair_004",
+          "per_box_crop_comparison": [
+            {
+              "box_idx": 0,
+              "native_4k_bbox": [
+                1241.47,
+                1193.71,
+                1930.27,
+                2111.36
+              ],
+              "scaled_4k_to_720p_reason": null,
+              "scaled_crop_shape_hw": [
+                306,
+                229
+              ],
+              "unscaled_on_720p_reason": "BOX_OUT_OF_FRAME"
+            },
+            {
+              "box_idx": 1,
+              "native_4k_bbox": [
+                3326.42,
+                1020.02,
+                3496.86,
+                1280.43
+              ],
+              "scaled_4k_to_720p_reason": null,
+              "scaled_crop_shape_hw": [
+                87,
+                57
+              ],
+              "unscaled_on_720p_reason": "BOX_OUT_OF_FRAME"
+            }
+          ],
+          "scaled_4k_descriptor": {
+            "available": true,
+            "cranial_cap_bins": 0,
+            "crop_rejection_counts": {},
+            "mean_crop_quality": 1.0,
+            "moto_chassis_bins": 56,
+            "observed_frames_total": 1,
+            "observed_frames_with_keyframe": 1,
+            "unavailable_reason": null,
+            "upper_torso_bins": 0,
+            "valid_observed_crops_count": 1
+          },
+          "stagej_tracklet_appearance": {
+            "available": false,
+            "cranial_cap_bins": 0,
+            "mean_crop_quality": 0.0,
+            "moto_chassis_bins": 0,
+            "unavailable_reason": "NO_MATCHING_FRAME_INDEX",
+            "upper_torso_bins": 0,
+            "valid_observed_crops_count": 0
+          },
+          "unknown_dims_descriptor": {
+            "available": false,
+            "cranial_cap_bins": 0,
+            "crop_rejection_counts": {
+              "COORDINATE_SPACE_MISMATCH_UNKNOWN_NATIVE_DIMENSIONS": 1
+            },
+            "mean_crop_quality": 0.0,
+            "moto_chassis_bins": 0,
+            "observed_frames_total": 1,
+            "observed_frames_with_keyframe": 1,
+            "unavailable_reason": "COORDINATE_SPACE_MISMATCH_UNKNOWN_NATIVE_DIMENSIONS",
+            "upper_torso_bins": 0,
+            "valid_observed_crops_count": 0
+          }
+        },
+        {
+          "camera_id": "front",
+          "filename": "pair_006_front_moto_0001_rider_s0_f0129.png",
+          "frame_index": 129,
+          "image_wh": [
+            1280,
+            720
+          ],
+          "pair_id": "pair_006",
+          "per_box_crop_comparison": [
+            {
+              "box_idx": 0,
+              "native_4k_bbox": [
+                3156.89,
+                1397.85,
+                3838.79,
+                2144.0
+              ],
+              "scaled_4k_to_720p_reason": null,
+              "scaled_crop_shape_hw": [
+                249,
+                228
+              ],
+              "unscaled_on_720p_reason": "BOX_OUT_OF_FRAME"
+            }
+          ],
+          "scaled_4k_descriptor": {
+            "available": true,
+            "cranial_cap_bins": 0,
+            "crop_rejection_counts": {},
+            "mean_crop_quality": 1.0,
+            "moto_chassis_bins": 56,
+            "observed_frames_total": 1,
+            "observed_frames_with_keyframe": 1,
+            "unavailable_reason": null,
+            "upper_torso_bins": 0,
+            "valid_observed_crops_count": 1
+          },
+          "stagej_tracklet_appearance": {
+            "available": false,
+            "cranial_cap_bins": 0,
+            "mean_crop_quality": 0.0,
+            "moto_chassis_bins": 0,
+            "unavailable_reason": "EMPTY_CROP",
+            "upper_torso_bins": 0,
+            "valid_observed_crops_count": 0
+          },
+          "unknown_dims_descriptor": {
+            "available": false,
+            "cranial_cap_bins": 0,
+            "crop_rejection_counts": {
+              "COORDINATE_SPACE_MISMATCH_UNKNOWN_NATIVE_DIMENSIONS": 1
+            },
+            "mean_crop_quality": 0.0,
+            "moto_chassis_bins": 0,
+            "observed_frames_total": 1,
+            "observed_frames_with_keyframe": 1,
+            "unavailable_reason": "COORDINATE_SPACE_MISMATCH_UNKNOWN_NATIVE_DIMENSIONS",
+            "upper_torso_bins": 0,
+            "valid_observed_crops_count": 0
+          }
+        },
+        {
+          "camera_id": "back",
+          "filename": "pair_012_back_moto_0002_rider_s0_f0271.png",
+          "frame_index": 271,
+          "image_wh": [
+            1280,
+            720
+          ],
+          "pair_id": "pair_012",
+          "per_box_crop_comparison": [
+            {
+              "box_idx": 0,
+              "native_4k_bbox": [
+                0.0,
+                775.94,
+                853.56,
+                2077.41
+              ],
+              "scaled_4k_to_720p_reason": null,
+              "scaled_crop_shape_hw": [
+                433,
+                285
+              ],
+              "unscaled_on_720p_reason": "BOX_OUT_OF_FRAME"
+            }
+          ],
+          "scaled_4k_descriptor": {
+            "available": true,
+            "cranial_cap_bins": 0,
+            "crop_rejection_counts": {},
+            "mean_crop_quality": 1.0,
+            "moto_chassis_bins": 56,
+            "observed_frames_total": 1,
+            "observed_frames_with_keyframe": 1,
+            "unavailable_reason": null,
+            "upper_torso_bins": 0,
+            "valid_observed_crops_count": 1
+          },
+          "stagej_tracklet_appearance": {
+            "available": false,
+            "cranial_cap_bins": 0,
+            "mean_crop_quality": 0.0,
+            "moto_chassis_bins": 0,
+            "unavailable_reason": "EMPTY_CROP",
+            "upper_torso_bins": 0,
+            "valid_observed_crops_count": 0
+          },
+          "unknown_dims_descriptor": {
+            "available": false,
+            "cranial_cap_bins": 0,
+            "crop_rejection_counts": {
+              "COORDINATE_SPACE_MISMATCH_UNKNOWN_NATIVE_DIMENSIONS": 1
+            },
+            "mean_crop_quality": 0.0,
+            "moto_chassis_bins": 0,
+            "observed_frames_total": 1,
+            "observed_frames_with_keyframe": 1,
+            "unavailable_reason": "COORDINATE_SPACE_MISMATCH_UNKNOWN_NATIVE_DIMENSIONS",
+            "upper_torso_bins": 0,
+            "valid_observed_crops_count": 0
+          }
+        },
+        {
+          "camera_id": "front",
+          "filename": "pair_019_front_moto_0002_rider_s0_f0099.png",
+          "frame_index": 99,
+          "image_wh": [
+            1280,
+            720
+          ],
+          "pair_id": "pair_019",
+          "per_box_crop_comparison": [
+            {
+              "box_idx": 0,
+              "native_4k_bbox": [
+                986.25,
+                1221.61,
+                1250.18,
+                1591.18
+              ],
+              "scaled_4k_to_720p_reason": null,
+              "scaled_crop_shape_hw": [
+                123,
+                88
+              ],
+              "unscaled_on_720p_reason": "BOX_OUT_OF_FRAME"
+            },
+            {
+              "box_idx": 1,
+              "native_4k_bbox": [
+                2898.07,
+                1410.9,
+                3837.32,
+                2151.82
+              ],
+              "scaled_4k_to_720p_reason": null,
+              "scaled_crop_shape_hw": [
+                247,
+                313
+              ],
+              "unscaled_on_720p_reason": "BOX_OUT_OF_FRAME"
+            }
+          ],
+          "scaled_4k_descriptor": {
+            "available": true,
+            "cranial_cap_bins": 0,
+            "crop_rejection_counts": {},
+            "mean_crop_quality": 1.0,
+            "moto_chassis_bins": 56,
+            "observed_frames_total": 1,
+            "observed_frames_with_keyframe": 1,
+            "unavailable_reason": null,
+            "upper_torso_bins": 0,
+            "valid_observed_crops_count": 1
+          },
+          "stagej_tracklet_appearance": {
+            "available": false,
+            "cranial_cap_bins": 0,
+            "mean_crop_quality": 0.0,
+            "moto_chassis_bins": 0,
+            "unavailable_reason": "NO_MATCHING_FRAME_INDEX",
+            "upper_torso_bins": 0,
+            "valid_observed_crops_count": 0
+          },
+          "unknown_dims_descriptor": {
+            "available": false,
+            "cranial_cap_bins": 0,
+            "crop_rejection_counts": {
+              "COORDINATE_SPACE_MISMATCH_UNKNOWN_NATIVE_DIMENSIONS": 1
+            },
+            "mean_crop_quality": 0.0,
+            "moto_chassis_bins": 0,
+            "observed_frames_total": 1,
+            "observed_frames_with_keyframe": 1,
+            "unavailable_reason": "COORDINATE_SPACE_MISMATCH_UNKNOWN_NATIVE_DIMENSIONS",
+            "upper_torso_bins": 0,
+            "valid_observed_crops_count": 0
+          }
+        },
+        {
+          "camera_id": "front",
+          "filename": "pair_024_front_moto_0001_rider_s1_f0246.png",
+          "frame_index": 246,
+          "image_wh": [
+            1280,
+            720
+          ],
+          "pair_id": "pair_024",
+          "per_box_crop_comparison": [
+            {
+              "box_idx": 0,
+              "native_4k_bbox": [
+                1310.52,
+                831.39,
+                1730.46,
+                1295.39
+              ],
+              "scaled_4k_to_720p_reason": null,
+              "scaled_crop_shape_hw": [
+                155,
+                140
+              ],
+              "unscaled_on_720p_reason": "BOX_OUT_OF_FRAME"
+            }
+          ],
+          "scaled_4k_descriptor": {
+            "available": true,
+            "cranial_cap_bins": 0,
+            "crop_rejection_counts": {},
+            "mean_crop_quality": 1.0,
+            "moto_chassis_bins": 56,
+            "observed_frames_total": 1,
+            "observed_frames_with_keyframe": 1,
+            "unavailable_reason": null,
+            "upper_torso_bins": 0,
+            "valid_observed_crops_count": 1
+          },
+          "stagej_tracklet_appearance": {
+            "available": false,
+            "cranial_cap_bins": 0,
+            "mean_crop_quality": 0.0,
+            "moto_chassis_bins": 0,
+            "unavailable_reason": "EMPTY_CROP",
+            "upper_torso_bins": 0,
+            "valid_observed_crops_count": 0
+          },
+          "unknown_dims_descriptor": {
+            "available": false,
+            "cranial_cap_bins": 0,
+            "crop_rejection_counts": {
+              "COORDINATE_SPACE_MISMATCH_UNKNOWN_NATIVE_DIMENSIONS": 1
+            },
+            "mean_crop_quality": 0.0,
+            "moto_chassis_bins": 0,
+            "observed_frames_total": 1,
+            "observed_frames_with_keyframe": 1,
+            "unavailable_reason": "COORDINATE_SPACE_MISMATCH_UNKNOWN_NATIVE_DIMENSIONS",
+            "upper_torso_bins": 0,
+            "valid_observed_crops_count": 0
+          }
+        }
+      ],
+      "scaled_4k_to_720p_recovered_count": 9,
+      "tested_count": 9,
+      "unknown_dims_4k_rejected_count": 9
+    },
+    "stagej_moto_descriptor_available": 7,
+    "stagej_unavailable_reasons": {
+      "EMPTY_CROP": 56,
+      "NO_MATCHING_FRAME_INDEX": 37
+    }
+  },
+  "gap_b2_border_classification": {
+    "entry_false_negatives_in_legacy": 0,
+    "entry_false_positives_in_legacy": 51,
+    "exit_false_negatives_in_legacy": 0,
+    "exit_false_positives_in_legacy": 42,
+    "gapb_entry_near_border_true": 35,
+    "gapb_exit_near_border_true": 33,
+    "legacy_entry_near_border_true": 86,
+    "legacy_exit_near_border_true": 75,
+    "none_dims_ablation_border_statuses": {
+      "BORDER_GEOMETRY_UNKNOWN_NO_FRAME_DIMENSIONS": 100
+    }
+  },
+  "gap_b3_evidence_and_gate": {
+    "candidate_pairs_evaluated": 94,
+    "insufficient_active_cues_gate_violations": 0,
+    "orphan_gapb_genuine_states": {
+      "HELMET": 38,
+      "NO_HELMET": 91,
+      "UNCERTAIN": 1
+    },
+    "orphan_legacy_states": {
+      "HELMET": 35,
+      "NO_HELMET": 66,
+      "UNCERTAIN": 29
+    },
+    "orphan_recovered_from_uncertain": 29,
+    "rider_subtrack_snapshot_preserved": 86,
+    "rider_subtracks_gapb_genuine_states": {
+      "HELMET": 20,
+      "NO_HELMET": 66
+    },
+    "rider_subtracks_legacy_states": {
+      "HELMET": 1,
+      "NO_HELMET": 11,
+      "UNCERTAIN": 74
+    },
+    "rider_subtracks_recovered_from_uncertain": 74
+  },
+  "gap_b4_stagek_item_level_rider_association": {
+    "all_predicted_motorcycles": {
+      "coverage": 1.0,
+      "crosstab": {
+        "ABSENT|INSUFFICIENT_EVIDENCE": 1,
+        "ABSENT|UNMATCHED": 2,
+        "AMBIGUOUS_ABSTAIN|AMBIGUOUS_ABSTAIN": 1,
+        "INSUFFICIENT_EVIDENCE|INSUFFICIENT_EVIDENCE": 8,
+        "LINKED|LINKED": 4,
+        "UNMATCHED|UNMATCHED": 4
+      },
+      "exact_outcome_agreement": 17,
+      "exact_outcome_agreement_rate": 1.0,
+      "excluded_parent_moto_records": 3,
+      "f1": 1.0,
+      "fn": 0,
+      "fn_linked_pairs": [],
+      "fp": 0,
+      "fp_linked_pairs": [],
+      "gt_linked": 4,
+      "gt_units": 17,
+      "matched_gt_keys": 17,
+      "precision": 1.0,
+      "pred_abstain": 10,
+      "pred_abstain_rate": 0.5,
+      "pred_linked": 4,
+      "pred_units": 20,
+      "recall": 1.0,
+      "tp": 4
+    },
+    "retained_motorcycles": {
+      "coverage": 1.0,
+      "crosstab": {
+        "AMBIGUOUS_ABSTAIN|AMBIGUOUS_ABSTAIN": 1,
+        "INSUFFICIENT_EVIDENCE|INSUFFICIENT_EVIDENCE": 8,
+        "LINKED|LINKED": 4,
+        "UNMATCHED|UNMATCHED": 4
+      },
+      "exact_outcome_agreement": 17,
+      "exact_outcome_agreement_rate": 1.0,
+      "f1": 1.0,
+      "fn": 0,
+      "fn_linked_pairs": [],
+      "fp": 0,
+      "fp_linked_pairs": [],
+      "gt_linked": 4,
+      "gt_units": 17,
+      "matched_gt_keys": 17,
+      "precision": 1.0,
+      "pred_abstain": 9,
+      "pred_abstain_rate": 0.5294,
+      "pred_linked": 4,
+      "pred_units": 17,
+      "recall": 1.0,
+      "tp": 4
+    }
+  }
+}
