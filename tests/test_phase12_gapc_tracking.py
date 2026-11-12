@@ -823,3 +823,29 @@ def test_task09a_pipeline_merged_riders_and_frame_dimensions_plumbing():
     tracker_calls = [kws for kws in from_yaml_calls if "frame_dimensions" in kws]
     assert len(tracker_calls) >= 2
 
+
+def test_task09a_no_zero_driver_after_ephemeral_tentative_pruning():
+    """Regression for pair_022/back_moto_0001: 1-hit tentative arrival must not steal & drop driver role."""
+    pipe = CameraTrackingPipeline.from_yaml("back", yaml_path=CONFIG_PATH, frame_dimensions=(1280, 720))
+    moto = (500.0, 300.0, 680.0, 520.0)
+    h_main = (550.0, 240.0, 610.0, 300.0)
+    h_second = (620.0, 290.0, 675.0, 350.0)
+    h_ephemeral = (530.0, 210.0, 575.0, 255.0)
+    for f in range(30):
+        if f < 4:
+            heads = [_make_det(*h_main, "no_helmet", 0.9, "back", f)]
+        elif f in (20, 21):
+            heads = [_make_det(*h_second, "no_helmet", 0.85, "back", f)]
+        elif f == 24:
+            heads = [_make_det(*h_ephemeral, "helmet", 0.8, "back", f)]
+        else:
+            heads = []
+        pipe.step(_make_bundle("back", f, f * 0.0167, [_make_det(*moto, "motorcycle", 0.9, "back", f)], [], heads))
+
+    m = pipe.active_moto_tracks["back_moto_0001"]
+    drivers = [s for s in m.rider_subtracks.values() if s.slot_role == "driver"]
+    assert len(drivers) == 1
+    assert drivers[0].phase10_track.hits == 4
+    assert len(m.discarded_tentative_subtracks) == 1
+
+

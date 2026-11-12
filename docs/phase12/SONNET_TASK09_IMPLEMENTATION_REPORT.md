@@ -95,6 +95,8 @@ Notes on A4 orphans: `orphans_exported_total` dropped `130 -> 67`, `orphans_expo
 
 ## 5. Forensic Focus Motorcycle Recovery
 
+> **[TASK-09A ERRATUM — 2026-11-12]:** Sections 5 and 6.1 lines 128–153 preserve the original pre-remediation `0ec7c23c` snapshot counts (`89` exact-ID diffs, `14` physical diffs) for historical traceability; see `docs/phase12/SONNET_TASK09A_REMEDIATION_REPORT.md` and `results/phase12_gapc/` for post-remediation counts (`90` exact-ID `per_track_diffs`, `12` full-pool disagree + `1` uncertain, `140/209` exported-only / `196/209` full-pool agree).
+
 Source: `results/phase12_gapc/gapc_forensic_cases.json`. Because co-located/initial noisy heads occasionally occupied `s0` while the sustained trajectory consolidated onto `s2` or `s1`, both primary motorcycle max-subtrack recovery and strict `_rider_s0` counts are reported transparently:
 
 | Target Motorcycle | `A0` Abstain | `A4` Abstain | `A0` Hits (`s0` / max) | `A4` Hits by Slot (`s0`, `s1`, `s2`) | `A4` Max / Total Subtrack Hits | `A4` Roles & Helmet States (`s0`, ...) |

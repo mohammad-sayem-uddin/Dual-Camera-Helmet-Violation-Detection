@@ -9,7 +9,7 @@
 
 ## 1. Executive Summary
 
-TASK-09A systematically remediates every functional regression, silent metric masking defect, association regression, and live-pipeline plumbing gap identified during independent validation of commit `0ec7c23c`. Across two deterministic replay runs of `scripts/reproducibility/evaluate_gapc_tracking.py`, **17/17 acceptance and regression checks pass (`all_acceptance_criteria_passed = true`)** with bit-identical deterministic output, **`85/85` Stage J event parity (`changed=0`)**, **`50/50` exact orphan lifecycle conservation**, **`5/5` non-motorcycle GT cross-camera links**, **`0` multi-driver motorcycles**, and **`183/183` passing offline tests** (`24` real-video tests in `tests/test_phase12_pipeline_real_video.py` excluded under offline constraint).
+TASK-09A systematically remediates every functional regression, silent metric masking defect, association regression, and live-pipeline plumbing gap identified during independent validation of commit `0ec7c23c`, as well as the post-audit `pair_022/back/back_moto_0001` zero-driver edge case flagged during TASK-09B initial audit of commit `5caabad`. Across two deterministic replay runs of `scripts/reproducibility/evaluate_gapc_tracking.py`, **18/18 acceptance and regression checks pass (`all_acceptance_criteria_passed = true`)** with bit-identical deterministic output, **`85/85` Stage J event parity (`changed=0`)**, **`50/50` exact orphan lifecycle conservation**, **`5/5` non-motorcycle GT cross-camera links**, **`0` multi-driver motorcycles**, **`0` zero-driver motorcycles**, and **`184/184` passing offline tests** (`24` real-video tests in `tests/test_phase12_pipeline_real_video.py` excluded under offline constraint).
 
 ---
 
@@ -47,19 +47,26 @@ TASK-09A systematically remediates every functional regression, silent metric ma
 1. **Sparse 3-Hit Orphan Survival:** Raised `orphan_tentative_max_lost_frames` from `3` to `4` in `configs/tracking_config.yaml` and `src/tracking/kalman_bytetrack.py`. Preserves `pair_003` sparse 5-frame-cadence 3-hit orphan (`[100, 105, 110]`, `4`-frame gap) -> exported `>=3`-hit orphans increased `51 -> 52` (`orphans_discarded_ge3 = 0`), while still expiring 1-hit low-confidence orphans at `tsu = 5 > 4`.
 2. **Exact Lifecycle Conservation (`CameraTrackingPipeline.orphan_lifecycle_breakdown()`):** Explicitly accounts for `end_of_clip_unconfirmed_active_count` (`2`: `pair_002/front/front_orphan_0004`, `pair_021/back/back_orphan_0004`). Achieves **`50/50` streams with `conservation_exact == True`**.
 
+### 2.5 Zero-Driver Motorcycle Guard After Ephemeral Tentative Pruning
+1. **Post-`5caabad` Edge-Case Discovery (`pair_022/back/back_moto_0001`):** Independent TASK-09B validation of commit `5caabad` discovered that an ephemeral 1-hit tentative arrival (`s2` at `f=265`) temporarily satisfied `not is_coast_expired`, won `single_driver_uniqueness`, demoted established `4`-hit `s0` to `"pillion_1"` (`2`-hit `s1` to `"pillion_2"`), and was then pruned by `_prune_expired_tentative_subtracks()`, leaving `pair_022/back/back_moto_0001` with zero `"driver"` subtracks (`DRIVER_NO_HELMET` regressed to `PILLION_NO_HELMET`).
+2. **Two-Layer Guard (`src/tracking/camera_tracker.py`):**
+   - `_reconcile_roles()` `single_driver_uniqueness` now ranks confirmed subtracks (`len(obs) >= max(2, min_confirm_hits)`) strictly before active/coast status, preventing 1-hit tentative arrivals from stealing `"driver"` from established subtracks.
+   - `_prune_expired_tentative_subtracks()` detects when pruning removes the sole `"driver"` while remaining `rider_subtracks` exist and promotes the highest-ranked survivor via `_sync_consensus_role("driver", reason="pruned_tentative_driver_fallback", status="driver_restored")`.
+3. **Verification:** Added regression unit test `test_task09a_no_zero_driver_after_ephemeral_tentative_pruning` (`tests/test_phase12_gapc_tracking.py`) and evaluator gate `c3_no_zero_driver_motos` (`scripts/reproducibility/evaluate_gapc_tracking.py`). `no_driver_motos` is `0` across all `A0..A4` modes, and `pair_022/back/back_moto_0001` retains `{0: 4h driver, 1: 2h pillion_1}`.
+
 ---
 
 ## 3. Reproducible Offline Metrics & Audit Breakdown
 
-Source: `results/phase12_gapc/gapc_ablation_results.json` (verified identical across two independent runs on CPU; `Peak RSS: 495.56 MB` / `410.70 MB`).
+Source: `results/phase12_gapc/gapc_ablation_results.json` (verified bit-identical across two independent runs on CPU; `Peak RSS: 538.69 MB`).
 
-| Mode | Wall (s) | Combined Abstained | Back Abstained | Back Retention | Combined Retention | `OOB` | `role_err` | `multi_drv` | `raw_inv >=10h` | `Orph >=3h` | End-of-Clip Unconf | Conservation |
-|---|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|
-| **A0** | `2.294` | `2,943` | `2,102` | `28.7%` (`860/2,998`) | `66.6%` (`6,157/9,244`) | `660` | `0` | `0` | `1` | `56` | `0` | `50/50` |
-| **A1** | `2.297` | `1,364` | `843` | `70.5%` (`2,114/2,998`) | `83.8%` (`7,746/9,244`) | `0` | `1` | `0` | `2` | `56` | `0` | `50/50` |
-| **A2** | `2.278` | `229` | `131` | `91.7%` (`2,748/2,998`) | `94.5%` (`8,737/9,244`) | `0` | `47` | `13` | `5` | `56` | `0` | `50/50` |
-| **A3** | `3.083` | `230` | `131` | `91.7%` (`2,748/2,998`) | `94.5%` (`8,736/9,244`) | `0` | `0` | `0` | `5` | `56` | `0` | `50/50` |
-| **A4** | `2.498` | **`230`** | **`131`** | **`91.7%`** (`2,748/2,998`) | **`94.5%`** (`8,736/9,244`) | **`0`** | **`0`** | **`0`** | **`5`** | **`52`** | **`2`** | **`50/50`** |
+| Mode | Wall (s) | Combined Abstained | Back Abstained | Back Retention | Combined Retention | `OOB` | `role_err` | `multi_drv` | `zero_drv` | `raw_inv >=10h` | `Orph >=3h` | End-of-Clip Unconf | Conservation |
+|---|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|
+| **A0** | `2.230` | `2,943` | `2,102` | `28.7%` (`860/2,998`) | `66.6%` (`6,157/9,244`) | `660` | `0` | `0` | `0` | `1` | `56` | `0` | `50/50` |
+| **A1** | `2.263` | `1,364` | `843` | `70.5%` (`2,114/2,998`) | `83.8%` (`7,746/9,244`) | `0` | `1` | `0` | `0` | `2` | `56` | `0` | `50/50` |
+| **A2** | `2.212` | `229` | `131` | `91.7%` (`2,748/2,998`) | `94.5%` (`8,737/9,244`) | `0` | `47` | `13` | `0` | `5` | `56` | `0` | `50/50` |
+| **A3** | `2.581` | `230` | `131` | `91.7%` (`2,748/2,998`) | `94.5%` (`8,736/9,244`) | `0` | `0` | `0` | `0` | `5` | `56` | `0` | `50/50` |
+| **A4** | `2.446` | **`230`** | **`131`** | **`91.7%`** (`2,748/2,998`) | **`94.5%`** (`8,736/9,244`) | **`0`** | **`0`** | **`0`** | **`0`** | **`5`** | **`52`** | **`2`** | **`50/50`** |
 
 ### Separated GT-209 Pool Breakdown (No Blended Tentative Counts)
 - **Exact-ID (`A4` confirmed export):** `121 / 209` (`A0: 207 / 209`)
@@ -72,6 +79,6 @@ Source: `results/phase12_gapc/gapc_ablation_results.json` (verified identical ac
 ---
 
 ## 4. Verification Summary
-- **`tests/` Offline Suite:** `PYTHONPATH=. /opt/homebrew/opt/python@3.11/bin/python3.11 -m pytest tests/ -q --ignore=tests/test_phase12_pipeline_real_video.py` -> **`183 passed, 0 failed`** (`24` real-video tests collected in `tests/test_phase12_pipeline_real_video.py` excluded offline).
+- **`tests/` Offline Suite:** `PYTHONPATH=. /opt/homebrew/opt/python@3.11/bin/python3.11 -m pytest tests/ -q --ignore=tests/test_phase12_pipeline_real_video.py` -> **`184 passed, 0 failed`** (`24` real-video tests collected in `tests/test_phase12_pipeline_real_video.py` excluded offline).
 - **Stage J Event Parity:** `PYTHONPATH=.:scripts/reproducibility /opt/homebrew/opt/python@3.11/bin/python3.11 scripts/reproducibility/event_regression_task04.py` -> **`events compared=85 changed=0`**.
 - **Errata Updated:** `docs/phase12/SONNET_TASK09_IMPLEMENTATION_REPORT.md` and `docs/phase12/THREE_MODEL_EXECUTION_ROADMAP.md` amended with `[TASK-09A ERRATUM]` disclosures preserving historical context cleanly.

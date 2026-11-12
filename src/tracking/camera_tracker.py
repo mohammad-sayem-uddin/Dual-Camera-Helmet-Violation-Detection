@@ -779,11 +779,36 @@ class MotoTrack:
                 return
             if len(expired_tentative) >= len(self.rider_subtracks):
                 expired_tentative = expired_tentative[1:]
+        popped_driver = False
         for k in expired_tentative:
             sub = self.rider_subtracks.pop(k, None)
             if sub is not None:
+                if sub.slot_role == "driver":
+                    popped_driver = True
                 self.discarded_tentative_subtracks.append(sub)
             self.role_votes.pop(k, None)
+        if popped_driver and self.rider_subtracks and self.bt_config.role_consensus_enabled:
+            if not any(s.slot_role == "driver" for s in self.rider_subtracks.values()):
+                confirm_hits_min = max(2, int(self.bt_config.min_confirm_hits))
+                best_k = max(
+                    sorted(self.rider_subtracks.keys()),
+                    key=lambda idx: (
+                        len(self.rider_subtracks[idx].observation_log) >= 10,
+                        len(self.rider_subtracks[idx].observation_log) >= confirm_hits_min,
+                        self.rider_subtracks[idx].raw_majority_slot_role == "driver",
+                        len(self.rider_subtracks[idx].observation_log),
+                        -idx,
+                    ),
+                )
+                sub_b = self.rider_subtracks[best_k]
+                if not sub_b.slot_role.startswith("ambiguous_slot_"):
+                    sub_b._sync_consensus_role(
+                        "driver",
+                        ordering_confident=sub_b.ordering_confident,
+                        provisional=len(sub_b.observation_log) < confirm_hits_min,
+                        reason="pruned_tentative_driver_fallback",
+                        status="driver_restored",
+                    )
 
     def _estimate_travel_velocity(self) -> tuple[float, float]:
         """Return motorcycle travel velocity, using finite-difference raw center motion during warmup."""
@@ -982,10 +1007,12 @@ class MotoTrack:
             k for k, s in sorted(self.rider_subtracks.items()) if s.slot_role == "driver"
         ]
         if len(driver_keys) > 1:
+            confirm_hits_min = max(2, int(self.bt_config.min_confirm_hits))
             winner = max(
                 driver_keys,
                 key=lambda k: (
                     len(self.rider_subtracks[k].observation_log) >= 10,
+                    len(self.rider_subtracks[k].observation_log) >= confirm_hits_min,
                     not self.rider_subtracks[k].is_coast_expired,
                     len(self.rider_subtracks[k].observation_log),
                     -k,

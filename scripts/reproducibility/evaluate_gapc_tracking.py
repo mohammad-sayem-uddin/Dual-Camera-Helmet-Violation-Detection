@@ -237,6 +237,7 @@ def _empty_cam_stats() -> dict[str, Any]:
         "duplicate_orphan_suppressed": 0,
         "role_mismatches": 0,
         "multi_driver_motos": 0,
+        "no_driver_motos": 0,
         "sustained_raw_role_inversions_ge10": 0,
         "raw_to_consensus_role_changes": 0,
         "uncertain_subtracks": 0,
@@ -354,6 +355,13 @@ def run_ablation_mode(
                 driver_subs = [s for s in m.rider_subtracks.values() if s.slot_role == "driver"]
                 if len(driver_subs) > 1:
                     cs["multi_driver_motos"] += 1
+                non_amb_subs = [
+                    s
+                    for s in m.rider_subtracks.values()
+                    if not s.slot_role.startswith("ambiguous_slot_") and s.slot_role != "uncertain"
+                ]
+                if non_amb_subs and not driver_subs:
+                    cs["no_driver_motos"] += 1
                 for sk, sub in m.rider_subtracks.items():
                     cs["subtracks_total"] += 1
                     hits = sub.phase10_track.hits
@@ -969,6 +977,7 @@ def _check_acceptance_criteria(
         "c2_focus_4_motos_primary_gt_10_hits": focus_moto_ok,
         "c3_role_mismatches_zero": a4["combined"]["role_mismatches"] == 0,
         "c3_no_multi_driver_motos": a4["combined"]["multi_driver_motos"] == 0,
+        "c3_no_zero_driver_motos": a4["combined"]["no_driver_motos"] == 0,
         "c3_orphan_1hit_lt045_reduction_ge_90pct": (1.0 - (o_a4_lt / o_a0_lt)) >= 0.90,
         "c3_orphan_ge3_preserved": a4["combined"]["orphans_discarded_ge3"] == 0,
         "c3_orphan_conservation_exact": (
@@ -1047,6 +1056,7 @@ def main() -> None:
                 "orphan_conservation_exact_streams": cs["orphan_conservation_exact_streams"],
                 "role_mismatches": cs["role_mismatches"],
                 "multi_driver_motos": cs["multi_driver_motos"],
+                "no_driver_motos": cs["no_driver_motos"],
                 "sustained_raw_role_inversions_ge10": cs["sustained_raw_role_inversions_ge10"],
                 "raw_to_consensus_role_changes": cs["raw_to_consensus_role_changes"],
                 "out_of_bounds_boxes": cs["out_of_bounds_boxes"],
@@ -1102,7 +1112,7 @@ def main() -> None:
             f"C_ret={c['subtrack_hits']}/{c['coupled_heads']} ({c['coupled_retention_rate']*100:.1f}%) | "
             f"OOB={c['out_of_bounds_boxes']} | K1_elig={c['subtracks_k1_multiframe_eligible']} | "
             f"role_err={c['role_mismatches']} multi_drv={c['multi_driver_motos']} "
-            f"raw_inv10={c['sustained_raw_role_inversions_ge10']} | "
+            f"no_drv={c['no_driver_motos']} raw_inv10={c['sustained_raw_role_inversions_ge10']} | "
             f"orph_ge3={c['orphans_exported_ge3']} eoc={c['orphans_end_of_clip_unconfirmed_active']} "
             f"cons={c['orphan_conservation_exact_streams']}/{c['orphan_streams_total']} "
             f"orph_disc_ge3={c['orphans_discarded_ge3']} | moto_id_ok={r['moto_id_exact_match']}"
