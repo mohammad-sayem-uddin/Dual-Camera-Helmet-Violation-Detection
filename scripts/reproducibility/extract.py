@@ -73,6 +73,14 @@ def load_gt():
     return gt
 
 
+def _redesign(rec, hist):
+    """TASK-04 states: exported fields if present, else pts_history fallback (legacy Stage J)."""
+    import sys
+    sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
+    from track_state_redesign import _entry
+    return _entry(rec, hist, set())
+
+
 def load_pred():
     pred = {'detections': collections.defaultdict(list),  # (pair,cam,frame) -> {'motorcycles':[], 'persons':[], 'heads':[]}
             'coupled': {},        # (pair, cam, sub) -> {frame: (bbox, state, conf)}
@@ -122,6 +130,7 @@ def load_pred():
                 if mx >= 0.5:
                     state = 'HELMET' if ac.get('helmet', 0) >= ac.get('no_helmet', 0) else 'NO_HELMET'
                 pred['track_state'][(pair, cam, oid)] = state
+                pred['track_state_redesign'][(pair, cam, oid)] = _redesign(ot, ot.get('pts_history', []))
             cov = os.path.join(d, f'{pair}_{cam}_coverage.csv')
             with open(cov) as f:
                 pred['coverage'][(pair, cam)] = sum(1 for _ in f) - 1  # minus header

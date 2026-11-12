@@ -50,6 +50,133 @@ class Phase10AdapterConfig:
     decision_config: DecisionConfig = field(default_factory=DecisionConfig)
 
 
+_HELMET_CLASSES = ("helmet", "no_helmet")
+_ZERO_AC: dict[str, float] = {"helmet": 0.0, "no_helmet": 0.0}
+
+
+def derive_ema_helmet_state(
+    ac: dict[str, float] | None, *, tie_break_helmet: bool = False
+) -> str:
+    """HELMET / NO_HELMET / UNCERTAIN from an aggregated-confidence dict.
+
+    `tie_break_helmet=True` reproduces the legacy Stage K rule exactly
+    (max >= 0.5 -> HELMET if helmet >= no_helmet else NO_HELMET).
+    """
+    if not ac:
+        return "UNCERTAIN"
+    p_h = float(ac.get("helmet", 0.0))
+    p_nh = float(ac.get("no_helmet", 0.0))
+    if max(p_h, p_nh) < 0.5:
+        return "UNCERTAIN"
+    if p_h > p_nh:
+        return "HELMET"
+    if p_nh > p_h:
+        return "NO_HELMET"
+    return "HELMET" if tie_break_helmet else "UNCERTAIN"
+
+
+def derive_majority_helmet_state(helmet_count: int, no_helmet_count: int) -> str:
+    """Strict majority over genuine coupled observations; tie or zero -> UNCERTAIN."""
+    if helmet_count > no_helmet_count:
+        return "HELMET"
+    if no_helmet_count > helmet_count:
+        return "NO_HELMET"
+    return "UNCERTAIN"
+
+
+def derive_conf_weighted_helmet_state(helmet_weight: float, no_helmet_weight: float) -> str:
+    """Confidence-weighted majority; exact tie or zero mass -> UNCERTAIN."""
+    if helmet_weight + no_helmet_weight <= 1e-8:
+        return "UNCERTAIN"
+    if helmet_weight > no_helmet_weight + 1e-9:
+        return "HELMET"
+    if no_helmet_weight > helmet_weight + 1e-9:
+        return "NO_HELMET"
+    return "UNCERTAIN"
+
+
+class HelmetEvidenceAccumulator:
+    """O(1)-memory track-lifecycle evidence over genuine coupled head observations.
+
+    Updated ONLY from the matched-observation path. Unmatched / Kalman-propagated /
+    abstained frames never reach it, so they cannot add evidence. A repeated record
+    for a frame index not strictly after the last recorded one is ignored.
+    """
+
+    def __init__(self) -> None:
+        self.observations: int = 0
+        self.helmet_count: int = 0
+        self.no_helmet_count: int = 0
+        self.helmet_conf_sum: float = 0.0
+        self.no_helmet_conf_sum: float = 0.0
+        self.state_switches: int = 0
+        self.last_frame_index: int | None = None
+        self.last_pts_sec: float | None = None
+        self.last_class_name: str | None = None
+        self.last_aggregated_confidence: dict[str, float] = dict(_ZERO_AC)
+
+    def record(
+        self,
+        class_name: str,
+        confidence: float,
+        frame_index: int,
+        pts_sec: float | None,
+        aggregated_confidence: dict[str, float],
+    ) -> bool:
+        if class_name not in _HELMET_CLASSES:
+            return False
+        if self.last_frame_index is not None and int(frame_index) <= self.last_frame_index:
+            return False  # repeated-update protection
+        self.observations += 1
+        if class_name == "helmet":
+            self.helmet_count += 1
+            self.helmet_conf_sum += float(confidence)
+        else:
+            self.no_helmet_count += 1
+            self.no_helmet_conf_sum += float(confidence)
+        if self.last_class_name is not None and class_name != self.last_class_name:
+            self.state_switches += 1
+        self.last_class_name = class_name
+        self.last_frame_index = int(frame_index)
+        self.last_pts_sec = (
+            round(float(pts_sec), 6)
+            if pts_sec is not None and float(pts_sec) == float(pts_sec)
+            else None
+        )
+        self.last_aggregated_confidence = {
+            "helmet": float(aggregated_confidence.get("helmet", 0.0)),
+            "no_helmet": float(aggregated_confidence.get("no_helmet", 0.0)),
+        }
+        return True
+
+    def export(self, ema_final_ac: dict[str, float]) -> dict[str, Any]:
+        majority = derive_majority_helmet_state(self.helmet_count, self.no_helmet_count)
+        return {
+            "track_helmet_state": majority,
+            "track_helmet_state_majority": majority,
+            "track_helmet_state_conf_weighted": derive_conf_weighted_helmet_state(
+                self.helmet_conf_sum, self.no_helmet_conf_sum
+            ),
+            "track_helmet_state_last_coupled": derive_ema_helmet_state(
+                self.last_aggregated_confidence
+            ),
+            "track_helmet_state_ema_final": derive_ema_helmet_state(
+                ema_final_ac, tie_break_helmet=True
+            ),
+            "last_coupled_aggregated_confidence": dict(self.last_aggregated_confidence),
+            "coupled_confidence_weights": {
+                "helmet": round(self.helmet_conf_sum, 6),
+                "no_helmet": round(self.no_helmet_conf_sum, 6),
+            },
+            "coupled_observations_count": self.observations,
+            "coupled_helmet_count": self.helmet_count,
+            "coupled_no_helmet_count": self.no_helmet_count,
+            "coupled_state_switches": self.state_switches,
+            "last_coupled_frame_index": self.last_frame_index,
+            "last_coupled_pts_sec": self.last_pts_sec,
+        }
+
+
 class RiderSubTrack:
     """
     Independent rider subtrack bound to a slot (0: driver, 1: pillion_1, 2: pillion_2)
@@ -101,6 +228,7 @@ class RiderSubTrack:
             aggregator_method=p10_config.aggregator_method,
             window_size=p10_config.sliding_window_size,
             sm_config=p10_config.state_machine_config,
+            ema_alpha=p10_config.ema_alpha,
         )
         self.decision_engine = ViolationDecisionEngine(config=p10_config.decision_config)
         self.kalman = KalmanBoxFilter(
@@ -136,6 +264,11 @@ class RiderSubTrack:
                 "velocity_xy": tuple(float(v) for v in self.kalman.velocity_xy),
             }
         ]
+        self.helmet_evidence = HelmetEvidenceAccumulator()
+        self.helmet_evidence.record(
+            head.class_name, head.confidence, frame_index, pts_timestamp_sec,
+            self.phase10_track.aggregator.get_aggregated_confidence(),
+        )
         self.missed_frames: list[int] = []
         self.last_coupling_score = initial_obs.coupling_score
         self.alerts: list[ViolationAlert] = []
@@ -183,6 +316,10 @@ class RiderSubTrack:
             class_name=head.class_name,
         )
         self.phase10_track.update_matched(p10_bbox, frame_index=frame_index)
+        self.helmet_evidence.record(
+            head.class_name, head.confidence, frame_index, pts_timestamp_sec,
+            self.phase10_track.aggregator.get_aggregated_confidence(),
+        )
         self.pts_history.append(
             (frame_index, pts_timestamp_sec, head.bbox, head.class_name, head.confidence)
         )
@@ -224,8 +361,13 @@ class RiderSubTrack:
     def aggregated_confidence(self) -> dict[str, float]:
         return self.phase10_track.aggregator.get_aggregated_confidence()
 
+    @property
+    def track_helmet_state(self) -> str:
+        return self.helmet_evidence.export(self.aggregated_confidence)["track_helmet_state"]
+
     def to_dict(self) -> dict[str, Any]:
         return {
+            **self.helmet_evidence.export(self.aggregated_confidence),
             "subtrack_id": self.subtrack_id,
             "parent_moto_id": self.parent_moto_id,
             "camera_id": self.camera_id,
@@ -726,6 +868,7 @@ class OrphanRiderTrack:
             aggregator_method=p10_config.aggregator_method,
             window_size=p10_config.sliding_window_size,
             sm_config=p10_config.state_machine_config,
+            ema_alpha=p10_config.ema_alpha,
         )
         self.decision_engine = ViolationDecisionEngine(config=p10_config.decision_config)
         self.lifecycle_state = (
@@ -759,6 +902,11 @@ class OrphanRiderTrack:
                 "velocity_xy": tuple(float(v) for v in self.kalman.velocity_xy),
             }
         ]
+        self.helmet_evidence = HelmetEvidenceAccumulator()
+        self.helmet_evidence.record(
+            head.class_name, head.confidence, frame_index, pts_timestamp_sec,
+            self.phase10_track.aggregator.get_aggregated_confidence(),
+        )
         self.missed_frames: list[int] = []
         self.alerts: list[ViolationAlert] = []
         self._evaluate_alerts(frame_index, pts_timestamp_sec)
@@ -800,6 +948,10 @@ class OrphanRiderTrack:
             class_name=head.class_name,
         )
         self.phase10_track.update_matched(p10_bbox, frame_index=frame_index)
+        self.helmet_evidence.record(
+            head.class_name, head.confidence, frame_index, pts_timestamp_sec,
+            self.phase10_track.aggregator.get_aggregated_confidence(),
+        )
         self.pts_history.append(
             (frame_index, pts_timestamp_sec, head.bbox, head.class_name, head.confidence)
         )
@@ -848,8 +1000,15 @@ class OrphanRiderTrack:
         else:
             self.lifecycle_state = TrackLifecycleState.LOST
 
+    @property
+    def track_helmet_state(self) -> str:
+        return self.helmet_evidence.export(
+            self.phase10_track.aggregator.get_aggregated_confidence()
+        )["track_helmet_state"]
+
     def to_dict(self) -> dict[str, Any]:
         return {
+            **self.helmet_evidence.export(self.phase10_track.aggregator.get_aggregated_confidence()),
             "orphan_track_id": self.orphan_track_id,
             "camera_id": self.camera_id,
             "lifecycle_state": self.lifecycle_state.value,

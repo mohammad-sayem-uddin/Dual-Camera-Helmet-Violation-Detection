@@ -256,6 +256,20 @@ R['helmet_track_level'] = {'n_decided_gt_tracks': tl_total,
     'agreement': agree, 'agreement_rate': round(agree / tl_total, 4) if tl_total else 0,
     'confusion': {f'{g}->{p}': v for (g, p), v in sorted(tl.items())}}
 
+# TASK-04 amended block (additive; the legacy 'helmet_track_level' above is untouched)
+if pred.get('track_state_redesign'):
+    _rd = collections.defaultdict(collections.Counter)
+    for (pair, cam, sub), rt in gt['rider_tracks'].items():
+        if rt['gt_state'] not in ('helmet', 'no_helmet'): continue
+        _p = pred['track_state_redesign'].get((pair, cam, sub))
+        for _m in ('ema_final', 'last_coupled', 'majority', 'conf_weighted', 'primary'):
+            _rd[_m][(rt['gt_state'], _p[_m] if _p else 'UNCERTAIN')] += 1
+    R['helmet_track_level_redesign'] = {_m: {
+        'n_decided_gt_tracks': sum(c.values()),
+        'agreement': sum(v for (g, p), v in c.items() if g.upper() == p),
+        'abstentions': sum(v for (g, p), v in c.items() if p == 'UNCERTAIN'),
+        'confusion': {f'{g}->{p}': v for (g, p), v in sorted(c.items())}} for _m, c in _rd.items()}
+
 # ---------------------------------------------------------------- tracking family (head-observation basis)
 import numpy as np
 from scipy.optimize import linear_sum_assignment

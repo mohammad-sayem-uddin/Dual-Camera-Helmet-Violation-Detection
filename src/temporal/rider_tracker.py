@@ -63,6 +63,7 @@ class Track:
         aggregator_method: str = "confidence_weighted",
         window_size: int = 10,
         sm_config: StateMachineConfig | None = None,
+        ema_alpha: float = 0.35,
     ) -> None:
         self.track_id = track_id
         self.current_bbox = initial_bbox
@@ -71,7 +72,9 @@ class Track:
         self.hits = 1
         self.time_since_update = 0
 
-        self.aggregator = create_aggregator(method=aggregator_method, window_size=window_size)
+        self.aggregator = create_aggregator(
+            method=aggregator_method, window_size=window_size, alpha=ema_alpha
+        )
         self.aggregator.add_observation(
             class_name=initial_bbox.class_name,
             confidence=initial_bbox.confidence,

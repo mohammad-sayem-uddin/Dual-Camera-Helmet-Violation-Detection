@@ -1,0 +1,779 @@
+{
+ "source_mode": "pts_history_fallback",
+ "gt_release": "dual_camera_gt_v1.0_ai_assisted_audited (read-only)",
+ "stage_j_artifacts": "results/phase12_stagej (read-only)",
+ "note": "Implementation re-score of existing artifacts; thresholds not tuned. Tail-gap subgroup uses legacy-window-flush as a proxy (track_frames.jsonl is not present in this repo).",
+ "groups": {
+  "all": {
+   "ema_final": {
+    "total_eligible_gt_tracks": 209,
+    "decided": 136,
+    "abstentions": 73,
+    "coverage": 0.6507,
+    "conditional_accuracy": 0.9853,
+    "end_to_end_agreement": 0.6411,
+    "correct": 134,
+    "wrong": 2,
+    "confusion": {
+     "HELMET->HELMET": 38,
+     "HELMET->NO_HELMET": 1,
+     "HELMET->UNCERTAIN": 18,
+     "NO_HELMET->HELMET": 1,
+     "NO_HELMET->NO_HELMET": 96,
+     "NO_HELMET->UNCERTAIN": 55
+    },
+    "abstention_reasons": {
+     "WINDOW_FLUSH_ZERO_MASS": 73
+    }
+   },
+   "last_coupled": {
+    "total_eligible_gt_tracks": 209,
+    "decided": 209,
+    "abstentions": 0,
+    "coverage": 1.0,
+    "conditional_accuracy": 0.9856,
+    "end_to_end_agreement": 0.9856,
+    "correct": 206,
+    "wrong": 3,
+    "confusion": {
+     "HELMET->HELMET": 56,
+     "HELMET->NO_HELMET": 1,
+     "NO_HELMET->HELMET": 2,
+     "NO_HELMET->NO_HELMET": 150
+    },
+    "abstention_reasons": {}
+   },
+   "majority": {
+    "total_eligible_gt_tracks": 209,
+    "decided": 209,
+    "abstentions": 0,
+    "coverage": 1.0,
+    "conditional_accuracy": 0.9904,
+    "end_to_end_agreement": 0.9904,
+    "correct": 207,
+    "wrong": 2,
+    "confusion": {
+     "HELMET->HELMET": 56,
+     "HELMET->NO_HELMET": 1,
+     "NO_HELMET->HELMET": 1,
+     "NO_HELMET->NO_HELMET": 151
+    },
+    "abstention_reasons": {}
+   },
+   "conf_weighted": {
+    "total_eligible_gt_tracks": 209,
+    "decided": 209,
+    "abstentions": 0,
+    "coverage": 1.0,
+    "conditional_accuracy": 0.9904,
+    "end_to_end_agreement": 0.9904,
+    "correct": 207,
+    "wrong": 2,
+    "confusion": {
+     "HELMET->HELMET": 56,
+     "HELMET->NO_HELMET": 1,
+     "NO_HELMET->HELMET": 1,
+     "NO_HELMET->NO_HELMET": 151
+    },
+    "abstention_reasons": {}
+   },
+   "primary": {
+    "total_eligible_gt_tracks": 209,
+    "decided": 209,
+    "abstentions": 0,
+    "coverage": 1.0,
+    "conditional_accuracy": 0.9904,
+    "end_to_end_agreement": 0.9904,
+    "correct": 207,
+    "wrong": 2,
+    "confusion": {
+     "HELMET->HELMET": 56,
+     "HELMET->NO_HELMET": 1,
+     "NO_HELMET->HELMET": 1,
+     "NO_HELMET->NO_HELMET": 151
+    },
+    "abstention_reasons": {}
+   }
+  },
+  "single_observation_K1": {
+   "ema_final": {
+    "total_eligible_gt_tracks": 85,
+    "decided": 55,
+    "abstentions": 30,
+    "coverage": 0.6471,
+    "conditional_accuracy": 1.0,
+    "end_to_end_agreement": 0.6471,
+    "correct": 55,
+    "wrong": 0,
+    "confusion": {
+     "HELMET->HELMET": 19,
+     "HELMET->UNCERTAIN": 8,
+     "NO_HELMET->NO_HELMET": 36,
+     "NO_HELMET->UNCERTAIN": 22
+    },
+    "abstention_reasons": {
+     "WINDOW_FLUSH_ZERO_MASS": 30
+    }
+   },
+   "last_coupled": {
+    "total_eligible_gt_tracks": 85,
+    "decided": 85,
+    "abstentions": 0,
+    "coverage": 1.0,
+    "conditional_accuracy": 1.0,
+    "end_to_end_agreement": 1.0,
+    "correct": 85,
+    "wrong": 0,
+    "confusion": {
+     "HELMET->HELMET": 27,
+     "NO_HELMET->NO_HELMET": 58
+    },
+    "abstention_reasons": {}
+   },
+   "majority": {
+    "total_eligible_gt_tracks": 85,
+    "decided": 85,
+    "abstentions": 0,
+    "coverage": 1.0,
+    "conditional_accuracy": 1.0,
+    "end_to_end_agreement": 1.0,
+    "correct": 85,
+    "wrong": 0,
+    "confusion": {
+     "HELMET->HELMET": 27,
+     "NO_HELMET->NO_HELMET": 58
+    },
+    "abstention_reasons": {}
+   },
+   "conf_weighted": {
+    "total_eligible_gt_tracks": 85,
+    "decided": 85,
+    "abstentions": 0,
+    "coverage": 1.0,
+    "conditional_accuracy": 1.0,
+    "end_to_end_agreement": 1.0,
+    "correct": 85,
+    "wrong": 0,
+    "confusion": {
+     "HELMET->HELMET": 27,
+     "NO_HELMET->NO_HELMET": 58
+    },
+    "abstention_reasons": {}
+   },
+   "primary": {
+    "total_eligible_gt_tracks": 85,
+    "decided": 85,
+    "abstentions": 0,
+    "coverage": 1.0,
+    "conditional_accuracy": 1.0,
+    "end_to_end_agreement": 1.0,
+    "correct": 85,
+    "wrong": 0,
+    "confusion": {
+     "HELMET->HELMET": 27,
+     "NO_HELMET->NO_HELMET": 58
+    },
+    "abstention_reasons": {}
+   }
+  },
+  "multi_observation_K>=2": {
+   "ema_final": {
+    "total_eligible_gt_tracks": 124,
+    "decided": 81,
+    "abstentions": 43,
+    "coverage": 0.6532,
+    "conditional_accuracy": 0.9753,
+    "end_to_end_agreement": 0.6371,
+    "correct": 79,
+    "wrong": 2,
+    "confusion": {
+     "HELMET->HELMET": 19,
+     "HELMET->NO_HELMET": 1,
+     "HELMET->UNCERTAIN": 10,
+     "NO_HELMET->HELMET": 1,
+     "NO_HELMET->NO_HELMET": 60,
+     "NO_HELMET->UNCERTAIN": 33
+    },
+    "abstention_reasons": {
+     "WINDOW_FLUSH_ZERO_MASS": 43
+    }
+   },
+   "last_coupled": {
+    "total_eligible_gt_tracks": 124,
+    "decided": 124,
+    "abstentions": 0,
+    "coverage": 1.0,
+    "conditional_accuracy": 0.9758,
+    "end_to_end_agreement": 0.9758,
+    "correct": 121,
+    "wrong": 3,
+    "confusion": {
+     "HELMET->HELMET": 29,
+     "HELMET->NO_HELMET": 1,
+     "NO_HELMET->HELMET": 2,
+     "NO_HELMET->NO_HELMET": 92
+    },
+    "abstention_reasons": {}
+   },
+   "majority": {
+    "total_eligible_gt_tracks": 124,
+    "decided": 124,
+    "abstentions": 0,
+    "coverage": 1.0,
+    "conditional_accuracy": 0.9839,
+    "end_to_end_agreement": 0.9839,
+    "correct": 122,
+    "wrong": 2,
+    "confusion": {
+     "HELMET->HELMET": 29,
+     "HELMET->NO_HELMET": 1,
+     "NO_HELMET->HELMET": 1,
+     "NO_HELMET->NO_HELMET": 93
+    },
+    "abstention_reasons": {}
+   },
+   "conf_weighted": {
+    "total_eligible_gt_tracks": 124,
+    "decided": 124,
+    "abstentions": 0,
+    "coverage": 1.0,
+    "conditional_accuracy": 0.9839,
+    "end_to_end_agreement": 0.9839,
+    "correct": 122,
+    "wrong": 2,
+    "confusion": {
+     "HELMET->HELMET": 29,
+     "HELMET->NO_HELMET": 1,
+     "NO_HELMET->HELMET": 1,
+     "NO_HELMET->NO_HELMET": 93
+    },
+    "abstention_reasons": {}
+   },
+   "primary": {
+    "total_eligible_gt_tracks": 124,
+    "decided": 124,
+    "abstentions": 0,
+    "coverage": 1.0,
+    "conditional_accuracy": 0.9839,
+    "end_to_end_agreement": 0.9839,
+    "correct": 122,
+    "wrong": 2,
+    "confusion": {
+     "HELMET->HELMET": 29,
+     "HELMET->NO_HELMET": 1,
+     "NO_HELMET->HELMET": 1,
+     "NO_HELMET->NO_HELMET": 93
+    },
+    "abstention_reasons": {}
+   }
+  },
+  "motorcycle_subtracks": {
+   "ema_final": {
+    "total_eligible_gt_tracks": 85,
+    "decided": 12,
+    "abstentions": 73,
+    "coverage": 0.1412,
+    "conditional_accuracy": 1.0,
+    "end_to_end_agreement": 0.1412,
+    "correct": 12,
+    "wrong": 0,
+    "confusion": {
+     "HELMET->HELMET": 1,
+     "HELMET->UNCERTAIN": 18,
+     "NO_HELMET->NO_HELMET": 11,
+     "NO_HELMET->UNCERTAIN": 55
+    },
+    "abstention_reasons": {
+     "WINDOW_FLUSH_ZERO_MASS": 73
+    }
+   },
+   "last_coupled": {
+    "total_eligible_gt_tracks": 85,
+    "decided": 85,
+    "abstentions": 0,
+    "coverage": 1.0,
+    "conditional_accuracy": 0.9882,
+    "end_to_end_agreement": 0.9882,
+    "correct": 84,
+    "wrong": 1,
+    "confusion": {
+     "HELMET->HELMET": 19,
+     "NO_HELMET->HELMET": 1,
+     "NO_HELMET->NO_HELMET": 65
+    },
+    "abstention_reasons": {}
+   },
+   "majority": {
+    "total_eligible_gt_tracks": 85,
+    "decided": 85,
+    "abstentions": 0,
+    "coverage": 1.0,
+    "conditional_accuracy": 0.9882,
+    "end_to_end_agreement": 0.9882,
+    "correct": 84,
+    "wrong": 1,
+    "confusion": {
+     "HELMET->HELMET": 19,
+     "NO_HELMET->HELMET": 1,
+     "NO_HELMET->NO_HELMET": 65
+    },
+    "abstention_reasons": {}
+   },
+   "conf_weighted": {
+    "total_eligible_gt_tracks": 85,
+    "decided": 85,
+    "abstentions": 0,
+    "coverage": 1.0,
+    "conditional_accuracy": 0.9882,
+    "end_to_end_agreement": 0.9882,
+    "correct": 84,
+    "wrong": 1,
+    "confusion": {
+     "HELMET->HELMET": 19,
+     "NO_HELMET->HELMET": 1,
+     "NO_HELMET->NO_HELMET": 65
+    },
+    "abstention_reasons": {}
+   },
+   "primary": {
+    "total_eligible_gt_tracks": 85,
+    "decided": 85,
+    "abstentions": 0,
+    "coverage": 1.0,
+    "conditional_accuracy": 0.9882,
+    "end_to_end_agreement": 0.9882,
+    "correct": 84,
+    "wrong": 1,
+    "confusion": {
+     "HELMET->HELMET": 19,
+     "NO_HELMET->HELMET": 1,
+     "NO_HELMET->NO_HELMET": 65
+    },
+    "abstention_reasons": {}
+   }
+  },
+  "orphan_tracks": {
+   "ema_final": {
+    "total_eligible_gt_tracks": 124,
+    "decided": 124,
+    "abstentions": 0,
+    "coverage": 1.0,
+    "conditional_accuracy": 0.9839,
+    "end_to_end_agreement": 0.9839,
+    "correct": 122,
+    "wrong": 2,
+    "confusion": {
+     "HELMET->HELMET": 37,
+     "HELMET->NO_HELMET": 1,
+     "NO_HELMET->HELMET": 1,
+     "NO_HELMET->NO_HELMET": 85
+    },
+    "abstention_reasons": {}
+   },
+   "last_coupled": {
+    "total_eligible_gt_tracks": 124,
+    "decided": 124,
+    "abstentions": 0,
+    "coverage": 1.0,
+    "conditional_accuracy": 0.9839,
+    "end_to_end_agreement": 0.9839,
+    "correct": 122,
+    "wrong": 2,
+    "confusion": {
+     "HELMET->HELMET": 37,
+     "HELMET->NO_HELMET": 1,
+     "NO_HELMET->HELMET": 1,
+     "NO_HELMET->NO_HELMET": 85
+    },
+    "abstention_reasons": {}
+   },
+   "majority": {
+    "total_eligible_gt_tracks": 124,
+    "decided": 124,
+    "abstentions": 0,
+    "coverage": 1.0,
+    "conditional_accuracy": 0.9919,
+    "end_to_end_agreement": 0.9919,
+    "correct": 123,
+    "wrong": 1,
+    "confusion": {
+     "HELMET->HELMET": 37,
+     "HELMET->NO_HELMET": 1,
+     "NO_HELMET->NO_HELMET": 86
+    },
+    "abstention_reasons": {}
+   },
+   "conf_weighted": {
+    "total_eligible_gt_tracks": 124,
+    "decided": 124,
+    "abstentions": 0,
+    "coverage": 1.0,
+    "conditional_accuracy": 0.9919,
+    "end_to_end_agreement": 0.9919,
+    "correct": 123,
+    "wrong": 1,
+    "confusion": {
+     "HELMET->HELMET": 37,
+     "HELMET->NO_HELMET": 1,
+     "NO_HELMET->NO_HELMET": 86
+    },
+    "abstention_reasons": {}
+   },
+   "primary": {
+    "total_eligible_gt_tracks": 124,
+    "decided": 124,
+    "abstentions": 0,
+    "coverage": 1.0,
+    "conditional_accuracy": 0.9919,
+    "end_to_end_agreement": 0.9919,
+    "correct": 123,
+    "wrong": 1,
+    "confusion": {
+     "HELMET->HELMET": 37,
+     "HELMET->NO_HELMET": 1,
+     "NO_HELMET->NO_HELMET": 86
+    },
+    "abstention_reasons": {}
+   }
+  },
+  "legacy_window_flushed_tail_gap>=10_proxy": {
+   "ema_final": {
+    "total_eligible_gt_tracks": 73,
+    "decided": 0,
+    "abstentions": 73,
+    "coverage": 0.0,
+    "conditional_accuracy": null,
+    "end_to_end_agreement": 0.0,
+    "correct": 0,
+    "wrong": 0,
+    "confusion": {
+     "HELMET->UNCERTAIN": 18,
+     "NO_HELMET->UNCERTAIN": 55
+    },
+    "abstention_reasons": {
+     "WINDOW_FLUSH_ZERO_MASS": 73
+    }
+   },
+   "last_coupled": {
+    "total_eligible_gt_tracks": 73,
+    "decided": 73,
+    "abstentions": 0,
+    "coverage": 1.0,
+    "conditional_accuracy": 0.9863,
+    "end_to_end_agreement": 0.9863,
+    "correct": 72,
+    "wrong": 1,
+    "confusion": {
+     "HELMET->HELMET": 18,
+     "NO_HELMET->HELMET": 1,
+     "NO_HELMET->NO_HELMET": 54
+    },
+    "abstention_reasons": {}
+   },
+   "majority": {
+    "total_eligible_gt_tracks": 73,
+    "decided": 73,
+    "abstentions": 0,
+    "coverage": 1.0,
+    "conditional_accuracy": 0.9863,
+    "end_to_end_agreement": 0.9863,
+    "correct": 72,
+    "wrong": 1,
+    "confusion": {
+     "HELMET->HELMET": 18,
+     "NO_HELMET->HELMET": 1,
+     "NO_HELMET->NO_HELMET": 54
+    },
+    "abstention_reasons": {}
+   },
+   "conf_weighted": {
+    "total_eligible_gt_tracks": 73,
+    "decided": 73,
+    "abstentions": 0,
+    "coverage": 1.0,
+    "conditional_accuracy": 0.9863,
+    "end_to_end_agreement": 0.9863,
+    "correct": 72,
+    "wrong": 1,
+    "confusion": {
+     "HELMET->HELMET": 18,
+     "NO_HELMET->HELMET": 1,
+     "NO_HELMET->NO_HELMET": 54
+    },
+    "abstention_reasons": {}
+   },
+   "primary": {
+    "total_eligible_gt_tracks": 73,
+    "decided": 73,
+    "abstentions": 0,
+    "coverage": 1.0,
+    "conditional_accuracy": 0.9863,
+    "end_to_end_agreement": 0.9863,
+    "correct": 72,
+    "wrong": 1,
+    "confusion": {
+     "HELMET->HELMET": 18,
+     "NO_HELMET->HELMET": 1,
+     "NO_HELMET->NO_HELMET": 54
+    },
+    "abstention_reasons": {}
+   }
+  },
+  "legacy_not_flushed": {
+   "ema_final": {
+    "total_eligible_gt_tracks": 136,
+    "decided": 136,
+    "abstentions": 0,
+    "coverage": 1.0,
+    "conditional_accuracy": 0.9853,
+    "end_to_end_agreement": 0.9853,
+    "correct": 134,
+    "wrong": 2,
+    "confusion": {
+     "HELMET->HELMET": 38,
+     "HELMET->NO_HELMET": 1,
+     "NO_HELMET->HELMET": 1,
+     "NO_HELMET->NO_HELMET": 96
+    },
+    "abstention_reasons": {}
+   },
+   "last_coupled": {
+    "total_eligible_gt_tracks": 136,
+    "decided": 136,
+    "abstentions": 0,
+    "coverage": 1.0,
+    "conditional_accuracy": 0.9853,
+    "end_to_end_agreement": 0.9853,
+    "correct": 134,
+    "wrong": 2,
+    "confusion": {
+     "HELMET->HELMET": 38,
+     "HELMET->NO_HELMET": 1,
+     "NO_HELMET->HELMET": 1,
+     "NO_HELMET->NO_HELMET": 96
+    },
+    "abstention_reasons": {}
+   },
+   "majority": {
+    "total_eligible_gt_tracks": 136,
+    "decided": 136,
+    "abstentions": 0,
+    "coverage": 1.0,
+    "conditional_accuracy": 0.9926,
+    "end_to_end_agreement": 0.9926,
+    "correct": 135,
+    "wrong": 1,
+    "confusion": {
+     "HELMET->HELMET": 38,
+     "HELMET->NO_HELMET": 1,
+     "NO_HELMET->NO_HELMET": 97
+    },
+    "abstention_reasons": {}
+   },
+   "conf_weighted": {
+    "total_eligible_gt_tracks": 136,
+    "decided": 136,
+    "abstentions": 0,
+    "coverage": 1.0,
+    "conditional_accuracy": 0.9926,
+    "end_to_end_agreement": 0.9926,
+    "correct": 135,
+    "wrong": 1,
+    "confusion": {
+     "HELMET->HELMET": 38,
+     "HELMET->NO_HELMET": 1,
+     "NO_HELMET->NO_HELMET": 97
+    },
+    "abstention_reasons": {}
+   },
+   "primary": {
+    "total_eligible_gt_tracks": 136,
+    "decided": 136,
+    "abstentions": 0,
+    "coverage": 1.0,
+    "conditional_accuracy": 0.9926,
+    "end_to_end_agreement": 0.9926,
+    "correct": 135,
+    "wrong": 1,
+    "confusion": {
+     "HELMET->HELMET": 38,
+     "HELMET->NO_HELMET": 1,
+     "NO_HELMET->NO_HELMET": 97
+    },
+    "abstention_reasons": {}
+   }
+  },
+  "has_state_transition_switches>=1": {
+   "ema_final": {
+    "total_eligible_gt_tracks": 19,
+    "decided": 11,
+    "abstentions": 8,
+    "coverage": 0.5789,
+    "conditional_accuracy": 0.8182,
+    "end_to_end_agreement": 0.4737,
+    "correct": 9,
+    "wrong": 2,
+    "confusion": {
+     "HELMET->HELMET": 4,
+     "HELMET->NO_HELMET": 1,
+     "HELMET->UNCERTAIN": 4,
+     "NO_HELMET->HELMET": 1,
+     "NO_HELMET->NO_HELMET": 5,
+     "NO_HELMET->UNCERTAIN": 4
+    },
+    "abstention_reasons": {
+     "WINDOW_FLUSH_ZERO_MASS": 8
+    }
+   },
+   "last_coupled": {
+    "total_eligible_gt_tracks": 19,
+    "decided": 19,
+    "abstentions": 0,
+    "coverage": 1.0,
+    "conditional_accuracy": 0.8421,
+    "end_to_end_agreement": 0.8421,
+    "correct": 16,
+    "wrong": 3,
+    "confusion": {
+     "HELMET->HELMET": 8,
+     "HELMET->NO_HELMET": 1,
+     "NO_HELMET->HELMET": 2,
+     "NO_HELMET->NO_HELMET": 8
+    },
+    "abstention_reasons": {}
+   },
+   "majority": {
+    "total_eligible_gt_tracks": 19,
+    "decided": 19,
+    "abstentions": 0,
+    "coverage": 1.0,
+    "conditional_accuracy": 0.8947,
+    "end_to_end_agreement": 0.8947,
+    "correct": 17,
+    "wrong": 2,
+    "confusion": {
+     "HELMET->HELMET": 8,
+     "HELMET->NO_HELMET": 1,
+     "NO_HELMET->HELMET": 1,
+     "NO_HELMET->NO_HELMET": 9
+    },
+    "abstention_reasons": {}
+   },
+   "conf_weighted": {
+    "total_eligible_gt_tracks": 19,
+    "decided": 19,
+    "abstentions": 0,
+    "coverage": 1.0,
+    "conditional_accuracy": 0.8947,
+    "end_to_end_agreement": 0.8947,
+    "correct": 17,
+    "wrong": 2,
+    "confusion": {
+     "HELMET->HELMET": 8,
+     "HELMET->NO_HELMET": 1,
+     "NO_HELMET->HELMET": 1,
+     "NO_HELMET->NO_HELMET": 9
+    },
+    "abstention_reasons": {}
+   },
+   "primary": {
+    "total_eligible_gt_tracks": 19,
+    "decided": 19,
+    "abstentions": 0,
+    "coverage": 1.0,
+    "conditional_accuracy": 0.8947,
+    "end_to_end_agreement": 0.8947,
+    "correct": 17,
+    "wrong": 2,
+    "confusion": {
+     "HELMET->HELMET": 8,
+     "HELMET->NO_HELMET": 1,
+     "NO_HELMET->HELMET": 1,
+     "NO_HELMET->NO_HELMET": 9
+    },
+    "abstention_reasons": {}
+   }
+  },
+  "no_state_transition_switches=0": {
+   "ema_final": {
+    "total_eligible_gt_tracks": 190,
+    "decided": 125,
+    "abstentions": 65,
+    "coverage": 0.6579,
+    "conditional_accuracy": 1.0,
+    "end_to_end_agreement": 0.6579,
+    "correct": 125,
+    "wrong": 0,
+    "confusion": {
+     "HELMET->HELMET": 34,
+     "HELMET->UNCERTAIN": 14,
+     "NO_HELMET->NO_HELMET": 91,
+     "NO_HELMET->UNCERTAIN": 51
+    },
+    "abstention_reasons": {
+     "WINDOW_FLUSH_ZERO_MASS": 65
+    }
+   },
+   "last_coupled": {
+    "total_eligible_gt_tracks": 190,
+    "decided": 190,
+    "abstentions": 0,
+    "coverage": 1.0,
+    "conditional_accuracy": 1.0,
+    "end_to_end_agreement": 1.0,
+    "correct": 190,
+    "wrong": 0,
+    "confusion": {
+     "HELMET->HELMET": 48,
+     "NO_HELMET->NO_HELMET": 142
+    },
+    "abstention_reasons": {}
+   },
+   "majority": {
+    "total_eligible_gt_tracks": 190,
+    "decided": 190,
+    "abstentions": 0,
+    "coverage": 1.0,
+    "conditional_accuracy": 1.0,
+    "end_to_end_agreement": 1.0,
+    "correct": 190,
+    "wrong": 0,
+    "confusion": {
+     "HELMET->HELMET": 48,
+     "NO_HELMET->NO_HELMET": 142
+    },
+    "abstention_reasons": {}
+   },
+   "conf_weighted": {
+    "total_eligible_gt_tracks": 190,
+    "decided": 190,
+    "abstentions": 0,
+    "coverage": 1.0,
+    "conditional_accuracy": 1.0,
+    "end_to_end_agreement": 1.0,
+    "correct": 190,
+    "wrong": 0,
+    "confusion": {
+     "HELMET->HELMET": 48,
+     "NO_HELMET->NO_HELMET": 142
+    },
+    "abstention_reasons": {}
+   },
+   "primary": {
+    "total_eligible_gt_tracks": 190,
+    "decided": 190,
+    "abstentions": 0,
+    "coverage": 1.0,
+    "conditional_accuracy": 1.0,
+    "end_to_end_agreement": 1.0,
+    "correct": 190,
+    "wrong": 0,
+    "confusion": {
+     "HELMET->HELMET": 48,
+     "NO_HELMET->NO_HELMET": 142
+    },
+    "abstention_reasons": {}
+   }
+  }
+ }
+}

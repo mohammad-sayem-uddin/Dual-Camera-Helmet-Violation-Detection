@@ -1,0 +1,11 @@
+{
+ "events_compared": 85,
+ "events_changed": 0,
+ "diffs": [],
+ "compared_fields": [
+  "rider slot/helmet_state/provenance",
+  "violation_event_type",
+  "event_is_violation"
+ ],
+ "note": "Windows derive from per-view NO_HELMET sets and track times; alert ids come from online Phase 10 state which is unchanged by design."
+}

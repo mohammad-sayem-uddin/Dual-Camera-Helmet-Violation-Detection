@@ -656,6 +656,11 @@ def run_camera(
                 n_riders += len(subs)
                 for sub in subs.values():
                     sid = sub["subtrack_id"]
+                    # Genuine coupled observation only: this subtrack received a
+                    # matched head on this advanced step (time_since_update == 0).
+                    # Propagated / unmatched / abstained frames add no evidence.
+                    if int(sub.get("time_since_update", 1)) != 0:
+                        continue
                     state = _derived_state(sub.get("aggregated_confidence"))
                     subtrack_state_counts.setdefault(sid, Counter())[state] += 1
 
@@ -815,11 +820,12 @@ def _track_records(cam_out: CameraRunOutput) -> dict[str, dict[str, Any]]:
     for m in tracks:
         subs: dict[int, dict[str, Any]] = {}
         for slot, sub in sorted(m.rider_subtracks.items()):
-            counts = cam_out.subtrack_state_counts.get(sub.subtrack_id, Counter())
             subs[int(slot)] = {
                 "subtrack_id": sub.subtrack_id,
                 "slot_role": sub.slot_role,
-                "track_helmet_state": _track_level_state(counts),
+                # Canonical strict majority over genuine coupled observations
+                # (RiderSubTrack.helmet_evidence); see TASK-03/TASK-04 design.
+                "track_helmet_state": sub.track_helmet_state,
                 "alert_ids": [a.alert_id for a in sub.alerts],
             }
         records[m.moto_track_id] = {

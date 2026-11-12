@@ -108,8 +108,8 @@ To preserve tokens, compute, and scientific integrity, the following operations 
 |---|---|---|---|---|
 | **P0** | **TASK-01** | Platform-Portable RSS Measurement Fix (`ru_maxrss` Darwin byte scaling in `src/pipeline/dual_camera_pipeline.py`) | **Flash High** | **COMPLETE (144/144 tests pass)** |
 | **P0** | **TASK-02** | Commit Authoritative Handover Reports (`MASTER_REPORT_2026-11-12.md`, `POST_COMPLETION_...md`, `THREE_MODEL_ROADMAP.md`) & Clean Transfer Artifacts | **Flash High** | **COMPLETE** |
-| **P1** | **TASK-03** | Helmet Track-Level State Export Redesign (Last Coupled Observation + Majority Fallback) | **Argon (Design) + Sonnet (Impl)** | **READY TO EXECUTE** |
-| **P1** | **TASK-04** | Track-Level Evaluation Reproduction & Discrepancy Reconciliation under Amended Protocol | **Flash High** | **READY TO EXECUTE** |
+| **P1** | **TASK-03** | Helmet Track-Level State Export Redesign (Last Coupled Observation + Majority Fallback) | **Argon (Design) + Sonnet (Impl)** | **DESIGN COMPLETE (`ARGON_TASK03_HELMET_TRACK_STATE_EXPORT_DESIGN.md`); IMPLEMENTED in prompt-numbered TASK-04 — see `SONNET_TASK04_IMPLEMENTATION_REPORT.md`** |
+| **P1** | **TASK-04** | Track-Level Evaluation Reproduction & Discrepancy Reconciliation under Amended Protocol | **Flash High** | **PARTIALLY DONE** — amended re-score of Stage J produced by the implementation (`results/phase12_track_state_redesign/`); independent Flash reconciliation still open |
 | **P2** | **TASK-05** | Dynamic Linear Clock Drift Compensation Engine Design & Implementation | **Argon (Design) + Sonnet (Impl)** | **PLANNED** |
 | **P2** | **TASK-06** | Cross-Camera Association Sensitivity Analysis under Drift Compensation (Pairs 004, 005, 008, 015) | **Argon (Analysis) + Sonnet (Bench)** | **PLANNED** |
 | **P3** | **TASK-07** | Independent Human Validation Protocol Execution (399 Units, 2 Blind Reviewers, v1.1 Dataset Release) | **Flash / Human** | **PLANNED** |
