@@ -1,0 +1,7 @@
+[pair_005] front: start
+[pair_005] front: decoded 206 frames, moto=1
+[pair_005] back: start
+[pair_005] back: frame 250/352
+[pair_005] back: decoded 352 frames, moto=1
+[pair_005] COMPLETE wall=24.86s peak_rss=2157.2MB
+PAIR_RESULT_JSON {"pair_id": "pair_005", "status": "COMPLETE", "error": null}

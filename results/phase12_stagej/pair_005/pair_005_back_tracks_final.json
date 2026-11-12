@@ -1,0 +1,78 @@
+{
+ "duplicate_ticks_skipped": 0,
+ "frames_updated": 352,
+ "moto_tracks": [
+  {
+   "age": 136,
+   "bbox": [
+    1469.67,
+    536.35,
+    1623.98,
+    767.57
+   ],
+   "camera_id": "back",
+   "confidence": 0.6826,
+   "first_pts_sec": 3.605,
+   "hits": 135,
+   "last_pts_sec": 5.856667,
+   "lifecycle_state": "RECOVERED",
+   "moto_track_id": "back_moto_0001",
+   "recovery_count": 1,
+   "rider_abstained_updates": 127,
+   "rider_pts_history": {
+    "0": [
+     [
+      220,
+      3.671667,
+      [
+       3503.85,
+       986.1,
+       3643.97,
+       1120.48
+      ],
+      "no_helmet",
+      0.2573
+     ]
+    ]
+   },
+   "rider_subtracks": {
+    "0": {
+     "abstained_updates_count": 118,
+     "age": 132,
+     "aggregated_confidence": {
+      "helmet": 0.0,
+      "no_helmet": 0.0
+     },
+     "alerts_emitted": 0,
+     "bbox": [
+      3503.85,
+      986.1,
+      3643.97,
+      1120.48
+     ],
+     "camera_id": "back",
+     "consecutive_helmet_frames": 0,
+     "consecutive_no_helmet_frames": 1,
+     "hits": 1,
+     "last_coupling_score": 0.9819,
+     "ordering_confident": true,
+     "parent_moto_id": "back_moto_0001",
+     "slot_index": 0,
+     "slot_role": "driver",
+     "subtrack_id": "back_moto_0001_rider_s0",
+     "temporal_state": "TRACK_LOST",
+     "time_since_update": 131
+    }
+   },
+   "slot_spatial_conflicts_detected": 127,
+   "spatial_identity_overrides": 0,
+   "stage2_low_conf_matches": 4,
+   "time_since_update": 0,
+   "velocity_xy": [
+    -4.408,
+    -3.561
+   ]
+  }
+ ],
+ "orphan_tracks": []
+}

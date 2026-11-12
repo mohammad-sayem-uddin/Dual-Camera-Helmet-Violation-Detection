@@ -1,0 +1,57 @@
+{
+ "B": 2000,
+ "seed": 20261109,
+ "unit": "pair (25 pairs, resampled with replacement)",
+ "cis": {
+  "head_det_p": {
+   "ci95_lo": 0.5941,
+   "ci95_hi": 0.7796,
+   "bootstrap_mean": 0.6892
+  },
+  "head_det_r": {
+   "ci95_lo": 1.0,
+   "ci95_hi": 1.0,
+   "bootstrap_mean": 1.0
+  },
+  "head_det_f1": {
+   "ci95_lo": 0.7454,
+   "ci95_hi": 0.8762,
+   "bootstrap_mean": 0.8151
+  },
+  "rider_f1": {
+   "ci95_lo": 1.0,
+   "ci95_hi": 1.0,
+   "bootstrap_mean": 1.0
+  },
+  "rider_mean_iou": {
+   "ci95_lo": 1.0,
+   "ci95_hi": 1.0,
+   "bootstrap_mean": 1.0
+  },
+  "helmet_f1": {
+   "ci95_lo": 1.0,
+   "ci95_hi": 1.0,
+   "bootstrap_mean": 1.0
+  },
+  "no_helmet_f1": {
+   "ci95_lo": 1.0,
+   "ci95_hi": 1.0,
+   "bootstrap_mean": 1.0
+  },
+  "assoc_moto_f1": {
+   "ci95_lo": 0.7368,
+   "ci95_hi": 1.0,
+   "bootstrap_mean": 0.9047
+  },
+  "event_f1": {
+   "ci95_lo": 0.7286,
+   "ci95_hi": 0.9268,
+   "bootstrap_mean": 0.8292
+  },
+  "idf1": {
+   "ci95_lo": 0.997,
+   "ci95_hi": 0.9998,
+   "bootstrap_mean": 0.9987
+  }
+ }
+}

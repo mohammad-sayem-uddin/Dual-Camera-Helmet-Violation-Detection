@@ -1,0 +1,2367 @@
+{
+ "back_motorcycle_tracklets": [
+  {
+   "appearance_descriptor": {
+    "available": false,
+    "cranial_cap_bins": 0,
+    "mean_crop_quality": 0.0,
+    "moto_chassis_bins": 0,
+    "unavailable_reason": "EMPTY_CROP",
+    "upper_torso_bins": 0,
+    "valid_observed_crops_count": 0
+   },
+   "camera_id": "back",
+   "camera_pts_end_sec": 3.336667,
+   "camera_pts_start_sec": 1.551667,
+   "completeness": "COMPLETE",
+   "completeness_reasons": [
+    "SUFFICIENT_OBSERVED_FRAMES_AND_DENSITY"
+   ],
+   "entry_bbox": [
+    3489.21,
+    1472.61,
+    3838.12,
+    2142.18
+   ],
+   "entry_near_border": true,
+   "entry_velocity_xy": [
+    -18.693,
+    -9.9507
+   ],
+   "ever_confirmed": true,
+   "exit_bbox": [
+    1575.0,
+    607.6,
+    1752.03,
+    877.75
+   ],
+   "exit_near_border": false,
+   "exit_velocity_xy": [
+    -4.4929,
+    -2.1495
+   ],
+   "first_frame_index": 93,
+   "last_frame_index": 200,
+   "lifecycle_state": "CONFIRMED",
+   "max_rider_count": 1,
+   "mean_detection_confidence": 0.7106,
+   "mean_velocity_xy": [
+    -18.693,
+    -9.9507
+   ],
+   "modal_rider_count": 1,
+   "motion_direction_unit_xy": [
+    -0.8827,
+    -0.4699
+   ],
+   "moto_track_id": "back_moto_0001",
+   "observation_density": 1.0,
+   "observed_frame_count": 108,
+   "occlusion_intervals": [],
+   "peak_area_bbox": [
+    2654.95,
+    701.59,
+    3836.7,
+    2147.23
+   ],
+   "predicted_only_frame_count": 0,
+   "recovery_count": 0,
+   "rider_abstained_updates": 97,
+   "rider_count_distribution": {
+    "0": 10,
+    "1": 98
+   },
+   "rider_subtrack_count": 1,
+   "rider_tracklets": {
+    "0": {
+     "abstained_updates_count": 97,
+     "appearance_descriptor": {
+      "available": false,
+      "cranial_cap_bins": 0,
+      "mean_crop_quality": 0.0,
+      "moto_chassis_bins": 0,
+      "unavailable_reason": "EMPTY_CROP",
+      "upper_torso_bins": 0,
+      "valid_observed_crops_count": 0
+     },
+     "camera_id": "back",
+     "camera_pts_end_sec": 1.701667,
+     "camera_pts_start_sec": 1.701667,
+     "completeness": "SHORT_OBSERVATION",
+     "entry_head_bbox": [
+      3716.88,
+      605.2,
+      3837.61,
+      737.48
+     ],
+     "exit_head_bbox": [
+      3716.88,
+      605.2,
+      3837.61,
+      737.48
+     ],
+     "mean_coupling_score": 0.917,
+     "mean_head_confidence": 0.4587,
+     "missed_frame_count": 0,
+     "observation_density": 1.0,
+     "observed_frame_count": 1,
+     "occlusion_intervals": [],
+     "ordering_confident": true,
+     "parent_moto_track_id": "back_moto_0001",
+     "phase10_snapshot_readonly": {
+      "aggregated_confidence": {
+       "helmet": 0.0,
+       "no_helmet": 0.0
+      },
+      "alerts_count": 0,
+      "consecutive_helmet_frames": 1,
+      "consecutive_no_helmet_frames": 0,
+      "temporal_state": "TRACK_LOST"
+     },
+     "schema_version": "1.0.0",
+     "slot_index": 0,
+     "slot_role": "driver",
+     "subtrack_id": "back_moto_0001_rider_s0",
+     "t_centroid_sec": 1.701667,
+     "t_end_sec": 1.701667,
+     "t_start_sec": 1.701667,
+     "total_span_frames": 1
+    }
+   },
+   "schema_version": "1.0.0",
+   "slot_spatial_conflicts_detected": 97,
+   "source_metadata": {
+    "camera_id": "back",
+    "pair_id": "pair_004",
+    "track_age": 108,
+    "track_hits": 108
+   },
+   "spatial_identity_overrides": 0,
+   "stage2_low_conf_matches": 2,
+   "t_centroid_sec": 2.444444,
+   "t_end_sec": 3.336667,
+   "t_peak_sec": 1.801667,
+   "t_start_sec": 1.551667,
+   "timestamp_quality": {
+    "epsilon_sync_ms": 18.0,
+    "global_offset_sec": -1.285,
+    "is_in_overlap": true,
+    "max_delta_pts_back_ms": 1.6667,
+    "max_delta_pts_front_ms": 2.4222,
+    "mean_delta_pts_back_ms": 0.9406,
+    "mean_delta_pts_front_ms": 2.1897,
+    "pair_id": "pair_004",
+    "reference_clock_anchor": "back_stream_pts"
+   },
+   "total_span_frames": 108
+  }
+ ],
+ "back_orphan_tracklets": [],
+ "candidate_pair_scores": [
+  {
+   "active_cues_count": 2,
+   "available_cue_names": [
+    "temporal_transit",
+    "rider_cardinality"
+   ],
+   "back_moto_track_id": "back_moto_0001",
+   "composite_score": 0.7061,
+   "cue_details": {
+    "appearance_hsv": {
+     "available": false,
+     "cue_name": "appearance_hsv",
+     "diagnostics": {},
+     "effective_weight": 0.0,
+     "nominal_weight": 0.15,
+     "normalized_score": null,
+     "quality": 0.0,
+     "raw_value": null,
+     "unavailable_reason": "FRONT_EMPTY_CROP",
+     "weighted_contribution": 0.0
+    },
+    "convoy_order": {
+     "available": false,
+     "cue_name": "convoy_order",
+     "diagnostics": {
+      "back_convoy_size": 1,
+      "front_convoy_size": 3
+     },
+     "effective_weight": 0.0,
+     "nominal_weight": 0.1,
+     "normalized_score": null,
+     "quality": 0.0,
+     "raw_value": {
+      "back_convoy_size": 1,
+      "front_convoy_size": 3
+     },
+     "unavailable_reason": "SINGLE_MOTORCYCLE_NO_CONVOY",
+     "weighted_contribution": 0.0
+    },
+    "lane_spatial_context": {
+     "available": false,
+     "cue_name": "lane_spatial_context",
+     "diagnostics": {
+      "back_id": "back_moto_0001",
+      "calibrated_homography_available": false,
+      "front_id": "front_moto_0001"
+     },
+     "effective_weight": 0.0,
+     "nominal_weight": 0.05,
+     "normalized_score": null,
+     "quality": 0.0,
+     "raw_value": null,
+     "unavailable_reason": "UNCALIBRATED_CAMERA_EXTRINSICS",
+     "weighted_contribution": 0.0
+    },
+    "rider_cardinality": {
+     "available": true,
+     "cue_name": "rider_cardinality",
+     "diagnostics": {
+      "back_min_rider_visibility_ratio": 0.0093,
+      "back_modal_riders": 1,
+      "back_subtrack_count": 1,
+      "front_min_rider_visibility_ratio": 0.9675,
+      "front_modal_riders": 1,
+      "front_subtrack_count": 1,
+      "has_occlusion_evidence": true,
+      "match_regime": "EXACT_RIDER_COUNT_MATCH"
+     },
+     "effective_weight": 0.3571,
+     "nominal_weight": 0.25,
+     "normalized_score": 1.0,
+     "quality": 0.9936,
+     "raw_value": {
+      "back_riders": 1,
+      "diff": 0,
+      "front_riders": 1
+     },
+     "unavailable_reason": null,
+     "weighted_contribution": 0.3571
+    },
+    "temporal_transit": {
+     "available": true,
+     "cue_name": "temporal_transit",
+     "diagnostics": {
+      "combined_clock_uncertainty_sec": 0.02113,
+      "delta_exit_to_entry_sec": 0.253989,
+      "delta_pts_back_ms": 0.9406,
+      "delta_pts_front_ms": 2.1897,
+      "delta_transit_centroid_sec": 2.453025,
+      "delta_transit_entry_sec": 2.836667,
+      "effective_sigma_sec": 1.540437,
+      "epsilon_sync_ms": 18.0,
+      "is_feasible_transit": true,
+      "is_within_search_window": true,
+      "normalized_score": 0.5427,
+      "quality": 0.91,
+      "rejection_reason": null,
+      "temporal_interval_gap_sec": 0.253989,
+      "temporal_overlap_sec": 0.0,
+      "transit_uncertainty_sec": 0.35
+     },
+     "effective_weight": 0.6429,
+     "nominal_weight": 0.45,
+     "normalized_score": 0.5427,
+     "quality": 0.91,
+     "raw_value": 2.453025,
+     "unavailable_reason": null,
+     "weighted_contribution": 0.3489
+    }
+   },
+   "front_moto_track_id": "front_moto_0001",
+   "gate_rejection_reasons": [],
+   "passed_candidate_gate": true,
+   "unavailable_cue_names": [
+    "appearance_hsv",
+    "lane_spatial_context",
+    "convoy_order"
+   ],
+   "uncertainty_separation": {
+    "delta_pts_back_ms": 0.9406,
+    "delta_pts_front_ms": 2.1897,
+    "delta_transit_sec": 2.453025,
+    "epsilon_sync_ms": 18.0,
+    "transit_uncertainty_sec": 0.35
+   }
+  },
+  {
+   "active_cues_count": 2,
+   "available_cue_names": [
+    "temporal_transit",
+    "rider_cardinality"
+   ],
+   "back_moto_track_id": "back_moto_0001",
+   "composite_score": 0.8388,
+   "cue_details": {
+    "appearance_hsv": {
+     "available": false,
+     "cue_name": "appearance_hsv",
+     "diagnostics": {},
+     "effective_weight": 0.0,
+     "nominal_weight": 0.15,
+     "normalized_score": null,
+     "quality": 0.0,
+     "raw_value": null,
+     "unavailable_reason": "FRONT_EMPTY_CROP",
+     "weighted_contribution": 0.0
+    },
+    "convoy_order": {
+     "available": false,
+     "cue_name": "convoy_order",
+     "diagnostics": {
+      "back_convoy_size": 1,
+      "front_convoy_size": 3
+     },
+     "effective_weight": 0.0,
+     "nominal_weight": 0.1,
+     "normalized_score": null,
+     "quality": 0.0,
+     "raw_value": {
+      "back_convoy_size": 1,
+      "front_convoy_size": 3
+     },
+     "unavailable_reason": "SINGLE_MOTORCYCLE_NO_CONVOY",
+     "weighted_contribution": 0.0
+    },
+    "lane_spatial_context": {
+     "available": false,
+     "cue_name": "lane_spatial_context",
+     "diagnostics": {
+      "back_id": "back_moto_0001",
+      "calibrated_homography_available": false,
+      "front_id": "front_moto_0002"
+     },
+     "effective_weight": 0.0,
+     "nominal_weight": 0.05,
+     "normalized_score": null,
+     "quality": 0.0,
+     "raw_value": null,
+     "unavailable_reason": "UNCALIBRATED_CAMERA_EXTRINSICS",
+     "weighted_contribution": 0.0
+    },
+    "rider_cardinality": {
+     "available": true,
+     "cue_name": "rider_cardinality",
+     "diagnostics": {
+      "back_min_rider_visibility_ratio": 0.0093,
+      "back_modal_riders": 1,
+      "back_subtrack_count": 1,
+      "front_min_rider_visibility_ratio": 0.0064,
+      "front_modal_riders": 1,
+      "front_subtrack_count": 2,
+      "has_occlusion_evidence": true,
+      "match_regime": "DIFF_1_WITH_PARTIAL_OCCLUSION_TOLERANCE"
+     },
+     "effective_weight": 0.3571,
+     "nominal_weight": 0.25,
+     "normalized_score": 0.65,
+     "quality": 0.9435,
+     "raw_value": {
+      "back_riders": 1,
+      "diff": 1,
+      "front_riders": 2
+     },
+     "unavailable_reason": null,
+     "weighted_contribution": 0.2321
+    },
+    "temporal_transit": {
+     "available": true,
+     "cue_name": "temporal_transit",
+     "diagnostics": {
+      "combined_clock_uncertainty_sec": 0.02113,
+      "delta_exit_to_entry_sec": -0.129256,
+      "delta_pts_back_ms": 0.9406,
+      "delta_pts_front_ms": 2.1897,
+      "delta_transit_centroid_sec": 2.09853,
+      "delta_transit_entry_sec": 2.803333,
+      "effective_sigma_sec": 1.540437,
+      "epsilon_sync_ms": 18.0,
+      "is_feasible_transit": true,
+      "is_within_search_window": true,
+      "normalized_score": 0.9437,
+      "quality": 0.91,
+      "rejection_reason": null,
+      "temporal_interval_gap_sec": 0.0,
+      "temporal_overlap_sec": 0.129256,
+      "transit_uncertainty_sec": 0.35
+     },
+     "effective_weight": 0.6429,
+     "nominal_weight": 0.45,
+     "normalized_score": 0.9437,
+     "quality": 0.91,
+     "raw_value": 2.09853,
+     "unavailable_reason": null,
+     "weighted_contribution": 0.6066
+    }
+   },
+   "front_moto_track_id": "front_moto_0002",
+   "gate_rejection_reasons": [],
+   "passed_candidate_gate": true,
+   "unavailable_cue_names": [
+    "appearance_hsv",
+    "lane_spatial_context",
+    "convoy_order"
+   ],
+   "uncertainty_separation": {
+    "delta_pts_back_ms": 0.9406,
+    "delta_pts_front_ms": 2.1897,
+    "delta_transit_sec": 2.09853,
+    "epsilon_sync_ms": 18.0,
+    "transit_uncertainty_sec": 0.35
+   }
+  },
+  {
+   "active_cues_count": 2,
+   "available_cue_names": [
+    "temporal_transit",
+    "rider_cardinality"
+   ],
+   "back_moto_track_id": "back_moto_0001",
+   "composite_score": 0.5071,
+   "cue_details": {
+    "appearance_hsv": {
+     "available": false,
+     "cue_name": "appearance_hsv",
+     "diagnostics": {},
+     "effective_weight": 0.0,
+     "nominal_weight": 0.15,
+     "normalized_score": null,
+     "quality": 0.0,
+     "raw_value": null,
+     "unavailable_reason": "FRONT_EMPTY_CROP",
+     "weighted_contribution": 0.0
+    },
+    "convoy_order": {
+     "available": false,
+     "cue_name": "convoy_order",
+     "diagnostics": {
+      "back_convoy_size": 1,
+      "front_convoy_size": 3
+     },
+     "effective_weight": 0.0,
+     "nominal_weight": 0.1,
+     "normalized_score": null,
+     "quality": 0.0,
+     "raw_value": {
+      "back_convoy_size": 1,
+      "front_convoy_size": 3
+     },
+     "unavailable_reason": "SINGLE_MOTORCYCLE_NO_CONVOY",
+     "weighted_contribution": 0.0
+    },
+    "lane_spatial_context": {
+     "available": false,
+     "cue_name": "lane_spatial_context",
+     "diagnostics": {
+      "back_id": "back_moto_0001",
+      "calibrated_homography_available": false,
+      "front_id": "front_moto_0003"
+     },
+     "effective_weight": 0.0,
+     "nominal_weight": 0.05,
+     "normalized_score": null,
+     "quality": 0.0,
+     "raw_value": null,
+     "unavailable_reason": "UNCALIBRATED_CAMERA_EXTRINSICS",
+     "weighted_contribution": 0.0
+    },
+    "rider_cardinality": {
+     "available": true,
+     "cue_name": "rider_cardinality",
+     "diagnostics": {
+      "back_min_rider_visibility_ratio": 0.0093,
+      "back_modal_riders": 1,
+      "back_subtrack_count": 1,
+      "front_min_rider_visibility_ratio": 1.0,
+      "front_modal_riders": 1,
+      "front_subtrack_count": 1,
+      "has_occlusion_evidence": true,
+      "match_regime": "EXACT_RIDER_COUNT_MATCH"
+     },
+     "effective_weight": 0.3571,
+     "nominal_weight": 0.25,
+     "normalized_score": 1.0,
+     "quality": 0.9583,
+     "raw_value": {
+      "back_riders": 1,
+      "diff": 0,
+      "front_riders": 1
+     },
+     "unavailable_reason": null,
+     "weighted_contribution": 0.3571
+    },
+    "temporal_transit": {
+     "available": true,
+     "cue_name": "temporal_transit",
+     "diagnostics": {
+      "combined_clock_uncertainty_sec": 0.02113,
+      "delta_exit_to_entry_sec": 2.386789,
+      "delta_pts_back_ms": 0.9406,
+      "delta_pts_front_ms": 2.1897,
+      "delta_transit_centroid_sec": 3.378011,
+      "delta_transit_entry_sec": 2.570044,
+      "effective_sigma_sec": 1.540437,
+      "epsilon_sync_ms": 18.0,
+      "is_feasible_transit": true,
+      "is_within_search_window": true,
+      "normalized_score": 0.2333,
+      "quality": 0.91,
+      "rejection_reason": null,
+      "temporal_interval_gap_sec": 2.386789,
+      "temporal_overlap_sec": 0.0,
+      "transit_uncertainty_sec": 0.35
+     },
+     "effective_weight": 0.6429,
+     "nominal_weight": 0.45,
+     "normalized_score": 0.2333,
+     "quality": 0.91,
+     "raw_value": 3.378011,
+     "unavailable_reason": null,
+     "weighted_contribution": 0.15
+    }
+   },
+   "front_moto_track_id": "front_moto_0003",
+   "gate_rejection_reasons": [],
+   "passed_candidate_gate": true,
+   "unavailable_cue_names": [
+    "appearance_hsv",
+    "lane_spatial_context",
+    "convoy_order"
+   ],
+   "uncertainty_separation": {
+    "delta_pts_back_ms": 0.9406,
+    "delta_pts_front_ms": 2.1897,
+    "delta_transit_sec": 3.378011,
+    "epsilon_sync_ms": 18.0,
+    "transit_uncertainty_sec": 0.35
+   }
+  }
+ ],
+ "front_motorcycle_tracklets": [
+  {
+   "appearance_descriptor": {
+    "available": false,
+    "cranial_cap_bins": 0,
+    "mean_crop_quality": 0.0,
+    "moto_chassis_bins": 0,
+    "unavailable_reason": "EMPTY_CROP",
+    "upper_torso_bins": 0,
+    "valid_observed_crops_count": 0
+   },
+   "camera_id": "front",
+   "camera_pts_end_sec": 2.582678,
+   "camera_pts_start_sec": 0.0,
+   "completeness": "COMPLETE",
+   "completeness_reasons": [
+    "SUFFICIENT_OBSERVED_FRAMES_AND_DENSITY"
+   ],
+   "entry_bbox": [
+    2700.76,
+    972.83,
+    2881.18,
+    1240.87
+   ],
+   "entry_near_border": true,
+   "entry_velocity_xy": [
+    -17.4532,
+    5.2373
+   ],
+   "ever_confirmed": true,
+   "exit_bbox": [
+    0.0,
+    1702.92,
+    171.46,
+    2134.33
+   ],
+   "exit_near_border": true,
+   "exit_velocity_xy": [
+    -42.921,
+    11.5561
+   ],
+   "first_frame_index": 0,
+   "last_frame_index": 155,
+   "lifecycle_state": "TERMINATED",
+   "max_rider_count": 1,
+   "mean_detection_confidence": 0.681,
+   "mean_velocity_xy": [
+    -17.4532,
+    5.2373
+   ],
+   "modal_rider_count": 1,
+   "motion_direction_unit_xy": [
+    -0.9578,
+    0.2874
+   ],
+   "moto_track_id": "front_moto_0001",
+   "observation_density": 0.9872,
+   "observed_frame_count": 154,
+   "occlusion_intervals": [
+    [
+     146,
+     147
+    ]
+   ],
+   "peak_area_bbox": [
+    28.11,
+    1185.99,
+    1305.72,
+    2147.26
+   ],
+   "predicted_only_frame_count": 2,
+   "recovery_count": 1,
+   "rider_abstained_updates": 0,
+   "rider_count_distribution": {
+    "0": 5,
+    "1": 149
+   },
+   "rider_subtrack_count": 1,
+   "rider_tracklets": {
+    "0": {
+     "abstained_updates_count": 0,
+     "appearance_descriptor": {
+      "available": false,
+      "cranial_cap_bins": 0,
+      "mean_crop_quality": 0.0,
+      "moto_chassis_bins": 0,
+      "unavailable_reason": "EMPTY_CROP",
+      "upper_torso_bins": 0,
+      "valid_observed_crops_count": 0
+     },
+     "camera_id": "front",
+     "camera_pts_end_sec": 2.499367,
+     "camera_pts_start_sec": 0.0,
+     "completeness": "COMPLETE",
+     "entry_head_bbox": [
+      2780.58,
+      837.93,
+      2848.17,
+      919.78
+     ],
+     "exit_head_bbox": [
+      0.0,
+      784.25,
+      50.49,
+      1130.59
+     ],
+     "mean_coupling_score": 0.9795,
+     "mean_head_confidence": 0.7052,
+     "missed_frame_count": 2,
+     "observation_density": 0.9868,
+     "observed_frame_count": 149,
+     "occlusion_intervals": [
+      [
+       146,
+       147
+      ]
+     ],
+     "ordering_confident": true,
+     "parent_moto_track_id": "front_moto_0001",
+     "phase10_snapshot_readonly": {
+      "aggregated_confidence": {
+       "helmet": 0.0,
+       "no_helmet": 0.0
+      },
+      "alerts_count": 2,
+      "consecutive_helmet_frames": 0,
+      "consecutive_no_helmet_frames": 149,
+      "temporal_state": "TRACK_LOST"
+     },
+     "schema_version": "1.0.0",
+     "slot_index": 0,
+     "slot_role": "driver",
+     "subtrack_id": "front_moto_0001_rider_s0",
+     "t_centroid_sec": -0.051296,
+     "t_end_sec": 1.214367,
+     "t_start_sec": -1.285,
+     "total_span_frames": 151
+    }
+   },
+   "schema_version": "1.0.0",
+   "slot_spatial_conflicts_detected": 0,
+   "source_metadata": {
+    "camera_id": "front",
+    "pair_id": "pair_004",
+    "track_age": 167,
+    "track_hits": 154
+   },
+   "spatial_identity_overrides": 0,
+   "stage2_low_conf_matches": 8,
+   "t_centroid_sec": -0.008581,
+   "t_end_sec": 1.297678,
+   "t_peak_sec": 1.031067,
+   "t_start_sec": -1.285,
+   "timestamp_quality": {
+    "epsilon_sync_ms": 18.0,
+    "global_offset_sec": -1.285,
+    "is_in_overlap": true,
+    "max_delta_pts_back_ms": 1.6667,
+    "max_delta_pts_front_ms": 2.4222,
+    "mean_delta_pts_back_ms": 0.9406,
+    "mean_delta_pts_front_ms": 2.1897,
+    "pair_id": "pair_004",
+    "reference_clock_anchor": "back_stream_pts"
+   },
+   "total_span_frames": 156
+  },
+  {
+   "appearance_descriptor": {
+    "available": false,
+    "cranial_cap_bins": 0,
+    "mean_crop_quality": 0.0,
+    "moto_chassis_bins": 0,
+    "unavailable_reason": "EMPTY_CROP",
+    "upper_torso_bins": 0,
+    "valid_observed_crops_count": 0
+   },
+   "camera_id": "front",
+   "camera_pts_end_sec": 2.965922,
+   "camera_pts_start_sec": 0.033333,
+   "completeness": "COMPLETE",
+   "completeness_reasons": [
+    "SUFFICIENT_OBSERVED_FRAMES_AND_DENSITY"
+   ],
+   "entry_bbox": [
+    3254.4,
+    979.41,
+    3394.78,
+    1218.03
+   ],
+   "entry_near_border": true,
+   "entry_velocity_xy": [
+    0.7714,
+    0.193
+   ],
+   "ever_confirmed": true,
+   "exit_bbox": [
+    3359.56,
+    994.65,
+    3561.15,
+    1270.71
+   ],
+   "exit_near_border": true,
+   "exit_velocity_xy": [
+    0.8709,
+    -1.0197
+   ],
+   "first_frame_index": 2,
+   "last_frame_index": 178,
+   "lifecycle_state": "RECOVERED",
+   "max_rider_count": 3,
+   "mean_detection_confidence": 0.4996,
+   "mean_velocity_xy": [
+    0.7714,
+    0.193
+   ],
+   "modal_rider_count": 1,
+   "motion_direction_unit_xy": [
+    0.9701,
+    0.2427
+   ],
+   "moto_track_id": "front_moto_0002",
+   "observation_density": 0.887,
+   "observed_frame_count": 157,
+   "occlusion_intervals": [
+    [
+     12,
+     12
+    ],
+    [
+     14,
+     14
+    ],
+    [
+     16,
+     17
+    ],
+    [
+     19,
+     22
+    ],
+    [
+     24,
+     25
+    ],
+    [
+     31,
+     31
+    ],
+    [
+     34,
+     42
+    ]
+   ],
+   "peak_area_bbox": [
+    3256.52,
+    886.81,
+    3562.73,
+    1252.81
+   ],
+   "predicted_only_frame_count": 20,
+   "recovery_count": 7,
+   "rider_abstained_updates": 117,
+   "rider_count_distribution": {
+    "0": 64,
+    "1": 69,
+    "2": 22,
+    "3": 2
+   },
+   "rider_subtrack_count": 2,
+   "rider_tracklets": {
+    "0": {
+     "abstained_updates_count": 96,
+     "appearance_descriptor": {
+      "available": false,
+      "cranial_cap_bins": 0,
+      "mean_crop_quality": 0.0,
+      "moto_chassis_bins": 0,
+      "unavailable_reason": "NO_MATCHING_FRAME_INDEX",
+      "upper_torso_bins": 0,
+      "valid_observed_crops_count": 0
+     },
+     "camera_id": "front",
+     "camera_pts_end_sec": 0.033333,
+     "camera_pts_start_sec": 0.033333,
+     "completeness": "SHORT_OBSERVATION",
+     "entry_head_bbox": [
+      3163.5,
+      784.81,
+      3271.11,
+      874.36
+     ],
+     "exit_head_bbox": [
+      3163.5,
+      784.81,
+      3271.11,
+      874.36
+     ],
+     "mean_coupling_score": 0.4148,
+     "mean_head_confidence": 0.4813,
+     "missed_frame_count": 0,
+     "observation_density": 1.0,
+     "observed_frame_count": 1,
+     "occlusion_intervals": [],
+     "ordering_confident": false,
+     "parent_moto_track_id": "front_moto_0002",
+     "phase10_snapshot_readonly": {
+      "aggregated_confidence": {
+       "helmet": 0.0,
+       "no_helmet": 0.0
+      },
+      "alerts_count": 0,
+      "consecutive_helmet_frames": 0,
+      "consecutive_no_helmet_frames": 1,
+      "temporal_state": "TRACK_LOST"
+     },
+     "schema_version": "1.0.0",
+     "slot_index": 0,
+     "slot_role": "ambiguous_slot_0",
+     "subtrack_id": "front_moto_0002_rider_s0",
+     "t_centroid_sec": -1.251667,
+     "t_end_sec": -1.251667,
+     "t_start_sec": -1.251667,
+     "total_span_frames": 1
+    },
+    "1": {
+     "abstained_updates_count": 30,
+     "appearance_descriptor": {
+      "available": false,
+      "cranial_cap_bins": 0,
+      "mean_crop_quality": 0.0,
+      "moto_chassis_bins": 0,
+      "unavailable_reason": "NO_MATCHING_FRAME_INDEX",
+      "upper_torso_bins": 0,
+      "valid_observed_crops_count": 0
+     },
+     "camera_id": "front",
+     "camera_pts_end_sec": 0.033333,
+     "camera_pts_start_sec": 0.033333,
+     "completeness": "SHORT_OBSERVATION",
+     "entry_head_bbox": [
+      3163.53,
+      784.48,
+      3272.34,
+      872.16
+     ],
+     "exit_head_bbox": [
+      3163.53,
+      784.48,
+      3272.34,
+      872.16
+     ],
+     "mean_coupling_score": 0.4181,
+     "mean_head_confidence": 0.5914,
+     "missed_frame_count": 0,
+     "observation_density": 1.0,
+     "observed_frame_count": 1,
+     "occlusion_intervals": [],
+     "ordering_confident": false,
+     "parent_moto_track_id": "front_moto_0002",
+     "phase10_snapshot_readonly": {
+      "aggregated_confidence": {
+       "helmet": 0.0,
+       "no_helmet": 0.0
+      },
+      "alerts_count": 0,
+      "consecutive_helmet_frames": 1,
+      "consecutive_no_helmet_frames": 0,
+      "temporal_state": "TRACK_LOST"
+     },
+     "schema_version": "1.0.0",
+     "slot_index": 1,
+     "slot_role": "ambiguous_slot_1",
+     "subtrack_id": "front_moto_0002_rider_s1",
+     "t_centroid_sec": -1.251667,
+     "t_end_sec": -1.251667,
+     "t_start_sec": -1.251667,
+     "total_span_frames": 1
+    }
+   },
+   "schema_version": "1.0.0",
+   "slot_spatial_conflicts_detected": 106,
+   "source_metadata": {
+    "camera_id": "front",
+    "pair_id": "pair_004",
+    "track_age": 177,
+    "track_hits": 157
+   },
+   "spatial_identity_overrides": 0,
+   "stage2_low_conf_matches": 59,
+   "t_centroid_sec": 0.345915,
+   "t_end_sec": 1.680922,
+   "t_peak_sec": -0.001989,
+   "t_start_sec": -1.251667,
+   "timestamp_quality": {
+    "epsilon_sync_ms": 18.0,
+    "global_offset_sec": -1.285,
+    "is_in_overlap": true,
+    "max_delta_pts_back_ms": 1.6667,
+    "max_delta_pts_front_ms": 2.4222,
+    "mean_delta_pts_back_ms": 0.9406,
+    "mean_delta_pts_front_ms": 2.1897,
+    "pair_id": "pair_004",
+    "reference_clock_anchor": "back_stream_pts"
+   },
+   "total_span_frames": 177
+  },
+  {
+   "appearance_descriptor": {
+    "available": false,
+    "cranial_cap_bins": 0,
+    "mean_crop_quality": 0.0,
+    "moto_chassis_bins": 0,
+    "unavailable_reason": "EMPTY_CROP",
+    "upper_torso_bins": 0,
+    "valid_observed_crops_count": 0
+   },
+   "camera_id": "front",
+   "camera_pts_end_sec": 0.449878,
+   "camera_pts_start_sec": 0.266622,
+   "completeness": "COMPLETE",
+   "completeness_reasons": [
+    "SUFFICIENT_OBSERVED_FRAMES_AND_DENSITY"
+   ],
+   "entry_bbox": [
+    3138.32,
+    883.05,
+    3412.46,
+    1260.54
+   ],
+   "entry_near_border": true,
+   "entry_velocity_xy": [
+    3.275,
+    3.7114
+   ],
+   "ever_confirmed": true,
+   "exit_bbox": [
+    3207.81,
+    971.95,
+    3415.02,
+    1253.29
+   ],
+   "exit_near_border": true,
+   "exit_velocity_xy": [
+    3.0643,
+    0.7627
+   ],
+   "first_frame_index": 16,
+   "last_frame_index": 27,
+   "lifecycle_state": "TERMINATED",
+   "max_rider_count": 1,
+   "mean_detection_confidence": 0.384,
+   "mean_velocity_xy": [
+    3.275,
+    3.7114
+   ],
+   "modal_rider_count": 1,
+   "motion_direction_unit_xy": [
+    0.6617,
+    0.7498
+   ],
+   "moto_track_id": "front_moto_0003",
+   "observation_density": 0.9167,
+   "observed_frame_count": 11,
+   "occlusion_intervals": [
+    [
+     26,
+     26
+    ]
+   ],
+   "peak_area_bbox": [
+    3138.32,
+    883.05,
+    3412.46,
+    1260.54
+   ],
+   "predicted_only_frame_count": 1,
+   "recovery_count": 1,
+   "rider_abstained_updates": 0,
+   "rider_count_distribution": {
+    "1": 11
+   },
+   "rider_subtrack_count": 1,
+   "rider_tracklets": {
+    "0": {
+     "abstained_updates_count": 0,
+     "appearance_descriptor": {
+      "available": false,
+      "cranial_cap_bins": 0,
+      "mean_crop_quality": 0.0,
+      "moto_chassis_bins": 0,
+      "unavailable_reason": "EMPTY_CROP",
+      "upper_torso_bins": 0,
+      "valid_observed_crops_count": 0
+     },
+     "camera_id": "front",
+     "camera_pts_end_sec": 0.449878,
+     "camera_pts_start_sec": 0.266622,
+     "completeness": "COMPLETE",
+     "entry_head_bbox": [
+      3215.33,
+      772.17,
+      3312.27,
+      867.62
+     ],
+     "exit_head_bbox": [
+      3245.46,
+      759.83,
+      3339.34,
+      863.53
+     ],
+     "mean_coupling_score": 0.9958,
+     "mean_head_confidence": 0.4497,
+     "missed_frame_count": 1,
+     "observation_density": 0.9167,
+     "observed_frame_count": 11,
+     "occlusion_intervals": [
+      [
+       26,
+       26
+      ]
+     ],
+     "ordering_confident": true,
+     "parent_moto_track_id": "front_moto_0003",
+     "phase10_snapshot_readonly": {
+      "aggregated_confidence": {
+       "helmet": 0.0,
+       "no_helmet": 0.0
+      },
+      "alerts_count": 1,
+      "consecutive_helmet_frames": 0,
+      "consecutive_no_helmet_frames": 11,
+      "temporal_state": "TEMPORARILY_OCCLUDED"
+     },
+     "schema_version": "1.0.0",
+     "slot_index": 0,
+     "slot_role": "driver",
+     "subtrack_id": "front_moto_0003_rider_s0",
+     "t_centroid_sec": -0.933567,
+     "t_end_sec": -0.835122,
+     "t_start_sec": -1.018378,
+     "total_span_frames": 12
+    }
+   },
+   "schema_version": "1.0.0",
+   "slot_spatial_conflicts_detected": 0,
+   "source_metadata": {
+    "camera_id": "front",
+    "pair_id": "pair_004",
+    "track_age": 23,
+    "track_hits": 11
+   },
+   "spatial_identity_overrides": 0,
+   "stage2_low_conf_matches": 6,
+   "t_centroid_sec": -0.933567,
+   "t_end_sec": -0.835122,
+   "t_peak_sec": -1.018378,
+   "t_start_sec": -1.018378,
+   "timestamp_quality": {
+    "epsilon_sync_ms": 18.0,
+    "global_offset_sec": -1.285,
+    "is_in_overlap": true,
+    "max_delta_pts_back_ms": 1.6667,
+    "max_delta_pts_front_ms": 2.4222,
+    "mean_delta_pts_back_ms": 0.9406,
+    "mean_delta_pts_front_ms": 2.1897,
+    "pair_id": "pair_004",
+    "reference_clock_anchor": "back_stream_pts"
+   },
+   "total_span_frames": 12
+  }
+ ],
+ "front_orphan_tracklets": [
+  {
+   "appearance_descriptor": {
+    "available": false,
+    "cranial_cap_bins": 0,
+    "mean_crop_quality": 0.0,
+    "moto_chassis_bins": 0,
+    "unavailable_reason": "EMPTY_CROP",
+    "upper_torso_bins": 0,
+    "valid_observed_crops_count": 0
+   },
+   "camera_id": "front",
+   "camera_pts_end_sec": 0.249933,
+   "camera_pts_start_sec": 0.0,
+   "completeness": "COMPLETE",
+   "entry_head_bbox": [
+    3158.58,
+    782.41,
+    3257.84,
+    869.34
+   ],
+   "exit_head_bbox": [
+    3211.5,
+    768.89,
+    3314.89,
+    866.6
+   ],
+   "last_rejection_reason": "LOW_CONF_UNMATCHED_PARENT_MOTO",
+   "lifecycle_state": "TERMINATED",
+   "mean_head_confidence": 0.4487,
+   "mean_velocity_xy": [
+    3.9017,
+    -0.9672
+   ],
+   "missed_frame_count": 7,
+   "observation_density": 0.5625,
+   "observed_frame_count": 9,
+   "occlusion_intervals": [
+    [
+     2,
+     2
+    ],
+    [
+     5,
+     10
+    ]
+   ],
+   "orphan_track_id": "front_orphan_0001",
+   "phase10_snapshot_readonly": {
+    "aggregated_confidence": {
+     "helmet": 0.3076,
+     "no_helmet": 0.6924
+    },
+    "alerts_count": 0,
+    "temporal_state": "TEMPORARILY_OCCLUDED"
+   },
+   "schema_version": "1.0.0",
+   "t_centroid_sec": -1.149831,
+   "t_end_sec": -1.035067,
+   "t_start_sec": -1.285,
+   "timestamp_quality": {
+    "epsilon_sync_ms": 18.0,
+    "global_offset_sec": -1.285,
+    "is_in_overlap": true,
+    "max_delta_pts_back_ms": 1.6667,
+    "max_delta_pts_front_ms": 2.4222,
+    "mean_delta_pts_back_ms": 0.9406,
+    "mean_delta_pts_front_ms": 2.1897,
+    "pair_id": "pair_004",
+    "reference_clock_anchor": "back_stream_pts"
+   },
+   "total_span_frames": 16
+  },
+  {
+   "appearance_descriptor": {
+    "available": false,
+    "cranial_cap_bins": 0,
+    "mean_crop_quality": 0.0,
+    "moto_chassis_bins": 0,
+    "unavailable_reason": "EMPTY_CROP",
+    "upper_torso_bins": 0,
+    "valid_observed_crops_count": 0
+   },
+   "camera_id": "front",
+   "camera_pts_end_sec": 0.183289,
+   "camera_pts_start_sec": 0.0,
+   "completeness": "COMPLETE",
+   "entry_head_bbox": [
+    3160.52,
+    782.43,
+    3258.45,
+    865.72
+   ],
+   "exit_head_bbox": [
+    3177.24,
+    793.89,
+    3296.1,
+    872.28
+   ],
+   "last_rejection_reason": "LOW_CONF_UNMATCHED_PARENT_MOTO",
+   "lifecycle_state": "TERMINATED",
+   "mean_head_confidence": 0.4403,
+   "mean_velocity_xy": [
+    2.2231,
+    0.7635
+   ],
+   "missed_frame_count": 7,
+   "observation_density": 0.4167,
+   "observed_frame_count": 5,
+   "occlusion_intervals": [
+    [
+     2,
+     2
+    ],
+    [
+     5,
+     10
+    ]
+   ],
+   "orphan_track_id": "front_orphan_0002",
+   "phase10_snapshot_readonly": {
+    "aggregated_confidence": {
+     "helmet": 0.5466,
+     "no_helmet": 0.4534
+    },
+    "alerts_count": 0,
+    "temporal_state": "TEMPORARILY_OCCLUDED"
+   },
+   "schema_version": "1.0.0",
+   "t_centroid_sec": -1.221673,
+   "t_end_sec": -1.101711,
+   "t_start_sec": -1.285,
+   "timestamp_quality": {
+    "epsilon_sync_ms": 18.0,
+    "global_offset_sec": -1.285,
+    "is_in_overlap": true,
+    "max_delta_pts_back_ms": 1.6667,
+    "max_delta_pts_front_ms": 2.4222,
+    "mean_delta_pts_back_ms": 0.9406,
+    "mean_delta_pts_front_ms": 2.1897,
+    "pair_id": "pair_004",
+    "reference_clock_anchor": "back_stream_pts"
+   },
+   "total_span_frames": 12
+  },
+  {
+   "appearance_descriptor": {
+    "available": false,
+    "cranial_cap_bins": 0,
+    "mean_crop_quality": 0.0,
+    "moto_chassis_bins": 0,
+    "unavailable_reason": "EMPTY_CROP",
+    "upper_torso_bins": 0,
+    "valid_observed_crops_count": 0
+   },
+   "camera_id": "front",
+   "camera_pts_end_sec": 0.699833,
+   "camera_pts_start_sec": 0.516533,
+   "completeness": "COMPLETE",
+   "entry_head_bbox": [
+    3260.55,
+    766.76,
+    3357.66,
+    862.8
+   ],
+   "exit_head_bbox": [
+    3309.42,
+    781.89,
+    3381.69,
+    880.43
+   ],
+   "last_rejection_reason": "LATERAL_OUT_OF_BOUNDS",
+   "lifecycle_state": "TERMINATED",
+   "mean_head_confidence": 0.4371,
+   "mean_velocity_xy": [
+    3.2853,
+    1.5113
+   ],
+   "missed_frame_count": 2,
+   "observation_density": 0.8333,
+   "observed_frame_count": 10,
+   "occlusion_intervals": [
+    [
+     36,
+     36
+    ],
+    [
+     38,
+     38
+    ]
+   ],
+   "orphan_track_id": "front_orphan_0003",
+   "phase10_snapshot_readonly": {
+    "aggregated_confidence": {
+     "helmet": 0.6755,
+     "no_helmet": 0.3245
+    },
+    "alerts_count": 1,
+    "temporal_state": "TEMPORARILY_OCCLUDED"
+   },
+   "schema_version": "1.0.0",
+   "t_centroid_sec": -0.678487,
+   "t_end_sec": -0.585167,
+   "t_start_sec": -0.768467,
+   "timestamp_quality": {
+    "epsilon_sync_ms": 18.0,
+    "global_offset_sec": -1.285,
+    "is_in_overlap": true,
+    "max_delta_pts_back_ms": 1.6667,
+    "max_delta_pts_front_ms": 2.4222,
+    "mean_delta_pts_back_ms": 0.9406,
+    "mean_delta_pts_front_ms": 2.1897,
+    "pair_id": "pair_004",
+    "reference_clock_anchor": "back_stream_pts"
+   },
+   "total_span_frames": 12
+  },
+  {
+   "appearance_descriptor": {
+    "available": false,
+    "cranial_cap_bins": 0,
+    "mean_crop_quality": 0.0,
+    "moto_chassis_bins": 0,
+    "unavailable_reason": "NO_MATCHING_FRAME_INDEX",
+    "upper_torso_bins": 0,
+    "valid_observed_crops_count": 0
+   },
+   "camera_id": "front",
+   "camera_pts_end_sec": 0.533189,
+   "camera_pts_start_sec": 0.533189,
+   "completeness": "SHORT_OBSERVATION",
+   "entry_head_bbox": [
+    3265.34,
+    765.68,
+    3354.84,
+    862.38
+   ],
+   "exit_head_bbox": [
+    3265.34,
+    765.68,
+    3354.84,
+    862.38
+   ],
+   "last_rejection_reason": "LATERAL_OUT_OF_BOUNDS",
+   "lifecycle_state": "TERMINATED",
+   "mean_head_confidence": 0.3579,
+   "mean_velocity_xy": [
+    0.0,
+    0.0
+   ],
+   "missed_frame_count": 0,
+   "observation_density": 1.0,
+   "observed_frame_count": 1,
+   "occlusion_intervals": [],
+   "orphan_track_id": "front_orphan_0004",
+   "phase10_snapshot_readonly": {
+    "aggregated_confidence": {
+     "helmet": 0.6789,
+     "no_helmet": 0.3211
+    },
+    "alerts_count": 0,
+    "temporal_state": "TEMPORARILY_OCCLUDED"
+   },
+   "schema_version": "1.0.0",
+   "t_centroid_sec": -0.751811,
+   "t_end_sec": -0.751811,
+   "t_start_sec": -0.751811,
+   "timestamp_quality": {
+    "epsilon_sync_ms": 18.0,
+    "global_offset_sec": -1.285,
+    "is_in_overlap": true,
+    "max_delta_pts_back_ms": 1.6667,
+    "max_delta_pts_front_ms": 2.4222,
+    "mean_delta_pts_back_ms": 0.9406,
+    "mean_delta_pts_front_ms": 2.1897,
+    "pair_id": "pair_004",
+    "reference_clock_anchor": "back_stream_pts"
+   },
+   "total_span_frames": 1
+  },
+  {
+   "appearance_descriptor": {
+    "available": false,
+    "cranial_cap_bins": 0,
+    "mean_crop_quality": 0.0,
+    "moto_chassis_bins": 0,
+    "unavailable_reason": "NO_MATCHING_FRAME_INDEX",
+    "upper_torso_bins": 0,
+    "valid_observed_crops_count": 0
+   },
+   "camera_id": "front",
+   "camera_pts_end_sec": 1.516278,
+   "camera_pts_start_sec": 1.332989,
+   "completeness": "COMPLETE",
+   "entry_head_bbox": [
+    3435.05,
+    821.78,
+    3521.28,
+    909.38
+   ],
+   "exit_head_bbox": [
+    3478.75,
+    824.66,
+    3566.1,
+    911.83
+   ],
+   "last_rejection_reason": "LATERAL_OUT_OF_BOUNDS",
+   "lifecycle_state": "TERMINATED",
+   "mean_head_confidence": 0.3026,
+   "mean_velocity_xy": [
+    4.0137,
+    0.0174
+   ],
+   "missed_frame_count": 8,
+   "observation_density": 0.3333,
+   "observed_frame_count": 4,
+   "occlusion_intervals": [
+    [
+     82,
+     88
+    ],
+    [
+     90,
+     90
+    ]
+   ],
+   "orphan_track_id": "front_orphan_0005",
+   "phase10_snapshot_readonly": {
+    "aggregated_confidence": {
+     "helmet": 0.4441,
+     "no_helmet": 0.5559
+    },
+    "alerts_count": 0,
+    "temporal_state": "TEMPORARILY_OCCLUDED"
+   },
+   "schema_version": "1.0.0",
+   "t_centroid_sec": 0.135481,
+   "t_end_sec": 0.231278,
+   "t_start_sec": 0.047989,
+   "timestamp_quality": {
+    "epsilon_sync_ms": 18.0,
+    "global_offset_sec": -1.285,
+    "is_in_overlap": true,
+    "max_delta_pts_back_ms": 1.6667,
+    "max_delta_pts_front_ms": 2.4222,
+    "mean_delta_pts_back_ms": 0.9406,
+    "mean_delta_pts_front_ms": 2.1897,
+    "pair_id": "pair_004",
+    "reference_clock_anchor": "back_stream_pts"
+   },
+   "total_span_frames": 12
+  },
+  {
+   "appearance_descriptor": {
+    "available": false,
+    "cranial_cap_bins": 0,
+    "mean_crop_quality": 0.0,
+    "moto_chassis_bins": 0,
+    "unavailable_reason": "NO_MATCHING_FRAME_INDEX",
+    "upper_torso_bins": 0,
+    "valid_observed_crops_count": 0
+   },
+   "camera_id": "front",
+   "camera_pts_end_sec": 1.849644,
+   "camera_pts_start_sec": 1.349678,
+   "completeness": "COMPLETE",
+   "entry_head_bbox": [
+    3438.43,
+    824.62,
+    3524.13,
+    913.0
+   ],
+   "exit_head_bbox": [
+    3511.8,
+    831.9,
+    3595.62,
+    923.46
+   ],
+   "last_rejection_reason": "BELOW_MIN_COUPLING_SCORE",
+   "lifecycle_state": "TERMINATED",
+   "mean_head_confidence": 0.5207,
+   "mean_velocity_xy": [
+    1.4007,
+    0.571
+   ],
+   "missed_frame_count": 15,
+   "observation_density": 0.5161,
+   "observed_frame_count": 16,
+   "occlusion_intervals": [
+    [
+     83,
+     83
+    ],
+    [
+     85,
+     87
+    ],
+    [
+     92,
+     99
+    ],
+    [
+     104,
+     106
+    ]
+   ],
+   "orphan_track_id": "front_orphan_0006",
+   "phase10_snapshot_readonly": {
+    "aggregated_confidence": {
+     "helmet": 0.5609,
+     "no_helmet": 0.4391
+    },
+    "alerts_count": 0,
+    "temporal_state": "TEMPORARILY_OCCLUDED"
+   },
+   "schema_version": "1.0.0",
+   "t_centroid_sec": 0.335442,
+   "t_end_sec": 0.564644,
+   "t_start_sec": 0.064678,
+   "timestamp_quality": {
+    "epsilon_sync_ms": 18.0,
+    "global_offset_sec": -1.285,
+    "is_in_overlap": true,
+    "max_delta_pts_back_ms": 1.6667,
+    "max_delta_pts_front_ms": 2.4222,
+    "mean_delta_pts_back_ms": 0.9406,
+    "mean_delta_pts_front_ms": 2.1897,
+    "pair_id": "pair_004",
+    "reference_clock_anchor": "back_stream_pts"
+   },
+   "total_span_frames": 31
+  },
+  {
+   "appearance_descriptor": {
+    "available": false,
+    "cranial_cap_bins": 0,
+    "mean_crop_quality": 0.0,
+    "moto_chassis_bins": 0,
+    "unavailable_reason": "NO_MATCHING_FRAME_INDEX",
+    "upper_torso_bins": 0,
+    "valid_observed_crops_count": 0
+   },
+   "camera_id": "front",
+   "camera_pts_end_sec": 2.132789,
+   "camera_pts_start_sec": 1.849644,
+   "completeness": "COMPLETE",
+   "entry_head_bbox": [
+    3512.3,
+    832.47,
+    3594.35,
+    922.1
+   ],
+   "exit_head_bbox": [
+    3521.2,
+    846.14,
+    3604.48,
+    936.44
+   ],
+   "last_rejection_reason": "BELOW_MIN_COUPLING_SCORE",
+   "lifecycle_state": "TERMINATED",
+   "mean_head_confidence": 0.3662,
+   "mean_velocity_xy": [
+    0.7863,
+    0.3979
+   ],
+   "missed_frame_count": 4,
+   "observation_density": 0.7778,
+   "observed_frame_count": 14,
+   "occlusion_intervals": [
+    [
+     113,
+     115
+    ],
+    [
+     120,
+     120
+    ]
+   ],
+   "orphan_track_id": "front_orphan_0007",
+   "phase10_snapshot_readonly": {
+    "aggregated_confidence": {
+     "helmet": 0.6846,
+     "no_helmet": 0.3154
+    },
+    "alerts_count": 0,
+    "temporal_state": "TEMPORARILY_OCCLUDED"
+   },
+   "schema_version": "1.0.0",
+   "t_centroid_sec": 0.725249,
+   "t_end_sec": 0.847789,
+   "t_start_sec": 0.564644,
+   "timestamp_quality": {
+    "epsilon_sync_ms": 18.0,
+    "global_offset_sec": -1.285,
+    "is_in_overlap": true,
+    "max_delta_pts_back_ms": 1.6667,
+    "max_delta_pts_front_ms": 2.4222,
+    "mean_delta_pts_back_ms": 0.9406,
+    "mean_delta_pts_front_ms": 2.1897,
+    "pair_id": "pair_004",
+    "reference_clock_anchor": "back_stream_pts"
+   },
+   "total_span_frames": 18
+  },
+  {
+   "appearance_descriptor": {
+    "available": false,
+    "cranial_cap_bins": 0,
+    "mean_crop_quality": 0.0,
+    "moto_chassis_bins": 0,
+    "unavailable_reason": "NO_MATCHING_FRAME_INDEX",
+    "upper_torso_bins": 0,
+    "valid_observed_crops_count": 0
+   },
+   "camera_id": "front",
+   "camera_pts_end_sec": 2.449367,
+   "camera_pts_start_sec": 2.4327,
+   "completeness": "COMPLETE",
+   "entry_head_bbox": [
+    177.31,
+    788.98,
+    443.27,
+    1085.32
+   ],
+   "exit_head_bbox": [
+    76.65,
+    786.05,
+    352.12,
+    1090.77
+   ],
+   "last_rejection_reason": "LATERAL_OUT_OF_BOUNDS",
+   "lifecycle_state": "TERMINATED",
+   "mean_head_confidence": 0.859,
+   "mean_velocity_xy": [
+    -19.8151,
+    0.2603
+   ],
+   "missed_frame_count": 0,
+   "observation_density": 1.0,
+   "observed_frame_count": 2,
+   "occlusion_intervals": [],
+   "orphan_track_id": "front_orphan_0008",
+   "phase10_snapshot_readonly": {
+    "aggregated_confidence": {
+     "helmet": 0.0707,
+     "no_helmet": 0.9293
+    },
+    "alerts_count": 0,
+    "temporal_state": "TEMPORARILY_OCCLUDED"
+   },
+   "schema_version": "1.0.0",
+   "t_centroid_sec": 1.156033,
+   "t_end_sec": 1.164367,
+   "t_start_sec": 1.1477,
+   "timestamp_quality": {
+    "epsilon_sync_ms": 18.0,
+    "global_offset_sec": -1.285,
+    "is_in_overlap": true,
+    "max_delta_pts_back_ms": 1.6667,
+    "max_delta_pts_front_ms": 2.4222,
+    "mean_delta_pts_back_ms": 0.9406,
+    "mean_delta_pts_front_ms": 2.1897,
+    "pair_id": "pair_004",
+    "reference_clock_anchor": "back_stream_pts"
+   },
+   "total_span_frames": 2
+  }
+ ],
+ "motorcycle_results": [
+  {
+   "ambiguity_margin": 0.1327,
+   "association_score": 0.8388,
+   "back_moto_track_id": "back_moto_0001",
+   "decision_reasons": [
+    "CONFIRMED_1_TO_1_CROSS_CAMERA_MATCH"
+   ],
+   "front_moto_track_id": "front_moto_0002",
+   "global_motorcycle_id": "global_moto_0001",
+   "outcome": "LINKED",
+   "pair_score_detail": {
+    "active_cues_count": 2,
+    "available_cue_names": [
+     "temporal_transit",
+     "rider_cardinality"
+    ],
+    "back_moto_track_id": "back_moto_0001",
+    "composite_score": 0.8388,
+    "cue_details": {
+     "appearance_hsv": {
+      "available": false,
+      "cue_name": "appearance_hsv",
+      "diagnostics": {},
+      "effective_weight": 0.0,
+      "nominal_weight": 0.15,
+      "normalized_score": null,
+      "quality": 0.0,
+      "raw_value": null,
+      "unavailable_reason": "FRONT_EMPTY_CROP",
+      "weighted_contribution": 0.0
+     },
+     "convoy_order": {
+      "available": false,
+      "cue_name": "convoy_order",
+      "diagnostics": {
+       "back_convoy_size": 1,
+       "front_convoy_size": 3
+      },
+      "effective_weight": 0.0,
+      "nominal_weight": 0.1,
+      "normalized_score": null,
+      "quality": 0.0,
+      "raw_value": {
+       "back_convoy_size": 1,
+       "front_convoy_size": 3
+      },
+      "unavailable_reason": "SINGLE_MOTORCYCLE_NO_CONVOY",
+      "weighted_contribution": 0.0
+     },
+     "lane_spatial_context": {
+      "available": false,
+      "cue_name": "lane_spatial_context",
+      "diagnostics": {
+       "back_id": "back_moto_0001",
+       "calibrated_homography_available": false,
+       "front_id": "front_moto_0002"
+      },
+      "effective_weight": 0.0,
+      "nominal_weight": 0.05,
+      "normalized_score": null,
+      "quality": 0.0,
+      "raw_value": null,
+      "unavailable_reason": "UNCALIBRATED_CAMERA_EXTRINSICS",
+      "weighted_contribution": 0.0
+     },
+     "rider_cardinality": {
+      "available": true,
+      "cue_name": "rider_cardinality",
+      "diagnostics": {
+       "back_min_rider_visibility_ratio": 0.0093,
+       "back_modal_riders": 1,
+       "back_subtrack_count": 1,
+       "front_min_rider_visibility_ratio": 0.0064,
+       "front_modal_riders": 1,
+       "front_subtrack_count": 2,
+       "has_occlusion_evidence": true,
+       "match_regime": "DIFF_1_WITH_PARTIAL_OCCLUSION_TOLERANCE"
+      },
+      "effective_weight": 0.3571,
+      "nominal_weight": 0.25,
+      "normalized_score": 0.65,
+      "quality": 0.9435,
+      "raw_value": {
+       "back_riders": 1,
+       "diff": 1,
+       "front_riders": 2
+      },
+      "unavailable_reason": null,
+      "weighted_contribution": 0.2321
+     },
+     "temporal_transit": {
+      "available": true,
+      "cue_name": "temporal_transit",
+      "diagnostics": {
+       "combined_clock_uncertainty_sec": 0.02113,
+       "delta_exit_to_entry_sec": -0.129256,
+       "delta_pts_back_ms": 0.9406,
+       "delta_pts_front_ms": 2.1897,
+       "delta_transit_centroid_sec": 2.09853,
+       "delta_transit_entry_sec": 2.803333,
+       "effective_sigma_sec": 1.540437,
+       "epsilon_sync_ms": 18.0,
+       "is_feasible_transit": true,
+       "is_within_search_window": true,
+       "normalized_score": 0.9437,
+       "quality": 0.91,
+       "rejection_reason": null,
+       "temporal_interval_gap_sec": 0.0,
+       "temporal_overlap_sec": 0.129256,
+       "transit_uncertainty_sec": 0.35
+      },
+      "effective_weight": 0.6429,
+      "nominal_weight": 0.45,
+      "normalized_score": 0.9437,
+      "quality": 0.91,
+      "raw_value": 2.09853,
+      "unavailable_reason": null,
+      "weighted_contribution": 0.6066
+     }
+    },
+    "front_moto_track_id": "front_moto_0002",
+    "gate_rejection_reasons": [],
+    "passed_candidate_gate": true,
+    "unavailable_cue_names": [
+     "appearance_hsv",
+     "lane_spatial_context",
+     "convoy_order"
+    ],
+    "uncertainty_separation": {
+     "delta_pts_back_ms": 0.9406,
+     "delta_pts_front_ms": 2.1897,
+     "delta_transit_sec": 2.09853,
+     "epsilon_sync_ms": 18.0,
+     "transit_uncertainty_sec": 0.35
+    }
+   },
+   "rider_associations": [
+    {
+     "ambiguity_margin": 0.0,
+     "association_score": 0.3799,
+     "back_moto_track_id": "back_moto_0001",
+     "back_phase10_readonly": {
+      "aggregated_confidence": {
+       "helmet": 0.0,
+       "no_helmet": 0.0
+      },
+      "alerts_count": 0,
+      "camera_id": "back",
+      "consecutive_helmet_frames": 1,
+      "consecutive_no_helmet_frames": 0,
+      "subtrack_id": "back_moto_0001_rider_s0",
+      "temporal_state": "TRACK_LOST"
+     },
+     "back_slot_role": "driver",
+     "back_subtrack_id": "back_moto_0001_rider_s0",
+     "cue_breakdown": {
+      "slot_role_score": 0.55,
+      "temporal_coverage_score": 0.0055
+     },
+     "decision_reasons": [
+      "RIDER_ORDERING_NOT_CONFIDENT",
+      "RIDER_TRACKLET_INSUFFICIENT_OBSERVED_FRAMES"
+     ],
+     "front_moto_track_id": "front_moto_0002",
+     "front_phase10_readonly": {
+      "aggregated_confidence": {
+       "helmet": 0.0,
+       "no_helmet": 0.0
+      },
+      "alerts_count": 0,
+      "camera_id": "front",
+      "consecutive_helmet_frames": 1,
+      "consecutive_no_helmet_frames": 0,
+      "subtrack_id": "front_moto_0002_rider_s1",
+      "temporal_state": "TRACK_LOST"
+     },
+     "front_slot_role": "ambiguous_slot_1",
+     "front_subtrack_id": "front_moto_0002_rider_s1",
+     "outcome": "INSUFFICIENT_EVIDENCE",
+     "parent_global_motorcycle_id": "global_moto_0001",
+     "schema_version": "1.0.0",
+     "second_best_score": 0.3799
+    },
+    {
+     "ambiguity_margin": 0.0,
+     "association_score": 0.0,
+     "back_moto_track_id": "back_moto_0001",
+     "back_phase10_readonly": null,
+     "back_slot_role": null,
+     "back_subtrack_id": null,
+     "cue_breakdown": {},
+     "decision_reasons": [
+      "SINGLE_CAMERA_ONLY_RIDER_UNMATCHED"
+     ],
+     "front_moto_track_id": "front_moto_0002",
+     "front_phase10_readonly": {
+      "aggregated_confidence": {
+       "helmet": 0.0,
+       "no_helmet": 0.0
+      },
+      "alerts_count": 0,
+      "camera_id": "front",
+      "consecutive_helmet_frames": 0,
+      "consecutive_no_helmet_frames": 1,
+      "subtrack_id": "front_moto_0002_rider_s0",
+      "temporal_state": "TRACK_LOST"
+     },
+     "front_slot_role": "ambiguous_slot_0",
+     "front_subtrack_id": "front_moto_0002_rider_s0",
+     "outcome": "UNMATCHED",
+     "parent_global_motorcycle_id": "global_moto_0001",
+     "schema_version": "1.0.0",
+     "second_best_score": 0.3799
+    }
+   ],
+   "schema_version": "1.0.0",
+   "second_best_score": 0.7061,
+   "swap_margin_2x2": null
+  },
+  {
+   "ambiguity_margin": 0.0,
+   "association_score": 0.7061,
+   "back_moto_track_id": null,
+   "decision_reasons": [
+    "BEST_SCORE_0.706_BELOW_MIN_0.62"
+   ],
+   "front_moto_track_id": "front_moto_0001",
+   "global_motorcycle_id": null,
+   "outcome": "UNMATCHED",
+   "pair_score_detail": {
+    "active_cues_count": 2,
+    "available_cue_names": [
+     "temporal_transit",
+     "rider_cardinality"
+    ],
+    "back_moto_track_id": "back_moto_0001",
+    "composite_score": 0.7061,
+    "cue_details": {
+     "appearance_hsv": {
+      "available": false,
+      "cue_name": "appearance_hsv",
+      "diagnostics": {},
+      "effective_weight": 0.0,
+      "nominal_weight": 0.15,
+      "normalized_score": null,
+      "quality": 0.0,
+      "raw_value": null,
+      "unavailable_reason": "FRONT_EMPTY_CROP",
+      "weighted_contribution": 0.0
+     },
+     "convoy_order": {
+      "available": false,
+      "cue_name": "convoy_order",
+      "diagnostics": {
+       "back_convoy_size": 1,
+       "front_convoy_size": 3
+      },
+      "effective_weight": 0.0,
+      "nominal_weight": 0.1,
+      "normalized_score": null,
+      "quality": 0.0,
+      "raw_value": {
+       "back_convoy_size": 1,
+       "front_convoy_size": 3
+      },
+      "unavailable_reason": "SINGLE_MOTORCYCLE_NO_CONVOY",
+      "weighted_contribution": 0.0
+     },
+     "lane_spatial_context": {
+      "available": false,
+      "cue_name": "lane_spatial_context",
+      "diagnostics": {
+       "back_id": "back_moto_0001",
+       "calibrated_homography_available": false,
+       "front_id": "front_moto_0001"
+      },
+      "effective_weight": 0.0,
+      "nominal_weight": 0.05,
+      "normalized_score": null,
+      "quality": 0.0,
+      "raw_value": null,
+      "unavailable_reason": "UNCALIBRATED_CAMERA_EXTRINSICS",
+      "weighted_contribution": 0.0
+     },
+     "rider_cardinality": {
+      "available": true,
+      "cue_name": "rider_cardinality",
+      "diagnostics": {
+       "back_min_rider_visibility_ratio": 0.0093,
+       "back_modal_riders": 1,
+       "back_subtrack_count": 1,
+       "front_min_rider_visibility_ratio": 0.9675,
+       "front_modal_riders": 1,
+       "front_subtrack_count": 1,
+       "has_occlusion_evidence": true,
+       "match_regime": "EXACT_RIDER_COUNT_MATCH"
+      },
+      "effective_weight": 0.3571,
+      "nominal_weight": 0.25,
+      "normalized_score": 1.0,
+      "quality": 0.9936,
+      "raw_value": {
+       "back_riders": 1,
+       "diff": 0,
+       "front_riders": 1
+      },
+      "unavailable_reason": null,
+      "weighted_contribution": 0.3571
+     },
+     "temporal_transit": {
+      "available": true,
+      "cue_name": "temporal_transit",
+      "diagnostics": {
+       "combined_clock_uncertainty_sec": 0.02113,
+       "delta_exit_to_entry_sec": 0.253989,
+       "delta_pts_back_ms": 0.9406,
+       "delta_pts_front_ms": 2.1897,
+       "delta_transit_centroid_sec": 2.453025,
+       "delta_transit_entry_sec": 2.836667,
+       "effective_sigma_sec": 1.540437,
+       "epsilon_sync_ms": 18.0,
+       "is_feasible_transit": true,
+       "is_within_search_window": true,
+       "normalized_score": 0.5427,
+       "quality": 0.91,
+       "rejection_reason": null,
+       "temporal_interval_gap_sec": 0.253989,
+       "temporal_overlap_sec": 0.0,
+       "transit_uncertainty_sec": 0.35
+      },
+      "effective_weight": 0.6429,
+      "nominal_weight": 0.45,
+      "normalized_score": 0.5427,
+      "quality": 0.91,
+      "raw_value": 2.453025,
+      "unavailable_reason": null,
+      "weighted_contribution": 0.3489
+     }
+    },
+    "front_moto_track_id": "front_moto_0001",
+    "gate_rejection_reasons": [],
+    "passed_candidate_gate": true,
+    "unavailable_cue_names": [
+     "appearance_hsv",
+     "lane_spatial_context",
+     "convoy_order"
+    ],
+    "uncertainty_separation": {
+     "delta_pts_back_ms": 0.9406,
+     "delta_pts_front_ms": 2.1897,
+     "delta_transit_sec": 2.453025,
+     "epsilon_sync_ms": 18.0,
+     "transit_uncertainty_sec": 0.35
+    }
+   },
+   "rider_associations": [],
+   "schema_version": "1.0.0",
+   "second_best_score": 0.0,
+   "swap_margin_2x2": null
+  },
+  {
+   "ambiguity_margin": 0.0,
+   "association_score": 0.5071,
+   "back_moto_track_id": null,
+   "decision_reasons": [
+    "BEST_SCORE_0.507_BELOW_MIN_0.62"
+   ],
+   "front_moto_track_id": "front_moto_0003",
+   "global_motorcycle_id": null,
+   "outcome": "UNMATCHED",
+   "pair_score_detail": {
+    "active_cues_count": 2,
+    "available_cue_names": [
+     "temporal_transit",
+     "rider_cardinality"
+    ],
+    "back_moto_track_id": "back_moto_0001",
+    "composite_score": 0.5071,
+    "cue_details": {
+     "appearance_hsv": {
+      "available": false,
+      "cue_name": "appearance_hsv",
+      "diagnostics": {},
+      "effective_weight": 0.0,
+      "nominal_weight": 0.15,
+      "normalized_score": null,
+      "quality": 0.0,
+      "raw_value": null,
+      "unavailable_reason": "FRONT_EMPTY_CROP",
+      "weighted_contribution": 0.0
+     },
+     "convoy_order": {
+      "available": false,
+      "cue_name": "convoy_order",
+      "diagnostics": {
+       "back_convoy_size": 1,
+       "front_convoy_size": 3
+      },
+      "effective_weight": 0.0,
+      "nominal_weight": 0.1,
+      "normalized_score": null,
+      "quality": 0.0,
+      "raw_value": {
+       "back_convoy_size": 1,
+       "front_convoy_size": 3
+      },
+      "unavailable_reason": "SINGLE_MOTORCYCLE_NO_CONVOY",
+      "weighted_contribution": 0.0
+     },
+     "lane_spatial_context": {
+      "available": false,
+      "cue_name": "lane_spatial_context",
+      "diagnostics": {
+       "back_id": "back_moto_0001",
+       "calibrated_homography_available": false,
+       "front_id": "front_moto_0003"
+      },
+      "effective_weight": 0.0,
+      "nominal_weight": 0.05,
+      "normalized_score": null,
+      "quality": 0.0,
+      "raw_value": null,
+      "unavailable_reason": "UNCALIBRATED_CAMERA_EXTRINSICS",
+      "weighted_contribution": 0.0
+     },
+     "rider_cardinality": {
+      "available": true,
+      "cue_name": "rider_cardinality",
+      "diagnostics": {
+       "back_min_rider_visibility_ratio": 0.0093,
+       "back_modal_riders": 1,
+       "back_subtrack_count": 1,
+       "front_min_rider_visibility_ratio": 1.0,
+       "front_modal_riders": 1,
+       "front_subtrack_count": 1,
+       "has_occlusion_evidence": true,
+       "match_regime": "EXACT_RIDER_COUNT_MATCH"
+      },
+      "effective_weight": 0.3571,
+      "nominal_weight": 0.25,
+      "normalized_score": 1.0,
+      "quality": 0.9583,
+      "raw_value": {
+       "back_riders": 1,
+       "diff": 0,
+       "front_riders": 1
+      },
+      "unavailable_reason": null,
+      "weighted_contribution": 0.3571
+     },
+     "temporal_transit": {
+      "available": true,
+      "cue_name": "temporal_transit",
+      "diagnostics": {
+       "combined_clock_uncertainty_sec": 0.02113,
+       "delta_exit_to_entry_sec": 2.386789,
+       "delta_pts_back_ms": 0.9406,
+       "delta_pts_front_ms": 2.1897,
+       "delta_transit_centroid_sec": 3.378011,
+       "delta_transit_entry_sec": 2.570044,
+       "effective_sigma_sec": 1.540437,
+       "epsilon_sync_ms": 18.0,
+       "is_feasible_transit": true,
+       "is_within_search_window": true,
+       "normalized_score": 0.2333,
+       "quality": 0.91,
+       "rejection_reason": null,
+       "temporal_interval_gap_sec": 2.386789,
+       "temporal_overlap_sec": 0.0,
+       "transit_uncertainty_sec": 0.35
+      },
+      "effective_weight": 0.6429,
+      "nominal_weight": 0.45,
+      "normalized_score": 0.2333,
+      "quality": 0.91,
+      "raw_value": 3.378011,
+      "unavailable_reason": null,
+      "weighted_contribution": 0.15
+     }
+    },
+    "front_moto_track_id": "front_moto_0003",
+    "gate_rejection_reasons": [],
+    "passed_candidate_gate": true,
+    "unavailable_cue_names": [
+     "appearance_hsv",
+     "lane_spatial_context",
+     "convoy_order"
+    ],
+    "uncertainty_separation": {
+     "delta_pts_back_ms": 0.9406,
+     "delta_pts_front_ms": 2.1897,
+     "delta_transit_sec": 3.378011,
+     "epsilon_sync_ms": 18.0,
+     "transit_uncertainty_sec": 0.35
+    }
+   },
+   "rider_associations": [],
+   "schema_version": "1.0.0",
+   "second_best_score": 0.0,
+   "swap_margin_2x2": null
+  }
+ ],
+ "orphan_outcome_counts": {
+  "AMBIGUOUS_ABSTAIN": 0,
+  "INSUFFICIENT_EVIDENCE": 1,
+  "LINKED": 0,
+  "UNMATCHED": 7
+ },
+ "orphan_results": [
+  {
+   "ambiguity_margin": 0.0,
+   "association_level": "ORPHAN_LEVEL_LINK",
+   "association_score": 0.0,
+   "back_track_id": null,
+   "back_track_kind": null,
+   "cue_breakdown": {},
+   "decision_reasons": [
+    "ORPHAN_OBSERVED_FRAMES_1_BELOW_MIN_2"
+   ],
+   "front_track_id": "front_orphan_0004",
+   "front_track_kind": "orphan_rider",
+   "global_orphan_link_id": null,
+   "implies_confirmed_motorcycle_link": false,
+   "outcome": "INSUFFICIENT_EVIDENCE",
+   "schema_version": "1.0.0",
+   "second_best_score": 0.0
+  },
+  {
+   "ambiguity_margin": 0.0,
+   "association_level": "ORPHAN_LEVEL_LINK",
+   "association_score": 0.0,
+   "back_track_id": null,
+   "back_track_kind": null,
+   "cue_breakdown": {},
+   "decision_reasons": [
+    "NO_OPPOSITE_CAMERA_ORPHAN_CANDIDATES"
+   ],
+   "front_track_id": "front_orphan_0001",
+   "front_track_kind": "orphan_rider",
+   "global_orphan_link_id": null,
+   "implies_confirmed_motorcycle_link": false,
+   "outcome": "UNMATCHED",
+   "schema_version": "1.0.0",
+   "second_best_score": 0.0
+  },
+  {
+   "ambiguity_margin": 0.0,
+   "association_level": "ORPHAN_LEVEL_LINK",
+   "association_score": 0.0,
+   "back_track_id": null,
+   "back_track_kind": null,
+   "cue_breakdown": {},
+   "decision_reasons": [
+    "NO_OPPOSITE_CAMERA_ORPHAN_CANDIDATES"
+   ],
+   "front_track_id": "front_orphan_0002",
+   "front_track_kind": "orphan_rider",
+   "global_orphan_link_id": null,
+   "implies_confirmed_motorcycle_link": false,
+   "outcome": "UNMATCHED",
+   "schema_version": "1.0.0",
+   "second_best_score": 0.0
+  },
+  {
+   "ambiguity_margin": 0.0,
+   "association_level": "ORPHAN_LEVEL_LINK",
+   "association_score": 0.0,
+   "back_track_id": null,
+   "back_track_kind": null,
+   "cue_breakdown": {},
+   "decision_reasons": [
+    "NO_OPPOSITE_CAMERA_ORPHAN_CANDIDATES"
+   ],
+   "front_track_id": "front_orphan_0003",
+   "front_track_kind": "orphan_rider",
+   "global_orphan_link_id": null,
+   "implies_confirmed_motorcycle_link": false,
+   "outcome": "UNMATCHED",
+   "schema_version": "1.0.0",
+   "second_best_score": 0.0
+  },
+  {
+   "ambiguity_margin": 0.0,
+   "association_level": "ORPHAN_LEVEL_LINK",
+   "association_score": 0.0,
+   "back_track_id": null,
+   "back_track_kind": null,
+   "cue_breakdown": {},
+   "decision_reasons": [
+    "NO_OPPOSITE_CAMERA_ORPHAN_CANDIDATES"
+   ],
+   "front_track_id": "front_orphan_0005",
+   "front_track_kind": "orphan_rider",
+   "global_orphan_link_id": null,
+   "implies_confirmed_motorcycle_link": false,
+   "outcome": "UNMATCHED",
+   "schema_version": "1.0.0",
+   "second_best_score": 0.0
+  },
+  {
+   "ambiguity_margin": 0.0,
+   "association_level": "ORPHAN_LEVEL_LINK",
+   "association_score": 0.0,
+   "back_track_id": null,
+   "back_track_kind": null,
+   "cue_breakdown": {},
+   "decision_reasons": [
+    "NO_OPPOSITE_CAMERA_ORPHAN_CANDIDATES"
+   ],
+   "front_track_id": "front_orphan_0006",
+   "front_track_kind": "orphan_rider",
+   "global_orphan_link_id": null,
+   "implies_confirmed_motorcycle_link": false,
+   "outcome": "UNMATCHED",
+   "schema_version": "1.0.0",
+   "second_best_score": 0.0
+  },
+  {
+   "ambiguity_margin": 0.0,
+   "association_level": "ORPHAN_LEVEL_LINK",
+   "association_score": 0.0,
+   "back_track_id": null,
+   "back_track_kind": null,
+   "cue_breakdown": {},
+   "decision_reasons": [
+    "NO_OPPOSITE_CAMERA_ORPHAN_CANDIDATES"
+   ],
+   "front_track_id": "front_orphan_0007",
+   "front_track_kind": "orphan_rider",
+   "global_orphan_link_id": null,
+   "implies_confirmed_motorcycle_link": false,
+   "outcome": "UNMATCHED",
+   "schema_version": "1.0.0",
+   "second_best_score": 0.0
+  },
+  {
+   "ambiguity_margin": 0.0,
+   "association_level": "ORPHAN_LEVEL_LINK",
+   "association_score": 0.0,
+   "back_track_id": null,
+   "back_track_kind": null,
+   "cue_breakdown": {},
+   "decision_reasons": [
+    "NO_OPPOSITE_CAMERA_ORPHAN_CANDIDATES"
+   ],
+   "front_track_id": "front_orphan_0008",
+   "front_track_kind": "orphan_rider",
+   "global_orphan_link_id": null,
+   "implies_confirmed_motorcycle_link": false,
+   "outcome": "UNMATCHED",
+   "schema_version": "1.0.0",
+   "second_best_score": 0.0
+  }
+ ],
+ "outcome_counts": {
+  "AMBIGUOUS_ABSTAIN": 0,
+  "INSUFFICIENT_EVIDENCE": 0,
+  "LINKED": 1,
+  "UNMATCHED": 2
+ },
+ "pair_id": "pair_004",
+ "rider_outcome_counts": {
+  "AMBIGUOUS_ABSTAIN": 0,
+  "INSUFFICIENT_EVIDENCE": 1,
+  "LINKED": 0,
+  "UNMATCHED": 1
+ },
+ "runtime_ms": {
+  "candidate_generation_ms": 0.2237,
+  "cue_scoring_ms": 0.2968,
+  "global_assignment_and_rider_ms": 0.2879,
+  "orphan_association_ms": 0.0697,
+  "total_association_ms": 6.3351,
+  "tracklet_build_ms": 5.4571
+ },
+ "schema_version": "1.0.0",
+ "timestamp_quality": {
+  "epsilon_sync_ms": 18.0,
+  "global_offset_sec": -1.285,
+  "is_in_overlap": true,
+  "max_delta_pts_back_ms": 1.6667,
+  "max_delta_pts_front_ms": 2.4222,
+  "mean_delta_pts_back_ms": 0.9406,
+  "mean_delta_pts_front_ms": 2.1897,
+  "pair_id": "pair_004",
+  "reference_clock_anchor": "back_stream_pts"
+ }
+}

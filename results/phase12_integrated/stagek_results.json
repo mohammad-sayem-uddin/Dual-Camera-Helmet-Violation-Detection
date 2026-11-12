@@ -1,0 +1,1601 @@
+{
+ "detection_head_operating_point": {
+  "front": {
+   "precision": 0.861,
+   "recall": 1.0,
+   "f1": 0.9253,
+   "tp": 5626,
+   "fp": 908,
+   "fn": 0
+  },
+  "back": {
+   "precision": 0.3464,
+   "recall": 1.0,
+   "f1": 0.5145,
+   "tp": 1133,
+   "fp": 2138,
+   "fn": 0
+  },
+  "pooled": {
+   "precision": 0.6893,
+   "recall": 1.0,
+   "f1": 0.8161,
+   "tp": 6759,
+   "fp": 3046,
+   "fn": 0
+  }
+ },
+ "detection_head_fp_decomposition": {
+  "uncoupled_gt_construction": 3024,
+  "correction_delta_coupled_to_excluded_track": 17,
+  "coupled_to_retained_track_no_gt_obs": 5
+ },
+ "detection_head_fp_coupled_retained_list": [
+  {
+   "pair": "pair_010",
+   "cam": "back",
+   "frame": 58,
+   "sub": "back_moto_0001_rider_s0"
+  },
+  {
+   "pair": "pair_010",
+   "cam": "back",
+   "frame": 60,
+   "sub": "back_moto_0001_rider_s0"
+  },
+  {
+   "pair": "pair_010",
+   "cam": "back",
+   "frame": 68,
+   "sub": "back_moto_0001_rider_s0"
+  },
+  {
+   "pair": "pair_010",
+   "cam": "back",
+   "frame": 74,
+   "sub": "back_moto_0001_rider_s0"
+  },
+  {
+   "pair": "pair_012",
+   "cam": "front",
+   "frame": 178,
+   "sub": "front_moto_0004_rider_s0"
+  }
+ ],
+ "detection_head_ap": {
+  "front": {
+   "AP50": 0.8932,
+   "AP50_95": 0.8932
+  },
+  "back": {
+   "AP50": 0.3467,
+   "AP50_95": 0.3467
+  },
+  "pooled": {
+   "AP50": 0.7314,
+   "AP50_95": 0.7314
+  }
+ },
+ "detection_motorcycle_tracklevel": {
+  "precision": 0.82,
+  "recall": 1.0,
+  "f1": 0.9011,
+  "tp": 82,
+  "fp": 18,
+  "fn": 0,
+  "gt_tracks": 82,
+  "pred_tracks": 100,
+  "fp_decomposition": {
+   "excluded_fp_track_correction_delta": 18
+  },
+  "fn_tracks": [],
+  "temporal_agreement": {
+   "mean_abs_d_first": 0,
+   "mean_abs_d_last": 0,
+   "mean_abs_d_hits": 0,
+   "exact_first_last_hits": 82
+  }
+ },
+ "detection_motorcycle_anchored_box_check": {
+  "checked": 164,
+  "verbatim": 164
+ },
+ "rider_primary_spatially_valid": {
+  "precision": 1.0,
+  "recall": 1.0,
+  "f1": 1.0,
+  "tp": 6727,
+  "fp": 0,
+  "fn": 0,
+  "mean_iou_matched": 1.0,
+  "n_iou_pairs": 6727,
+  "context": {
+   "gt_obs_excluded_by_validity_filter": 32,
+   "pred_coupled_on_excluded_tracks": 17
+  }
+ },
+ "rider_sensitivity_all_coupled": {
+  "precision": 1.0,
+  "recall": 1.0,
+  "f1": 1.0,
+  "tp": 6759,
+  "fp": 0,
+  "fn": 0,
+  "mean_iou_matched": 1.0,
+  "n_iou_pairs": 6759,
+  "context": {
+   "pred_coupled_on_excluded_tracks": 17
+  }
+ },
+ "helmet_observation_level": {
+  "confusion": {
+   "helmet->helmet": 1365,
+   "no_helmet->no_helmet": 5388
+  },
+  "helmet": {
+   "precision": 1.0,
+   "recall": 1.0,
+   "f1": 1.0,
+   "tp": 1365,
+   "fp": 0,
+   "fn": 0
+  },
+  "no_helmet": {
+   "precision": 1.0,
+   "recall": 1.0,
+   "f1": 1.0,
+   "tp": 5388,
+   "fp": 0,
+   "fn": 0
+  },
+  "gt_decided_total": 6753,
+  "matched": 6753,
+  "gt_unmatched_no_pred_obs": {},
+  "unmatched_total": 0,
+  "excluded_occluded_unknown": 6,
+  "disagreement_decomposition": {}
+ },
+ "helmet_track_level": {
+  "n_decided_gt_tracks": 209,
+  "agreement": 134,
+  "agreement_rate": 0.6411,
+  "confusion": {
+   "helmet->HELMET": 38,
+   "helmet->NO_HELMET": 1,
+   "helmet->UNCERTAIN": 18,
+   "no_helmet->HELMET": 1,
+   "no_helmet->NO_HELMET": 96,
+   "no_helmet->UNCERTAIN": 55
+  }
+ },
+ "tracking_head_basis": {
+  "idtp": 6759,
+  "idfp": 17,
+  "idfn": 0,
+  "id_precision": 0.9975,
+  "id_recall": 1.0,
+  "idf1": 0.9987,
+  "id_switches": 0,
+  "hota": "NOT COMPUTED \u2014 protocol \u00a76: release lacks per-frame box trajectories for motorcycle/person; head-only HOTA would not be the standard metric."
+ },
+ "association_motorcycle": {
+  "precision": 0.8333,
+  "recall": 1.0,
+  "f1": 0.9091,
+  "tp": 10,
+  "fp": 2,
+  "fn": 0,
+  "gt_units": 70,
+  "pred_units": 85,
+  "gt_linked": 10,
+  "pred_linked": 12,
+  "pred_abstain": 33,
+  "pred_abstain_rate": 0.3882,
+  "crosstab": {
+   "ABSENT|AMBIGUOUS_ABSTAIN": 2,
+   "ABSENT|INSUFFICIENT_EVIDENCE": 8,
+   "ABSENT|LINKED": 2,
+   "ABSENT|UNMATCHED": 6,
+   "AMBIGUOUS_ABSTAIN|AMBIGUOUS_ABSTAIN": 4,
+   "INSUFFICIENT_EVIDENCE|INSUFFICIENT_EVIDENCE": 19,
+   "LINKED|LINKED": 10,
+   "UNMATCHED|ABSENT": 3,
+   "UNMATCHED|UNMATCHED": 34
+  },
+  "fp_linked_pairs": [
+   [
+    "pair_009",
+    "front_moto_0001",
+    "back_moto_0001"
+   ],
+   [
+    "pair_015",
+    "front_moto_0003",
+    "back_moto_0001"
+   ]
+  ],
+  "fn_linked_pairs": []
+ },
+ "association_orphan": {
+  "precision": 1.0,
+  "recall": 1.0,
+  "f1": 1.0,
+  "tp": 1,
+  "fp": 0,
+  "fn": 0,
+  "gt_units": 115,
+  "pred_units": 120,
+  "gt_linked": 1,
+  "pred_linked": 1,
+  "pred_abstain": 76,
+  "pred_abstain_rate": 0.6333,
+  "crosstab": {
+   "ABSENT|AMBIGUOUS_ABSTAIN": 1,
+   "ABSENT|INSUFFICIENT_EVIDENCE": 3,
+   "ABSENT|UNMATCHED": 1,
+   "AMBIGUOUS_ABSTAIN|AMBIGUOUS_ABSTAIN": 19,
+   "INSUFFICIENT_EVIDENCE|INSUFFICIENT_EVIDENCE": 53,
+   "LINKED|LINKED": 1,
+   "UNMATCHED|UNMATCHED": 42
+  },
+  "fp_linked_pairs": [],
+  "fn_linked_pairs": []
+ },
+ "association_rider": {
+  "status": "item-level NOT COMPUTABLE \u2014 Stage J association.json has no per-item rider results (protocol \u00a77)",
+  "gt_outcome_counts": {
+   "INSUFFICIENT_EVIDENCE": 8,
+   "UNMATCHED": 4,
+   "LINKED": 4,
+   "AMBIGUOUS_ABSTAIN": 1
+  },
+  "pred_outcome_counts_aggregate": {
+   "AMBIGUOUS_ABSTAIN": 1,
+   "INSUFFICIENT_EVIDENCE": 9,
+   "LINKED": 4,
+   "UNMATCHED": 6
+  }
+ },
+ "events": {
+  "precision": 0.7529,
+  "recall": 0.9143,
+  "f1": 0.8258,
+  "tp": 64,
+  "fp": 21,
+  "fn": 6,
+  "strict_identity_matches": 65,
+  "type_agreeing": 64,
+  "type_mismatches": [
+   {
+    "pair": "pair_002",
+    "front": "front_moto_0001",
+    "back": "",
+    "gt_type": "BOTH_NO_HELMET",
+    "pred_type": "PILLION_NO_HELMET",
+    "tiou": 1.0,
+    "d_onset": 0.0,
+    "d_end": 0.0
+   }
+  ],
+  "per_type": {
+   "BOTH_NO_HELMET": {
+    "precision": 0.8889,
+    "recall": 0.8,
+    "f1": 0.8421,
+    "tp": 8,
+    "fp": 1,
+    "fn": 2
+   },
+   "DRIVER_NO_HELMET": {
+    "precision": 0.8519,
+    "recall": 0.8519,
+    "f1": 0.8519,
+    "tp": 23,
+    "fp": 4,
+    "fn": 4
+   },
+   "INSUFFICIENT_VISUAL_EVIDENCE": {
+    "precision": 0.6154,
+    "recall": 1.0,
+    "f1": 0.7619,
+    "tp": 24,
+    "fp": 15,
+    "fn": 0
+   },
+   "NO_VIOLATION": {
+    "precision": 1.0,
+    "recall": 1.0,
+    "f1": 1.0,
+    "tp": 6,
+    "fp": 0,
+    "fn": 0
+   },
+   "PILLION_NO_HELMET": {
+    "precision": 0.75,
+    "recall": 1.0,
+    "f1": 0.8571,
+    "tp": 3,
+    "fp": 1,
+    "fn": 0
+   }
+  },
+  "timing_errors_sec": {
+   "n": 34,
+   "d_onset_mean": 0.0,
+   "d_onset_median": 0.0,
+   "d_onset_mean_abs": 0.0,
+   "d_end_mean": 0.0,
+   "d_end_median": 0.0,
+   "d_end_mean_abs": 0.0
+  },
+  "unmatched_pred_classes": {
+   "correction_delta_excluded_track": 18,
+   "would_match_differs_only_by_excluded_track": 2
+  },
+  "unmatched_gt_classes": {
+   "would_match_differs_only_by_excluded_track": 5
+  },
+  "unmatched_pred": [
+   {
+    "pair": "pair_007",
+    "front": "front_moto_0005",
+    "back": null,
+    "type": "INSUFFICIENT_VISUAL_EVIDENCE",
+    "class": "correction_delta_excluded_track"
+   },
+   {
+    "pair": "pair_009",
+    "front": "front_moto_0001",
+    "back": "back_moto_0001",
+    "type": "BOTH_NO_HELMET",
+    "class": "correction_delta_excluded_track"
+   },
+   {
+    "pair": "pair_009",
+    "front": null,
+    "back": "back_moto_0002",
+    "type": "INSUFFICIENT_VISUAL_EVIDENCE",
+    "class": "correction_delta_excluded_track"
+   },
+   {
+    "pair": "pair_009",
+    "front": null,
+    "back": "back_moto_0003",
+    "type": "INSUFFICIENT_VISUAL_EVIDENCE",
+    "class": "correction_delta_excluded_track"
+   },
+   {
+    "pair": "pair_009",
+    "front": null,
+    "back": "back_moto_0008",
+    "type": "INSUFFICIENT_VISUAL_EVIDENCE",
+    "class": "correction_delta_excluded_track"
+   },
+   {
+    "pair": "pair_009",
+    "front": null,
+    "back": "back_moto_0009",
+    "type": "INSUFFICIENT_VISUAL_EVIDENCE",
+    "class": "correction_delta_excluded_track"
+   },
+   {
+    "pair": "pair_009",
+    "front": null,
+    "back": "back_moto_0010",
+    "type": "INSUFFICIENT_VISUAL_EVIDENCE",
+    "class": "correction_delta_excluded_track"
+   },
+   {
+    "pair": "pair_009",
+    "front": null,
+    "back": "back_moto_0011",
+    "type": "INSUFFICIENT_VISUAL_EVIDENCE",
+    "class": "correction_delta_excluded_track"
+   },
+   {
+    "pair": "pair_011",
+    "front": null,
+    "back": "back_moto_0001",
+    "type": "INSUFFICIENT_VISUAL_EVIDENCE",
+    "class": "correction_delta_excluded_track"
+   },
+   {
+    "pair": "pair_011",
+    "front": "front_moto_0002",
+    "back": null,
+    "type": "INSUFFICIENT_VISUAL_EVIDENCE",
+    "class": "correction_delta_excluded_track"
+   },
+   {
+    "pair": "pair_011",
+    "front": null,
+    "back": "back_moto_0003",
+    "type": "INSUFFICIENT_VISUAL_EVIDENCE",
+    "class": "correction_delta_excluded_track"
+   },
+   {
+    "pair": "pair_012",
+    "front": null,
+    "back": "back_moto_0001",
+    "type": "INSUFFICIENT_VISUAL_EVIDENCE",
+    "class": "correction_delta_excluded_track"
+   },
+   {
+    "pair": "pair_012",
+    "front": "front_moto_0002",
+    "back": null,
+    "type": "INSUFFICIENT_VISUAL_EVIDENCE",
+    "class": "correction_delta_excluded_track"
+   },
+   {
+    "pair": "pair_012",
+    "front": "front_moto_0003",
+    "back": null,
+    "type": "DRIVER_NO_HELMET",
+    "class": "would_match_differs_only_by_excluded_track"
+   },
+   {
+    "pair": "pair_013",
+    "front": "front_moto_0002",
+    "back": null,
+    "type": "INSUFFICIENT_VISUAL_EVIDENCE",
+    "class": "correction_delta_excluded_track"
+   },
+   {
+    "pair": "pair_013",
+    "front": "front_moto_0003",
+    "back": null,
+    "type": "INSUFFICIENT_VISUAL_EVIDENCE",
+    "class": "correction_delta_excluded_track"
+   },
+   {
+    "pair": "pair_014",
+    "front": null,
+    "back": "back_moto_0003",
+    "type": "INSUFFICIENT_VISUAL_EVIDENCE",
+    "class": "correction_delta_excluded_track"
+   },
+   {
+    "pair": "pair_015",
+    "front": "front_moto_0001",
+    "back": null,
+    "type": "DRIVER_NO_HELMET",
+    "class": "would_match_differs_only_by_excluded_track"
+   },
+   {
+    "pair": "pair_015",
+    "front": "front_moto_0003",
+    "back": "back_moto_0001",
+    "type": "DRIVER_NO_HELMET",
+    "class": "correction_delta_excluded_track"
+   },
+   {
+    "pair": "pair_020",
+    "front": "front_moto_0001",
+    "back": "back_moto_0003",
+    "type": "DRIVER_NO_HELMET",
+    "class": "correction_delta_excluded_track"
+   }
+  ],
+  "unmatched_gt": [
+   {
+    "pair": "pair_009",
+    "front": "front_moto_0001",
+    "back": null,
+    "type": "BOTH_NO_HELMET",
+    "class": "would_match_differs_only_by_excluded_track"
+   },
+   {
+    "pair": "pair_012",
+    "front": "front_moto_0003",
+    "back": null,
+    "type": "DRIVER_NO_HELMET",
+    "class": "would_match_differs_only_by_excluded_track"
+   },
+   {
+    "pair": "pair_015",
+    "front": "front_moto_0001",
+    "back": null,
+    "type": "DRIVER_NO_HELMET",
+    "class": "would_match_differs_only_by_excluded_track"
+   },
+   {
+    "pair": "pair_015",
+    "front": null,
+    "back": "back_moto_0001",
+    "type": "DRIVER_NO_HELMET",
+    "class": "would_match_differs_only_by_excluded_track"
+   },
+   {
+    "pair": "pair_020",
+    "front": "front_moto_0001",
+    "back": null,
+    "type": "DRIVER_NO_HELMET",
+    "class": "would_match_differs_only_by_excluded_track"
+   }
+  ],
+  "matches": [
+   {
+    "pair": "pair_001",
+    "front": "",
+    "back": "back_moto_0001",
+    "gt_type": "BOTH_NO_HELMET",
+    "pred_type": "BOTH_NO_HELMET",
+    "tiou": 1.0,
+    "d_onset": 0.0,
+    "d_end": 0.0
+   },
+   {
+    "pair": "pair_001",
+    "front": "front_moto_0001",
+    "back": "",
+    "gt_type": "BOTH_NO_HELMET",
+    "pred_type": "BOTH_NO_HELMET",
+    "tiou": 1.0,
+    "d_onset": 0.0,
+    "d_end": 0.0
+   },
+   {
+    "pair": "pair_002",
+    "front": "",
+    "back": "back_moto_0001",
+    "gt_type": "NO_VIOLATION",
+    "pred_type": "NO_VIOLATION",
+    "tiou": null,
+    "d_onset": null,
+    "d_end": null
+   },
+   {
+    "pair": "pair_003",
+    "front": "",
+    "back": "back_moto_0001",
+    "gt_type": "DRIVER_NO_HELMET",
+    "pred_type": "DRIVER_NO_HELMET",
+    "tiou": 1.0,
+    "d_onset": 0.0,
+    "d_end": 0.0
+   },
+   {
+    "pair": "pair_003",
+    "front": "",
+    "back": "back_moto_0002",
+    "gt_type": "INSUFFICIENT_VISUAL_EVIDENCE",
+    "pred_type": "INSUFFICIENT_VISUAL_EVIDENCE",
+    "tiou": null,
+    "d_onset": null,
+    "d_end": null
+   },
+   {
+    "pair": "pair_003",
+    "front": "front_moto_0001",
+    "back": "",
+    "gt_type": "DRIVER_NO_HELMET",
+    "pred_type": "DRIVER_NO_HELMET",
+    "tiou": 1.0,
+    "d_onset": 0.0,
+    "d_end": 0.0
+   },
+   {
+    "pair": "pair_003",
+    "front": "front_moto_0002",
+    "back": "",
+    "gt_type": "INSUFFICIENT_VISUAL_EVIDENCE",
+    "pred_type": "INSUFFICIENT_VISUAL_EVIDENCE",
+    "tiou": null,
+    "d_onset": null,
+    "d_end": null
+   },
+   {
+    "pair": "pair_004",
+    "front": "front_moto_0001",
+    "back": "",
+    "gt_type": "DRIVER_NO_HELMET",
+    "pred_type": "DRIVER_NO_HELMET",
+    "tiou": 1.0,
+    "d_onset": 0.0,
+    "d_end": 0.0
+   },
+   {
+    "pair": "pair_004",
+    "front": "front_moto_0002",
+    "back": "back_moto_0001",
+    "gt_type": "INSUFFICIENT_VISUAL_EVIDENCE",
+    "pred_type": "INSUFFICIENT_VISUAL_EVIDENCE",
+    "tiou": null,
+    "d_onset": null,
+    "d_end": null
+   },
+   {
+    "pair": "pair_004",
+    "front": "front_moto_0003",
+    "back": "",
+    "gt_type": "DRIVER_NO_HELMET",
+    "pred_type": "DRIVER_NO_HELMET",
+    "tiou": 1.0,
+    "d_onset": 0.0,
+    "d_end": 0.0
+   },
+   {
+    "pair": "pair_005",
+    "front": "",
+    "back": "back_moto_0001",
+    "gt_type": "DRIVER_NO_HELMET",
+    "pred_type": "DRIVER_NO_HELMET",
+    "tiou": 1.0,
+    "d_onset": 0.0,
+    "d_end": 0.0
+   },
+   {
+    "pair": "pair_005",
+    "front": "front_moto_0001",
+    "back": "",
+    "gt_type": "NO_VIOLATION",
+    "pred_type": "NO_VIOLATION",
+    "tiou": null,
+    "d_onset": null,
+    "d_end": null
+   },
+   {
+    "pair": "pair_006",
+    "front": "",
+    "back": "back_moto_0001",
+    "gt_type": "INSUFFICIENT_VISUAL_EVIDENCE",
+    "pred_type": "INSUFFICIENT_VISUAL_EVIDENCE",
+    "tiou": null,
+    "d_onset": null,
+    "d_end": null
+   },
+   {
+    "pair": "pair_006",
+    "front": "",
+    "back": "back_moto_0003",
+    "gt_type": "INSUFFICIENT_VISUAL_EVIDENCE",
+    "pred_type": "INSUFFICIENT_VISUAL_EVIDENCE",
+    "tiou": null,
+    "d_onset": null,
+    "d_end": null
+   },
+   {
+    "pair": "pair_006",
+    "front": "",
+    "back": "back_moto_0004",
+    "gt_type": "INSUFFICIENT_VISUAL_EVIDENCE",
+    "pred_type": "INSUFFICIENT_VISUAL_EVIDENCE",
+    "tiou": null,
+    "d_onset": null,
+    "d_end": null
+   },
+   {
+    "pair": "pair_006",
+    "front": "front_moto_0001",
+    "back": "back_moto_0002",
+    "gt_type": "DRIVER_NO_HELMET",
+    "pred_type": "DRIVER_NO_HELMET",
+    "tiou": 1.0,
+    "d_onset": 0.0,
+    "d_end": 0.0
+   },
+   {
+    "pair": "pair_007",
+    "front": "",
+    "back": "back_moto_0002",
+    "gt_type": "DRIVER_NO_HELMET",
+    "pred_type": "DRIVER_NO_HELMET",
+    "tiou": 1.0,
+    "d_onset": 0.0,
+    "d_end": 0.0
+   },
+   {
+    "pair": "pair_007",
+    "front": "front_moto_0001",
+    "back": "back_moto_0001",
+    "gt_type": "BOTH_NO_HELMET",
+    "pred_type": "BOTH_NO_HELMET",
+    "tiou": 1.0,
+    "d_onset": 0.0,
+    "d_end": 0.0
+   },
+   {
+    "pair": "pair_007",
+    "front": "front_moto_0002",
+    "back": "",
+    "gt_type": "INSUFFICIENT_VISUAL_EVIDENCE",
+    "pred_type": "INSUFFICIENT_VISUAL_EVIDENCE",
+    "tiou": null,
+    "d_onset": null,
+    "d_end": null
+   },
+   {
+    "pair": "pair_007",
+    "front": "front_moto_0003",
+    "back": "",
+    "gt_type": "INSUFFICIENT_VISUAL_EVIDENCE",
+    "pred_type": "INSUFFICIENT_VISUAL_EVIDENCE",
+    "tiou": null,
+    "d_onset": null,
+    "d_end": null
+   },
+   {
+    "pair": "pair_007",
+    "front": "front_moto_0004",
+    "back": "",
+    "gt_type": "INSUFFICIENT_VISUAL_EVIDENCE",
+    "pred_type": "INSUFFICIENT_VISUAL_EVIDENCE",
+    "tiou": null,
+    "d_onset": null,
+    "d_end": null
+   },
+   {
+    "pair": "pair_008",
+    "front": "front_moto_0001",
+    "back": "back_moto_0001",
+    "gt_type": "BOTH_NO_HELMET",
+    "pred_type": "BOTH_NO_HELMET",
+    "tiou": 1.0,
+    "d_onset": 0.0,
+    "d_end": 0.0
+   },
+   {
+    "pair": "pair_009",
+    "front": "",
+    "back": "back_moto_0004",
+    "gt_type": "DRIVER_NO_HELMET",
+    "pred_type": "DRIVER_NO_HELMET",
+    "tiou": 1.0,
+    "d_onset": 0.0,
+    "d_end": 0.0
+   },
+   {
+    "pair": "pair_009",
+    "front": "",
+    "back": "back_moto_0005",
+    "gt_type": "INSUFFICIENT_VISUAL_EVIDENCE",
+    "pred_type": "INSUFFICIENT_VISUAL_EVIDENCE",
+    "tiou": null,
+    "d_onset": null,
+    "d_end": null
+   },
+   {
+    "pair": "pair_009",
+    "front": "",
+    "back": "back_moto_0006",
+    "gt_type": "INSUFFICIENT_VISUAL_EVIDENCE",
+    "pred_type": "INSUFFICIENT_VISUAL_EVIDENCE",
+    "tiou": null,
+    "d_onset": null,
+    "d_end": null
+   },
+   {
+    "pair": "pair_009",
+    "front": "",
+    "back": "back_moto_0007",
+    "gt_type": "INSUFFICIENT_VISUAL_EVIDENCE",
+    "pred_type": "INSUFFICIENT_VISUAL_EVIDENCE",
+    "tiou": null,
+    "d_onset": null,
+    "d_end": null
+   },
+   {
+    "pair": "pair_010",
+    "front": "",
+    "back": "back_moto_0002",
+    "gt_type": "NO_VIOLATION",
+    "pred_type": "NO_VIOLATION",
+    "tiou": null,
+    "d_onset": null,
+    "d_end": null
+   },
+   {
+    "pair": "pair_010",
+    "front": "",
+    "back": "back_moto_0003",
+    "gt_type": "INSUFFICIENT_VISUAL_EVIDENCE",
+    "pred_type": "INSUFFICIENT_VISUAL_EVIDENCE",
+    "tiou": null,
+    "d_onset": null,
+    "d_end": null
+   },
+   {
+    "pair": "pair_010",
+    "front": "",
+    "back": "back_moto_0004",
+    "gt_type": "PILLION_NO_HELMET",
+    "pred_type": "PILLION_NO_HELMET",
+    "tiou": 1.0,
+    "d_onset": 0.0,
+    "d_end": 0.0
+   },
+   {
+    "pair": "pair_010",
+    "front": "",
+    "back": "back_moto_0005",
+    "gt_type": "INSUFFICIENT_VISUAL_EVIDENCE",
+    "pred_type": "INSUFFICIENT_VISUAL_EVIDENCE",
+    "tiou": null,
+    "d_onset": null,
+    "d_end": null
+   },
+   {
+    "pair": "pair_010",
+    "front": "front_moto_0001",
+    "back": "back_moto_0001",
+    "gt_type": "PILLION_NO_HELMET",
+    "pred_type": "PILLION_NO_HELMET",
+    "tiou": 1.0,
+    "d_onset": 0.0,
+    "d_end": 0.0
+   },
+   {
+    "pair": "pair_011",
+    "front": "front_moto_0001",
+    "back": "back_moto_0002",
+    "gt_type": "NO_VIOLATION",
+    "pred_type": "NO_VIOLATION",
+    "tiou": null,
+    "d_onset": null,
+    "d_end": null
+   },
+   {
+    "pair": "pair_011",
+    "front": "front_moto_0003",
+    "back": "",
+    "gt_type": "INSUFFICIENT_VISUAL_EVIDENCE",
+    "pred_type": "INSUFFICIENT_VISUAL_EVIDENCE",
+    "tiou": null,
+    "d_onset": null,
+    "d_end": null
+   },
+   {
+    "pair": "pair_012",
+    "front": "front_moto_0001",
+    "back": "",
+    "gt_type": "INSUFFICIENT_VISUAL_EVIDENCE",
+    "pred_type": "INSUFFICIENT_VISUAL_EVIDENCE",
+    "tiou": null,
+    "d_onset": null,
+    "d_end": null
+   },
+   {
+    "pair": "pair_012",
+    "front": "front_moto_0004",
+    "back": "back_moto_0002",
+    "gt_type": "PILLION_NO_HELMET",
+    "pred_type": "PILLION_NO_HELMET",
+    "tiou": 1.0,
+    "d_onset": 0.0,
+    "d_end": 0.0
+   },
+   {
+    "pair": "pair_012",
+    "front": "front_moto_0005",
+    "back": "",
+    "gt_type": "INSUFFICIENT_VISUAL_EVIDENCE",
+    "pred_type": "INSUFFICIENT_VISUAL_EVIDENCE",
+    "tiou": null,
+    "d_onset": null,
+    "d_end": null
+   },
+   {
+    "pair": "pair_012",
+    "front": "front_moto_0006",
+    "back": "",
+    "gt_type": "INSUFFICIENT_VISUAL_EVIDENCE",
+    "pred_type": "INSUFFICIENT_VISUAL_EVIDENCE",
+    "tiou": null,
+    "d_onset": null,
+    "d_end": null
+   },
+   {
+    "pair": "pair_012",
+    "front": "front_moto_0007",
+    "back": "",
+    "gt_type": "INSUFFICIENT_VISUAL_EVIDENCE",
+    "pred_type": "INSUFFICIENT_VISUAL_EVIDENCE",
+    "tiou": null,
+    "d_onset": null,
+    "d_end": null
+   },
+   {
+    "pair": "pair_012",
+    "front": "front_moto_0008",
+    "back": "",
+    "gt_type": "INSUFFICIENT_VISUAL_EVIDENCE",
+    "pred_type": "INSUFFICIENT_VISUAL_EVIDENCE",
+    "tiou": null,
+    "d_onset": null,
+    "d_end": null
+   },
+   {
+    "pair": "pair_012",
+    "front": "front_moto_0009",
+    "back": "",
+    "gt_type": "INSUFFICIENT_VISUAL_EVIDENCE",
+    "pred_type": "INSUFFICIENT_VISUAL_EVIDENCE",
+    "tiou": null,
+    "d_onset": null,
+    "d_end": null
+   },
+   {
+    "pair": "pair_013",
+    "front": "front_moto_0001",
+    "back": "back_moto_0001",
+    "gt_type": "DRIVER_NO_HELMET",
+    "pred_type": "DRIVER_NO_HELMET",
+    "tiou": 1.0,
+    "d_onset": 0.0,
+    "d_end": 0.0
+   },
+   {
+    "pair": "pair_014",
+    "front": "",
+    "back": "back_moto_0001",
+    "gt_type": "DRIVER_NO_HELMET",
+    "pred_type": "DRIVER_NO_HELMET",
+    "tiou": 1.0,
+    "d_onset": 0.0,
+    "d_end": 0.0
+   },
+   {
+    "pair": "pair_014",
+    "front": "",
+    "back": "back_moto_0002",
+    "gt_type": "INSUFFICIENT_VISUAL_EVIDENCE",
+    "pred_type": "INSUFFICIENT_VISUAL_EVIDENCE",
+    "tiou": null,
+    "d_onset": null,
+    "d_end": null
+   },
+   {
+    "pair": "pair_014",
+    "front": "front_moto_0001",
+    "back": "",
+    "gt_type": "DRIVER_NO_HELMET",
+    "pred_type": "DRIVER_NO_HELMET",
+    "tiou": 1.0,
+    "d_onset": 0.0,
+    "d_end": 0.0
+   },
+   {
+    "pair": "pair_015",
+    "front": "front_moto_0002",
+    "back": "",
+    "gt_type": "NO_VIOLATION",
+    "pred_type": "NO_VIOLATION",
+    "tiou": null,
+    "d_onset": null,
+    "d_end": null
+   },
+   {
+    "pair": "pair_016",
+    "front": "",
+    "back": "back_moto_0001",
+    "gt_type": "DRIVER_NO_HELMET",
+    "pred_type": "DRIVER_NO_HELMET",
+    "tiou": 1.0,
+    "d_onset": 0.0,
+    "d_end": 0.0
+   },
+   {
+    "pair": "pair_016",
+    "front": "front_moto_0001",
+    "back": "",
+    "gt_type": "NO_VIOLATION",
+    "pred_type": "NO_VIOLATION",
+    "tiou": null,
+    "d_onset": null,
+    "d_end": null
+   },
+   {
+    "pair": "pair_017",
+    "front": "",
+    "back": "back_moto_0001",
+    "gt_type": "DRIVER_NO_HELMET",
+    "pred_type": "DRIVER_NO_HELMET",
+    "tiou": 1.0,
+    "d_onset": 0.0,
+    "d_end": 0.0
+   },
+   {
+    "pair": "pair_017",
+    "front": "front_moto_0001",
+    "back": "",
+    "gt_type": "DRIVER_NO_HELMET",
+    "pred_type": "DRIVER_NO_HELMET",
+    "tiou": 1.0,
+    "d_onset": 0.0,
+    "d_end": 0.0
+   },
+   {
+    "pair": "pair_018",
+    "front": "front_moto_0001",
+    "back": "back_moto_0001",
+    "gt_type": "DRIVER_NO_HELMET",
+    "pred_type": "DRIVER_NO_HELMET",
+    "tiou": 1.0,
+    "d_onset": 0.0,
+    "d_end": 0.0
+   },
+   {
+    "pair": "pair_019",
+    "front": "",
+    "back": "back_moto_0001",
+    "gt_type": "INSUFFICIENT_VISUAL_EVIDENCE",
+    "pred_type": "INSUFFICIENT_VISUAL_EVIDENCE",
+    "tiou": null,
+    "d_onset": null,
+    "d_end": null
+   },
+   {
+    "pair": "pair_019",
+    "front": "front_moto_0001",
+    "back": "",
+    "gt_type": "BOTH_NO_HELMET",
+    "pred_type": "BOTH_NO_HELMET",
+    "tiou": 1.0,
+    "d_onset": 0.0,
+    "d_end": 0.0
+   },
+   {
+    "pair": "pair_019",
+    "front": "front_moto_0002",
+    "back": "back_moto_0002",
+    "gt_type": "BOTH_NO_HELMET",
+    "pred_type": "BOTH_NO_HELMET",
+    "tiou": 1.0,
+    "d_onset": 0.0,
+    "d_end": 0.0
+   },
+   {
+    "pair": "pair_019",
+    "front": "front_moto_0003",
+    "back": "",
+    "gt_type": "BOTH_NO_HELMET",
+    "pred_type": "BOTH_NO_HELMET",
+    "tiou": 1.0,
+    "d_onset": 0.0,
+    "d_end": 0.0
+   },
+   {
+    "pair": "pair_020",
+    "front": "",
+    "back": "back_moto_0001",
+    "gt_type": "INSUFFICIENT_VISUAL_EVIDENCE",
+    "pred_type": "INSUFFICIENT_VISUAL_EVIDENCE",
+    "tiou": null,
+    "d_onset": null,
+    "d_end": null
+   },
+   {
+    "pair": "pair_020",
+    "front": "",
+    "back": "back_moto_0002",
+    "gt_type": "DRIVER_NO_HELMET",
+    "pred_type": "DRIVER_NO_HELMET",
+    "tiou": 1.0,
+    "d_onset": 0.0,
+    "d_end": 0.0
+   },
+   {
+    "pair": "pair_021",
+    "front": "front_moto_0001",
+    "back": "back_moto_0001",
+    "gt_type": "DRIVER_NO_HELMET",
+    "pred_type": "DRIVER_NO_HELMET",
+    "tiou": 1.0,
+    "d_onset": 0.0,
+    "d_end": 0.0
+   },
+   {
+    "pair": "pair_022",
+    "front": "",
+    "back": "back_moto_0001",
+    "gt_type": "DRIVER_NO_HELMET",
+    "pred_type": "DRIVER_NO_HELMET",
+    "tiou": 1.0,
+    "d_onset": 0.0,
+    "d_end": 0.0
+   },
+   {
+    "pair": "pair_022",
+    "front": "front_moto_0001",
+    "back": "",
+    "gt_type": "DRIVER_NO_HELMET",
+    "pred_type": "DRIVER_NO_HELMET",
+    "tiou": 1.0,
+    "d_onset": 0.0,
+    "d_end": 0.0
+   },
+   {
+    "pair": "pair_023",
+    "front": "",
+    "back": "back_moto_0001",
+    "gt_type": "DRIVER_NO_HELMET",
+    "pred_type": "DRIVER_NO_HELMET",
+    "tiou": 1.0,
+    "d_onset": 0.0,
+    "d_end": 0.0
+   },
+   {
+    "pair": "pair_023",
+    "front": "front_moto_0001",
+    "back": "",
+    "gt_type": "BOTH_NO_HELMET",
+    "pred_type": "BOTH_NO_HELMET",
+    "tiou": 1.0,
+    "d_onset": 0.0,
+    "d_end": 0.0
+   },
+   {
+    "pair": "pair_024",
+    "front": "front_moto_0001",
+    "back": "back_moto_0001",
+    "gt_type": "DRIVER_NO_HELMET",
+    "pred_type": "DRIVER_NO_HELMET",
+    "tiou": 1.0,
+    "d_onset": 0.0,
+    "d_end": 0.0
+   },
+   {
+    "pair": "pair_025",
+    "front": "",
+    "back": "back_moto_0001",
+    "gt_type": "DRIVER_NO_HELMET",
+    "pred_type": "DRIVER_NO_HELMET",
+    "tiou": 1.0,
+    "d_onset": 0.0,
+    "d_end": 0.0
+   },
+   {
+    "pair": "pair_025",
+    "front": "front_moto_0001",
+    "back": "",
+    "gt_type": "DRIVER_NO_HELMET",
+    "pred_type": "DRIVER_NO_HELMET",
+    "tiou": 1.0,
+    "d_onset": 0.0,
+    "d_end": 0.0
+   }
+  ]
+ },
+ "synchronization": {
+  "by_pair": [
+   {
+    "pair": "pair_001",
+    "offset_sec": -0.205,
+    "epsilon_sync_ms": 3.0,
+    "drift_ms": 0.0,
+    "sync_quality": "HIGH",
+    "q5_front_mean_ms": 5.4362,
+    "q5_front_max_ms": 11.5444,
+    "q5_back_mean_ms": 1.8004,
+    "q5_back_max_ms": 3.3333,
+    "q5_skew_mean_ms": 7.2366,
+    "q5_skew_max_ms": 11.5444,
+    "q5_n_samples": 187,
+    "decoded_front": 206,
+    "decoded_back": 397
+   },
+   {
+    "pair": "pair_002",
+    "offset_sec": -1.055,
+    "epsilon_sync_ms": 3.0,
+    "drift_ms": 2.0,
+    "sync_quality": "HIGH",
+    "q5_front_mean_ms": 5.7846,
+    "q5_front_max_ms": 6.4,
+    "q5_back_mean_ms": 2.4029,
+    "q5_back_max_ms": 5.0,
+    "q5_skew_mean_ms": 8.1876,
+    "q5_skew_max_ms": 11.4,
+    "q5_n_samples": 249,
+    "decoded_front": 313,
+    "decoded_back": 423
+   },
+   {
+    "pair": "pair_003",
+    "offset_sec": 0.665,
+    "epsilon_sync_ms": 3.0,
+    "drift_ms": 0.0,
+    "sync_quality": "HIGH",
+    "q5_front_mean_ms": 0.455,
+    "q5_front_max_ms": 0.9556,
+    "q5_back_mean_ms": 4.7496,
+    "q5_back_max_ms": 6.6667,
+    "q5_skew_mean_ms": 5.2045,
+    "q5_skew_max_ms": 7.6222,
+    "q5_n_samples": 233,
+    "decoded_front": 234,
+    "decoded_back": 436
+   },
+   {
+    "pair": "pair_004",
+    "offset_sec": -1.285,
+    "epsilon_sync_ms": 18.0,
+    "drift_ms": 36.0,
+    "sync_quality": "HIGH",
+    "q5_front_mean_ms": 2.1897,
+    "q5_front_max_ms": 2.4222,
+    "q5_back_mean_ms": 0.9406,
+    "q5_back_max_ms": 1.6667,
+    "q5_skew_mean_ms": 3.1303,
+    "q5_skew_max_ms": 4.0889,
+    "q5_n_samples": 101,
+    "decoded_front": 179,
+    "decoded_back": 201,
+    "labelled_bound_eps_plus_abs_drift_ms": 54.0
+   },
+   {
+    "pair": "pair_005",
+    "offset_sec": 0.54,
+    "epsilon_sync_ms": 35.0,
+    "drift_ms": 70.0,
+    "sync_quality": "HIGH",
+    "q5_front_mean_ms": 0.4448,
+    "q5_front_max_ms": 0.8778,
+    "q5_back_mean_ms": 4.065,
+    "q5_back_max_ms": 6.6667,
+    "q5_skew_mean_ms": 3.6207,
+    "q5_skew_max_ms": 6.6889,
+    "q5_n_samples": 205,
+    "decoded_front": 206,
+    "decoded_back": 352,
+    "labelled_bound_eps_plus_abs_drift_ms": 105.0
+   },
+   {
+    "pair": "pair_006",
+    "offset_sec": -0.045,
+    "epsilon_sync_ms": 6.0,
+    "drift_ms": -12.0,
+    "sync_quality": "HIGH",
+    "q5_front_mean_ms": 4.7288,
+    "q5_front_max_ms": 5.0444,
+    "q5_back_mean_ms": 1.149,
+    "q5_back_max_ms": 3.3333,
+    "q5_skew_mean_ms": 3.5798,
+    "q5_skew_max_ms": 5.0444,
+    "q5_n_samples": 132,
+    "decoded_front": 135,
+    "decoded_back": 255
+   },
+   {
+    "pair": "pair_007",
+    "offset_sec": 0.415,
+    "epsilon_sync_ms": 4.0,
+    "drift_ms": -8.0,
+    "sync_quality": "HIGH",
+    "q5_front_mean_ms": 0.3137,
+    "q5_front_max_ms": 0.6111,
+    "q5_back_mean_ms": 3.6859,
+    "q5_back_max_ms": 5.0,
+    "q5_skew_mean_ms": 3.9945,
+    "q5_skew_max_ms": 5.6111,
+    "q5_n_samples": 156,
+    "decoded_front": 157,
+    "decoded_back": 239
+   },
+   {
+    "pair": "pair_008",
+    "offset_sec": 0.755,
+    "epsilon_sync_ms": 38.0,
+    "drift_ms": -76.0,
+    "sync_quality": "MEDIUM",
+    "q5_front_mean_ms": 0.3103,
+    "q5_front_max_ms": 0.7222,
+    "q5_back_mean_ms": 2.5806,
+    "q5_back_max_ms": 3.3333,
+    "q5_skew_mean_ms": 2.274,
+    "q5_skew_max_ms": 3.5,
+    "q5_n_samples": 155,
+    "decoded_front": 156,
+    "decoded_back": 270,
+    "labelled_bound_eps_plus_abs_drift_ms": 114.0
+   },
+   {
+    "pair": "pair_009",
+    "offset_sec": 0.225,
+    "epsilon_sync_ms": 3.0,
+    "drift_ms": 0.0,
+    "sync_quality": "HIGH",
+    "q5_front_mean_ms": 0.5018,
+    "q5_front_max_ms": 0.9889,
+    "q5_back_mean_ms": 5.8658,
+    "q5_back_max_ms": 8.3333,
+    "q5_skew_mean_ms": 5.3679,
+    "q5_skew_max_ms": 8.4444,
+    "q5_n_samples": 231,
+    "decoded_front": 232,
+    "decoded_back": 415
+   },
+   {
+    "pair": "pair_010",
+    "offset_sec": 0.08,
+    "epsilon_sync_ms": 7.0,
+    "drift_ms": 14.0,
+    "sync_quality": "HIGH",
+    "q5_front_mean_ms": 0.3494,
+    "q5_front_max_ms": 0.6111,
+    "q5_back_mean_ms": 4.4037,
+    "q5_back_max_ms": 5.0,
+    "q5_skew_mean_ms": 4.7519,
+    "q5_skew_max_ms": 5.6111,
+    "q5_n_samples": 109,
+    "decoded_front": 110,
+    "decoded_back": 256
+   },
+   {
+    "pair": "pair_011",
+    "offset_sec": -0.725,
+    "epsilon_sync_ms": 3.0,
+    "drift_ms": 0.0,
+    "sync_quality": "HIGH",
+    "q5_front_mean_ms": 7.745,
+    "q5_front_max_ms": 8.1444,
+    "q5_back_mean_ms": 1.8697,
+    "q5_back_max_ms": 3.3333,
+    "q5_skew_mean_ms": 5.8753,
+    "q5_skew_max_ms": 8.1444,
+    "q5_n_samples": 197,
+    "decoded_front": 241,
+    "decoded_back": 275
+   },
+   {
+    "pair": "pair_012",
+    "offset_sec": 1.395,
+    "epsilon_sync_ms": 3.0,
+    "drift_ms": 0.0,
+    "sync_quality": "HIGH",
+    "q5_front_mean_ms": 0.5481,
+    "q5_front_max_ms": 1.0667,
+    "q5_back_mean_ms": 7.1589,
+    "q5_back_max_ms": 8.3333,
+    "q5_skew_mean_ms": 6.6552,
+    "q5_skew_max_ms": 8.5889,
+    "q5_n_samples": 237,
+    "decoded_front": 238,
+    "decoded_back": 446
+   },
+   {
+    "pair": "pair_013",
+    "offset_sec": 6.695,
+    "epsilon_sync_ms": 3.0,
+    "drift_ms": 0.0,
+    "sync_quality": "HIGH",
+    "q5_front_mean_ms": 0.9209,
+    "q5_front_max_ms": 1.7889,
+    "q5_back_mean_ms": 8.354,
+    "q5_back_max_ms": 16.6667,
+    "q5_skew_mean_ms": 8.405,
+    "q5_skew_max_ms": 17.7333,
+    "q5_n_samples": 403,
+    "decoded_front": 404,
+    "decoded_back": 608
+   },
+   {
+    "pair": "pair_014",
+    "offset_sec": -1.82,
+    "epsilon_sync_ms": 3.0,
+    "drift_ms": 0.0,
+    "sync_quality": "HIGH",
+    "q5_front_mean_ms": 4.1076,
+    "q5_front_max_ms": 4.4444,
+    "q5_back_mean_ms": 1.5064,
+    "q5_back_max_ms": 3.3333,
+    "q5_skew_mean_ms": 5.614,
+    "q5_skew_max_ms": 7.7778,
+    "q5_n_samples": 156,
+    "decoded_front": 266,
+    "decoded_back": 276
+   },
+   {
+    "pair": "pair_015",
+    "offset_sec": -1.47,
+    "epsilon_sync_ms": 37.0,
+    "drift_ms": 74.0,
+    "sync_quality": "HIGH",
+    "q5_front_mean_ms": 4.327,
+    "q5_front_max_ms": 4.8667,
+    "q5_back_mean_ms": 8.3333,
+    "q5_back_max_ms": 16.6667,
+    "q5_skew_mean_ms": 8.3913,
+    "q5_skew_max_ms": 20.5222,
+    "q5_n_samples": 250,
+    "decoded_front": 339,
+    "decoded_back": 190,
+    "labelled_bound_eps_plus_abs_drift_ms": 111.0
+   },
+   {
+    "pair": "pair_016",
+    "offset_sec": -1.675,
+    "epsilon_sync_ms": 10.0,
+    "drift_ms": -20.0,
+    "sync_quality": "HIGH",
+    "q5_front_mean_ms": 6.9572,
+    "q5_front_max_ms": 7.9889,
+    "q5_back_mean_ms": 8.3333,
+    "q5_back_max_ms": 16.6667,
+    "q5_skew_mean_ms": 11.2317,
+    "q5_skew_max_ms": 24.6556,
+    "q5_n_samples": 450,
+    "decoded_front": 551,
+    "decoded_back": 310,
+    "labelled_bound_eps_plus_abs_drift_ms": 30.0
+   },
+   {
+    "pair": "pair_017",
+    "offset_sec": 0.355,
+    "epsilon_sync_ms": 3.0,
+    "drift_ms": 0.0,
+    "sync_quality": "HIGH",
+    "q5_front_mean_ms": 0.4894,
+    "q5_front_max_ms": 0.9333,
+    "q5_back_mean_ms": 8.3752,
+    "q5_back_max_ms": 16.6667,
+    "q5_skew_mean_ms": 8.3742,
+    "q5_skew_max_ms": 17.5444,
+    "q5_n_samples": 199,
+    "decoded_front": 200,
+    "decoded_back": 200
+   },
+   {
+    "pair": "pair_018",
+    "offset_sec": 1.405,
+    "epsilon_sync_ms": 3.0,
+    "drift_ms": 0.0,
+    "sync_quality": "HIGH",
+    "q5_front_mean_ms": 0.4872,
+    "q5_front_max_ms": 0.8778,
+    "q5_back_mean_ms": 8.355,
+    "q5_back_max_ms": 16.6667,
+    "q5_skew_mean_ms": 8.3664,
+    "q5_skew_max_ms": 17.4556,
+    "q5_n_samples": 154,
+    "decoded_front": 155,
+    "decoded_back": 198
+   },
+   {
+    "pair": "pair_019",
+    "offset_sec": -2.38,
+    "epsilon_sync_ms": 8.0,
+    "drift_ms": -16.0,
+    "sync_quality": "MEDIUM",
+    "q5_front_mean_ms": 2.2432,
+    "q5_front_max_ms": 2.8222,
+    "q5_back_mean_ms": 2.1834,
+    "q5_back_max_ms": 5.0,
+    "q5_skew_mean_ms": 1.4545,
+    "q5_skew_max_ms": 3.2556,
+    "q5_n_samples": 229,
+    "decoded_front": 372,
+    "decoded_back": 231,
+    "labelled_bound_eps_plus_abs_drift_ms": 24.0
+   },
+   {
+    "pair": "pair_020",
+    "offset_sec": 3.32,
+    "epsilon_sync_ms": 3.0,
+    "drift_ms": 0.0,
+    "sync_quality": "HIGH",
+    "q5_front_mean_ms": 0.3018,
+    "q5_front_max_ms": 0.6444,
+    "q5_back_mean_ms": 2.0701,
+    "q5_back_max_ms": 3.3333,
+    "q5_skew_mean_ms": 2.3718,
+    "q5_skew_max_ms": 3.9778,
+    "q5_n_samples": 157,
+    "decoded_front": 158,
+    "decoded_back": 490
+   },
+   {
+    "pair": "pair_021",
+    "offset_sec": -1.25,
+    "epsilon_sync_ms": 3.0,
+    "drift_ms": 0.0,
+    "sync_quality": "HIGH",
+    "q5_front_mean_ms": 0.883,
+    "q5_front_max_ms": 1.4667,
+    "q5_back_mean_ms": 2.6164,
+    "q5_back_max_ms": 5.0,
+    "q5_skew_mean_ms": 3.4994,
+    "q5_skew_max_ms": 6.4667,
+    "q5_n_samples": 272,
+    "decoded_front": 348,
+    "decoded_back": 383
+   },
+   {
+    "pair": "pair_022",
+    "offset_sec": -1.565,
+    "epsilon_sync_ms": 3.0,
+    "drift_ms": 0.0,
+    "sync_quality": "MEDIUM",
+    "q5_front_mean_ms": 0.8393,
+    "q5_front_max_ms": 1.3444,
+    "q5_back_mean_ms": 2.0413,
+    "q5_back_max_ms": 5.0,
+    "q5_skew_mean_ms": 1.6671,
+    "q5_skew_max_ms": 4.6333,
+    "q5_n_samples": 218,
+    "decoded_front": 312,
+    "decoded_back": 332
+   },
+   {
+    "pair": "pair_023",
+    "offset_sec": -0.03,
+    "epsilon_sync_ms": 3.0,
+    "drift_ms": 0.0,
+    "sync_quality": "HIGH",
+    "q5_front_mean_ms": 2.6366,
+    "q5_front_max_ms": 3.3,
+    "q5_back_mean_ms": 3.0398,
+    "q5_back_max_ms": 6.6667,
+    "q5_skew_mean_ms": 1.9774,
+    "q5_skew_max_ms": 4.7333,
+    "q5_n_samples": 318,
+    "decoded_front": 320,
+    "decoded_back": 430
+   },
+   {
+    "pair": "pair_024",
+    "offset_sec": 1.235,
+    "epsilon_sync_ms": 3.0,
+    "drift_ms": 0.0,
+    "sync_quality": "HIGH",
+    "q5_front_mean_ms": 1.0172,
+    "q5_front_max_ms": 2.0444,
+    "q5_back_mean_ms": 4.3819,
+    "q5_back_max_ms": 8.3333,
+    "q5_skew_mean_ms": 4.7919,
+    "q5_skew_max_ms": 10.0556,
+    "q5_n_samples": 480,
+    "decoded_front": 481,
+    "decoded_back": 736
+   },
+   {
+    "pair": "pair_025",
+    "offset_sec": -0.59,
+    "epsilon_sync_ms": 3.0,
+    "drift_ms": 0.0,
+    "sync_quality": "HIGH",
+    "q5_front_mean_ms": 7.2416,
+    "q5_front_max_ms": 7.6889,
+    "q5_back_mean_ms": 1.9471,
+    "q5_back_max_ms": 3.3333,
+    "q5_skew_mean_ms": 9.1887,
+    "q5_skew_max_ms": 11.0222,
+    "q5_n_samples": 208,
+    "decoded_front": 244,
+    "decoded_back": 335
+   }
+  ],
+  "strata": {
+   "pooled": {
+    "pairs": 25,
+    "median_epsilon_ms": 3.0,
+    "median_abs_drift_ms": 0.0,
+    "max_abs_drift_ms": 76.0,
+    "median_q5_skew_max_ms": 7.778
+   },
+   "near_frame": {
+    "pairs": 4,
+    "median_epsilon_ms": 36.0,
+    "median_abs_drift_ms": 72.0,
+    "max_abs_drift_ms": 76.0,
+    "median_q5_skew_max_ms": 5.389
+   },
+   "medium_quality": {
+    "pairs": 3,
+    "median_epsilon_ms": 8.0,
+    "median_abs_drift_ms": 16.0,
+    "max_abs_drift_ms": 76.0,
+    "median_q5_skew_max_ms": 3.5
+   }
+  },
+  "gap1_caveat": "Drift is reported, never applied (GAP-1): where drift != 0, epsilon_sync_ms is a LOWER BOUND on end-of-window misalignment. Labelled bound epsilon+|drift| given for pairs 004/005/008/015/016/019 per design OQ-2.",
+  "coverage": "Decoded frames per camera in by_pair (decoded_*); Stage J gates verified decoded == Phase 12C forensic counts for all 50 videos (corpus front 6,557 / back 8,684)."
+ },
+ "not_computable": {
+  "person_detection": "No GT person entities exist in the frozen release (protocol \u00a73). Substitute: Stage J count reproduction delta 0 + head/rider families.",
+  "motorcycle_frame_level_detection_ap": "Release stores no per-frame GT motorcycle boxes (protocol \u00a73); track-level metrics + anchored-box verification reported instead.",
+  "hota": "NOT COMPUTED \u2014 protocol \u00a76: release lacks per-frame box trajectories for motorcycle/person; head-only HOTA would not be the standard metric.",
+  "rider_association_item_level": "Stage J output has no per-item rider association results (protocol \u00a77)."
+ }
+}

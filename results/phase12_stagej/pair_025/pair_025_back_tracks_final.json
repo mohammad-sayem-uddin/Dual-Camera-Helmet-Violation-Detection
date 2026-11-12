@@ -1,0 +1,147 @@
+{
+ "duplicate_ticks_skipped": 0,
+ "frames_updated": 335,
+ "moto_tracks": [
+  {
+   "age": 136,
+   "bbox": [
+    1900.62,
+    656.55,
+    2096.75,
+    956.04
+   ],
+   "camera_id": "back",
+   "confidence": 0.5504,
+   "first_pts_sec": 3.32,
+   "hits": 136,
+   "last_pts_sec": 5.573333,
+   "lifecycle_state": "CONFIRMED",
+   "moto_track_id": "back_moto_0001",
+   "recovery_count": 0,
+   "rider_abstained_updates": 122,
+   "rider_pts_history": {
+    "0": [
+     [
+      206,
+      3.436667,
+      [
+       3594.77,
+       804.31,
+       3726.47,
+       926.89
+      ],
+      "no_helmet",
+      0.2826
+     ]
+    ]
+   },
+   "rider_subtracks": {
+    "0": {
+     "abstained_updates_count": 121,
+     "age": 129,
+     "aggregated_confidence": {
+      "helmet": 0.0,
+      "no_helmet": 0.0
+     },
+     "alerts_emitted": 0,
+     "bbox": [
+      3594.77,
+      804.31,
+      3726.47,
+      926.89
+     ],
+     "camera_id": "back",
+     "consecutive_helmet_frames": 0,
+     "consecutive_no_helmet_frames": 1,
+     "hits": 1,
+     "last_coupling_score": 0.9714,
+     "ordering_confident": true,
+     "parent_moto_id": "back_moto_0001",
+     "slot_index": 0,
+     "slot_role": "driver",
+     "subtrack_id": "back_moto_0001_rider_s0",
+     "temporal_state": "TRACK_LOST",
+     "time_since_update": 128
+    }
+   },
+   "slot_spatial_conflicts_detected": 122,
+   "spatial_identity_overrides": 0,
+   "stage2_low_conf_matches": 1,
+   "time_since_update": 0,
+   "velocity_xy": [
+    -3.943,
+    -3.976
+   ]
+  }
+ ],
+ "orphan_tracks": [
+  {
+   "aggregated_confidence": {
+    "helmet": 0.3705,
+    "no_helmet": 0.6295
+   },
+   "alerts_emitted": 0,
+   "bbox": [
+    1361.35,
+    415.96,
+    1403.88,
+    477.89
+   ],
+   "camera_id": "back",
+   "hits": 1,
+   "last_rejection_reason": "NO_MOTORCYCLE_IN_FRAME",
+   "lifecycle_state": "TERMINATED",
+   "orphan_track_id": "back_orphan_0001",
+   "pts_history": [
+    [
+     6,
+     0.1,
+     [
+      1361.35,
+      415.96,
+      1403.88,
+      477.89
+     ],
+     "no_helmet",
+     0.2589
+    ]
+   ],
+   "temporal_state": "TEMPORARILY_OCCLUDED",
+   "time_since_update": 9
+  },
+  {
+   "aggregated_confidence": {
+    "helmet": 0.3547,
+    "no_helmet": 0.6453
+   },
+   "alerts_emitted": 0,
+   "bbox": [
+    1100.98,
+    531.71,
+    1167.64,
+    609.83
+   ],
+   "camera_id": "back",
+   "hits": 1,
+   "last_rejection_reason": "LATERAL_OUT_OF_BOUNDS",
+   "lifecycle_state": "TERMINATED",
+   "orphan_track_id": "back_orphan_0002",
+   "pts_history": [
+    [
+     265,
+     4.421667,
+     [
+      1100.98,
+      531.71,
+      1167.64,
+      609.83
+     ],
+     "no_helmet",
+     0.2907
+    ]
+   ],
+   "temporal_state": "TEMPORARILY_OCCLUDED",
+   "time_since_update": 9
+  }
+ ]
+}

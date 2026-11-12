@@ -1,0 +1,46 @@
+# Annotation configuration — dual_camera_test_v1 final package (corrected view)
+# Provenance semantics and correction rules exactly as applied by the package build
+# (work/package/build_package.py) and validated by Pass 3 (work/pass3/step2_corrected_view.py).
+dataset_id: dual_camera_test_v1
+annotation_label: AI_ASSISTED_AUDITED   # NOT human-verified ground truth
+schema_version: "1.0.0"
+reference_clock: back_stream_pts        # Phase 11/12C convention; front t_ref = front pts + global_offset_sec
+
+models:
+  vehicle_person:
+    weights: yolov8n.pt
+    sha256: f59b3d833e2ff32e194b5bb8e08d211dc7c5bdf144b90d2c8412c47ccfc83b36
+    classes: {0: person, 3: motorcycle}   # COCO subset used
+    conf_threshold_low: 0.18              # ByteTrack stage-2 recovery (configs/tracking_config.yaml)
+    conf_threshold_high: 0.45             # ByteTrack stage-1 / track init
+    iou_nms_threshold: 0.45
+  helmet:
+    weights: results/phase9_multiseed/exp_combined/seed_42/weights/best.pt
+    sha256: 0929a882667e0f7e2b631071ab218a2415cc1b816cdede7fb6812543d840b0e5
+    classes: {0: no_helmet, 1: helmet}    # cranial (head) detections only
+    conf_threshold: 0.25
+    iou_nms_threshold: 0.45
+pipeline_configs:
+  tracking: configs/tracking_config.yaml            # Phase 12D (approved, unmodified)
+  association: configs/cross_camera_association_config.yaml  # Phase 12E (approved, unmodified)
+  temporal: configs/temporal_config.yaml            # Phase 10 (approved, unmodified)
+
+execution:
+  pass1_venue: Kaggle T4 GPU (account elafahmed6563), kernel elafahmed6563/helmet-pass1-annotation v2
+  decoding: sequential only, original PTS; frame-index seeking never used (VFR-safe)
+  pass2_pass3_venue: local VM, programmatic + AI visual audits
+
+annotation_semantics:
+  rider_frame_helmet_state: "argmax(rider subtrack aggregated_confidence) if max >= 0.5 else UNCERTAIN"
+  rider_track_helmet_state: "modal confident frame state; UNCERTAIN on tie or no confident frames"
+  constant_state_corrections: "SET_CONSTANT_HELMET_STATE ops replace every frame state of the subtrack with the audited constant (provenance MANUAL_CORRECTION)"
+  off_frame_criterion_px: 100   # |coord| beyond the 3840x2160 frame by >100 px => box invalid (CLIP_OFF_FRAME_BOX)
+  event_taxonomy: [DRIVER_NO_HELMET, PILLION_NO_HELMET, BOTH_NO_HELMET, NO_VIOLATION, INSUFFICIENT_VISUAL_EVIDENCE]
+  provenance_vocabulary: [AI_DIRECT, AI_TRACK_PROPAGATED, AI_INTERPOLATED, MANUAL_CORRECTION, UNCERTAIN]
+  plates: "not annotated (OCR out of scope); plate_visibility_tier = NOT_ASSESSED, plate text never asserted"
+
+corrections:
+  total_ops: 69
+  pass2_ops: 63    # work/pass2/corrections.csv
+  pass3_addendum_ops: 6   # work/pass3/corrections_addendum.csv (EXCLUDE_FP_TRACK from the Pass 3 fresh visual sample)
+  initial_annotations_immutable: work/pass1/ is the untouched Pass 1 release; corrections are a view, never an edit

@@ -1,0 +1,443 @@
+{
+ "duplicate_ticks_skipped": 0,
+ "frames_updated": 255,
+ "moto_tracks": [
+  {
+   "age": 2,
+   "bbox": [
+    0.17,
+    1414.79,
+    241.34,
+    2093.92
+   ],
+   "camera_id": "back",
+   "confidence": 0.6531,
+   "first_pts_sec": 1.935,
+   "hits": 1,
+   "last_pts_sec": 1.935,
+   "lifecycle_state": "TERMINATED",
+   "moto_track_id": "back_moto_0001",
+   "recovery_count": 0,
+   "rider_abstained_updates": 0,
+   "rider_pts_history": {},
+   "rider_subtracks": {},
+   "slot_spatial_conflicts_detected": 0,
+   "spatial_identity_overrides": 0,
+   "stage2_low_conf_matches": 0,
+   "time_since_update": 1,
+   "velocity_xy": [
+    0.0,
+    0.0
+   ]
+  },
+  {
+   "age": 2,
+   "bbox": [
+    2629.95,
+    557.25,
+    2711.85,
+    685.37
+   ],
+   "camera_id": "back",
+   "confidence": 0.4603,
+   "first_pts_sec": 2.886667,
+   "hits": 1,
+   "last_pts_sec": 2.886667,
+   "lifecycle_state": "TERMINATED",
+   "moto_track_id": "back_moto_0003",
+   "recovery_count": 0,
+   "rider_abstained_updates": 0,
+   "rider_pts_history": {},
+   "rider_subtracks": {},
+   "slot_spatial_conflicts_detected": 0,
+   "spatial_identity_overrides": 0,
+   "stage2_low_conf_matches": 0,
+   "time_since_update": 1,
+   "velocity_xy": [
+    0.0,
+    0.0
+   ]
+  },
+  {
+   "age": 2,
+   "bbox": [
+    2615.77,
+    555.97,
+    2713.55,
+    692.12
+   ],
+   "camera_id": "back",
+   "confidence": 0.515,
+   "first_pts_sec": 2.953333,
+   "hits": 1,
+   "last_pts_sec": 2.953333,
+   "lifecycle_state": "TERMINATED",
+   "moto_track_id": "back_moto_0004",
+   "recovery_count": 0,
+   "rider_abstained_updates": 0,
+   "rider_pts_history": {},
+   "rider_subtracks": {},
+   "slot_spatial_conflicts_detected": 0,
+   "spatial_identity_overrides": 0,
+   "stage2_low_conf_matches": 0,
+   "time_since_update": 1,
+   "velocity_xy": [
+    0.0,
+    0.0
+   ]
+  },
+  {
+   "age": 137,
+   "bbox": [
+    2227.87,
+    694.87,
+    2343.95,
+    881.87
+   ],
+   "camera_id": "back",
+   "confidence": 0.6657,
+   "first_pts_sec": 1.968333,
+   "hits": 137,
+   "last_pts_sec": 4.238333,
+   "lifecycle_state": "CONFIRMED",
+   "moto_track_id": "back_moto_0002",
+   "recovery_count": 0,
+   "rider_abstained_updates": 132,
+   "rider_pts_history": {
+    "0": [
+     [
+      121,
+      2.018333,
+      [
+       3.96,
+       729.95,
+       307.07,
+       1036.97
+      ],
+      "no_helmet",
+      0.2728
+     ]
+    ]
+   },
+   "rider_subtracks": {
+    "0": {
+     "abstained_updates_count": 128,
+     "age": 134,
+     "aggregated_confidence": {
+      "helmet": 0.0,
+      "no_helmet": 0.0
+     },
+     "alerts_emitted": 0,
+     "bbox": [
+      3.96,
+      729.95,
+      307.07,
+      1036.97
+     ],
+     "camera_id": "back",
+     "consecutive_helmet_frames": 0,
+     "consecutive_no_helmet_frames": 1,
+     "hits": 1,
+     "last_coupling_score": 0.9696,
+     "ordering_confident": true,
+     "parent_moto_id": "back_moto_0002",
+     "slot_index": 0,
+     "slot_role": "driver",
+     "subtrack_id": "back_moto_0002_rider_s0",
+     "temporal_state": "TRACK_LOST",
+     "time_since_update": 133
+    }
+   },
+   "slot_spatial_conflicts_detected": 132,
+   "spatial_identity_overrides": 0,
+   "stage2_low_conf_matches": 0,
+   "time_since_update": 0,
+   "velocity_xy": [
+    1.294,
+    -1.543
+   ]
+  }
+ ],
+ "orphan_tracks": [
+  {
+   "aggregated_confidence": {
+    "helmet": 0.3337,
+    "no_helmet": 0.6663
+   },
+   "alerts_emitted": 0,
+   "bbox": [
+    2170.72,
+    15.87,
+    2275.16,
+    113.65
+   ],
+   "camera_id": "back",
+   "hits": 8,
+   "last_rejection_reason": "LATERAL_OUT_OF_BOUNDS",
+   "lifecycle_state": "TERMINATED",
+   "orphan_track_id": "back_orphan_0001",
+   "pts_history": [
+    [
+     24,
+     0.4,
+     [
+      2170.19,
+      9.32,
+      2256.22,
+      90.15
+     ],
+     "no_helmet",
+     0.3189
+    ],
+    [
+     25,
+     0.416667,
+     [
+      2170.97,
+      9.24,
+      2257.58,
+      90.31
+     ],
+     "no_helmet",
+     0.3697
+    ],
+    [
+     26,
+     0.433333,
+     [
+      2170.65,
+      8.32,
+      2260.81,
+      93.37
+     ],
+     "no_helmet",
+     0.3717
+    ],
+    [
+     27,
+     0.45,
+     [
+      2170.22,
+      8.12,
+      2263.52,
+      95.76
+     ],
+     "no_helmet",
+     0.3434
+    ],
+    [
+     28,
+     0.466667,
+     [
+      2168.94,
+      7.52,
+      2266.0,
+      96.49
+     ],
+     "no_helmet",
+     0.2544
+    ],
+    [
+     29,
+     0.483333,
+     [
+      2170.09,
+      10.44,
+      2265.87,
+      98.14
+     ],
+     "no_helmet",
+     0.2537
+    ],
+    [
+     30,
+     0.5,
+     [
+      2169.49,
+      15.39,
+      2265.97,
+      106.91
+     ],
+     "no_helmet",
+     0.3235
+    ],
+    [
+     31,
+     0.516667,
+     [
+      2169.91,
+      10.75,
+      2265.56,
+      97.82
+     ],
+     "no_helmet",
+     0.386
+    ]
+   ],
+   "temporal_state": "TEMPORARILY_OCCLUDED",
+   "time_since_update": 9
+  },
+  {
+   "aggregated_confidence": {
+    "helmet": 0.3229,
+    "no_helmet": 0.6771
+   },
+   "alerts_emitted": 0,
+   "bbox": [
+    2242.8,
+    -3.28,
+    2317.68,
+    72.09
+   ],
+   "camera_id": "back",
+   "hits": 6,
+   "last_rejection_reason": "NO_MOTORCYCLE_IN_FRAME",
+   "lifecycle_state": "TERMINATED",
+   "orphan_track_id": "back_orphan_0002",
+   "pts_history": [
+    [
+     45,
+     0.751667,
+     [
+      2187.11,
+      6.59,
+      2273.66,
+      95.27
+     ],
+     "no_helmet",
+     0.4277
+    ],
+    [
+     46,
+     0.768333,
+     [
+      2189.66,
+      13.67,
+      2275.04,
+      97.1
+     ],
+     "no_helmet",
+     0.3347
+    ],
+    [
+     47,
+     0.785,
+     [
+      2187.15,
+      12.13,
+      2273.59,
+      95.34
+     ],
+     "no_helmet",
+     0.3519
+    ],
+    [
+     50,
+     0.835,
+     [
+      2188.61,
+      25.28,
+      2273.78,
+      103.34
+     ],
+     "no_helmet",
+     0.2656
+    ],
+    [
+     51,
+     0.851667,
+     [
+      2187.07,
+      15.41,
+      2278.75,
+      101.55
+     ],
+     "no_helmet",
+     0.3475
+    ],
+    [
+     60,
+     1.001667,
+     [
+      2220.15,
+      3.88,
+      2300.4,
+      82.72
+     ],
+     "no_helmet",
+     0.3755
+    ]
+   ],
+   "temporal_state": "TEMPORARILY_OCCLUDED",
+   "time_since_update": 9
+  },
+  {
+   "aggregated_confidence": {
+    "helmet": 0.2741,
+    "no_helmet": 0.7259
+   },
+   "alerts_emitted": 0,
+   "bbox": [
+    2238.69,
+    41.21,
+    2326.49,
+    127.15
+   ],
+   "camera_id": "back",
+   "hits": 1,
+   "last_rejection_reason": "NO_MOTORCYCLE_IN_FRAME",
+   "lifecycle_state": "TERMINATED",
+   "orphan_track_id": "back_orphan_0003",
+   "pts_history": [
+    [
+     76,
+     1.268333,
+     [
+      2238.69,
+      41.21,
+      2326.49,
+      127.15
+     ],
+     "no_helmet",
+     0.4519
+    ]
+   ],
+   "temporal_state": "TEMPORARILY_OCCLUDED",
+   "time_since_update": 9
+  },
+  {
+   "aggregated_confidence": {
+    "helmet": 0.3604,
+    "no_helmet": 0.6396
+   },
+   "alerts_emitted": 0,
+   "bbox": [
+    2274.19,
+    18.51,
+    2358.9,
+    96.42
+   ],
+   "camera_id": "back",
+   "hits": 1,
+   "last_rejection_reason": "NO_MOTORCYCLE_IN_FRAME",
+   "lifecycle_state": "TERMINATED",
+   "orphan_track_id": "back_orphan_0004",
+   "pts_history": [
+    [
+     89,
+     1.485,
+     [
+      2274.19,
+      18.51,
+      2358.9,
+      96.42
+     ],
+     "no_helmet",
+     0.2791
+    ]
+   ],
+   "temporal_state": "TEMPORARILY_OCCLUDED",
+   "time_since_update": 9
+  }
+ ]
+}

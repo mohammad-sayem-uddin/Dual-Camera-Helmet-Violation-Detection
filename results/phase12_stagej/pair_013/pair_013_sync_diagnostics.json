@@ -1,0 +1,117 @@
+{
+ "back_stream": {
+  "avg_frame_rate": "121600/3027",
+  "canonical_shift_sec": 0.0,
+  "count_dt_30fps": 299,
+  "count_dt_60fps": 308,
+  "count_dt_other": 0,
+  "duration_norm_sec": 15.118333,
+  "effective_fps": 40.1499,
+  "filename": "pair_013_back.mp4",
+  "frame_count": 608,
+  "interval_spread_ms": 18.3333,
+  "is_vfr": true,
+  "max_interval_ms": 35.0,
+  "mean_interval_ms": 24.9066,
+  "median_interval_ms": 16.6667,
+  "min_interval_ms": 16.6667,
+  "nominal_fps_max_error_frame_idx": 308,
+  "nominal_fps_max_error_ms": 2531.2466,
+  "nominal_fps_mean_error_ms": 1264.1146,
+  "nominal_fps_p95_error_ms": 2403.5258,
+  "nominal_grid_deviation_ms": {
+   "max": 2531.2466,
+   "mean": 1264.1146
+  },
+  "r_frame_rate": "60000/1001",
+  "start_pts_ticks": 0,
+  "start_time_raw_sec": 0.0,
+  "std_interval_ms": 8.3441,
+  "time_base": "1/19200"
+ },
+ "delta_pts_field_definitions": {
+  "nominal_grid_deviation_ms": "Deviation of true PTS from a uniform idx/effective_fps grid. NOT Q5; reported under its own name only (GAP-4).",
+  "observed_frame_record.delta_pts_ms": "TrackletBuilder fallback = the record's Q5 mean for that camera (no per-frame lookup exists in the primary loop)",
+  "timestamp_quality_record.mean/max_delta_pts_*_ms": "Q5 true nearest-frame lookup statistics over the overlap window (see q5_overlap_lookup_stats)"
+ },
+ "drift_ms": 0.0,
+ "drift_status": "STABLE_SUB_FRAME",
+ "epsilon_sync_ms": 3.0,
+ "exposure_sync_model": "container_pts_alignment_not_physical_exposure_genlock",
+ "final_offset_sec": 4.595,
+ "front_stream": {
+  "avg_frame_rate": "1515000/25243",
+  "canonical_shift_sec": 6.695,
+  "count_dt_30fps": 0,
+  "count_dt_60fps": 403,
+  "count_dt_other": 0,
+  "duration_norm_sec": 6.714867,
+  "effective_fps": 60.0161,
+  "filename": "pair_013_front.mp4",
+  "frame_count": 404,
+  "interval_spread_ms": 0.8,
+  "is_vfr": false,
+  "max_interval_ms": 17.1556,
+  "mean_interval_ms": 16.6622,
+  "median_interval_ms": 16.6667,
+  "min_interval_ms": 16.3556,
+  "nominal_fps_max_error_frame_idx": 86,
+  "nominal_fps_max_error_ms": 0.4175,
+  "nominal_fps_mean_error_ms": 0.043,
+  "nominal_fps_p95_error_ms": 0.0931,
+  "nominal_grid_deviation_ms": {
+   "max": 0.4175,
+   "mean": 0.043
+  },
+  "r_frame_rate": "60/1",
+  "start_pts_ticks": 4716,
+  "start_time_raw_sec": 0.0524,
+  "std_interval_ms": 0.0594,
+  "time_base": "1/90000"
+ },
+ "initial_offset_sec": 8.357,
+ "offset_sec": 6.695,
+ "overlap": {
+  "back_frames_in_overlap": 201,
+  "duration_sec": 6.714867,
+  "end_back_sec": 13.409867,
+  "front_frames_in_overlap": 404,
+  "start_back_sec": 6.695
+ },
+ "pair_id": "pair_013",
+ "q5_overlap_lookup_stats": {
+  "definition": "Q5 true nearest-frame (presentation) error: |actual_pts_norm - target| per FramePTSIndex.nearest_frame lookup over the overlap window; front target = t_ref - offset_sec, back target = t_ref (design S3/S7.9). Distinct from epsilon_sync_ms (Q4) and from nominal_grid_deviation_ms.",
+  "delta_pts_back_ms": {
+   "max": 16.6667,
+   "mean": 8.354
+  },
+  "delta_pts_front_ms": {
+   "max": 1.7889,
+   "mean": 0.9209
+  },
+  "inter_camera_pts_skew_ms": {
+   "max": 17.7333,
+   "mean": 8.405
+  },
+  "n_samples": 403,
+  "signed_delta_pts_back_ms_mean": -0.7444,
+  "signed_delta_pts_front_ms_mean": -0.9205,
+  "tick_hz": 60.0
+ },
+ "reader_counters": {
+  "back_cache_hit_count": 0,
+  "back_decode_call_count": 608,
+  "front_cache_hit_count": 0,
+  "front_decode_call_count": 404
+ },
+ "reference_clock_anchor": "back_stream_pts",
+ "sync_quality": "HIGH",
+ "transit_time_model": {
+  "expected_transit_delay_sec": 0.75,
+  "max_transit_delay_sec": 6.0,
+  "min_transit_delay_sec": -3.5,
+  "note": "Q6 delta_transit_sec is a physical FOV-transit phenomenon modelled inside Phase 12E candidate generation/scoring; it is never a clock error and is never corrected by shifting timestamps (design S3).",
+  "transit_sigma_sec": 1.5,
+  "transit_uncertainty_sec": 0.35
+ }
+}

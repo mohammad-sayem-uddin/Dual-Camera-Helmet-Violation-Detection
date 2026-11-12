@@ -1,0 +1,31 @@
+Tue Nov 10 00:03:40 2026       
++-----------------------------------------------------------------------------------------+
+| NVIDIA-SMI 580.178.04             Driver Version: 580.178.04     CUDA Version: 13.0     |
++-----------------------------------------+------------------------+----------------------+
+| GPU  Name                 Persistence-M | Bus-Id          Disp.A | Volatile Uncorr. ECC |
+| Fan  Temp   Perf          Pwr:Usage/Cap |           Memory-Usage | GPU-Util  Compute M. |
+|                                         |                        |               MIG M. |
+|=========================================+========================+======================|
+|   0  Tesla T4                       Off |   00000000:00:04.0 Off |                    0 |
+| N/A   35C    P8              9W /   70W |       0MiB /  15360MiB |      0%      Default |
+|                                         |                        |                  N/A |
++-----------------------------------------+------------------------+----------------------+
+|   1  Tesla T4                       Off |   00000000:00:05.0 Off |                    0 |
+| N/A   43C    P8             10W /   70W |       0MiB /  15360MiB |      0%      Default |
+|                                         |                        |                  N/A |
++-----------------------------------------+------------------------+----------------------+
+
++-----------------------------------------------------------------------------------------+
+| Processes:                                                                              |
+|  GPU   GI   CI              PID   Type   Process name                        GPU Memory |
+|        ID   ID                                                               Usage      |
+|=========================================================================================|
+|  No running processes found                                                             |
++-----------------------------------------------------------------------------------------+
+
+torch 2.11.0+cu130 cuda=True device=Tesla T4
+ultralytics 8.4.208 cv2 4.14.0 (pip-installed)
+manifest counts: {'COMPLETE': 25}
+pair summaries: 25/25
+staged weight hashes (from run manifest): {'association_config_sha256': 'e6da76a9a9bc571c764803d27ba9dd298acca60f460d4d4a005225a447fef848', 'metadata_sha256': '7ca8f86d712e06981fd57d2a4f0fd594c35881ffa91ec8a091b04fb6737c0009', 'tracking_config_sha256': '681baa01eb257acfe94a703647cc32566fc9e59275e246e0777e89b878899a0b', 'weights_phase9_best_sha256': '0929a882667e0f7e2b631071ab218a2415cc1b816cdede7fb6812543d840b0e5', 'weights_yolov8n_sha256': 'f59b3d833e2ff32e194b5bb8e08d211dc7c5bdf144b90d2c8412c47ccfc83b36'}
+kernel wall time: 958 s

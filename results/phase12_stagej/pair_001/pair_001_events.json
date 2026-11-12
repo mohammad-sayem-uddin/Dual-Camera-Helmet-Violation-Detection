@@ -1,0 +1,126 @@
+[
+ {
+  "association_outcome": "UNMATCHED",
+  "association_score": 0.0,
+  "back_track_id": null,
+  "cross_camera_link_status": "FRONT_VIEW_ONLY",
+  "decision_reasons": [
+   "TEMPORAL_SCORE_BELOW_MIN_GATE"
+  ],
+  "event_is_violation": true,
+  "front_track_id": "front_moto_0001",
+  "global_moto_id": "pair_001_moto_01",
+  "phase10_alert_ids": [
+   "VIOLATION-1-4-3E9209",
+   "VIOLATION-1-94-A8AAC4",
+   "VIOLATION-2-4-FC0441"
+  ],
+  "plate_ground_truth": {
+   "gt_plate_text_normalized": null,
+   "note": "Plate assessment is out of scope for the integrated pipeline (no Phase 12F/OCR); no plate text is asserted.",
+   "plate_visibility_tier": "NOT_ASSESSED"
+  },
+  "rider_count": 3,
+  "riders": [
+   {
+    "helmet_state": "NO_HELMET",
+    "helmet_state_provenance": "AI_DIRECT",
+    "recorded_slot_roles": [
+     "driver"
+    ],
+    "rider_slot": 0,
+    "role": "driver",
+    "violation_window_ref_sec": [
+     -0.205,
+     2.777567
+    ]
+   },
+   {
+    "helmet_state": "NO_HELMET",
+    "helmet_state_provenance": "AI_DIRECT",
+    "recorded_slot_roles": [
+     "pillion_1"
+    ],
+    "rider_slot": 1,
+    "role": "pillion_1",
+    "violation_window_ref_sec": [
+     -0.205,
+     2.777567
+    ]
+   },
+   {
+    "helmet_state": "NO_HELMET",
+    "helmet_state_provenance": "AI_DIRECT",
+    "recorded_slot_roles": [
+     "driver"
+    ],
+    "rider_slot": 2,
+    "role": "pillion_2",
+    "violation_window_ref_sec": [
+     -0.205,
+     2.777567
+    ]
+   }
+  ],
+  "violation_event_type": "BOTH_NO_HELMET",
+  "violation_window_ref_sec": [
+   -0.205,
+   2.777567
+  ]
+ },
+ {
+  "association_outcome": "UNMATCHED",
+  "association_score": 0.0,
+  "back_track_id": "back_moto_0001",
+  "cross_camera_link_status": "BACK_VIEW_ONLY",
+  "decision_reasons": [
+   "TEMPORAL_SCORE_BELOW_MIN_GATE"
+  ],
+  "event_is_violation": true,
+  "front_track_id": null,
+  "global_moto_id": "pair_001_moto_02",
+  "phase10_alert_ids": [
+   "VIOLATION-1-259-FC71B3",
+   "VIOLATION-1-349-23A875"
+  ],
+  "plate_ground_truth": {
+   "gt_plate_text_normalized": null,
+   "note": "Plate assessment is out of scope for the integrated pipeline (no Phase 12F/OCR); no plate text is asserted.",
+   "plate_visibility_tier": "NOT_ASSESSED"
+  },
+  "rider_count": 2,
+  "riders": [
+   {
+    "helmet_state": "NO_HELMET",
+    "helmet_state_provenance": "AI_DIRECT",
+    "recorded_slot_roles": [
+     "driver"
+    ],
+    "rider_slot": 0,
+    "role": "driver",
+    "violation_window_ref_sec": [
+     3.888333,
+     6.608333
+    ]
+   },
+   {
+    "helmet_state": "NO_HELMET",
+    "helmet_state_provenance": "AI_DIRECT",
+    "recorded_slot_roles": [
+     "driver"
+    ],
+    "rider_slot": 1,
+    "role": "pillion_1",
+    "violation_window_ref_sec": [
+     3.888333,
+     6.608333
+    ]
+   }
+  ],
+  "violation_event_type": "BOTH_NO_HELMET",
+  "violation_window_ref_sec": [
+   3.888333,
+   6.608333
+  ]
+ }
+]

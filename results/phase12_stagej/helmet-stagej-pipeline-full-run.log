@@ -1,0 +1,110 @@
+[{"stream_name":"stdout","time":18.646030582,"data":"[kernel] ultralytics missing, pip installing\n"}
+,{"stream_name":"stdout","time":24.8538762,"data":"Creating new Ultralytics Settings v0.0.8 file ✅ \n"}
+,{"stream_name":"stdout","time":24.853900869,"data":"View Ultralytics Settings with 'yolo settings' or at '/root/.config/Ultralytics/settings.json'\n"}
+,{"stream_name":"stdout","time":24.853906523,"data":"Update Settings with 'yolo settings key=value', i.e. 'yolo settings runs_dir=path/to/dir'. For help see https://docs.ultralytics.com/usage/settings\n"}
+,{"stream_name":"stdout","time":24.854462004,"data":"[kernel] Tue Nov 10 00:03:40 2026       \n"}
+,{"stream_name":"stdout","time":24.854479489,"data":"+-----------------------------------------------------------------------------------------+\n"}
+,{"stream_name":"stdout","time":24.854485359999998,"data":"| NVIDIA-SMI 580.178.04             Driver Version: 580.178.04     CUDA Version: 13.0     |\n"}
+,{"stream_name":"stdout","time":24.85449002,"data":"+-----------------------------------------+------------------------+----------------------+\n"}
+,{"stream_name":"stdout","time":24.854494277,"data":"| GPU  Name                 Persistence-M | Bus-Id          Disp.A | Volatile Uncorr. ECC |\n"}
+,{"stream_name":"stdout","time":24.854498882,"data":"| Fan  Temp   Perf          Pwr:Usage/Cap |           Memory-Usage | GPU-Util  Compute M. |\n"}
+,{"stream_name":"stdout","time":24.854503311,"data":"|                                         |                        |               MIG M. |\n"}
+,{"stream_name":"stdout","time":24.854507475,"data":"|=========================================+========================+======================|\n"}
+,{"stream_name":"stdout","time":24.854512414,"data":"|   0  Tesla T4                       Off |   00000000:00:04.0 Off |                    0 |\n"}
+,{"stream_name":"stdout","time":24.854516436,"data":"| N/A   35C    P8              9W /   70W |       0MiB /  15360MiB |      0%      Default |\n"}
+,{"stream_name":"stdout","time":24.85452079,"data":"|                                         |                        |                  N/A |\n"}
+,{"stream_name":"stdout","time":24.854525122,"data":"+-----------------------------------------+------------------------+----------------------+\n"}
+,{"stream_name":"stdout","time":24.854529329000002,"data":"|   1  Tesla T4                       Off |   00000000:00:05.0 Off |                    0 |\n"}
+,{"stream_name":"stdout","time":24.854533534,"data":"| N/A   43C    P8             10W /   70W |       0MiB /  15360MiB |      0%      Default |\n"}
+,{"stream_name":"stdout","time":24.854537514,"data":"|                                         |                        |                  N/A |\n"}
+,{"stream_name":"stdout","time":24.854541061,"data":"+-----------------------------------------+------------------------+----------------------+\n"}
+,{"stream_name":"stdout","time":24.854545626,"data":"\n"}
+,{"stream_name":"stdout","time":24.854549655,"data":"+-----------------------------------------------------------------------------------------+\n"}
+,{"stream_name":"stdout","time":24.854553522,"data":"| Processes:                                                                              |\n"}
+,{"stream_name":"stdout","time":24.85455792,"data":"|  GPU   GI   CI              PID   Type   Process name                        GPU Memory |\n"}
+,{"stream_name":"stdout","time":24.854562364,"data":"|        ID   ID                                                               Usage      |\n"}
+,{"stream_name":"stdout","time":24.854566249,"data":"|=========================================================================================|\n"}
+,{"stream_name":"stdout","time":24.854570041,"data":"|  No running processes found                                                             |\n"}
+,{"stream_name":"stdout","time":24.854590858999998,"data":"+-----------------------------------------------------------------------------------------+\n"}
+,{"stream_name":"stdout","time":24.854594291,"data":"\n"}
+,{"stream_name":"stdout","time":24.854596731,"data":"torch 2.11.0+cu130 cuda=True device=Tesla T4\n"}
+,{"stream_name":"stdout","time":24.854599217,"data":"ultralytics 8.4.208 cv2 4.14.0 (pip-installed)\n"}
+,{"stream_name":"stdout","time":29.869049441,"data":"[kernel] input tree: 979 files\n"}
+,{"stream_name":"stdout","time":29.87054447,"data":"[kernel] using extracted repo_code tree: /kaggle/input/datasets/elafahmed6563/helmet-annotation-inputs/repo_code\n"}
+,{"stream_name":"stdout","time":105.899200715,"data":"[kernel] overlay manifest: /kaggle/input/datasets/elafahmed6563/helmet-pipeline-overlay/overlay_manifest.json files: ['src/pipeline/__init__.py', 'src/pipeline/dual_camera_pipeline.py']\n"}
+,{"stream_name":"stdout","time":106.121135538,"data":"[kernel] overlay staged + hash-verified: src/pipeline/dual_camera_pipeline.py e0f2204bfcc5\n"}
+,{"stream_name":"stdout","time":106.214238171,"data":"[kernel] overlay staged + hash-verified: src/pipeline/__init__.py 1072c99a30b2\n"}
+,{"stream_name":"stdout","time":135.299968031,"data":"[kernel] front files in place: 25\n"}
+,{"stream_name":"stdout","time":135.610298301,"data":"[kernel] back files in place: 25\n"}
+,{"stream_name":"stdout","time":135.610460177,"data":"[kernel] metadata files in place: 6\n"}
+,{"stream_name":"stdout","time":135.610887852,"data":"[kernel] videos: front=25 back=25\n"}
+,{"stream_name":"stdout","time":135.630530059,"data":"[kernel] staged weight hash-verified: yolov8n.pt f59b3d833e2f\n"}
+,{"stream_name":"stdout","time":135.649927464,"data":"[kernel] staged weight hash-verified: results/phase9_multiseed/exp_combined/seed_42/weights/best.pt 0929a882667e\n"}
+,{"stream_name":"stdout","time":135.650234146,"data":"[kernel] pipeline device: cuda\n"}
+,{"stream_name":"stderr","time":157.012299443,"data":"\u003cfrozen runpy\u003e:130: RuntimeWarning: 'src.pipeline.dual_camera_pipeline' found in sys.modules after import of package 'src.pipeline', but prior to execution of 'src.pipeline.dual_camera_pipeline'; this may result in unpredictable behaviour\n"}
+,{"stream_name":"stdout","time":157.01850297,"data":"[00:06:15] pair_001: START\n"}
+,{"stream_name":"stdout","time":208.064408762,"data":"[00:07:06] pair_001: COMPLETE\n"}
+,{"stream_name":"stdout","time":208.064476015,"data":"[00:07:06] pair_002: START\n"}
+,{"stream_name":"stdout","time":244.263566955,"data":"[00:07:42] pair_002: COMPLETE\n"}
+,{"stream_name":"stdout","time":244.263603098,"data":"[00:07:42] pair_003: START\n"}
+,{"stream_name":"stdout","time":278.514768756,"data":"[00:08:16] pair_003: COMPLETE\n"}
+,{"stream_name":"stdout","time":278.514806524,"data":"[00:08:16] pair_004: START\n"}
+,{"stream_name":"stdout","time":300.247482198,"data":"[00:08:38] pair_004: COMPLETE\n"}
+,{"stream_name":"stdout","time":300.247519852,"data":"[00:08:38] pair_005: START\n"}
+,{"stream_name":"stdout","time":329.841867006,"data":"[00:09:08] pair_005: COMPLETE\n"}
+,{"stream_name":"stdout","time":329.841901549,"data":"[00:09:08] pair_006: START\n"}
+,{"stream_name":"stdout","time":352.613099265,"data":"[00:09:30] pair_006: COMPLETE\n"}
+,{"stream_name":"stdout","time":352.6131378,"data":"[00:09:30] pair_007: START\n"}
+,{"stream_name":"stdout","time":375.27894699,"data":"[00:09:53] pair_007: COMPLETE\n"}
+,{"stream_name":"stdout","time":375.278985838,"data":"[00:09:53] pair_008: START\n"}
+,{"stream_name":"stdout","time":399.190523682,"data":"[00:10:17] pair_008: COMPLETE\n"}
+,{"stream_name":"stdout","time":399.19055838,"data":"[00:10:17] pair_009: START\n"}
+,{"stream_name":"stdout","time":432.543458837,"data":"[00:10:50] pair_009: COMPLETE\n"}
+,{"stream_name":"stdout","time":432.543500998,"data":"[00:10:50] pair_010: START\n"}
+,{"stream_name":"stdout","time":454.712016592,"data":"[00:11:13] pair_010: COMPLETE\n"}
+,{"stream_name":"stdout","time":454.712069766,"data":"[00:11:13] pair_011: START\n"}
+,{"stream_name":"stdout","time":481.903888684,"data":"[00:11:40] pair_011: COMPLETE\n"}
+,{"stream_name":"stdout","time":481.903921864,"data":"[00:11:40] pair_012: START\n"}
+,{"stream_name":"stdout","time":516.842563139,"data":"[00:12:15] pair_012: COMPLETE\n"}
+,{"stream_name":"stdout","time":516.842601037,"data":"[00:12:15] pair_013: START\n"}
+,{"stream_name":"stdout","time":564.561769252,"data":"[00:13:02] pair_013: COMPLETE\n"}
+,{"stream_name":"stdout","time":564.561800762,"data":"[00:13:02] pair_014: START\n"}
+,{"stream_name":"stdout","time":593.094972907,"data":"[00:13:31] pair_014: COMPLETE\n"}
+,{"stream_name":"stdout","time":593.095008142,"data":"[00:13:31] pair_015: START\n"}
+,{"stream_name":"stdout","time":619.624516753,"data":"[00:13:57] pair_015: COMPLETE\n"}
+,{"stream_name":"stdout","time":619.624550671,"data":"[00:13:57] pair_016: START\n"}
+,{"stream_name":"stdout","time":657.53489192,"data":"[00:14:35] pair_016: COMPLETE\n"}
+,{"stream_name":"stdout","time":657.534925369,"data":"[00:14:35] pair_017: START\n"}
+,{"stream_name":"stdout","time":679.874694449,"data":"[00:14:58] pair_017: COMPLETE\n"}
+,{"stream_name":"stdout","time":679.874722605,"data":"[00:14:58] pair_018: START\n"}
+,{"stream_name":"stdout","time":700.287855229,"data":"[00:15:18] pair_018: COMPLETE\n"}
+,{"stream_name":"stdout","time":700.287886349,"data":"[00:15:18] pair_019: START\n"}
+,{"stream_name":"stdout","time":730.148868191,"data":"[00:15:48] pair_019: COMPLETE\n"}
+,{"stream_name":"stdout","time":730.148899831,"data":"[00:15:48] pair_020: START\n"}
+,{"stream_name":"stdout","time":764.448409985,"data":"[00:16:22] pair_020: COMPLETE\n"}
+,{"stream_name":"stdout","time":764.448441429,"data":"[00:16:22] pair_021: START\n"}
+,{"stream_name":"stdout","time":800.703331897,"data":"[00:16:59] pair_021: COMPLETE\n"}
+,{"stream_name":"stdout","time":800.703366926,"data":"[00:16:59] pair_022: START\n"}
+,{"stream_name":"stdout","time":833.360305242,"data":"[00:17:31] pair_022: COMPLETE\n"}
+,{"stream_name":"stdout","time":833.360345397,"data":"[00:17:31] pair_023: START\n"}
+,{"stream_name":"stdout","time":870.439292597,"data":"[00:18:08] pair_023: COMPLETE\n"}
+,{"stream_name":"stdout","time":870.439345254,"data":"[00:18:08] pair_024: START\n"}
+,{"stream_name":"stdout","time":928.135147277,"data":"[00:19:06] pair_024: COMPLETE\n"}
+,{"stream_name":"stdout","time":928.135214665,"data":"[00:19:06] pair_025: START\n"}
+,{"stream_name":"stdout","time":958.92138994,"data":"[00:19:37] pair_025: COMPLETE\n"}
+,{"stream_name":"stdout","time":958.957469306,"data":"[00:19:37] DRIVER FINISHED COMPLETE=25\n"}
+,{"stream_name":"stdout","time":958.957490341,"data":"BATCH FINISHED ok=25/25\n"}
+,{"stream_name":"stdout","time":959.697095606,"data":"[kernel] pipeline CLI exit code: 0\n"}
+,{"stream_name":"stdout","time":959.697913579,"data":"[kernel] manifest counts: {'COMPLETE': 25}\n"}
+,{"stream_name":"stdout","time":959.697935,"data":"[kernel] pair summaries: 25/25\n"}
+,{"stream_name":"stdout","time":960.5563362,"data":"[kernel] zipped outputs: /kaggle/working/stagej_outputs.zip 4714453\n"}
+,{"stream_name":"stdout","time":960.699662367,"data":"[kernel] removed staging dir before exit: /kaggle/working/repo\n"}
+,{"stream_name":"stdout","time":960.809391777,"data":"[kernel] removed staging dir before exit: /kaggle/working/inputs\n"}
+,{"stream_name":"stdout","time":960.809414064,"data":"[kernel] KERNEL DONE\n"}
+,{"stream_name":"stderr","time":963.960698738,"data":"/usr/local/lib/python3.13/dist-packages/mistune.py:435: SyntaxWarning: invalid escape sequence '\\|'\n"}
+,{"stream_name":"stderr","time":963.9607433,"data":"  cells[i][c] = re.sub('\\\\\\\\\\|', '|', cell)\n"}
+,{"stream_name":"stderr","time":964.41131754,"data":"/usr/local/lib/python3.13/dist-packages/nbconvert/filters/filter_links.py:36: SyntaxWarning: invalid escape sequence '\\_'\n"}
+,{"stream_name":"stderr","time":964.411357594,"data":"  text = re.sub(r'_', '\\_', text) # Escape underscores in display text\n"}
+,{"stream_name":"stderr","time":965.454549965,"data":"[NbConvertApp] Converting notebook __script__.ipynb to html\n"}
+,{"stream_name":"stderr","time":966.874721461,"data":"[NbConvertApp] Writing 313905 bytes to __results__.html\n"}
+]

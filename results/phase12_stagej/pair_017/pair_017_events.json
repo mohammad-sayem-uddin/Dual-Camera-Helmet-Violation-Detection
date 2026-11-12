@@ -1,0 +1,95 @@
+[
+ {
+  "association_outcome": "UNMATCHED",
+  "association_score": 0.4011,
+  "back_track_id": null,
+  "cross_camera_link_status": "FRONT_VIEW_ONLY",
+  "decision_reasons": [
+   "BEST_SCORE_0.401_BELOW_MIN_0.62"
+  ],
+  "event_is_violation": true,
+  "front_track_id": "front_moto_0001",
+  "global_moto_id": "pair_017_moto_01",
+  "phase10_alert_ids": [
+   "VIOLATION-1-4-246F60",
+   "VIOLATION-1-94-D8715C"
+  ],
+  "plate_ground_truth": {
+   "gt_plate_text_normalized": null,
+   "note": "Plate assessment is out of scope for the integrated pipeline (no Phase 12F/OCR); no plate text is asserted.",
+   "plate_visibility_tier": "NOT_ASSESSED"
+  },
+  "rider_count": 2,
+  "riders": [
+   {
+    "helmet_state": "NO_HELMET",
+    "helmet_state_provenance": "AI_DIRECT",
+    "recorded_slot_roles": [
+     "driver"
+    ],
+    "rider_slot": 0,
+    "role": "driver",
+    "violation_window_ref_sec": [
+     0.355,
+     3.404144
+    ]
+   },
+   {
+    "helmet_state": "HELMET",
+    "helmet_state_provenance": "AI_DIRECT",
+    "recorded_slot_roles": [
+     "driver"
+    ],
+    "rider_slot": 1,
+    "role": "pillion_1",
+    "violation_window_ref_sec": null
+   }
+  ],
+  "violation_event_type": "DRIVER_NO_HELMET",
+  "violation_window_ref_sec": [
+   0.355,
+   3.404144
+  ]
+ },
+ {
+  "association_outcome": "UNMATCHED",
+  "association_score": 0.4011,
+  "back_track_id": "back_moto_0001",
+  "cross_camera_link_status": "BACK_VIEW_ONLY",
+  "decision_reasons": [
+   "BEST_SCORE_0.401_BELOW_MIN_0.62"
+  ],
+  "event_is_violation": true,
+  "front_track_id": null,
+  "global_moto_id": "pair_017_moto_02",
+  "phase10_alert_ids": [
+   "VIOLATION-1-121-0361FD"
+  ],
+  "plate_ground_truth": {
+   "gt_plate_text_normalized": null,
+   "note": "Plate assessment is out of scope for the integrated pipeline (no Phase 12F/OCR); no plate text is asserted.",
+   "plate_visibility_tier": "NOT_ASSESSED"
+  },
+  "rider_count": 1,
+  "riders": [
+   {
+    "helmet_state": "NO_HELMET",
+    "helmet_state_provenance": "AI_DIRECT",
+    "recorded_slot_roles": [
+     "driver"
+    ],
+    "rider_slot": 0,
+    "role": "driver",
+    "violation_window_ref_sec": [
+     3.638333,
+     6.641667
+    ]
+   }
+  ],
+  "violation_event_type": "DRIVER_NO_HELMET",
+  "violation_window_ref_sec": [
+   3.638333,
+   6.641667
+  ]
+ }
+]

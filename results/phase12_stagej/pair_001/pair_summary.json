@@ -1,0 +1,87 @@
+{
+ "artifact_schema": "dual_camera_pipeline/1.0",
+ "artifacts": [
+  "pair_001_association.json",
+  "pair_001_back_coverage.csv",
+  "pair_001_back_detections.jsonl",
+  "pair_001_back_track_frames.jsonl",
+  "pair_001_back_tracks_final.json",
+  "pair_001_events.json",
+  "pair_001_front_coverage.csv",
+  "pair_001_front_detections.jsonl",
+  "pair_001_front_track_frames.jsonl",
+  "pair_001_front_tracks_final.json",
+  "pair_001_sync_diagnostics.json",
+  "pair_status.json"
+ ],
+ "counts": {
+  "association_outcome_counts": {
+   "AMBIGUOUS_ABSTAIN": 0,
+   "INSUFFICIENT_EVIDENCE": 0,
+   "LINKED": 0,
+   "UNMATCHED": 2
+  },
+  "back_moto_tracks": 1,
+  "back_orphan_tracks": 3,
+  "events_by_type": {
+   "BOTH_NO_HELMET": 2
+  },
+  "events_total": 2,
+  "front_moto_tracks": 1,
+  "front_orphan_tracks": 7,
+  "orphan_outcome_counts": {
+   "AMBIGUOUS_ABSTAIN": 3,
+   "INSUFFICIENT_EVIDENCE": 3,
+   "LINKED": 0,
+   "UNMATCHED": 3
+  },
+  "rider_outcome_counts": {
+   "AMBIGUOUS_ABSTAIN": 0,
+   "INSUFFICIENT_EVIDENCE": 0,
+   "LINKED": 0,
+   "UNMATCHED": 0
+  }
+ },
+ "coverage": {
+  "back": {
+   "coverage_complete": true,
+   "frames_decoded": 397,
+   "frames_expected_container": 397
+  },
+  "front": {
+   "coverage_complete": true,
+   "frames_decoded": 206,
+   "frames_expected_container": 206
+  }
+ },
+ "inputs_sha256": {
+  "association_config_sha256": "e6da76a9a9bc571c764803d27ba9dd298acca60f460d4d4a005225a447fef848",
+  "back_video_sha256": "71684f29a864ea9baf384fb01e1664703db1a6affc1c56d9aa0441991980afc5",
+  "front_video_sha256": "995d1fa69ea4bb7aae53f7ed3e24ddf5d9ef82091c06ec730f2d1ce00243312e",
+  "metadata_sha256": "7ca8f86d712e06981fd57d2a4f0fd594c35881ffa91ec8a091b04fb6737c0009",
+  "tracking_config_sha256": "681baa01eb257acfe94a703647cc32566fc9e59275e246e0777e89b878899a0b",
+  "weights_phase9_best_sha256": "0929a882667e0f7e2b631071ab218a2415cc1b816cdede7fb6812543d840b0e5",
+  "weights_yolov8n_sha256": "f59b3d833e2ff32e194b5bb8e08d211dc7c5bdf144b90d2c8412c47ccfc83b36"
+ },
+ "metadata_sha256": "7ca8f86d712e06981fd57d2a4f0fd594c35881ffa91ec8a091b04fb6737c0009",
+ "pair_id": "pair_001",
+ "peak_rss_mb": 2145.5,
+ "status": "COMPLETE",
+ "sync": {
+  "drift_ms": 0.0,
+  "epsilon_sync_ms": 3.0,
+  "offset_sec": -0.205,
+  "quality": "HIGH"
+ },
+ "validation": {
+  "all_passed": true,
+  "association_outcome_counts_reconcile": true,
+  "association_results_reference_known_tracklets": true,
+  "coverage_complete_back": true,
+  "coverage_complete_front": true,
+  "detections_pts_match_table": true,
+  "events_cover_all_moto_tracks": true,
+  "sync_diagnostics_all_q_fields": true
+ },
+ "wall_time_sec": 37.67
+}

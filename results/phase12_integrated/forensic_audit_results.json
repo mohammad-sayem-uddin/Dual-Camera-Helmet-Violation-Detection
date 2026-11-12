@@ -1,0 +1,315 @@
+{
+ "videos_vs_pair_manifest": {
+  "result": {
+   "checked": 50,
+   "match": 50,
+   "mismatch": [],
+   "missing": []
+  }
+ },
+ "phase11_metadata_vs_tarball": {
+  "result": {
+   "checked": 6,
+   "match": 6,
+   "mismatch": []
+  },
+  "sha256": {
+   "dataset_integrity_manifest.json": "3ff1614cec8c872decb472cbdd57817a029f1a2b92f22d28b94b96bb91841a4b",
+   "pair_manifest.csv": "600dbc5b910b2499cadfeab741f3c8c6f7bcb8e2011156a2a4c9ad0deed558ec",
+   "pairing_analysis.csv": "af89cf39cca7b9fcb33e12c20dc48bbe3b20063791ba3246ff53b7ffb1e07964",
+   "source_video_inventory.csv": "1f2d7b7c607029c457e60a25f519b051263910b6c28bae87f0d830a9ccd603b0",
+   "synchronization_metadata.json": "7ca8f86d712e06981fd57d2a4f0fd594c35881ffa91ec8a091b04fb6737c0009",
+   "synchronization_quality.csv": "a16f1e15d260e4b0569ab41394367e04ff8819264c80c2be23e995707680904d"
+  }
+ },
+ "code_vs_tarball": {
+  "result": {
+   "checked": 74,
+   "match": 74,
+   "modified": [],
+   "missing_on_disk": [],
+   "new_files": [
+    "src/pipeline/__init__.py",
+    "src/pipeline/dual_camera_pipeline.py",
+    "tests/test_phase12_pipeline_real_video.py",
+    "tests/test_phase12_pipeline_semantics.py",
+    "tests/test_phase12_pipeline_synthetic.py"
+   ]
+  }
+ },
+ "stageG_baselines": {
+  "src_configs": {
+   "ok": 63,
+   "bad": 0,
+   "bad_files": []
+  },
+  "data": {
+   "ok": 84,
+   "bad": 0,
+   "bad_files": []
+  }
+ },
+ "weights": {
+  "result": {
+   "best.pt": {
+    "expected": "0929a882667e0f7e2b631071ab218a2415cc1b816cdede7fb6812543d840b0e5",
+    "actual": "0929a882667e0f7e2b631071ab218a2415cc1b816cdede7fb6812543d840b0e5",
+    "match": true,
+    "pinned_in_tracking_config": true
+   },
+   "yolov8n.pt": {
+    "expected": "f59b3d833e2ff32e194b5bb8e08d211dc7c5bdf144b90d2c8412c47ccfc83b36",
+    "actual": "f59b3d833e2ff32e194b5bb8e08d211dc7c5bdf144b90d2c8412c47ccfc83b36",
+    "match": true,
+    "pinned_in_tracking_config": true
+   }
+  }
+ },
+ "pass1_immutability": {
+  "result": {
+   "files_on_disk": 301,
+   "aggregate_sha256": "585c1c45b3809503fba9195304d31dd6e491614718d32616d51a2e388be968f0",
+   "aggregate_matches_stageE_snapshot": true,
+   "zip_entries": 326,
+   "checked": 301,
+   "match": 301,
+   "bad": []
+  }
+ },
+ "package_checksums": {
+  "result": {
+   "entries": 39,
+   "ok": 39,
+   "bad": [],
+   "inventory_files": 40
+  }
+ },
+ "release_checksums": {
+  "result": {
+   "entries": 43,
+   "ok": 43,
+   "bad": [],
+   "inventory_files": 44
+  }
+ },
+ "headline_reconciliation": {
+  "result": {
+   "frames_release_coverage_rows": 15241,
+   "frames_package_coverage_rows": 15241,
+   "stagej_forensic_totals": {
+    "back": 8684,
+    "front": 6557
+   },
+   "stagej_frames_total": 15241,
+   "stagej_detections_total": 44311,
+   "pass1_detections_total_stagej_record": 44311,
+   "stagej_deltas_all_zero": true,
+   "stagej_gate_pass_pairs": 25,
+   "stagej_flags": [],
+   "pass1_jsonl_records": 15241,
+   "pass1_jsonl_boxes_recount": 44311,
+   "pass1_jsonl_boxes_by_category": {
+    "motorcycle": 12156,
+    "person": 22350,
+    "head": 9805
+   },
+   "release_events_rows": 70,
+   "release_events_by_type": {
+    "BOTH_NO_HELMET": 10,
+    "NO_VIOLATION": 6,
+    "DRIVER_NO_HELMET": 27,
+    "INSUFFICIENT_VISUAL_EVIDENCE": 24,
+    "PILLION_NO_HELMET": 3
+   },
+   "stagej_events_total_files": 85,
+   "stagej_events_by_type_files": {
+    "null": 85
+   },
+   "stagej_events_total_validation": 85,
+   "release_correction_ops_rows": 86,
+   "package_correction_ops_rows": 69,
+   "release_gt_corrections_applied": {
+    "total_ops": 86,
+    "pass2_ops": 63,
+    "pass3_addendum_ops": 6,
+    "stage_c_ops": 17
+   },
+   "release_gt_label": "AI_ASSISTED_AUDITED",
+   "release_gt_human_verified": false,
+   "validity_rows": 14249,
+   "validity_spatial_use_valid_true": 6727,
+   "release_uncertainty_rows": 178
+  },
+  "stagej_events_by_type_files": {
+   "BOTH_NO_HELMET": 9,
+   "PILLION_NO_HELMET": 4,
+   "NO_VIOLATION": 6,
+   "DRIVER_NO_HELMET": 27,
+   "INSUFFICIENT_VISUAL_EVIDENCE": 39
+  }
+ },
+ "stageK_trace": {
+  "checks": [
+   {
+    "claim": "head P pooled",
+    "artifact_value": 0.6893,
+    "report_contains": "0.689",
+    "found": true
+   },
+   {
+    "claim": "head P CI",
+    "artifact_value": [
+     0.5941,
+     0.7796
+    ],
+    "report_contains": "[0.594, 0.780]",
+    "found": true
+   },
+   {
+    "claim": "head F1 pooled",
+    "artifact_value": 0.8161,
+    "report_contains": "0.816",
+    "found": true
+   },
+   {
+    "claim": "head F1 CI",
+    "artifact_value": [
+     0.7454,
+     0.8762
+    ],
+    "report_contains": "[0.745, 0.876]",
+    "found": true
+   },
+   {
+    "claim": "head AP50 pooled",
+    "artifact_value": 0.7314,
+    "report_contains": "0.731",
+    "found": true
+   },
+   {
+    "claim": "head front P",
+    "artifact_value": 0.861,
+    "report_contains": "0.861",
+    "found": true
+   },
+   {
+    "claim": "head back P",
+    "artifact_value": 0.3464,
+    "report_contains": "0.346",
+    "found": true
+   },
+   {
+    "claim": "head FP total",
+    "artifact_value": 3046,
+    "report_contains": "3,046",
+    "found": true
+   },
+   {
+    "claim": "moto track F1",
+    "artifact_value": 0.9011,
+    "report_contains": "0.901",
+    "found": true
+   },
+   {
+    "claim": "moto anchored boxes",
+    "artifact_value": {
+     "checked": 164,
+     "verbatim": 164
+    },
+    "report_contains": "164/164",
+    "found": true
+   },
+   {
+    "claim": "helmet track agreement",
+    "artifact_value": 0.6411,
+    "report_contains": "64.1%",
+    "found": true
+   },
+   {
+    "claim": "helmet track counts",
+    "artifact_value": [
+     134,
+     209
+    ],
+    "report_contains": "134/209",
+    "found": true
+   },
+   {
+    "claim": "helmet confusion HELMET",
+    "artifact_value": 1365,
+    "report_contains": "1,365/1,365",
+    "found": true
+   },
+   {
+    "claim": "helmet confusion NO_HELMET",
+    "artifact_value": 5388,
+    "report_contains": "5,388/5,388",
+    "found": true
+   },
+   {
+    "claim": "IDF1",
+    "artifact_value": 0.9987,
+    "report_contains": "0.9987",
+    "found": true
+   },
+   {
+    "claim": "assoc moto F1",
+    "artifact_value": "0.9091",
+    "report_contains": "0.909",
+    "found": true
+   },
+   {
+    "claim": "assoc abstain",
+    "artifact_value": 0.3882,
+    "report_contains": "38.8%",
+    "found": true
+   },
+   {
+    "claim": "orphan abstain",
+    "artifact_value": 0.6333,
+    "report_contains": "63.3%",
+    "found": true
+   },
+   {
+    "claim": "events F1",
+    "artifact_value": "0.8258",
+    "report_contains": "0.826",
+    "found": true
+   },
+   {
+    "claim": "events F1 CI",
+    "artifact_value": [
+     0.7286,
+     0.9268
+    ],
+    "report_contains": "[0.729, 0.927]",
+    "found": true
+   },
+   {
+    "claim": "events timing 0.0",
+    "artifact_value": 0.0,
+    "report_contains": "0.0 s",
+    "found": true
+   },
+   {
+    "claim": "protocol sha in report",
+    "artifact_value": "466f5f31",
+    "report_contains": "466f5f316a56536429088f44fe54c05f30161862fda4b8201b616c0e488b9ec2",
+    "found": true
+   }
+  ],
+  "protocol_sha256_actual": "466f5f316a56536429088f44fe54c05f30161862fda4b8201b616c0e488b9ec2",
+  "sync_strata_recomputed": {
+   "pooled_median_eps": 3.0,
+   "pooled_median_abs_drift": 0.0,
+   "pooled_max_abs_drift": 76.0,
+   "nearframe_median_eps": 36.0,
+   "nearframe_median_abs_drift": 72.0,
+   "nearframe_max_abs_drift": 76.0,
+   "medium_median_eps": 8.0,
+   "medium_median_abs_drift": 16.0
+  }
+ },
+ "discrepancies": [],
+ "verdict": "CLEAN"
+}

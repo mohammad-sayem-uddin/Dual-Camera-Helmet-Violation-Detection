@@ -1,0 +1,1498 @@
+{
+ "aggregate": {
+  "association_outcomes": {
+   "AMBIGUOUS_ABSTAIN": 6,
+   "INSUFFICIENT_EVIDENCE": 27,
+   "LINKED": 12,
+   "UNMATCHED": 40
+  },
+  "deltas": {
+   "back_helmet": 0,
+   "back_motorcycle": 0,
+   "back_no_helmet": 0,
+   "back_person": 0,
+   "front_helmet": 0,
+   "front_motorcycle": 0,
+   "front_no_helmet": 0,
+   "front_person": 0
+  },
+  "events_by_type": {
+   "BOTH_NO_HELMET": 9,
+   "DRIVER_NO_HELMET": 27,
+   "INSUFFICIENT_VISUAL_EVIDENCE": 39,
+   "NO_VIOLATION": 6,
+   "PILLION_NO_HELMET": 4
+  },
+  "events_total": 85,
+  "forensic_totals": {
+   "back": 8684,
+   "front": 6557
+  },
+  "orphan_outcomes": {
+   "AMBIGUOUS_ABSTAIN": 20,
+   "INSUFFICIENT_EVIDENCE": 56,
+   "LINKED": 1,
+   "UNMATCHED": 43
+  },
+  "pass1_detections": {
+   "back_helmet": 991,
+   "back_motorcycle": 4598,
+   "back_no_helmet": 2280,
+   "back_person": 10677,
+   "front_helmet": 1307,
+   "front_motorcycle": 7558,
+   "front_no_helmet": 5227,
+   "front_person": 11673
+  },
+  "rider_outcomes": {
+   "AMBIGUOUS_ABSTAIN": 1,
+   "INSUFFICIENT_EVIDENCE": 9,
+   "LINKED": 4,
+   "UNMATCHED": 6
+  },
+  "stagej_detections": {
+   "back_helmet": 991,
+   "back_motorcycle": 4598,
+   "back_no_helmet": 2280,
+   "back_person": 10677,
+   "front_helmet": 1307,
+   "front_motorcycle": 7558,
+   "front_no_helmet": 5227,
+   "front_person": 11673
+  }
+ },
+ "flags": [],
+ "gate_pass_pairs": 25,
+ "manifest": {
+  "all_complete": true,
+  "config": {
+   "association_config_path": "/kaggle/working/repo/configs/cross_camera_association_config.yaml",
+   "data_root": "/kaggle/working/repo/data/dual_camera_test_v1",
+   "device": "cuda",
+   "helmet_conf_threshold": 0.25,
+   "keyframe_max_per_camera": 24,
+   "keyframe_max_width": 1280,
+   "keyframe_stride": 3,
+   "metadata_path": "/kaggle/working/repo/data/dual_camera_test_v1/metadata/synchronization_metadata.json",
+   "output_root": "/kaggle/working/stagej_out",
+   "resume": true,
+   "tick_hz": 60.0,
+   "tracking_config_path": "/kaggle/working/repo/configs/tracking_config.yaml",
+   "vehicle_conf_threshold": 0.18
+  },
+  "counts": {
+   "COMPLETE": 25
+  },
+  "input_hashes": {
+   "association_config_sha256": "e6da76a9a9bc571c764803d27ba9dd298acca60f460d4d4a005225a447fef848",
+   "metadata_sha256": "7ca8f86d712e06981fd57d2a4f0fd594c35881ffa91ec8a091b04fb6737c0009",
+   "tracking_config_sha256": "681baa01eb257acfe94a703647cc32566fc9e59275e246e0777e89b878899a0b",
+   "weights_phase9_best_sha256": "0929a882667e0f7e2b631071ab218a2415cc1b816cdede7fb6812543d840b0e5",
+   "weights_yolov8n_sha256": "f59b3d833e2ff32e194b5bb8e08d211dc7c5bdf144b90d2c8412c47ccfc83b36"
+  },
+  "n_pairs_listed": 25,
+  "present": true
+ },
+ "pairs": {
+  "pair_001": {
+   "all_gates_pass": true,
+   "drift_ms": 0.0,
+   "events_total": 2,
+   "gates": {
+    "G1_summary_complete": {
+     "detail": "COMPLETE",
+     "pass": true
+    },
+    "G2_validation_8of8": {
+     "detail": "{\"all_passed\": true, \"association_outcome_counts_reconcile\": true, \"association_results_reference_known_tracklets\": true, \"coverage_complete_back\": true, \"coverage_complete_front\": true, \"detections_pts_match_table\": true, \"events_cover_all_moto_tracks\": true, \"sync_diagnostics_all_q_fields\": true}",
+     "pass": true
+    },
+    "G3_frames_back": {
+     "detail": "decoded=397 expected_container=397 forensic=397",
+     "pass": true
+    },
+    "G3_frames_front": {
+     "detail": "decoded=206 expected_container=206 forensic=206",
+     "pass": true
+    },
+    "G4_jsonl_lines_back": {
+     "detail": "lines=397 forensic=397",
+     "pass": true
+    },
+    "G4_jsonl_lines_front": {
+     "detail": "lines=206 forensic=206",
+     "pass": true
+    },
+    "G5_artifacts_13": {
+     "detail": "missing=[]",
+     "pass": true
+    },
+    "G6_diag_drift_q5": {
+     "detail": "drift_ms=0.0 q5_samples=187",
+     "pass": true
+    },
+    "G7_staged_weights": {
+     "detail": "{\"weights_yolov8n_sha256\": \"f59b3d833e2f\", \"weights_phase9_best_sha256\": \"0929a882667e\"}",
+     "pass": true
+    }
+   },
+   "pass1_deltas": {
+    "back_helmet": 0,
+    "back_motorcycle": 0,
+    "back_no_helmet": 0,
+    "back_person": 0,
+    "front_helmet": 0,
+    "front_motorcycle": 0,
+    "front_no_helmet": 0,
+    "front_person": 0
+   },
+   "peak_rss_mb": 2145.5,
+   "status": "COMPLETE",
+   "wall_time_sec": 37.67
+  },
+  "pair_002": {
+   "all_gates_pass": true,
+   "drift_ms": 2.0,
+   "events_total": 2,
+   "gates": {
+    "G1_summary_complete": {
+     "detail": "COMPLETE",
+     "pass": true
+    },
+    "G2_validation_8of8": {
+     "detail": "{\"all_passed\": true, \"association_outcome_counts_reconcile\": true, \"association_results_reference_known_tracklets\": true, \"coverage_complete_back\": true, \"coverage_complete_front\": true, \"detections_pts_match_table\": true, \"events_cover_all_moto_tracks\": true, \"sync_diagnostics_all_q_fields\": true}",
+     "pass": true
+    },
+    "G3_frames_back": {
+     "detail": "decoded=423 expected_container=423 forensic=423",
+     "pass": true
+    },
+    "G3_frames_front": {
+     "detail": "decoded=313 expected_container=313 forensic=313",
+     "pass": true
+    },
+    "G4_jsonl_lines_back": {
+     "detail": "lines=423 forensic=423",
+     "pass": true
+    },
+    "G4_jsonl_lines_front": {
+     "detail": "lines=313 forensic=313",
+     "pass": true
+    },
+    "G5_artifacts_13": {
+     "detail": "missing=[]",
+     "pass": true
+    },
+    "G6_diag_drift_q5": {
+     "detail": "drift_ms=2.0 q5_samples=249",
+     "pass": true
+    },
+    "G7_staged_weights": {
+     "detail": "{\"weights_yolov8n_sha256\": \"f59b3d833e2f\", \"weights_phase9_best_sha256\": \"0929a882667e\"}",
+     "pass": true
+    }
+   },
+   "pass1_deltas": {
+    "back_helmet": 0,
+    "back_motorcycle": 0,
+    "back_no_helmet": 0,
+    "back_person": 0,
+    "front_helmet": 0,
+    "front_motorcycle": 0,
+    "front_no_helmet": 0,
+    "front_person": 0
+   },
+   "peak_rss_mb": 2157.8,
+   "status": "COMPLETE",
+   "wall_time_sec": 31.38
+  },
+  "pair_003": {
+   "all_gates_pass": true,
+   "drift_ms": 0.0,
+   "events_total": 4,
+   "gates": {
+    "G1_summary_complete": {
+     "detail": "COMPLETE",
+     "pass": true
+    },
+    "G2_validation_8of8": {
+     "detail": "{\"all_passed\": true, \"association_outcome_counts_reconcile\": true, \"association_results_reference_known_tracklets\": true, \"coverage_complete_back\": true, \"coverage_complete_front\": true, \"detections_pts_match_table\": true, \"events_cover_all_moto_tracks\": true, \"sync_diagnostics_all_q_fields\": true}",
+     "pass": true
+    },
+    "G3_frames_back": {
+     "detail": "decoded=436 expected_container=436 forensic=436",
+     "pass": true
+    },
+    "G3_frames_front": {
+     "detail": "decoded=234 expected_container=234 forensic=234",
+     "pass": true
+    },
+    "G4_jsonl_lines_back": {
+     "detail": "lines=436 forensic=436",
+     "pass": true
+    },
+    "G4_jsonl_lines_front": {
+     "detail": "lines=234 forensic=234",
+     "pass": true
+    },
+    "G5_artifacts_13": {
+     "detail": "missing=[]",
+     "pass": true
+    },
+    "G6_diag_drift_q5": {
+     "detail": "drift_ms=0.0 q5_samples=233",
+     "pass": true
+    },
+    "G7_staged_weights": {
+     "detail": "{\"weights_yolov8n_sha256\": \"f59b3d833e2f\", \"weights_phase9_best_sha256\": \"0929a882667e\"}",
+     "pass": true
+    }
+   },
+   "pass1_deltas": {
+    "back_helmet": 0,
+    "back_motorcycle": 0,
+    "back_no_helmet": 0,
+    "back_person": 0,
+    "front_helmet": 0,
+    "front_motorcycle": 0,
+    "front_no_helmet": 0,
+    "front_person": 0
+   },
+   "peak_rss_mb": 2156.3,
+   "status": "COMPLETE",
+   "wall_time_sec": 29.6
+  },
+  "pair_004": {
+   "all_gates_pass": true,
+   "drift_ms": 36.0,
+   "events_total": 3,
+   "gates": {
+    "G1_summary_complete": {
+     "detail": "COMPLETE",
+     "pass": true
+    },
+    "G2_validation_8of8": {
+     "detail": "{\"all_passed\": true, \"association_outcome_counts_reconcile\": true, \"association_results_reference_known_tracklets\": true, \"coverage_complete_back\": true, \"coverage_complete_front\": true, \"detections_pts_match_table\": true, \"events_cover_all_moto_tracks\": true, \"sync_diagnostics_all_q_fields\": true}",
+     "pass": true
+    },
+    "G3_frames_back": {
+     "detail": "decoded=201 expected_container=201 forensic=201",
+     "pass": true
+    },
+    "G3_frames_front": {
+     "detail": "decoded=179 expected_container=179 forensic=179",
+     "pass": true
+    },
+    "G4_jsonl_lines_back": {
+     "detail": "lines=201 forensic=201",
+     "pass": true
+    },
+    "G4_jsonl_lines_front": {
+     "detail": "lines=179 forensic=179",
+     "pass": true
+    },
+    "G5_artifacts_13": {
+     "detail": "missing=[]",
+     "pass": true
+    },
+    "G6_diag_drift_q5": {
+     "detail": "drift_ms=36.0 q5_samples=101",
+     "pass": true
+    },
+    "G7_staged_weights": {
+     "detail": "{\"weights_yolov8n_sha256\": \"f59b3d833e2f\", \"weights_phase9_best_sha256\": \"0929a882667e\"}",
+     "pass": true
+    }
+   },
+   "pass1_deltas": {
+    "back_helmet": 0,
+    "back_motorcycle": 0,
+    "back_no_helmet": 0,
+    "back_person": 0,
+    "front_helmet": 0,
+    "front_motorcycle": 0,
+    "front_no_helmet": 0,
+    "front_person": 0
+   },
+   "peak_rss_mb": 2157.9,
+   "status": "COMPLETE",
+   "wall_time_sec": 17.1
+  },
+  "pair_005": {
+   "all_gates_pass": true,
+   "drift_ms": 70.0,
+   "events_total": 2,
+   "gates": {
+    "G1_summary_complete": {
+     "detail": "COMPLETE",
+     "pass": true
+    },
+    "G2_validation_8of8": {
+     "detail": "{\"all_passed\": true, \"association_outcome_counts_reconcile\": true, \"association_results_reference_known_tracklets\": true, \"coverage_complete_back\": true, \"coverage_complete_front\": true, \"detections_pts_match_table\": true, \"events_cover_all_moto_tracks\": true, \"sync_diagnostics_all_q_fields\": true}",
+     "pass": true
+    },
+    "G3_frames_back": {
+     "detail": "decoded=352 expected_container=352 forensic=352",
+     "pass": true
+    },
+    "G3_frames_front": {
+     "detail": "decoded=206 expected_container=206 forensic=206",
+     "pass": true
+    },
+    "G4_jsonl_lines_back": {
+     "detail": "lines=352 forensic=352",
+     "pass": true
+    },
+    "G4_jsonl_lines_front": {
+     "detail": "lines=206 forensic=206",
+     "pass": true
+    },
+    "G5_artifacts_13": {
+     "detail": "missing=[]",
+     "pass": true
+    },
+    "G6_diag_drift_q5": {
+     "detail": "drift_ms=70.0 q5_samples=205",
+     "pass": true
+    },
+    "G7_staged_weights": {
+     "detail": "{\"weights_yolov8n_sha256\": \"f59b3d833e2f\", \"weights_phase9_best_sha256\": \"0929a882667e\"}",
+     "pass": true
+    }
+   },
+   "pass1_deltas": {
+    "back_helmet": 0,
+    "back_motorcycle": 0,
+    "back_no_helmet": 0,
+    "back_person": 0,
+    "front_helmet": 0,
+    "front_motorcycle": 0,
+    "front_no_helmet": 0,
+    "front_person": 0
+   },
+   "peak_rss_mb": 2157.2,
+   "status": "COMPLETE",
+   "wall_time_sec": 24.86
+  },
+  "pair_006": {
+   "all_gates_pass": true,
+   "drift_ms": -12.0,
+   "events_total": 4,
+   "gates": {
+    "G1_summary_complete": {
+     "detail": "COMPLETE",
+     "pass": true
+    },
+    "G2_validation_8of8": {
+     "detail": "{\"all_passed\": true, \"association_outcome_counts_reconcile\": true, \"association_results_reference_known_tracklets\": true, \"coverage_complete_back\": true, \"coverage_complete_front\": true, \"detections_pts_match_table\": true, \"events_cover_all_moto_tracks\": true, \"sync_diagnostics_all_q_fields\": true}",
+     "pass": true
+    },
+    "G3_frames_back": {
+     "detail": "decoded=255 expected_container=255 forensic=255",
+     "pass": true
+    },
+    "G3_frames_front": {
+     "detail": "decoded=135 expected_container=135 forensic=135",
+     "pass": true
+    },
+    "G4_jsonl_lines_back": {
+     "detail": "lines=255 forensic=255",
+     "pass": true
+    },
+    "G4_jsonl_lines_front": {
+     "detail": "lines=135 forensic=135",
+     "pass": true
+    },
+    "G5_artifacts_13": {
+     "detail": "missing=[]",
+     "pass": true
+    },
+    "G6_diag_drift_q5": {
+     "detail": "drift_ms=-12.0 q5_samples=132",
+     "pass": true
+    },
+    "G7_staged_weights": {
+     "detail": "{\"weights_yolov8n_sha256\": \"f59b3d833e2f\", \"weights_phase9_best_sha256\": \"0929a882667e\"}",
+     "pass": true
+    }
+   },
+   "pass1_deltas": {
+    "back_helmet": 0,
+    "back_motorcycle": 0,
+    "back_no_helmet": 0,
+    "back_person": 0,
+    "front_helmet": 0,
+    "front_motorcycle": 0,
+    "front_no_helmet": 0,
+    "front_person": 0
+   },
+   "peak_rss_mb": 2162.0,
+   "status": "COMPLETE",
+   "wall_time_sec": 18.13
+  },
+  "pair_007": {
+   "all_gates_pass": true,
+   "drift_ms": -8.0,
+   "events_total": 6,
+   "gates": {
+    "G1_summary_complete": {
+     "detail": "COMPLETE",
+     "pass": true
+    },
+    "G2_validation_8of8": {
+     "detail": "{\"all_passed\": true, \"association_outcome_counts_reconcile\": true, \"association_results_reference_known_tracklets\": true, \"coverage_complete_back\": true, \"coverage_complete_front\": true, \"detections_pts_match_table\": true, \"events_cover_all_moto_tracks\": true, \"sync_diagnostics_all_q_fields\": true}",
+     "pass": true
+    },
+    "G3_frames_back": {
+     "detail": "decoded=239 expected_container=239 forensic=239",
+     "pass": true
+    },
+    "G3_frames_front": {
+     "detail": "decoded=157 expected_container=157 forensic=157",
+     "pass": true
+    },
+    "G4_jsonl_lines_back": {
+     "detail": "lines=239 forensic=239",
+     "pass": true
+    },
+    "G4_jsonl_lines_front": {
+     "detail": "lines=157 forensic=157",
+     "pass": true
+    },
+    "G5_artifacts_13": {
+     "detail": "missing=[]",
+     "pass": true
+    },
+    "G6_diag_drift_q5": {
+     "detail": "drift_ms=-8.0 q5_samples=156",
+     "pass": true
+    },
+    "G7_staged_weights": {
+     "detail": "{\"weights_yolov8n_sha256\": \"f59b3d833e2f\", \"weights_phase9_best_sha256\": \"0929a882667e\"}",
+     "pass": true
+    }
+   },
+   "pass1_deltas": {
+    "back_helmet": 0,
+    "back_motorcycle": 0,
+    "back_no_helmet": 0,
+    "back_person": 0,
+    "front_helmet": 0,
+    "front_motorcycle": 0,
+    "front_no_helmet": 0,
+    "front_person": 0
+   },
+   "peak_rss_mb": 2160.2,
+   "status": "COMPLETE",
+   "wall_time_sec": 18.03
+  },
+  "pair_008": {
+   "all_gates_pass": true,
+   "drift_ms": -76.0,
+   "events_total": 1,
+   "gates": {
+    "G1_summary_complete": {
+     "detail": "COMPLETE",
+     "pass": true
+    },
+    "G2_validation_8of8": {
+     "detail": "{\"all_passed\": true, \"association_outcome_counts_reconcile\": true, \"association_results_reference_known_tracklets\": true, \"coverage_complete_back\": true, \"coverage_complete_front\": true, \"detections_pts_match_table\": true, \"events_cover_all_moto_tracks\": true, \"sync_diagnostics_all_q_fields\": true}",
+     "pass": true
+    },
+    "G3_frames_back": {
+     "detail": "decoded=270 expected_container=270 forensic=270",
+     "pass": true
+    },
+    "G3_frames_front": {
+     "detail": "decoded=156 expected_container=156 forensic=156",
+     "pass": true
+    },
+    "G4_jsonl_lines_back": {
+     "detail": "lines=270 forensic=270",
+     "pass": true
+    },
+    "G4_jsonl_lines_front": {
+     "detail": "lines=156 forensic=156",
+     "pass": true
+    },
+    "G5_artifacts_13": {
+     "detail": "missing=[]",
+     "pass": true
+    },
+    "G6_diag_drift_q5": {
+     "detail": "drift_ms=-76.0 q5_samples=155",
+     "pass": true
+    },
+    "G7_staged_weights": {
+     "detail": "{\"weights_yolov8n_sha256\": \"f59b3d833e2f\", \"weights_phase9_best_sha256\": \"0929a882667e\"}",
+     "pass": true
+    }
+   },
+   "pass1_deltas": {
+    "back_helmet": 0,
+    "back_motorcycle": 0,
+    "back_no_helmet": 0,
+    "back_person": 0,
+    "front_helmet": 0,
+    "front_motorcycle": 0,
+    "front_no_helmet": 0,
+    "front_person": 0
+   },
+   "peak_rss_mb": 2153.8,
+   "status": "COMPLETE",
+   "wall_time_sec": 19.31
+  },
+  "pair_009": {
+   "all_gates_pass": true,
+   "drift_ms": 0.0,
+   "events_total": 11,
+   "gates": {
+    "G1_summary_complete": {
+     "detail": "COMPLETE",
+     "pass": true
+    },
+    "G2_validation_8of8": {
+     "detail": "{\"all_passed\": true, \"association_outcome_counts_reconcile\": true, \"association_results_reference_known_tracklets\": true, \"coverage_complete_back\": true, \"coverage_complete_front\": true, \"detections_pts_match_table\": true, \"events_cover_all_moto_tracks\": true, \"sync_diagnostics_all_q_fields\": true}",
+     "pass": true
+    },
+    "G3_frames_back": {
+     "detail": "decoded=415 expected_container=415 forensic=415",
+     "pass": true
+    },
+    "G3_frames_front": {
+     "detail": "decoded=232 expected_container=232 forensic=232",
+     "pass": true
+    },
+    "G4_jsonl_lines_back": {
+     "detail": "lines=415 forensic=415",
+     "pass": true
+    },
+    "G4_jsonl_lines_front": {
+     "detail": "lines=232 forensic=232",
+     "pass": true
+    },
+    "G5_artifacts_13": {
+     "detail": "missing=[]",
+     "pass": true
+    },
+    "G6_diag_drift_q5": {
+     "detail": "drift_ms=0.0 q5_samples=231",
+     "pass": true
+    },
+    "G7_staged_weights": {
+     "detail": "{\"weights_yolov8n_sha256\": \"f59b3d833e2f\", \"weights_phase9_best_sha256\": \"0929a882667e\"}",
+     "pass": true
+    }
+   },
+   "pass1_deltas": {
+    "back_helmet": 0,
+    "back_motorcycle": 0,
+    "back_no_helmet": 0,
+    "back_person": 0,
+    "front_helmet": 0,
+    "front_motorcycle": 0,
+    "front_no_helmet": 0,
+    "front_person": 0
+   },
+   "peak_rss_mb": 2155.7,
+   "status": "COMPLETE",
+   "wall_time_sec": 28.65
+  },
+  "pair_010": {
+   "all_gates_pass": true,
+   "drift_ms": 14.0,
+   "events_total": 5,
+   "gates": {
+    "G1_summary_complete": {
+     "detail": "COMPLETE",
+     "pass": true
+    },
+    "G2_validation_8of8": {
+     "detail": "{\"all_passed\": true, \"association_outcome_counts_reconcile\": true, \"association_results_reference_known_tracklets\": true, \"coverage_complete_back\": true, \"coverage_complete_front\": true, \"detections_pts_match_table\": true, \"events_cover_all_moto_tracks\": true, \"sync_diagnostics_all_q_fields\": true}",
+     "pass": true
+    },
+    "G3_frames_back": {
+     "detail": "decoded=256 expected_container=256 forensic=256",
+     "pass": true
+    },
+    "G3_frames_front": {
+     "detail": "decoded=110 expected_container=110 forensic=110",
+     "pass": true
+    },
+    "G4_jsonl_lines_back": {
+     "detail": "lines=256 forensic=256",
+     "pass": true
+    },
+    "G4_jsonl_lines_front": {
+     "detail": "lines=110 forensic=110",
+     "pass": true
+    },
+    "G5_artifacts_13": {
+     "detail": "missing=[]",
+     "pass": true
+    },
+    "G6_diag_drift_q5": {
+     "detail": "drift_ms=14.0 q5_samples=109",
+     "pass": true
+    },
+    "G7_staged_weights": {
+     "detail": "{\"weights_yolov8n_sha256\": \"f59b3d833e2f\", \"weights_phase9_best_sha256\": \"0929a882667e\"}",
+     "pass": true
+    }
+   },
+   "pass1_deltas": {
+    "back_helmet": 0,
+    "back_motorcycle": 0,
+    "back_no_helmet": 0,
+    "back_person": 0,
+    "front_helmet": 0,
+    "front_motorcycle": 0,
+    "front_no_helmet": 0,
+    "front_person": 0
+   },
+   "peak_rss_mb": 2153.0,
+   "status": "COMPLETE",
+   "wall_time_sec": 17.64
+  },
+  "pair_011": {
+   "all_gates_pass": true,
+   "drift_ms": 0.0,
+   "events_total": 5,
+   "gates": {
+    "G1_summary_complete": {
+     "detail": "COMPLETE",
+     "pass": true
+    },
+    "G2_validation_8of8": {
+     "detail": "{\"all_passed\": true, \"association_outcome_counts_reconcile\": true, \"association_results_reference_known_tracklets\": true, \"coverage_complete_back\": true, \"coverage_complete_front\": true, \"detections_pts_match_table\": true, \"events_cover_all_moto_tracks\": true, \"sync_diagnostics_all_q_fields\": true}",
+     "pass": true
+    },
+    "G3_frames_back": {
+     "detail": "decoded=275 expected_container=275 forensic=275",
+     "pass": true
+    },
+    "G3_frames_front": {
+     "detail": "decoded=241 expected_container=241 forensic=241",
+     "pass": true
+    },
+    "G4_jsonl_lines_back": {
+     "detail": "lines=275 forensic=275",
+     "pass": true
+    },
+    "G4_jsonl_lines_front": {
+     "detail": "lines=241 forensic=241",
+     "pass": true
+    },
+    "G5_artifacts_13": {
+     "detail": "missing=[]",
+     "pass": true
+    },
+    "G6_diag_drift_q5": {
+     "detail": "drift_ms=0.0 q5_samples=197",
+     "pass": true
+    },
+    "G7_staged_weights": {
+     "detail": "{\"weights_yolov8n_sha256\": \"f59b3d833e2f\", \"weights_phase9_best_sha256\": \"0929a882667e\"}",
+     "pass": true
+    }
+   },
+   "pass1_deltas": {
+    "back_helmet": 0,
+    "back_motorcycle": 0,
+    "back_no_helmet": 0,
+    "back_person": 0,
+    "front_helmet": 0,
+    "front_motorcycle": 0,
+    "front_no_helmet": 0,
+    "front_person": 0
+   },
+   "peak_rss_mb": 2149.2,
+   "status": "COMPLETE",
+   "wall_time_sec": 22.54
+  },
+  "pair_012": {
+   "all_gates_pass": true,
+   "drift_ms": 0.0,
+   "events_total": 10,
+   "gates": {
+    "G1_summary_complete": {
+     "detail": "COMPLETE",
+     "pass": true
+    },
+    "G2_validation_8of8": {
+     "detail": "{\"all_passed\": true, \"association_outcome_counts_reconcile\": true, \"association_results_reference_known_tracklets\": true, \"coverage_complete_back\": true, \"coverage_complete_front\": true, \"detections_pts_match_table\": true, \"events_cover_all_moto_tracks\": true, \"sync_diagnostics_all_q_fields\": true}",
+     "pass": true
+    },
+    "G3_frames_back": {
+     "detail": "decoded=446 expected_container=446 forensic=446",
+     "pass": true
+    },
+    "G3_frames_front": {
+     "detail": "decoded=238 expected_container=238 forensic=238",
+     "pass": true
+    },
+    "G4_jsonl_lines_back": {
+     "detail": "lines=446 forensic=446",
+     "pass": true
+    },
+    "G4_jsonl_lines_front": {
+     "detail": "lines=238 forensic=238",
+     "pass": true
+    },
+    "G5_artifacts_13": {
+     "detail": "missing=[]",
+     "pass": true
+    },
+    "G6_diag_drift_q5": {
+     "detail": "drift_ms=0.0 q5_samples=237",
+     "pass": true
+    },
+    "G7_staged_weights": {
+     "detail": "{\"weights_yolov8n_sha256\": \"f59b3d833e2f\", \"weights_phase9_best_sha256\": \"0929a882667e\"}",
+     "pass": true
+    }
+   },
+   "pass1_deltas": {
+    "back_helmet": 0,
+    "back_motorcycle": 0,
+    "back_no_helmet": 0,
+    "back_person": 0,
+    "front_helmet": 0,
+    "front_motorcycle": 0,
+    "front_no_helmet": 0,
+    "front_person": 0
+   },
+   "peak_rss_mb": 2158.2,
+   "status": "COMPLETE",
+   "wall_time_sec": 30.19
+  },
+  "pair_013": {
+   "all_gates_pass": true,
+   "drift_ms": 0.0,
+   "events_total": 3,
+   "gates": {
+    "G1_summary_complete": {
+     "detail": "COMPLETE",
+     "pass": true
+    },
+    "G2_validation_8of8": {
+     "detail": "{\"all_passed\": true, \"association_outcome_counts_reconcile\": true, \"association_results_reference_known_tracklets\": true, \"coverage_complete_back\": true, \"coverage_complete_front\": true, \"detections_pts_match_table\": true, \"events_cover_all_moto_tracks\": true, \"sync_diagnostics_all_q_fields\": true}",
+     "pass": true
+    },
+    "G3_frames_back": {
+     "detail": "decoded=608 expected_container=608 forensic=608",
+     "pass": true
+    },
+    "G3_frames_front": {
+     "detail": "decoded=404 expected_container=404 forensic=404",
+     "pass": true
+    },
+    "G4_jsonl_lines_back": {
+     "detail": "lines=608 forensic=608",
+     "pass": true
+    },
+    "G4_jsonl_lines_front": {
+     "detail": "lines=404 forensic=404",
+     "pass": true
+    },
+    "G5_artifacts_13": {
+     "detail": "missing=[]",
+     "pass": true
+    },
+    "G6_diag_drift_q5": {
+     "detail": "drift_ms=0.0 q5_samples=403",
+     "pass": true
+    },
+    "G7_staged_weights": {
+     "detail": "{\"weights_yolov8n_sha256\": \"f59b3d833e2f\", \"weights_phase9_best_sha256\": \"0929a882667e\"}",
+     "pass": true
+    }
+   },
+   "pass1_deltas": {
+    "back_helmet": 0,
+    "back_motorcycle": 0,
+    "back_no_helmet": 0,
+    "back_person": 0,
+    "front_helmet": 0,
+    "front_motorcycle": 0,
+    "front_no_helmet": 0,
+    "front_person": 0
+   },
+   "peak_rss_mb": 2144.1,
+   "status": "COMPLETE",
+   "wall_time_sec": 42.85
+  },
+  "pair_014": {
+   "all_gates_pass": true,
+   "drift_ms": 0.0,
+   "events_total": 4,
+   "gates": {
+    "G1_summary_complete": {
+     "detail": "COMPLETE",
+     "pass": true
+    },
+    "G2_validation_8of8": {
+     "detail": "{\"all_passed\": true, \"association_outcome_counts_reconcile\": true, \"association_results_reference_known_tracklets\": true, \"coverage_complete_back\": true, \"coverage_complete_front\": true, \"detections_pts_match_table\": true, \"events_cover_all_moto_tracks\": true, \"sync_diagnostics_all_q_fields\": true}",
+     "pass": true
+    },
+    "G3_frames_back": {
+     "detail": "decoded=276 expected_container=276 forensic=276",
+     "pass": true
+    },
+    "G3_frames_front": {
+     "detail": "decoded=266 expected_container=266 forensic=266",
+     "pass": true
+    },
+    "G4_jsonl_lines_back": {
+     "detail": "lines=276 forensic=276",
+     "pass": true
+    },
+    "G4_jsonl_lines_front": {
+     "detail": "lines=266 forensic=266",
+     "pass": true
+    },
+    "G5_artifacts_13": {
+     "detail": "missing=[]",
+     "pass": true
+    },
+    "G6_diag_drift_q5": {
+     "detail": "drift_ms=0.0 q5_samples=156",
+     "pass": true
+    },
+    "G7_staged_weights": {
+     "detail": "{\"weights_yolov8n_sha256\": \"f59b3d833e2f\", \"weights_phase9_best_sha256\": \"0929a882667e\"}",
+     "pass": true
+    }
+   },
+   "pass1_deltas": {
+    "back_helmet": 0,
+    "back_motorcycle": 0,
+    "back_no_helmet": 0,
+    "back_person": 0,
+    "front_helmet": 0,
+    "front_motorcycle": 0,
+    "front_no_helmet": 0,
+    "front_person": 0
+   },
+   "peak_rss_mb": 2161.5,
+   "status": "COMPLETE",
+   "wall_time_sec": 23.88
+  },
+  "pair_015": {
+   "all_gates_pass": true,
+   "drift_ms": 74.0,
+   "events_total": 3,
+   "gates": {
+    "G1_summary_complete": {
+     "detail": "COMPLETE",
+     "pass": true
+    },
+    "G2_validation_8of8": {
+     "detail": "{\"all_passed\": true, \"association_outcome_counts_reconcile\": true, \"association_results_reference_known_tracklets\": true, \"coverage_complete_back\": true, \"coverage_complete_front\": true, \"detections_pts_match_table\": true, \"events_cover_all_moto_tracks\": true, \"sync_diagnostics_all_q_fields\": true}",
+     "pass": true
+    },
+    "G3_frames_back": {
+     "detail": "decoded=190 expected_container=190 forensic=190",
+     "pass": true
+    },
+    "G3_frames_front": {
+     "detail": "decoded=339 expected_container=339 forensic=339",
+     "pass": true
+    },
+    "G4_jsonl_lines_back": {
+     "detail": "lines=190 forensic=190",
+     "pass": true
+    },
+    "G4_jsonl_lines_front": {
+     "detail": "lines=339 forensic=339",
+     "pass": true
+    },
+    "G5_artifacts_13": {
+     "detail": "missing=[]",
+     "pass": true
+    },
+    "G6_diag_drift_q5": {
+     "detail": "drift_ms=74.0 q5_samples=250",
+     "pass": true
+    },
+    "G7_staged_weights": {
+     "detail": "{\"weights_yolov8n_sha256\": \"f59b3d833e2f\", \"weights_phase9_best_sha256\": \"0929a882667e\"}",
+     "pass": true
+    }
+   },
+   "pass1_deltas": {
+    "back_helmet": 0,
+    "back_motorcycle": 0,
+    "back_no_helmet": 0,
+    "back_person": 0,
+    "front_helmet": 0,
+    "front_motorcycle": 0,
+    "front_no_helmet": 0,
+    "front_person": 0
+   },
+   "peak_rss_mb": 2142.4,
+   "status": "COMPLETE",
+   "wall_time_sec": 21.85
+  },
+  "pair_016": {
+   "all_gates_pass": true,
+   "drift_ms": -20.0,
+   "events_total": 2,
+   "gates": {
+    "G1_summary_complete": {
+     "detail": "COMPLETE",
+     "pass": true
+    },
+    "G2_validation_8of8": {
+     "detail": "{\"all_passed\": true, \"association_outcome_counts_reconcile\": true, \"association_results_reference_known_tracklets\": true, \"coverage_complete_back\": true, \"coverage_complete_front\": true, \"detections_pts_match_table\": true, \"events_cover_all_moto_tracks\": true, \"sync_diagnostics_all_q_fields\": true}",
+     "pass": true
+    },
+    "G3_frames_back": {
+     "detail": "decoded=310 expected_container=310 forensic=310",
+     "pass": true
+    },
+    "G3_frames_front": {
+     "detail": "decoded=551 expected_container=551 forensic=551",
+     "pass": true
+    },
+    "G4_jsonl_lines_back": {
+     "detail": "lines=310 forensic=310",
+     "pass": true
+    },
+    "G4_jsonl_lines_front": {
+     "detail": "lines=551 forensic=551",
+     "pass": true
+    },
+    "G5_artifacts_13": {
+     "detail": "missing=[]",
+     "pass": true
+    },
+    "G6_diag_drift_q5": {
+     "detail": "drift_ms=-20.0 q5_samples=450",
+     "pass": true
+    },
+    "G7_staged_weights": {
+     "detail": "{\"weights_yolov8n_sha256\": \"f59b3d833e2f\", \"weights_phase9_best_sha256\": \"0929a882667e\"}",
+     "pass": true
+    }
+   },
+   "pass1_deltas": {
+    "back_helmet": 0,
+    "back_motorcycle": 0,
+    "back_no_helmet": 0,
+    "back_person": 0,
+    "front_helmet": 0,
+    "front_motorcycle": 0,
+    "front_no_helmet": 0,
+    "front_person": 0
+   },
+   "peak_rss_mb": 2158.8,
+   "status": "COMPLETE",
+   "wall_time_sec": 33.13
+  },
+  "pair_017": {
+   "all_gates_pass": true,
+   "drift_ms": 0.0,
+   "events_total": 2,
+   "gates": {
+    "G1_summary_complete": {
+     "detail": "COMPLETE",
+     "pass": true
+    },
+    "G2_validation_8of8": {
+     "detail": "{\"all_passed\": true, \"association_outcome_counts_reconcile\": true, \"association_results_reference_known_tracklets\": true, \"coverage_complete_back\": true, \"coverage_complete_front\": true, \"detections_pts_match_table\": true, \"events_cover_all_moto_tracks\": true, \"sync_diagnostics_all_q_fields\": true}",
+     "pass": true
+    },
+    "G3_frames_back": {
+     "detail": "decoded=200 expected_container=200 forensic=200",
+     "pass": true
+    },
+    "G3_frames_front": {
+     "detail": "decoded=200 expected_container=200 forensic=200",
+     "pass": true
+    },
+    "G4_jsonl_lines_back": {
+     "detail": "lines=200 forensic=200",
+     "pass": true
+    },
+    "G4_jsonl_lines_front": {
+     "detail": "lines=200 forensic=200",
+     "pass": true
+    },
+    "G5_artifacts_13": {
+     "detail": "missing=[]",
+     "pass": true
+    },
+    "G6_diag_drift_q5": {
+     "detail": "drift_ms=0.0 q5_samples=199",
+     "pass": true
+    },
+    "G7_staged_weights": {
+     "detail": "{\"weights_yolov8n_sha256\": \"f59b3d833e2f\", \"weights_phase9_best_sha256\": \"0929a882667e\"}",
+     "pass": true
+    }
+   },
+   "pass1_deltas": {
+    "back_helmet": 0,
+    "back_motorcycle": 0,
+    "back_no_helmet": 0,
+    "back_person": 0,
+    "front_helmet": 0,
+    "front_motorcycle": 0,
+    "front_no_helmet": 0,
+    "front_person": 0
+   },
+   "peak_rss_mb": 2151.8,
+   "status": "COMPLETE",
+   "wall_time_sec": 17.73
+  },
+  "pair_018": {
+   "all_gates_pass": true,
+   "drift_ms": 0.0,
+   "events_total": 1,
+   "gates": {
+    "G1_summary_complete": {
+     "detail": "COMPLETE",
+     "pass": true
+    },
+    "G2_validation_8of8": {
+     "detail": "{\"all_passed\": true, \"association_outcome_counts_reconcile\": true, \"association_results_reference_known_tracklets\": true, \"coverage_complete_back\": true, \"coverage_complete_front\": true, \"detections_pts_match_table\": true, \"events_cover_all_moto_tracks\": true, \"sync_diagnostics_all_q_fields\": true}",
+     "pass": true
+    },
+    "G3_frames_back": {
+     "detail": "decoded=198 expected_container=198 forensic=198",
+     "pass": true
+    },
+    "G3_frames_front": {
+     "detail": "decoded=155 expected_container=155 forensic=155",
+     "pass": true
+    },
+    "G4_jsonl_lines_back": {
+     "detail": "lines=198 forensic=198",
+     "pass": true
+    },
+    "G4_jsonl_lines_front": {
+     "detail": "lines=155 forensic=155",
+     "pass": true
+    },
+    "G5_artifacts_13": {
+     "detail": "missing=[]",
+     "pass": true
+    },
+    "G6_diag_drift_q5": {
+     "detail": "drift_ms=0.0 q5_samples=154",
+     "pass": true
+    },
+    "G7_staged_weights": {
+     "detail": "{\"weights_yolov8n_sha256\": \"f59b3d833e2f\", \"weights_phase9_best_sha256\": \"0929a882667e\"}",
+     "pass": true
+    }
+   },
+   "pass1_deltas": {
+    "back_helmet": 0,
+    "back_motorcycle": 0,
+    "back_no_helmet": 0,
+    "back_person": 0,
+    "front_helmet": 0,
+    "front_motorcycle": 0,
+    "front_no_helmet": 0,
+    "front_person": 0
+   },
+   "peak_rss_mb": 2160.5,
+   "status": "COMPLETE",
+   "wall_time_sec": 15.83
+  },
+  "pair_019": {
+   "all_gates_pass": true,
+   "drift_ms": -16.0,
+   "events_total": 4,
+   "gates": {
+    "G1_summary_complete": {
+     "detail": "COMPLETE",
+     "pass": true
+    },
+    "G2_validation_8of8": {
+     "detail": "{\"all_passed\": true, \"association_outcome_counts_reconcile\": true, \"association_results_reference_known_tracklets\": true, \"coverage_complete_back\": true, \"coverage_complete_front\": true, \"detections_pts_match_table\": true, \"events_cover_all_moto_tracks\": true, \"sync_diagnostics_all_q_fields\": true}",
+     "pass": true
+    },
+    "G3_frames_back": {
+     "detail": "decoded=231 expected_container=231 forensic=231",
+     "pass": true
+    },
+    "G3_frames_front": {
+     "detail": "decoded=372 expected_container=372 forensic=372",
+     "pass": true
+    },
+    "G4_jsonl_lines_back": {
+     "detail": "lines=231 forensic=231",
+     "pass": true
+    },
+    "G4_jsonl_lines_front": {
+     "detail": "lines=372 forensic=372",
+     "pass": true
+    },
+    "G5_artifacts_13": {
+     "detail": "missing=[]",
+     "pass": true
+    },
+    "G6_diag_drift_q5": {
+     "detail": "drift_ms=-16.0 q5_samples=229",
+     "pass": true
+    },
+    "G7_staged_weights": {
+     "detail": "{\"weights_yolov8n_sha256\": \"f59b3d833e2f\", \"weights_phase9_best_sha256\": \"0929a882667e\"}",
+     "pass": true
+    }
+   },
+   "pass1_deltas": {
+    "back_helmet": 0,
+    "back_motorcycle": 0,
+    "back_no_helmet": 0,
+    "back_person": 0,
+    "front_helmet": 0,
+    "front_motorcycle": 0,
+    "front_no_helmet": 0,
+    "front_person": 0
+   },
+   "peak_rss_mb": 2147.1,
+   "status": "COMPLETE",
+   "wall_time_sec": 25.17
+  },
+  "pair_020": {
+   "all_gates_pass": true,
+   "drift_ms": 0.0,
+   "events_total": 3,
+   "gates": {
+    "G1_summary_complete": {
+     "detail": "COMPLETE",
+     "pass": true
+    },
+    "G2_validation_8of8": {
+     "detail": "{\"all_passed\": true, \"association_outcome_counts_reconcile\": true, \"association_results_reference_known_tracklets\": true, \"coverage_complete_back\": true, \"coverage_complete_front\": true, \"detections_pts_match_table\": true, \"events_cover_all_moto_tracks\": true, \"sync_diagnostics_all_q_fields\": true}",
+     "pass": true
+    },
+    "G3_frames_back": {
+     "detail": "decoded=490 expected_container=490 forensic=490",
+     "pass": true
+    },
+    "G3_frames_front": {
+     "detail": "decoded=158 expected_container=158 forensic=158",
+     "pass": true
+    },
+    "G4_jsonl_lines_back": {
+     "detail": "lines=490 forensic=490",
+     "pass": true
+    },
+    "G4_jsonl_lines_front": {
+     "detail": "lines=158 forensic=158",
+     "pass": true
+    },
+    "G5_artifacts_13": {
+     "detail": "missing=[]",
+     "pass": true
+    },
+    "G6_diag_drift_q5": {
+     "detail": "drift_ms=0.0 q5_samples=157",
+     "pass": true
+    },
+    "G7_staged_weights": {
+     "detail": "{\"weights_yolov8n_sha256\": \"f59b3d833e2f\", \"weights_phase9_best_sha256\": \"0929a882667e\"}",
+     "pass": true
+    }
+   },
+   "pass1_deltas": {
+    "back_helmet": 0,
+    "back_motorcycle": 0,
+    "back_no_helmet": 0,
+    "back_person": 0,
+    "front_helmet": 0,
+    "front_motorcycle": 0,
+    "front_no_helmet": 0,
+    "front_person": 0
+   },
+   "peak_rss_mb": 2164.5,
+   "status": "COMPLETE",
+   "wall_time_sec": 29.58
+  },
+  "pair_021": {
+   "all_gates_pass": true,
+   "drift_ms": 0.0,
+   "events_total": 1,
+   "gates": {
+    "G1_summary_complete": {
+     "detail": "COMPLETE",
+     "pass": true
+    },
+    "G2_validation_8of8": {
+     "detail": "{\"all_passed\": true, \"association_outcome_counts_reconcile\": true, \"association_results_reference_known_tracklets\": true, \"coverage_complete_back\": true, \"coverage_complete_front\": true, \"detections_pts_match_table\": true, \"events_cover_all_moto_tracks\": true, \"sync_diagnostics_all_q_fields\": true}",
+     "pass": true
+    },
+    "G3_frames_back": {
+     "detail": "decoded=383 expected_container=383 forensic=383",
+     "pass": true
+    },
+    "G3_frames_front": {
+     "detail": "decoded=348 expected_container=348 forensic=348",
+     "pass": true
+    },
+    "G4_jsonl_lines_back": {
+     "detail": "lines=383 forensic=383",
+     "pass": true
+    },
+    "G4_jsonl_lines_front": {
+     "detail": "lines=348 forensic=348",
+     "pass": true
+    },
+    "G5_artifacts_13": {
+     "detail": "missing=[]",
+     "pass": true
+    },
+    "G6_diag_drift_q5": {
+     "detail": "drift_ms=0.0 q5_samples=272",
+     "pass": true
+    },
+    "G7_staged_weights": {
+     "detail": "{\"weights_yolov8n_sha256\": \"f59b3d833e2f\", \"weights_phase9_best_sha256\": \"0929a882667e\"}",
+     "pass": true
+    }
+   },
+   "pass1_deltas": {
+    "back_helmet": 0,
+    "back_motorcycle": 0,
+    "back_no_helmet": 0,
+    "back_person": 0,
+    "front_helmet": 0,
+    "front_motorcycle": 0,
+    "front_no_helmet": 0,
+    "front_person": 0
+   },
+   "peak_rss_mb": 2154.1,
+   "status": "COMPLETE",
+   "wall_time_sec": 31.5
+  },
+  "pair_022": {
+   "all_gates_pass": true,
+   "drift_ms": 0.0,
+   "events_total": 2,
+   "gates": {
+    "G1_summary_complete": {
+     "detail": "COMPLETE",
+     "pass": true
+    },
+    "G2_validation_8of8": {
+     "detail": "{\"all_passed\": true, \"association_outcome_counts_reconcile\": true, \"association_results_reference_known_tracklets\": true, \"coverage_complete_back\": true, \"coverage_complete_front\": true, \"detections_pts_match_table\": true, \"events_cover_all_moto_tracks\": true, \"sync_diagnostics_all_q_fields\": true}",
+     "pass": true
+    },
+    "G3_frames_back": {
+     "detail": "decoded=332 expected_container=332 forensic=332",
+     "pass": true
+    },
+    "G3_frames_front": {
+     "detail": "decoded=312 expected_container=312 forensic=312",
+     "pass": true
+    },
+    "G4_jsonl_lines_back": {
+     "detail": "lines=332 forensic=332",
+     "pass": true
+    },
+    "G4_jsonl_lines_front": {
+     "detail": "lines=312 forensic=312",
+     "pass": true
+    },
+    "G5_artifacts_13": {
+     "detail": "missing=[]",
+     "pass": true
+    },
+    "G6_diag_drift_q5": {
+     "detail": "drift_ms=0.0 q5_samples=218",
+     "pass": true
+    },
+    "G7_staged_weights": {
+     "detail": "{\"weights_yolov8n_sha256\": \"f59b3d833e2f\", \"weights_phase9_best_sha256\": \"0929a882667e\"}",
+     "pass": true
+    }
+   },
+   "pass1_deltas": {
+    "back_helmet": 0,
+    "back_motorcycle": 0,
+    "back_no_helmet": 0,
+    "back_person": 0,
+    "front_helmet": 0,
+    "front_motorcycle": 0,
+    "front_no_helmet": 0,
+    "front_person": 0
+   },
+   "peak_rss_mb": 2163.9,
+   "status": "COMPLETE",
+   "wall_time_sec": 27.92
+  },
+  "pair_023": {
+   "all_gates_pass": true,
+   "drift_ms": 0.0,
+   "events_total": 2,
+   "gates": {
+    "G1_summary_complete": {
+     "detail": "COMPLETE",
+     "pass": true
+    },
+    "G2_validation_8of8": {
+     "detail": "{\"all_passed\": true, \"association_outcome_counts_reconcile\": true, \"association_results_reference_known_tracklets\": true, \"coverage_complete_back\": true, \"coverage_complete_front\": true, \"detections_pts_match_table\": true, \"events_cover_all_moto_tracks\": true, \"sync_diagnostics_all_q_fields\": true}",
+     "pass": true
+    },
+    "G3_frames_back": {
+     "detail": "decoded=430 expected_container=430 forensic=430",
+     "pass": true
+    },
+    "G3_frames_front": {
+     "detail": "decoded=320 expected_container=320 forensic=320",
+     "pass": true
+    },
+    "G4_jsonl_lines_back": {
+     "detail": "lines=430 forensic=430",
+     "pass": true
+    },
+    "G4_jsonl_lines_front": {
+     "detail": "lines=320 forensic=320",
+     "pass": true
+    },
+    "G5_artifacts_13": {
+     "detail": "missing=[]",
+     "pass": true
+    },
+    "G6_diag_drift_q5": {
+     "detail": "drift_ms=0.0 q5_samples=318",
+     "pass": true
+    },
+    "G7_staged_weights": {
+     "detail": "{\"weights_yolov8n_sha256\": \"f59b3d833e2f\", \"weights_phase9_best_sha256\": \"0929a882667e\"}",
+     "pass": true
+    }
+   },
+   "pass1_deltas": {
+    "back_helmet": 0,
+    "back_motorcycle": 0,
+    "back_no_helmet": 0,
+    "back_person": 0,
+    "front_helmet": 0,
+    "front_motorcycle": 0,
+    "front_no_helmet": 0,
+    "front_person": 0
+   },
+   "peak_rss_mb": 2156.5,
+   "status": "COMPLETE",
+   "wall_time_sec": 32.36
+  },
+  "pair_024": {
+   "all_gates_pass": true,
+   "drift_ms": 0.0,
+   "events_total": 1,
+   "gates": {
+    "G1_summary_complete": {
+     "detail": "COMPLETE",
+     "pass": true
+    },
+    "G2_validation_8of8": {
+     "detail": "{\"all_passed\": true, \"association_outcome_counts_reconcile\": true, \"association_results_reference_known_tracklets\": true, \"coverage_complete_back\": true, \"coverage_complete_front\": true, \"detections_pts_match_table\": true, \"events_cover_all_moto_tracks\": true, \"sync_diagnostics_all_q_fields\": true}",
+     "pass": true
+    },
+    "G3_frames_back": {
+     "detail": "decoded=736 expected_container=736 forensic=736",
+     "pass": true
+    },
+    "G3_frames_front": {
+     "detail": "decoded=481 expected_container=481 forensic=481",
+     "pass": true
+    },
+    "G4_jsonl_lines_back": {
+     "detail": "lines=736 forensic=736",
+     "pass": true
+    },
+    "G4_jsonl_lines_front": {
+     "detail": "lines=481 forensic=481",
+     "pass": true
+    },
+    "G5_artifacts_13": {
+     "detail": "missing=[]",
+     "pass": true
+    },
+    "G6_diag_drift_q5": {
+     "detail": "drift_ms=0.0 q5_samples=480",
+     "pass": true
+    },
+    "G7_staged_weights": {
+     "detail": "{\"weights_yolov8n_sha256\": \"f59b3d833e2f\", \"weights_phase9_best_sha256\": \"0929a882667e\"}",
+     "pass": true
+    }
+   },
+   "pass1_deltas": {
+    "back_helmet": 0,
+    "back_motorcycle": 0,
+    "back_no_helmet": 0,
+    "back_person": 0,
+    "front_helmet": 0,
+    "front_motorcycle": 0,
+    "front_no_helmet": 0,
+    "front_person": 0
+   },
+   "peak_rss_mb": 2159.0,
+   "status": "COMPLETE",
+   "wall_time_sec": 52.73
+  },
+  "pair_025": {
+   "all_gates_pass": true,
+   "drift_ms": 0.0,
+   "events_total": 2,
+   "gates": {
+    "G1_summary_complete": {
+     "detail": "COMPLETE",
+     "pass": true
+    },
+    "G2_validation_8of8": {
+     "detail": "{\"all_passed\": true, \"association_outcome_counts_reconcile\": true, \"association_results_reference_known_tracklets\": true, \"coverage_complete_back\": true, \"coverage_complete_front\": true, \"detections_pts_match_table\": true, \"events_cover_all_moto_tracks\": true, \"sync_diagnostics_all_q_fields\": true}",
+     "pass": true
+    },
+    "G3_frames_back": {
+     "detail": "decoded=335 expected_container=335 forensic=335",
+     "pass": true
+    },
+    "G3_frames_front": {
+     "detail": "decoded=244 expected_container=244 forensic=244",
+     "pass": true
+    },
+    "G4_jsonl_lines_back": {
+     "detail": "lines=335 forensic=335",
+     "pass": true
+    },
+    "G4_jsonl_lines_front": {
+     "detail": "lines=244 forensic=244",
+     "pass": true
+    },
+    "G5_artifacts_13": {
+     "detail": "missing=[]",
+     "pass": true
+    },
+    "G6_diag_drift_q5": {
+     "detail": "drift_ms=0.0 q5_samples=208",
+     "pass": true
+    },
+    "G7_staged_weights": {
+     "detail": "{\"weights_yolov8n_sha256\": \"f59b3d833e2f\", \"weights_phase9_best_sha256\": \"0929a882667e\"}",
+     "pass": true
+    }
+   },
+   "pass1_deltas": {
+    "back_helmet": 0,
+    "back_motorcycle": 0,
+    "back_no_helmet": 0,
+    "back_person": 0,
+    "front_helmet": 0,
+    "front_motorcycle": 0,
+    "front_no_helmet": 0,
+    "front_person": 0
+   },
+   "peak_rss_mb": 2153.1,
+   "status": "COMPLETE",
+   "wall_time_sec": 26.05
+  }
+ }
+}

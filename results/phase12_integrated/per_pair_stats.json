@@ -1,0 +1,1227 @@
+{
+ "pair_001": {
+  "head_det": {
+   "tp": 449,
+   "fp": 41,
+   "fn": 0
+  },
+  "rider_primary": {
+   "tp": 449,
+   "fp": 0,
+   "fn": 0,
+   "iou_sum": 449.0,
+   "iou_n": 449
+  },
+  "rider_sensitivity": {
+   "tp": 449,
+   "fp": 0,
+   "fn": 0,
+   "iou_sum": 449.0,
+   "iou_n": 449
+  },
+  "helmet": {
+   "helmet": {
+    "tp": 2,
+    "fp": 0,
+    "fn": 0
+   },
+   "no_helmet": {
+    "tp": 447,
+    "fp": 0,
+    "fn": 0
+   }
+  },
+  "tracking": {
+   "idtp": 449,
+   "idfp": 0,
+   "idfn": 0,
+   "switches": 0
+  },
+  "assoc_moto": {
+   "tp": 0,
+   "fp": 0,
+   "fn": 0
+  },
+  "events": {
+   "tp": 2,
+   "fp": 0,
+   "fn": 0
+  }
+ },
+ "pair_002": {
+  "head_det": {
+   "tp": 22,
+   "fp": 415,
+   "fn": 0
+  },
+  "rider_primary": {
+   "tp": 0,
+   "fp": 0,
+   "fn": 0,
+   "iou_sum": 0,
+   "iou_n": 0
+  },
+  "rider_sensitivity": {
+   "tp": 22,
+   "fp": 0,
+   "fn": 0,
+   "iou_sum": 22.0,
+   "iou_n": 22
+  },
+  "helmet": {
+   "helmet": {
+    "tp": 9,
+    "fp": 0,
+    "fn": 0
+   },
+   "no_helmet": {
+    "tp": 13,
+    "fp": 0,
+    "fn": 0
+   }
+  },
+  "tracking": {
+   "idtp": 22,
+   "idfp": 1,
+   "idfn": 0,
+   "switches": 0
+  },
+  "assoc_moto": {
+   "tp": 0,
+   "fp": 0,
+   "fn": 0
+  },
+  "events": {
+   "tp": 1,
+   "fp": 1,
+   "fn": 1
+  }
+ },
+ "pair_003": {
+  "head_det": {
+   "tp": 213,
+   "fp": 27,
+   "fn": 0
+  },
+  "rider_primary": {
+   "tp": 213,
+   "fp": 0,
+   "fn": 0,
+   "iou_sum": 213.0,
+   "iou_n": 213
+  },
+  "rider_sensitivity": {
+   "tp": 213,
+   "fp": 0,
+   "fn": 0,
+   "iou_sum": 213.0,
+   "iou_n": 213
+  },
+  "helmet": {
+   "helmet": {
+    "tp": 24,
+    "fp": 0,
+    "fn": 0
+   },
+   "no_helmet": {
+    "tp": 189,
+    "fp": 0,
+    "fn": 0
+   }
+  },
+  "tracking": {
+   "idtp": 213,
+   "idfp": 0,
+   "idfn": 0,
+   "switches": 0
+  },
+  "assoc_moto": {
+   "tp": 0,
+   "fp": 0,
+   "fn": 0
+  },
+  "events": {
+   "tp": 4,
+   "fp": 0,
+   "fn": 0
+  }
+ },
+ "pair_004": {
+  "head_det": {
+   "tp": 224,
+   "fp": 214,
+   "fn": 0
+  },
+  "rider_primary": {
+   "tp": 223,
+   "fp": 0,
+   "fn": 0,
+   "iou_sum": 223.0,
+   "iou_n": 223
+  },
+  "rider_sensitivity": {
+   "tp": 224,
+   "fp": 0,
+   "fn": 0,
+   "iou_sum": 224.0,
+   "iou_n": 224
+  },
+  "helmet": {
+   "helmet": {
+    "tp": 29,
+    "fp": 0,
+    "fn": 0
+   },
+   "no_helmet": {
+    "tp": 189,
+    "fp": 0,
+    "fn": 0
+   }
+  },
+  "tracking": {
+   "idtp": 224,
+   "idfp": 0,
+   "idfn": 0,
+   "switches": 0
+  },
+  "assoc_moto": {
+   "tp": 1,
+   "fp": 0,
+   "fn": 0
+  },
+  "events": {
+   "tp": 3,
+   "fp": 0,
+   "fn": 0
+  }
+ },
+ "pair_005": {
+  "head_det": {
+   "tp": 175,
+   "fp": 127,
+   "fn": 0
+  },
+  "rider_primary": {
+   "tp": 173,
+   "fp": 0,
+   "fn": 0,
+   "iou_sum": 173.0,
+   "iou_n": 173
+  },
+  "rider_sensitivity": {
+   "tp": 175,
+   "fp": 0,
+   "fn": 0,
+   "iou_sum": 175.0,
+   "iou_n": 175
+  },
+  "helmet": {
+   "helmet": {
+    "tp": 173,
+    "fp": 0,
+    "fn": 0
+   },
+   "no_helmet": {
+    "tp": 2,
+    "fp": 0,
+    "fn": 0
+   }
+  },
+  "tracking": {
+   "idtp": 175,
+   "idfp": 0,
+   "idfn": 0,
+   "switches": 0
+  },
+  "assoc_moto": {
+   "tp": 0,
+   "fp": 0,
+   "fn": 0
+  },
+  "events": {
+   "tp": 2,
+   "fp": 0,
+   "fn": 0
+  }
+ },
+ "pair_006": {
+  "head_det": {
+   "tp": 140,
+   "fp": 141,
+   "fn": 0
+  },
+  "rider_primary": {
+   "tp": 140,
+   "fp": 0,
+   "fn": 0,
+   "iou_sum": 140.0,
+   "iou_n": 140
+  },
+  "rider_sensitivity": {
+   "tp": 140,
+   "fp": 0,
+   "fn": 0,
+   "iou_sum": 140.0,
+   "iou_n": 140
+  },
+  "helmet": {
+   "helmet": {
+    "tp": 0,
+    "fp": 0,
+    "fn": 0
+   },
+   "no_helmet": {
+    "tp": 140,
+    "fp": 0,
+    "fn": 0
+   }
+  },
+  "tracking": {
+   "idtp": 140,
+   "idfp": 9,
+   "idfn": 0,
+   "switches": 0
+  },
+  "assoc_moto": {
+   "tp": 1,
+   "fp": 0,
+   "fn": 0
+  },
+  "events": {
+   "tp": 4,
+   "fp": 0,
+   "fn": 0
+  }
+ },
+ "pair_007": {
+  "head_det": {
+   "tp": 226,
+   "fp": 23,
+   "fn": 0
+  },
+  "rider_primary": {
+   "tp": 226,
+   "fp": 0,
+   "fn": 0,
+   "iou_sum": 226.0,
+   "iou_n": 226
+  },
+  "rider_sensitivity": {
+   "tp": 226,
+   "fp": 0,
+   "fn": 0,
+   "iou_sum": 226.0,
+   "iou_n": 226
+  },
+  "helmet": {
+   "helmet": {
+    "tp": 5,
+    "fp": 0,
+    "fn": 0
+   },
+   "no_helmet": {
+    "tp": 221,
+    "fp": 0,
+    "fn": 0
+   }
+  },
+  "tracking": {
+   "idtp": 226,
+   "idfp": 0,
+   "idfn": 0,
+   "switches": 0
+  },
+  "assoc_moto": {
+   "tp": 0,
+   "fp": 0,
+   "fn": 0
+  },
+  "events": {
+   "tp": 5,
+   "fp": 1,
+   "fn": 0
+  }
+ },
+ "pair_008": {
+  "head_det": {
+   "tp": 148,
+   "fp": 92,
+   "fn": 0
+  },
+  "rider_primary": {
+   "tp": 148,
+   "fp": 0,
+   "fn": 0,
+   "iou_sum": 148.0,
+   "iou_n": 148
+  },
+  "rider_sensitivity": {
+   "tp": 148,
+   "fp": 0,
+   "fn": 0,
+   "iou_sum": 148.0,
+   "iou_n": 148
+  },
+  "helmet": {
+   "helmet": {
+    "tp": 1,
+    "fp": 0,
+    "fn": 0
+   },
+   "no_helmet": {
+    "tp": 147,
+    "fp": 0,
+    "fn": 0
+   }
+  },
+  "tracking": {
+   "idtp": 148,
+   "idfp": 0,
+   "idfn": 0,
+   "switches": 0
+  },
+  "assoc_moto": {
+   "tp": 1,
+   "fp": 0,
+   "fn": 0
+  },
+  "events": {
+   "tp": 1,
+   "fp": 0,
+   "fn": 0
+  }
+ },
+ "pair_009": {
+  "head_det": {
+   "tp": 207,
+   "fp": 144,
+   "fn": 0
+  },
+  "rider_primary": {
+   "tp": 207,
+   "fp": 0,
+   "fn": 0,
+   "iou_sum": 207.0,
+   "iou_n": 207
+  },
+  "rider_sensitivity": {
+   "tp": 207,
+   "fp": 0,
+   "fn": 0,
+   "iou_sum": 207.0,
+   "iou_n": 207
+  },
+  "helmet": {
+   "helmet": {
+    "tp": 0,
+    "fp": 0,
+    "fn": 0
+   },
+   "no_helmet": {
+    "tp": 207,
+    "fp": 0,
+    "fn": 0
+   }
+  },
+  "tracking": {
+   "idtp": 207,
+   "idfp": 0,
+   "idfn": 0,
+   "switches": 0
+  },
+  "assoc_moto": {
+   "tp": 0,
+   "fp": 1,
+   "fn": 0
+  },
+  "events": {
+   "tp": 4,
+   "fp": 7,
+   "fn": 1
+  }
+ },
+ "pair_010": {
+  "head_det": {
+   "tp": 243,
+   "fp": 237,
+   "fn": 0
+  },
+  "rider_primary": {
+   "tp": 243,
+   "fp": 0,
+   "fn": 0,
+   "iou_sum": 243.0,
+   "iou_n": 243
+  },
+  "rider_sensitivity": {
+   "tp": 243,
+   "fp": 0,
+   "fn": 0,
+   "iou_sum": 243.0,
+   "iou_n": 243
+  },
+  "helmet": {
+   "helmet": {
+    "tp": 217,
+    "fp": 0,
+    "fn": 0
+   },
+   "no_helmet": {
+    "tp": 26,
+    "fp": 0,
+    "fn": 0
+   }
+  },
+  "tracking": {
+   "idtp": 243,
+   "idfp": 0,
+   "idfn": 0,
+   "switches": 0
+  },
+  "assoc_moto": {
+   "tp": 1,
+   "fp": 0,
+   "fn": 0
+  },
+  "events": {
+   "tp": 5,
+   "fp": 0,
+   "fn": 0
+  }
+ },
+ "pair_011": {
+  "head_det": {
+   "tp": 188,
+   "fp": 136,
+   "fn": 0
+  },
+  "rider_primary": {
+   "tp": 188,
+   "fp": 0,
+   "fn": 0,
+   "iou_sum": 188.0,
+   "iou_n": 188
+  },
+  "rider_sensitivity": {
+   "tp": 188,
+   "fp": 0,
+   "fn": 0,
+   "iou_sum": 188.0,
+   "iou_n": 188
+  },
+  "helmet": {
+   "helmet": {
+    "tp": 164,
+    "fp": 0,
+    "fn": 0
+   },
+   "no_helmet": {
+    "tp": 24,
+    "fp": 0,
+    "fn": 0
+   }
+  },
+  "tracking": {
+   "idtp": 188,
+   "idfp": 0,
+   "idfn": 0,
+   "switches": 0
+  },
+  "assoc_moto": {
+   "tp": 1,
+   "fp": 0,
+   "fn": 0
+  },
+  "events": {
+   "tp": 2,
+   "fp": 3,
+   "fn": 0
+  }
+ },
+ "pair_012": {
+  "head_det": {
+   "tp": 234,
+   "fp": 175,
+   "fn": 0
+  },
+  "rider_primary": {
+   "tp": 234,
+   "fp": 0,
+   "fn": 0,
+   "iou_sum": 234.0,
+   "iou_n": 234
+  },
+  "rider_sensitivity": {
+   "tp": 234,
+   "fp": 0,
+   "fn": 0,
+   "iou_sum": 234.0,
+   "iou_n": 234
+  },
+  "helmet": {
+   "helmet": {
+    "tp": 174,
+    "fp": 0,
+    "fn": 0
+   },
+   "no_helmet": {
+    "tp": 60,
+    "fp": 0,
+    "fn": 0
+   }
+  },
+  "tracking": {
+   "idtp": 234,
+   "idfp": 0,
+   "idfn": 0,
+   "switches": 0
+  },
+  "assoc_moto": {
+   "tp": 1,
+   "fp": 0,
+   "fn": 0
+  },
+  "events": {
+   "tp": 7,
+   "fp": 3,
+   "fn": 1
+  }
+ },
+ "pair_013": {
+  "head_det": {
+   "tp": 363,
+   "fp": 37,
+   "fn": 0
+  },
+  "rider_primary": {
+   "tp": 363,
+   "fp": 0,
+   "fn": 0,
+   "iou_sum": 363.0,
+   "iou_n": 363
+  },
+  "rider_sensitivity": {
+   "tp": 363,
+   "fp": 0,
+   "fn": 0,
+   "iou_sum": 363.0,
+   "iou_n": 363
+  },
+  "helmet": {
+   "helmet": {
+    "tp": 1,
+    "fp": 0,
+    "fn": 0
+   },
+   "no_helmet": {
+    "tp": 362,
+    "fp": 0,
+    "fn": 0
+   }
+  },
+  "tracking": {
+   "idtp": 363,
+   "idfp": 0,
+   "idfn": 0,
+   "switches": 0
+  },
+  "assoc_moto": {
+   "tp": 0,
+   "fp": 0,
+   "fn": 0
+  },
+  "events": {
+   "tp": 1,
+   "fp": 2,
+   "fn": 0
+  }
+ },
+ "pair_014": {
+  "head_det": {
+   "tp": 252,
+   "fp": 81,
+   "fn": 0
+  },
+  "rider_primary": {
+   "tp": 252,
+   "fp": 0,
+   "fn": 0,
+   "iou_sum": 252.0,
+   "iou_n": 252
+  },
+  "rider_sensitivity": {
+   "tp": 252,
+   "fp": 0,
+   "fn": 0,
+   "iou_sum": 252.0,
+   "iou_n": 252
+  },
+  "helmet": {
+   "helmet": {
+    "tp": 0,
+    "fp": 0,
+    "fn": 0
+   },
+   "no_helmet": {
+    "tp": 252,
+    "fp": 0,
+    "fn": 0
+   }
+  },
+  "tracking": {
+   "idtp": 252,
+   "idfp": 0,
+   "idfn": 0,
+   "switches": 0
+  },
+  "assoc_moto": {
+   "tp": 0,
+   "fp": 0,
+   "fn": 0
+  },
+  "events": {
+   "tp": 3,
+   "fp": 1,
+   "fn": 0
+  }
+ },
+ "pair_015": {
+  "head_det": {
+   "tp": 278,
+   "fp": 85,
+   "fn": 0
+  },
+  "rider_primary": {
+   "tp": 278,
+   "fp": 0,
+   "fn": 0,
+   "iou_sum": 278.0,
+   "iou_n": 278
+  },
+  "rider_sensitivity": {
+   "tp": 278,
+   "fp": 0,
+   "fn": 0,
+   "iou_sum": 278.0,
+   "iou_n": 278
+  },
+  "helmet": {
+   "helmet": {
+    "tp": 208,
+    "fp": 0,
+    "fn": 0
+   },
+   "no_helmet": {
+    "tp": 70,
+    "fp": 0,
+    "fn": 0
+   }
+  },
+  "tracking": {
+   "idtp": 278,
+   "idfp": 2,
+   "idfn": 0,
+   "switches": 0
+  },
+  "assoc_moto": {
+   "tp": 0,
+   "fp": 1,
+   "fn": 0
+  },
+  "events": {
+   "tp": 1,
+   "fp": 2,
+   "fn": 2
+  }
+ },
+ "pair_016": {
+  "head_det": {
+   "tp": 403,
+   "fp": 147,
+   "fn": 0
+  },
+  "rider_primary": {
+   "tp": 401,
+   "fp": 0,
+   "fn": 0,
+   "iou_sum": 401.0,
+   "iou_n": 401
+  },
+  "rider_sensitivity": {
+   "tp": 403,
+   "fp": 0,
+   "fn": 0,
+   "iou_sum": 403.0,
+   "iou_n": 403
+  },
+  "helmet": {
+   "helmet": {
+    "tp": 290,
+    "fp": 0,
+    "fn": 0
+   },
+   "no_helmet": {
+    "tp": 113,
+    "fp": 0,
+    "fn": 0
+   }
+  },
+  "tracking": {
+   "idtp": 403,
+   "idfp": 0,
+   "idfn": 0,
+   "switches": 0
+  },
+  "assoc_moto": {
+   "tp": 0,
+   "fp": 0,
+   "fn": 0
+  },
+  "events": {
+   "tp": 2,
+   "fp": 0,
+   "fn": 0
+  }
+ },
+ "pair_017": {
+  "head_det": {
+   "tp": 262,
+   "fp": 2,
+   "fn": 0
+  },
+  "rider_primary": {
+   "tp": 262,
+   "fp": 0,
+   "fn": 0,
+   "iou_sum": 262.0,
+   "iou_n": 262
+  },
+  "rider_sensitivity": {
+   "tp": 262,
+   "fp": 0,
+   "fn": 0,
+   "iou_sum": 262.0,
+   "iou_n": 262
+  },
+  "helmet": {
+   "helmet": {
+    "tp": 2,
+    "fp": 0,
+    "fn": 0
+   },
+   "no_helmet": {
+    "tp": 260,
+    "fp": 0,
+    "fn": 0
+   }
+  },
+  "tracking": {
+   "idtp": 262,
+   "idfp": 0,
+   "idfn": 0,
+   "switches": 0
+  },
+  "assoc_moto": {
+   "tp": 0,
+   "fp": 0,
+   "fn": 0
+  },
+  "events": {
+   "tp": 2,
+   "fp": 0,
+   "fn": 0
+  }
+ },
+ "pair_018": {
+  "head_det": {
+   "tp": 190,
+   "fp": 95,
+   "fn": 0
+  },
+  "rider_primary": {
+   "tp": 190,
+   "fp": 0,
+   "fn": 0,
+   "iou_sum": 190.0,
+   "iou_n": 190
+  },
+  "rider_sensitivity": {
+   "tp": 190,
+   "fp": 0,
+   "fn": 0,
+   "iou_sum": 190.0,
+   "iou_n": 190
+  },
+  "helmet": {
+   "helmet": {
+    "tp": 1,
+    "fp": 0,
+    "fn": 0
+   },
+   "no_helmet": {
+    "tp": 189,
+    "fp": 0,
+    "fn": 0
+   }
+  },
+  "tracking": {
+   "idtp": 190,
+   "idfp": 0,
+   "idfn": 0,
+   "switches": 0
+  },
+  "assoc_moto": {
+   "tp": 1,
+   "fp": 0,
+   "fn": 0
+  },
+  "events": {
+   "tp": 1,
+   "fp": 0,
+   "fn": 0
+  }
+ },
+ "pair_019": {
+  "head_det": {
+   "tp": 500,
+   "fp": 385,
+   "fn": 0
+  },
+  "rider_primary": {
+   "tp": 497,
+   "fp": 0,
+   "fn": 0,
+   "iou_sum": 497.0,
+   "iou_n": 497
+  },
+  "rider_sensitivity": {
+   "tp": 500,
+   "fp": 0,
+   "fn": 0,
+   "iou_sum": 500.0,
+   "iou_n": 500
+  },
+  "helmet": {
+   "helmet": {
+    "tp": 46,
+    "fp": 0,
+    "fn": 0
+   },
+   "no_helmet": {
+    "tp": 454,
+    "fp": 0,
+    "fn": 0
+   }
+  },
+  "tracking": {
+   "idtp": 500,
+   "idfp": 0,
+   "idfn": 0,
+   "switches": 0
+  },
+  "assoc_moto": {
+   "tp": 1,
+   "fp": 0,
+   "fn": 0
+  },
+  "events": {
+   "tp": 4,
+   "fp": 0,
+   "fn": 0
+  }
+ },
+ "pair_020": {
+  "head_det": {
+   "tp": 139,
+   "fp": 142,
+   "fn": 0
+  },
+  "rider_primary": {
+   "tp": 138,
+   "fp": 0,
+   "fn": 0,
+   "iou_sum": 138.0,
+   "iou_n": 138
+  },
+  "rider_sensitivity": {
+   "tp": 139,
+   "fp": 0,
+   "fn": 0,
+   "iou_sum": 139.0,
+   "iou_n": 139
+  },
+  "helmet": {
+   "helmet": {
+    "tp": 0,
+    "fp": 0,
+    "fn": 0
+   },
+   "no_helmet": {
+    "tp": 139,
+    "fp": 0,
+    "fn": 0
+   }
+  },
+  "tracking": {
+   "idtp": 139,
+   "idfp": 0,
+   "idfn": 0,
+   "switches": 0
+  },
+  "assoc_moto": {
+   "tp": 0,
+   "fp": 0,
+   "fn": 0
+  },
+  "events": {
+   "tp": 2,
+   "fp": 1,
+   "fn": 1
+  }
+ },
+ "pair_021": {
+  "head_det": {
+   "tp": 337,
+   "fp": 142,
+   "fn": 0
+  },
+  "rider_primary": {
+   "tp": 336,
+   "fp": 0,
+   "fn": 0,
+   "iou_sum": 336.0,
+   "iou_n": 336
+  },
+  "rider_sensitivity": {
+   "tp": 337,
+   "fp": 0,
+   "fn": 0,
+   "iou_sum": 337.0,
+   "iou_n": 337
+  },
+  "helmet": {
+   "helmet": {
+    "tp": 2,
+    "fp": 0,
+    "fn": 0
+   },
+   "no_helmet": {
+    "tp": 335,
+    "fp": 0,
+    "fn": 0
+   }
+  },
+  "tracking": {
+   "idtp": 337,
+   "idfp": 0,
+   "idfn": 0,
+   "switches": 0
+  },
+  "assoc_moto": {
+   "tp": 1,
+   "fp": 0,
+   "fn": 0
+  },
+  "events": {
+   "tp": 1,
+   "fp": 0,
+   "fn": 0
+  }
+ },
+ "pair_022": {
+  "head_det": {
+   "tp": 261,
+   "fp": 8,
+   "fn": 0
+  },
+  "rider_primary": {
+   "tp": 261,
+   "fp": 0,
+   "fn": 0,
+   "iou_sum": 261.0,
+   "iou_n": 261
+  },
+  "rider_sensitivity": {
+   "tp": 261,
+   "fp": 0,
+   "fn": 0,
+   "iou_sum": 261.0,
+   "iou_n": 261
+  },
+  "helmet": {
+   "helmet": {
+    "tp": 2,
+    "fp": 0,
+    "fn": 0
+   },
+   "no_helmet": {
+    "tp": 259,
+    "fp": 0,
+    "fn": 0
+   }
+  },
+  "tracking": {
+   "idtp": 261,
+   "idfp": 0,
+   "idfn": 0,
+   "switches": 0
+  },
+  "assoc_moto": {
+   "tp": 0,
+   "fp": 0,
+   "fn": 0
+  },
+  "events": {
+   "tp": 2,
+   "fp": 0,
+   "fn": 0
+  }
+ },
+ "pair_023": {
+  "head_det": {
+   "tp": 347,
+   "fp": 19,
+   "fn": 0
+  },
+  "rider_primary": {
+   "tp": 347,
+   "fp": 0,
+   "fn": 0,
+   "iou_sum": 347.0,
+   "iou_n": 347
+  },
+  "rider_sensitivity": {
+   "tp": 347,
+   "fp": 0,
+   "fn": 0,
+   "iou_sum": 347.0,
+   "iou_n": 347
+  },
+  "helmet": {
+   "helmet": {
+    "tp": 6,
+    "fp": 0,
+    "fn": 0
+   },
+   "no_helmet": {
+    "tp": 341,
+    "fp": 0,
+    "fn": 0
+   }
+  },
+  "tracking": {
+   "idtp": 347,
+   "idfp": 1,
+   "idfn": 0,
+   "switches": 0
+  },
+  "assoc_moto": {
+   "tp": 0,
+   "fp": 0,
+   "fn": 0
+  },
+  "events": {
+   "tp": 2,
+   "fp": 0,
+   "fn": 0
+  }
+ },
+ "pair_024": {
+  "head_det": {
+   "tp": 748,
+   "fp": 9,
+   "fn": 0
+  },
+  "rider_primary": {
+   "tp": 748,
+   "fp": 0,
+   "fn": 0,
+   "iou_sum": 748.0,
+   "iou_n": 748
+  },
+  "rider_sensitivity": {
+   "tp": 748,
+   "fp": 0,
+   "fn": 0,
+   "iou_sum": 748.0,
+   "iou_n": 748
+  },
+  "helmet": {
+   "helmet": {
+    "tp": 6,
+    "fp": 0,
+    "fn": 0
+   },
+   "no_helmet": {
+    "tp": 742,
+    "fp": 0,
+    "fn": 0
+   }
+  },
+  "tracking": {
+   "idtp": 748,
+   "idfp": 4,
+   "idfn": 0,
+   "switches": 0
+  },
+  "assoc_moto": {
+   "tp": 1,
+   "fp": 0,
+   "fn": 0
+  },
+  "events": {
+   "tp": 1,
+   "fp": 0,
+   "fn": 0
+  }
+ },
+ "pair_025": {
+  "head_det": {
+   "tp": 210,
+   "fp": 122,
+   "fn": 0
+  },
+  "rider_primary": {
+   "tp": 210,
+   "fp": 0,
+   "fn": 0,
+   "iou_sum": 210.0,
+   "iou_n": 210
+  },
+  "rider_sensitivity": {
+   "tp": 210,
+   "fp": 0,
+   "fn": 0,
+   "iou_sum": 210.0,
+   "iou_n": 210
+  },
+  "helmet": {
+   "helmet": {
+    "tp": 3,
+    "fp": 0,
+    "fn": 0
+   },
+   "no_helmet": {
+    "tp": 207,
+    "fp": 0,
+    "fn": 0
+   }
+  },
+  "tracking": {
+   "idtp": 210,
+   "idfp": 0,
+   "idfn": 0,
+   "switches": 0
+  },
+  "assoc_moto": {
+   "tp": 0,
+   "fp": 0,
+   "fn": 0
+  },
+  "events": {
+   "tp": 2,
+   "fp": 0,
+   "fn": 0
+  }
+ }
+}

@@ -1,0 +1,15 @@
+{
+ "association_config_path": "/kaggle/working/repo/configs/cross_camera_association_config.yaml",
+ "data_root": "/kaggle/working/repo/data/dual_camera_test_v1",
+ "device": "cuda",
+ "helmet_conf_threshold": 0.25,
+ "keyframe_max_per_camera": 24,
+ "keyframe_max_width": 1280,
+ "keyframe_stride": 3,
+ "metadata_path": "/kaggle/working/repo/data/dual_camera_test_v1/metadata/synchronization_metadata.json",
+ "output_root": "/kaggle/working/stagej_out",
+ "resume": true,
+ "tick_hz": 60.0,
+ "tracking_config_path": "/kaggle/working/repo/configs/tracking_config.yaml",
+ "vehicle_conf_threshold": 0.18
+}

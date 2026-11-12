@@ -1,0 +1,302 @@
+[
+ {
+  "association_outcome": "LINKED",
+  "association_score": 0.6707,
+  "back_track_id": "back_moto_0001",
+  "cross_camera_link_status": "LINKED_BOTH_VIEWS",
+  "decision_reasons": [
+   "CONFIRMED_1_TO_1_CROSS_CAMERA_MATCH"
+  ],
+  "event_is_violation": true,
+  "front_track_id": "front_moto_0001",
+  "global_moto_id": "pair_009_moto_01",
+  "phase10_alert_ids": [
+   "VIOLATION-1-184-EEB93A",
+   "VIOLATION-1-4-7F8AEA",
+   "VIOLATION-1-94-FBCAF5"
+  ],
+  "plate_ground_truth": {
+   "gt_plate_text_normalized": null,
+   "note": "Plate assessment is out of scope for the integrated pipeline (no Phase 12F/OCR); no plate text is asserted.",
+   "plate_visibility_tier": "NOT_ASSESSED"
+  },
+  "rider_count": 2,
+  "riders": [
+   {
+    "helmet_state": "NO_HELMET",
+    "helmet_state_provenance": "AI_DIRECT",
+    "recorded_slot_roles": [
+     "driver"
+    ],
+    "rider_slot": 0,
+    "role": "driver",
+    "violation_window_ref_sec": [
+     0.225,
+     3.5741
+    ]
+   },
+   {
+    "helmet_state": "NO_HELMET",
+    "helmet_state_provenance": "AI_DIRECT",
+    "recorded_slot_roles": [
+     "driver"
+    ],
+    "rider_slot": 1,
+    "role": "pillion_1",
+    "violation_window_ref_sec": [
+     0.225,
+     3.5741
+    ]
+   }
+  ],
+  "violation_event_type": "BOTH_NO_HELMET",
+  "violation_window_ref_sec": [
+   0.225,
+   3.5741
+  ]
+ },
+ {
+  "association_outcome": "INSUFFICIENT_EVIDENCE",
+  "association_score": 0.0,
+  "back_track_id": "back_moto_0002",
+  "cross_camera_link_status": "BACK_VIEW_ONLY",
+  "decision_reasons": [
+   "OBSERVED_FRAMES_1_BELOW_MIN_2",
+   "TRACKLET_FRAGMENTED_TENTATIVE"
+  ],
+  "event_is_violation": null,
+  "front_track_id": null,
+  "global_moto_id": "pair_009_moto_02",
+  "phase10_alert_ids": [],
+  "plate_ground_truth": {
+   "gt_plate_text_normalized": null,
+   "note": "Plate assessment is out of scope for the integrated pipeline (no Phase 12F/OCR); no plate text is asserted.",
+   "plate_visibility_tier": "NOT_ASSESSED"
+  },
+  "rider_count": 0,
+  "riders": [],
+  "violation_event_type": "INSUFFICIENT_VISUAL_EVIDENCE",
+  "violation_window_ref_sec": null
+ },
+ {
+  "association_outcome": "INSUFFICIENT_EVIDENCE",
+  "association_score": 0.0,
+  "back_track_id": "back_moto_0003",
+  "cross_camera_link_status": "BACK_VIEW_ONLY",
+  "decision_reasons": [
+   "OBSERVED_FRAMES_1_BELOW_MIN_2",
+   "TRACKLET_FRAGMENTED_TENTATIVE"
+  ],
+  "event_is_violation": null,
+  "front_track_id": null,
+  "global_moto_id": "pair_009_moto_03",
+  "phase10_alert_ids": [],
+  "plate_ground_truth": {
+   "gt_plate_text_normalized": null,
+   "note": "Plate assessment is out of scope for the integrated pipeline (no Phase 12F/OCR); no plate text is asserted.",
+   "plate_visibility_tier": "NOT_ASSESSED"
+  },
+  "rider_count": 0,
+  "riders": [],
+  "violation_event_type": "INSUFFICIENT_VISUAL_EVIDENCE",
+  "violation_window_ref_sec": null
+ },
+ {
+  "association_outcome": "UNMATCHED",
+  "association_score": 0.3857,
+  "back_track_id": "back_moto_0004",
+  "cross_camera_link_status": "BACK_VIEW_ONLY",
+  "decision_reasons": [
+   "BEST_SCORE_0.386_BELOW_MIN_0.62"
+  ],
+  "event_is_violation": true,
+  "front_track_id": null,
+  "global_moto_id": "pair_009_moto_04",
+  "phase10_alert_ids": [],
+  "plate_ground_truth": {
+   "gt_plate_text_normalized": null,
+   "note": "Plate assessment is out of scope for the integrated pipeline (no Phase 12F/OCR); no plate text is asserted.",
+   "plate_visibility_tier": "NOT_ASSESSED"
+  },
+  "rider_count": 1,
+  "riders": [
+   {
+    "helmet_state": "NO_HELMET",
+    "helmet_state_provenance": "AI_DIRECT",
+    "recorded_slot_roles": [
+     "driver"
+    ],
+    "rider_slot": 0,
+    "role": "driver",
+    "violation_window_ref_sec": [
+     3.605,
+     6.908333
+    ]
+   }
+  ],
+  "violation_event_type": "DRIVER_NO_HELMET",
+  "violation_window_ref_sec": [
+   3.605,
+   6.908333
+  ]
+ },
+ {
+  "association_outcome": "UNMATCHED",
+  "association_score": 0.2504,
+  "back_track_id": "back_moto_0005",
+  "cross_camera_link_status": "BACK_VIEW_ONLY",
+  "decision_reasons": [
+   "BEST_SCORE_0.250_BELOW_MIN_0.62"
+  ],
+  "event_is_violation": null,
+  "front_track_id": null,
+  "global_moto_id": "pair_009_moto_05",
+  "phase10_alert_ids": [],
+  "plate_ground_truth": {
+   "gt_plate_text_normalized": null,
+   "note": "Plate assessment is out of scope for the integrated pipeline (no Phase 12F/OCR); no plate text is asserted.",
+   "plate_visibility_tier": "NOT_ASSESSED"
+  },
+  "rider_count": 0,
+  "riders": [],
+  "violation_event_type": "INSUFFICIENT_VISUAL_EVIDENCE",
+  "violation_window_ref_sec": null
+ },
+ {
+  "association_outcome": "INSUFFICIENT_EVIDENCE",
+  "association_score": 0.0,
+  "back_track_id": "back_moto_0006",
+  "cross_camera_link_status": "BACK_VIEW_ONLY",
+  "decision_reasons": [
+   "OBSERVED_FRAMES_1_BELOW_MIN_2",
+   "TRACKLET_FRAGMENTED_TENTATIVE"
+  ],
+  "event_is_violation": null,
+  "front_track_id": null,
+  "global_moto_id": "pair_009_moto_06",
+  "phase10_alert_ids": [],
+  "plate_ground_truth": {
+   "gt_plate_text_normalized": null,
+   "note": "Plate assessment is out of scope for the integrated pipeline (no Phase 12F/OCR); no plate text is asserted.",
+   "plate_visibility_tier": "NOT_ASSESSED"
+  },
+  "rider_count": 0,
+  "riders": [],
+  "violation_event_type": "INSUFFICIENT_VISUAL_EVIDENCE",
+  "violation_window_ref_sec": null
+ },
+ {
+  "association_outcome": "INSUFFICIENT_EVIDENCE",
+  "association_score": 0.0,
+  "back_track_id": "back_moto_0007",
+  "cross_camera_link_status": "BACK_VIEW_ONLY",
+  "decision_reasons": [
+   "OBSERVED_FRAMES_1_BELOW_MIN_2",
+   "TRACKLET_FRAGMENTED_TENTATIVE"
+  ],
+  "event_is_violation": null,
+  "front_track_id": null,
+  "global_moto_id": "pair_009_moto_07",
+  "phase10_alert_ids": [],
+  "plate_ground_truth": {
+   "gt_plate_text_normalized": null,
+   "note": "Plate assessment is out of scope for the integrated pipeline (no Phase 12F/OCR); no plate text is asserted.",
+   "plate_visibility_tier": "NOT_ASSESSED"
+  },
+  "rider_count": 0,
+  "riders": [],
+  "violation_event_type": "INSUFFICIENT_VISUAL_EVIDENCE",
+  "violation_window_ref_sec": null
+ },
+ {
+  "association_outcome": "UNMATCHED",
+  "association_score": 0.0,
+  "back_track_id": "back_moto_0008",
+  "cross_camera_link_status": "BACK_VIEW_ONLY",
+  "decision_reasons": [
+   "TEMPORAL_SCORE_BELOW_MIN_GATE"
+  ],
+  "event_is_violation": null,
+  "front_track_id": null,
+  "global_moto_id": "pair_009_moto_08",
+  "phase10_alert_ids": [],
+  "plate_ground_truth": {
+   "gt_plate_text_normalized": null,
+   "note": "Plate assessment is out of scope for the integrated pipeline (no Phase 12F/OCR); no plate text is asserted.",
+   "plate_visibility_tier": "NOT_ASSESSED"
+  },
+  "rider_count": 0,
+  "riders": [],
+  "violation_event_type": "INSUFFICIENT_VISUAL_EVIDENCE",
+  "violation_window_ref_sec": null
+ },
+ {
+  "association_outcome": "INSUFFICIENT_EVIDENCE",
+  "association_score": 0.0,
+  "back_track_id": "back_moto_0009",
+  "cross_camera_link_status": "BACK_VIEW_ONLY",
+  "decision_reasons": [
+   "OBSERVED_FRAMES_1_BELOW_MIN_2",
+   "TRACKLET_FRAGMENTED_TENTATIVE"
+  ],
+  "event_is_violation": null,
+  "front_track_id": null,
+  "global_moto_id": "pair_009_moto_09",
+  "phase10_alert_ids": [],
+  "plate_ground_truth": {
+   "gt_plate_text_normalized": null,
+   "note": "Plate assessment is out of scope for the integrated pipeline (no Phase 12F/OCR); no plate text is asserted.",
+   "plate_visibility_tier": "NOT_ASSESSED"
+  },
+  "rider_count": 0,
+  "riders": [],
+  "violation_event_type": "INSUFFICIENT_VISUAL_EVIDENCE",
+  "violation_window_ref_sec": null
+ },
+ {
+  "association_outcome": "INSUFFICIENT_EVIDENCE",
+  "association_score": 0.0,
+  "back_track_id": "back_moto_0010",
+  "cross_camera_link_status": "BACK_VIEW_ONLY",
+  "decision_reasons": [
+   "OBSERVED_FRAMES_1_BELOW_MIN_2",
+   "TRACKLET_FRAGMENTED_TENTATIVE"
+  ],
+  "event_is_violation": null,
+  "front_track_id": null,
+  "global_moto_id": "pair_009_moto_10",
+  "phase10_alert_ids": [],
+  "plate_ground_truth": {
+   "gt_plate_text_normalized": null,
+   "note": "Plate assessment is out of scope for the integrated pipeline (no Phase 12F/OCR); no plate text is asserted.",
+   "plate_visibility_tier": "NOT_ASSESSED"
+  },
+  "rider_count": 0,
+  "riders": [],
+  "violation_event_type": "INSUFFICIENT_VISUAL_EVIDENCE",
+  "violation_window_ref_sec": null
+ },
+ {
+  "association_outcome": "INSUFFICIENT_EVIDENCE",
+  "association_score": 0.0,
+  "back_track_id": "back_moto_0011",
+  "cross_camera_link_status": "BACK_VIEW_ONLY",
+  "decision_reasons": [
+   "OBSERVED_FRAMES_1_BELOW_MIN_2",
+   "TRACKLET_FRAGMENTED_TENTATIVE"
+  ],
+  "event_is_violation": null,
+  "front_track_id": null,
+  "global_moto_id": "pair_009_moto_11",
+  "phase10_alert_ids": [],
+  "plate_ground_truth": {
+   "gt_plate_text_normalized": null,
+   "note": "Plate assessment is out of scope for the integrated pipeline (no Phase 12F/OCR); no plate text is asserted.",
+   "plate_visibility_tier": "NOT_ASSESSED"
+  },
+  "rider_count": 0,
+  "riders": [],
+  "violation_event_type": "INSUFFICIENT_VISUAL_EVIDENCE",
+  "violation_window_ref_sec": null
+ }
+]

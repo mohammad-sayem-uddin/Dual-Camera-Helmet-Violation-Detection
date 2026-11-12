@@ -1,0 +1,559 @@
+{
+ "$schema": "https://json-schema.org/draft/2020-12/schema",
+ "$id": "dual_camera_gt_v1.schema.json",
+ "title": "dual_camera_gt_v1 \u2014 AI-assisted audited dual-camera helmet annotations",
+ "description": "Consolidated corrected annotations for dual_camera_test_v1. Field layout follows the Phase 12B hierarchical protocol (PairAnnotation -> GlobalMotorcycleEvent -> CameraViewObservation / RiderGroundTruth / PlateGroundTruth), extended with per-camera track records and AI-audit provenance. The dataset is AI_ASSISTED_AUDITED, not human-verified.",
+ "type": "object",
+ "required": [
+  "schema_version",
+  "dataset_id",
+  "annotation_label",
+  "annotated_by",
+  "human_verified",
+  "pairs"
+ ],
+ "properties": {
+  "schema_version": {
+   "const": "1.0.0"
+  },
+  "dataset_id": {
+   "const": "dual_camera_test_v1"
+  },
+  "annotation_label": {
+   "const": "AI_ASSISTED_AUDITED"
+  },
+  "annotated_by": {
+   "type": "string"
+  },
+  "human_verified": {
+   "const": false
+  },
+  "provenance_note": {
+   "type": "string"
+  },
+  "models": {
+   "type": "object"
+  },
+  "corrections_applied": {
+   "type": "object",
+   "required": [
+    "total_ops",
+    "pass2_ops",
+    "pass3_addendum_ops"
+   ],
+   "properties": {
+    "total_ops": {
+     "type": "integer"
+    },
+    "pass2_ops": {
+     "type": "integer"
+    },
+    "pass3_addendum_ops": {
+     "type": "integer"
+    }
+   }
+  },
+  "pairs": {
+   "type": "array",
+   "minItems": 25,
+   "maxItems": 25,
+   "items": {
+    "$ref": "#/$defs/pair"
+   }
+  }
+ },
+ "$defs": {
+  "bbox": {
+   "type": "array",
+   "items": {
+    "type": "number"
+   },
+   "minItems": 4,
+   "maxItems": 4
+  },
+  "helmet_state": {
+   "enum": [
+    "HELMET",
+    "NO_HELMET",
+    "UNCERTAIN"
+   ]
+  },
+  "gt_helmet_state": {
+   "enum": [
+    "helmet",
+    "no_helmet",
+    "occluded_unknown"
+   ]
+  },
+  "rider": {
+   "type": "object",
+   "required": [
+    "rider_slot",
+    "role",
+    "gt_helmet_state",
+    "helmet_state",
+    "helmet_state_provenance"
+   ],
+   "properties": {
+    "rider_slot": {
+     "type": "integer",
+     "minimum": 0,
+     "maximum": 2
+    },
+    "role": {
+     "enum": [
+      "driver",
+      "pillion_1",
+      "pillion_2"
+     ]
+    },
+    "recorded_slot_roles": {
+     "type": "array",
+     "items": {
+      "type": "string"
+     }
+    },
+    "gt_helmet_state": {
+     "$ref": "#/$defs/gt_helmet_state"
+    },
+    "helmet_state": {
+     "$ref": "#/$defs/helmet_state"
+    },
+    "helmet_state_provenance": {
+     "enum": [
+      "AI_DIRECT",
+      "AI_TRACK_PROPAGATED",
+      "AI_INTERPOLATED",
+      "MANUAL_CORRECTION",
+      "UNCERTAIN"
+     ]
+    },
+    "headgear_note": {
+     "type": [
+      "string",
+      "null"
+     ]
+    },
+    "front_visibility": {
+     "type": [
+      "string",
+      "null"
+     ]
+    },
+    "back_visibility": {
+     "type": [
+      "string",
+      "null"
+     ]
+    },
+    "violation_window_ref_sec": {
+     "type": [
+      "array",
+      "null"
+     ],
+     "items": {
+      "type": "number"
+     },
+     "minItems": 2,
+     "maxItems": 2
+    }
+   }
+  },
+  "observation": {
+   "type": [
+    "object",
+    "null"
+   ],
+   "required": [
+    "obs_id",
+    "track_id",
+    "camera",
+    "t_enter_ref_sec",
+    "t_peak_ref_sec",
+    "t_exit_ref_sec",
+    "peak_moto_bbox_xyxy",
+    "observed_frame_count"
+   ],
+   "properties": {
+    "obs_id": {
+     "type": "string"
+    },
+    "track_id": {
+     "type": "string"
+    },
+    "camera": {
+     "enum": [
+      "front",
+      "back"
+     ]
+    },
+    "t_enter_ref_sec": {
+     "type": "number"
+    },
+    "t_peak_ref_sec": {
+     "type": "number"
+    },
+    "t_exit_ref_sec": {
+     "type": "number"
+    },
+    "peak_moto_bbox_xyxy": {
+     "$ref": "#/$defs/bbox"
+    },
+    "entry_bbox_xyxy": {
+     "type": [
+      "array",
+      "null"
+     ]
+    },
+    "exit_bbox_xyxy": {
+     "type": [
+      "array",
+      "null"
+     ]
+    },
+    "observed_frame_count": {
+     "type": "integer"
+    },
+    "occlusion_level": {
+     "type": [
+      "string",
+      "null"
+     ]
+    },
+    "peak_rider_head_bboxes_xyxy": {
+     "type": "array"
+    }
+   }
+  },
+  "event": {
+   "type": "object",
+   "required": [
+    "global_moto_id",
+    "cross_camera_link_status",
+    "association_outcome",
+    "rider_count",
+    "event_is_violation",
+    "violation_event_type",
+    "riders",
+    "front_observation",
+    "back_observation",
+    "plate_ground_truth"
+   ],
+   "properties": {
+    "global_moto_id": {
+     "type": "string",
+     "pattern": "^pair_0[0-9]{2}_moto_[0-9]{2}$"
+    },
+    "cross_camera_link_status": {
+     "enum": [
+      "LINKED_BOTH_VIEWS",
+      "FRONT_VIEW_ONLY",
+      "BACK_VIEW_ONLY",
+      "AMBIGUOUS_HUMAN_UNCERTAIN"
+     ]
+    },
+    "association_outcome": {
+     "enum": [
+      "LINKED",
+      "UNMATCHED",
+      "AMBIGUOUS_ABSTAIN",
+      "INSUFFICIENT_EVIDENCE"
+     ]
+    },
+    "association_score": {
+     "type": [
+      "number",
+      "null"
+     ]
+    },
+    "rider_count": {
+     "type": "integer",
+     "minimum": 0
+    },
+    "event_is_violation": {
+     "type": [
+      "boolean",
+      "null"
+     ]
+    },
+    "violation_event_type": {
+     "enum": [
+      "DRIVER_NO_HELMET",
+      "PILLION_NO_HELMET",
+      "BOTH_NO_HELMET",
+      "NO_VIOLATION",
+      "INSUFFICIENT_VISUAL_EVIDENCE"
+     ]
+    },
+    "violation_window_ref_sec": {
+     "type": [
+      "array",
+      "null"
+     ]
+    },
+    "riders": {
+     "type": "array",
+     "items": {
+      "$ref": "#/$defs/rider"
+     }
+    },
+    "front_observation": {
+     "$ref": "#/$defs/observation"
+    },
+    "back_observation": {
+     "$ref": "#/$defs/observation"
+    },
+    "plate_ground_truth": {
+     "type": "object",
+     "required": [
+      "plate_visibility_tier",
+      "gt_plate_text_normalized"
+     ],
+     "properties": {
+      "plate_visibility_tier": {
+       "enum": [
+        "READABLE_CLEAR",
+        "VISIBLE_UNREADABLE_BLUR",
+        "OCCLUDED",
+        "MISSING_OR_NO_PLATE",
+        "NOT_ASSESSED"
+       ]
+      },
+      "gt_plate_text_normalized": {
+       "type": [
+        "string",
+        "null"
+       ]
+      },
+      "best_plate_frame_back_pts_sec": {
+       "type": [
+        "number",
+        "null"
+       ]
+      },
+      "best_plate_bbox_xyxy": {
+       "type": [
+        "array",
+        "null"
+       ]
+      },
+      "note": {
+       "type": "string"
+      }
+     }
+    }
+   }
+  },
+  "moto_track": {
+   "type": "object",
+   "required": [
+    "track_id",
+    "camera",
+    "first_frame_index",
+    "last_frame_index",
+    "rider_subtracks"
+   ],
+   "properties": {
+    "track_id": {
+     "type": "string",
+     "pattern": "^(front|back)_moto_[0-9]{4}$"
+    },
+    "camera": {
+     "enum": [
+      "front",
+      "back"
+     ]
+    },
+    "first_frame_index": {
+     "type": "integer"
+    },
+    "last_frame_index": {
+     "type": "integer"
+    },
+    "clipped_offframe_box_frames": {
+     "type": "array",
+     "items": {
+      "type": "integer"
+     }
+    },
+    "correction_ids": {
+     "type": "array",
+     "items": {
+      "type": "string"
+     }
+    },
+    "rider_subtracks": {
+     "type": "array",
+     "items": {
+      "type": "object",
+      "required": [
+       "subtrack_id",
+       "slot_index",
+       "track_helmet_state",
+       "gt_helmet_state",
+       "state_provenance",
+       "observation_counts",
+       "n_observations"
+      ],
+      "properties": {
+       "subtrack_id": {
+        "type": "string"
+       },
+       "slot_index": {
+        "type": "integer",
+        "minimum": 0,
+        "maximum": 2
+       },
+       "track_helmet_state": {
+        "$ref": "#/$defs/helmet_state"
+       },
+       "gt_helmet_state": {
+        "$ref": "#/$defs/gt_helmet_state"
+       },
+       "state_provenance": {
+        "type": "string"
+       },
+       "observation_counts": {
+        "type": "object"
+       },
+       "n_observations": {
+        "type": "integer"
+       },
+       "head_observations": {
+        "type": "array"
+       }
+      }
+     }
+    }
+   }
+  },
+  "orphan_track": {
+   "type": "object",
+   "required": [
+    "track_id",
+    "camera",
+    "role",
+    "track_helmet_state"
+   ],
+   "properties": {
+    "track_id": {
+     "type": "string",
+     "pattern": "^(front|back)_orphan_[0-9]{4}$"
+    },
+    "camera": {
+     "enum": [
+      "front",
+      "back"
+     ]
+    },
+    "role": {
+     "const": "pedestrian_or_uncoupled_rider"
+    },
+    "track_helmet_state": {
+     "$ref": "#/$defs/helmet_state"
+    }
+   }
+  },
+  "pair": {
+   "type": "object",
+   "required": [
+    "pair_id",
+    "common_overlap_start_ref_sec",
+    "common_overlap_end_ref_sec",
+    "global_offset_sec",
+    "sync_uncertainty_ms",
+    "sync_tier",
+    "sync_quality",
+    "global_motorcycle_events",
+    "camera_annotations",
+    "excluded_tracks"
+   ],
+   "properties": {
+    "pair_id": {
+     "type": "string",
+     "pattern": "^pair_0[0-9]{2}$"
+    },
+    "common_overlap_start_ref_sec": {
+     "type": "number"
+    },
+    "common_overlap_end_ref_sec": {
+     "type": "number"
+    },
+    "global_offset_sec": {
+     "type": "number"
+    },
+    "sync_uncertainty_ms": {
+     "type": "number"
+    },
+    "sync_tier": {
+     "enum": [
+      "sub-frame",
+      "near-frame"
+     ]
+    },
+    "sync_quality": {
+     "enum": [
+      "HIGH",
+      "MEDIUM",
+      "LOW"
+     ]
+    },
+    "global_motorcycle_events": {
+     "type": "array",
+     "items": {
+      "$ref": "#/$defs/event"
+     }
+    },
+    "camera_annotations": {
+     "type": "object",
+     "required": [
+      "front",
+      "back"
+     ],
+     "properties": {
+      "front": {
+       "$ref": "#/$defs/cam_ann"
+      },
+      "back": {
+       "$ref": "#/$defs/cam_ann"
+      }
+     }
+    },
+    "excluded_tracks": {
+     "type": "array",
+     "items": {
+      "type": "object",
+      "required": [
+       "track_id",
+       "camera",
+       "kind",
+       "correction_ids",
+       "reason"
+      ]
+     }
+    }
+   }
+  },
+  "cam_ann": {
+   "type": "object",
+   "required": [
+    "motorcycle_tracks",
+    "orphan_rider_tracks"
+   ],
+   "properties": {
+    "motorcycle_tracks": {
+     "type": "array",
+     "items": {
+      "$ref": "#/$defs/moto_track"
+     }
+    },
+    "orphan_rider_tracks": {
+     "type": "array",
+     "items": {
+      "$ref": "#/$defs/orphan_track"
+     }
+    }
+   }
+  }
+ }
+}

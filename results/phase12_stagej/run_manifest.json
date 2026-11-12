@@ -1,0 +1,157 @@
+{
+ "artifact_schema": "dual_camera_pipeline/1.0",
+ "config": {
+  "association_config_path": "/kaggle/working/repo/configs/cross_camera_association_config.yaml",
+  "data_root": "/kaggle/working/repo/data/dual_camera_test_v1",
+  "device": "cuda",
+  "helmet_conf_threshold": 0.25,
+  "keyframe_max_per_camera": 24,
+  "keyframe_max_width": 1280,
+  "keyframe_stride": 3,
+  "metadata_path": "/kaggle/working/repo/data/dual_camera_test_v1/metadata/synchronization_metadata.json",
+  "output_root": "/kaggle/working/stagej_out",
+  "resume": true,
+  "tick_hz": 60.0,
+  "tracking_config_path": "/kaggle/working/repo/configs/tracking_config.yaml",
+  "vehicle_conf_threshold": 0.18
+ },
+ "counts": {
+  "COMPLETE": 25
+ },
+ "generated_at": "2026-11-10T00:19:37.230100+00:00",
+ "input_hashes": {
+  "association_config_sha256": "e6da76a9a9bc571c764803d27ba9dd298acca60f460d4d4a005225a447fef848",
+  "metadata_sha256": "7ca8f86d712e06981fd57d2a4f0fd594c35881ffa91ec8a091b04fb6737c0009",
+  "tracking_config_sha256": "681baa01eb257acfe94a703647cc32566fc9e59275e246e0777e89b878899a0b",
+  "weights_phase9_best_sha256": "0929a882667e0f7e2b631071ab218a2415cc1b816cdede7fb6812543d840b0e5",
+  "weights_yolov8n_sha256": "f59b3d833e2ff32e194b5bb8e08d211dc7c5bdf144b90d2c8412c47ccfc83b36"
+ },
+ "pairs": [
+  {
+   "error_code": null,
+   "pair_id": "pair_001",
+   "status": "COMPLETE"
+  },
+  {
+   "error_code": null,
+   "pair_id": "pair_002",
+   "status": "COMPLETE"
+  },
+  {
+   "error_code": null,
+   "pair_id": "pair_003",
+   "status": "COMPLETE"
+  },
+  {
+   "error_code": null,
+   "pair_id": "pair_004",
+   "status": "COMPLETE"
+  },
+  {
+   "error_code": null,
+   "pair_id": "pair_005",
+   "status": "COMPLETE"
+  },
+  {
+   "error_code": null,
+   "pair_id": "pair_006",
+   "status": "COMPLETE"
+  },
+  {
+   "error_code": null,
+   "pair_id": "pair_007",
+   "status": "COMPLETE"
+  },
+  {
+   "error_code": null,
+   "pair_id": "pair_008",
+   "status": "COMPLETE"
+  },
+  {
+   "error_code": null,
+   "pair_id": "pair_009",
+   "status": "COMPLETE"
+  },
+  {
+   "error_code": null,
+   "pair_id": "pair_010",
+   "status": "COMPLETE"
+  },
+  {
+   "error_code": null,
+   "pair_id": "pair_011",
+   "status": "COMPLETE"
+  },
+  {
+   "error_code": null,
+   "pair_id": "pair_012",
+   "status": "COMPLETE"
+  },
+  {
+   "error_code": null,
+   "pair_id": "pair_013",
+   "status": "COMPLETE"
+  },
+  {
+   "error_code": null,
+   "pair_id": "pair_014",
+   "status": "COMPLETE"
+  },
+  {
+   "error_code": null,
+   "pair_id": "pair_015",
+   "status": "COMPLETE"
+  },
+  {
+   "error_code": null,
+   "pair_id": "pair_016",
+   "status": "COMPLETE"
+  },
+  {
+   "error_code": null,
+   "pair_id": "pair_017",
+   "status": "COMPLETE"
+  },
+  {
+   "error_code": null,
+   "pair_id": "pair_018",
+   "status": "COMPLETE"
+  },
+  {
+   "error_code": null,
+   "pair_id": "pair_019",
+   "status": "COMPLETE"
+  },
+  {
+   "error_code": null,
+   "pair_id": "pair_020",
+   "status": "COMPLETE"
+  },
+  {
+   "error_code": null,
+   "pair_id": "pair_021",
+   "status": "COMPLETE"
+  },
+  {
+   "error_code": null,
+   "pair_id": "pair_022",
+   "status": "COMPLETE"
+  },
+  {
+   "error_code": null,
+   "pair_id": "pair_023",
+   "status": "COMPLETE"
+  },
+  {
+   "error_code": null,
+   "pair_id": "pair_024",
+   "status": "COMPLETE"
+  },
+  {
+   "error_code": null,
+   "pair_id": "pair_025",
+   "status": "COMPLETE"
+  }
+ ],
+ "pipeline": "src.pipeline.dual_camera_pipeline"
+}

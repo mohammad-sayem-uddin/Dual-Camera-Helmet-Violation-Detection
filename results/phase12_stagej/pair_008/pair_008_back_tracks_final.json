@@ -1,0 +1,267 @@
+{
+ "duplicate_ticks_skipped": 0,
+ "frames_updated": 270,
+ "moto_tracks": [
+  {
+   "age": 129,
+   "bbox": [
+    2351.25,
+    491.02,
+    2521.98,
+    735.04
+   ],
+   "camera_id": "back",
+   "confidence": 0.5268,
+   "first_pts_sec": 2.353333,
+   "hits": 128,
+   "last_pts_sec": 4.488333,
+   "lifecycle_state": "RECOVERED",
+   "moto_track_id": "back_moto_0001",
+   "recovery_count": 1,
+   "rider_abstained_updates": 86,
+   "rider_pts_history": {
+    "0": [
+     [
+      149,
+      2.486667,
+      [
+       457.3,
+       626.1,
+       736.25,
+       835.89
+      ],
+      "no_helmet",
+      0.4083
+     ],
+     [
+      150,
+      2.503333,
+      [
+       558.09,
+       619.19,
+       821.24,
+       818.63
+      ],
+      "no_helmet",
+      0.5703
+     ],
+     [
+      151,
+      2.52,
+      [
+       648.5,
+       598.96,
+       912.84,
+       809.96
+      ],
+      "no_helmet",
+      0.3608
+     ],
+     [
+      154,
+      2.57,
+      [
+       891.52,
+       576.29,
+       1110.7,
+       756.36
+      ],
+      "no_helmet",
+      0.4733
+     ],
+     [
+      155,
+      2.586667,
+      [
+       971.88,
+       573.6,
+       1169.64,
+       743.72
+      ],
+      "no_helmet",
+      0.5709
+     ],
+     [
+      158,
+      2.636667,
+      [
+       1183.06,
+       548.9,
+       1346.83,
+       698.67
+      ],
+      "no_helmet",
+      0.3164
+     ],
+     [
+      160,
+      2.67,
+      [
+       1289.12,
+       529.31,
+       1437.28,
+       669.9
+      ],
+      "no_helmet",
+      0.5472
+     ],
+     [
+      161,
+      2.686667,
+      [
+       1340.93,
+       546.02,
+       1477.77,
+       660.06
+      ],
+      "no_helmet",
+      0.3421
+     ],
+     [
+      163,
+      2.72,
+      [
+       1414.33,
+       518.04,
+       1548.81,
+       632.79
+      ],
+      "no_helmet",
+      0.3989
+     ],
+     [
+      164,
+      2.736667,
+      [
+       1477.1,
+       510.89,
+       1587.0,
+       612.49
+      ],
+      "no_helmet",
+      0.6508
+     ],
+     [
+      165,
+      2.753333,
+      [
+       1509.95,
+       508.85,
+       1631.75,
+       606.55
+      ],
+      "no_helmet",
+      0.3526
+     ]
+    ]
+   },
+   "rider_subtracks": {
+    "0": {
+     "abstained_updates_count": 86,
+     "age": 121,
+     "aggregated_confidence": {
+      "helmet": 0.0,
+      "no_helmet": 0.0
+     },
+     "alerts_emitted": 1,
+     "bbox": [
+      6697.14,
+      -491.37,
+      6699.61,
+      -489.37
+     ],
+     "camera_id": "back",
+     "consecutive_helmet_frames": 0,
+     "consecutive_no_helmet_frames": 11,
+     "hits": 11,
+     "last_coupling_score": 0.8644,
+     "ordering_confident": true,
+     "parent_moto_id": "back_moto_0001",
+     "slot_index": 0,
+     "slot_role": "driver",
+     "subtrack_id": "back_moto_0001_rider_s0",
+     "temporal_state": "TRACK_LOST",
+     "time_since_update": 104
+    }
+   },
+   "slot_spatial_conflicts_detected": 86,
+   "spatial_identity_overrides": 0,
+   "stage2_low_conf_matches": 8,
+   "time_since_update": 0,
+   "velocity_xy": [
+    2.957,
+    -3.501
+   ]
+  }
+ ],
+ "orphan_tracks": [
+  {
+   "aggregated_confidence": {
+    "helmet": 0.1774,
+    "no_helmet": 0.8226
+   },
+   "alerts_emitted": 0,
+   "bbox": [
+    1391.86,
+    529.31,
+    1516.02,
+    637.99
+   ],
+   "camera_id": "back",
+   "hits": 1,
+   "last_rejection_reason": "NO_MOTORCYCLE_IN_FRAME",
+   "lifecycle_state": "TERMINATED",
+   "orphan_track_id": "back_orphan_0001",
+   "pts_history": [
+    [
+     162,
+     2.703333,
+     [
+      1391.86,
+      529.31,
+      1516.02,
+      637.99
+     ],
+     "no_helmet",
+     0.6451
+    ]
+   ],
+   "temporal_state": "TEMPORARILY_OCCLUDED",
+   "time_since_update": 9
+  },
+  {
+   "aggregated_confidence": {
+    "helmet": 0.2863,
+    "no_helmet": 0.7137
+   },
+   "alerts_emitted": 0,
+   "bbox": [
+    1535.51,
+    499.73,
+    1668.4,
+    604.42
+   ],
+   "camera_id": "back",
+   "hits": 1,
+   "last_rejection_reason": "AMBIGUOUS_ADJACENT_MOTORCYCLES",
+   "lifecycle_state": "TERMINATED",
+   "orphan_track_id": "back_orphan_0002",
+   "pts_history": [
+    [
+     166,
+     2.77,
+     [
+      1535.51,
+      499.73,
+      1668.4,
+      604.42
+     ],
+     "no_helmet",
+     0.4275
+    ]
+   ],
+   "temporal_state": "TEMPORARILY_OCCLUDED",
+   "time_since_update": 9
+  }
+ ]
+}

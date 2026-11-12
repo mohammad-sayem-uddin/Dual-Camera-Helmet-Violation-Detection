@@ -1,0 +1,125 @@
+{
+ "duplicate_ticks_skipped": 0,
+ "frames_updated": 423,
+ "moto_tracks": [
+  {
+   "age": 148,
+   "bbox": [
+    1622.54,
+    549.11,
+    1834.23,
+    860.59
+   ],
+   "camera_id": "back",
+   "confidence": 0.6766,
+   "first_pts_sec": 4.588333,
+   "hits": 148,
+   "last_pts_sec": 7.041667,
+   "lifecycle_state": "CONFIRMED",
+   "moto_track_id": "back_moto_0001",
+   "recovery_count": 0,
+   "rider_abstained_updates": 121,
+   "rider_pts_history": {
+    "0": [
+     [
+      287,
+      4.788333,
+      [
+       2736.17,
+       0.0,
+       2870.24,
+       87.42
+      ],
+      "helmet",
+      0.3651
+     ],
+     [
+      299,
+      4.988333,
+      [
+       2749.75,
+       0.0,
+       2896.66,
+       84.61
+      ],
+      "helmet",
+      0.2995
+     ]
+    ]
+   },
+   "rider_subtracks": {
+    "0": {
+     "abstained_updates_count": 120,
+     "age": 136,
+     "aggregated_confidence": {
+      "helmet": 0.0,
+      "no_helmet": 0.0
+     },
+     "alerts_emitted": 0,
+     "bbox": [
+      2973.27,
+      0.0,
+      3062.42,
+      57.26
+     ],
+     "camera_id": "back",
+     "consecutive_helmet_frames": 2,
+     "consecutive_no_helmet_frames": 0,
+     "hits": 2,
+     "last_coupling_score": 0.9033,
+     "ordering_confident": true,
+     "parent_moto_id": "back_moto_0001",
+     "slot_index": 0,
+     "slot_role": "driver",
+     "subtrack_id": "back_moto_0001_rider_s0",
+     "temporal_state": "TRACK_LOST",
+     "time_since_update": 123
+    }
+   },
+   "slot_spatial_conflicts_detected": 121,
+   "spatial_identity_overrides": 0,
+   "stage2_low_conf_matches": 0,
+   "time_since_update": 0,
+   "velocity_xy": [
+    -2.752,
+    -2.368
+   ]
+  }
+ ],
+ "orphan_tracks": [
+  {
+   "aggregated_confidence": {
+    "helmet": 0.3747,
+    "no_helmet": 0.6253
+   },
+   "alerts_emitted": 0,
+   "bbox": [
+    2264.15,
+    56.78,
+    2413.93,
+    159.66
+   ],
+   "camera_id": "back",
+   "hits": 1,
+   "last_rejection_reason": "NO_MOTORCYCLE_IN_FRAME",
+   "lifecycle_state": "TERMINATED",
+   "orphan_track_id": "back_orphan_0001",
+   "pts_history": [
+    [
+     173,
+     2.886667,
+     [
+      2264.15,
+      56.78,
+      2413.93,
+      159.66
+     ],
+     "no_helmet",
+     0.2507
+    ]
+   ],
+   "temporal_state": "TEMPORARILY_OCCLUDED",
+   "time_since_update": 9
+  }
+ ]
+}

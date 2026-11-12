@@ -1,0 +1,371 @@
+pair,cam,frame,ref,category,severity,verdict,detail,source
+pair_001,back,8,back_orphan_0001,ORPHAN,,CORRECT,Partial person visible at right frame edge inside green box; real person,PASS2_VISUAL_SHEET
+pair_001,back,315,back_moto_0001,BACK,,CORRECT,Rear-view motorcycle centred with rider; orange box tight on bike,PASS2_VISUAL_SHEET
+pair_001,front,60,front_orphan_0001,ORPHAN,,CORRECT,Rider person on motorcycle clearly visible in green box; real person,PASS2_VISUAL_SHEET
+pair_001,front,94,front_moto_0001,FRONT,,CORRECT,Large front-view motorcycle; orange box correctly encloses bike and rider area,PASS2_VISUAL_SHEET
+pair_001,front,171,front_orphan_0004,ORPHAN,,CORRECT,Pedestrian in black on right side of road in green box; real person,PASS2_VISUAL_SHEET
+pair_001,front,181,front_orphan_0007,ORPHAN,,CORRECT,Same pedestrian further along road in green box; real person,PASS2_VISUAL_SHEET
+pair_002,back,177,back_orphan_0001,ORPHAN,,ERROR,FP_DETECTION: No person visible anywhere in frame; empty road scene at track mid-frame,PASS2_VISUAL_SHEET
+pair_002,back,349,back_moto_0001,BACK,,CORRECT,Rear-view motorcycle centred; orange box correctly on bike,PASS2_VISUAL_SHEET
+pair_002,front,2,front_moto_0001_rider_s0,FLIP,,UNCERTAIN,Rider is a tiny distant figure down the road; helmet state cannot be judged at this size,PASS2_VISUAL_SHEET
+pair_002,front,4,front_moto_0001_rider_s0,FLIP,,UNCERTAIN,Rider still tiny and distant; helmet state cannot be judged at this size,PASS2_VISUAL_SHEET
+pair_002,front,106,front_orphan_0001,ORPHAN,,CORRECT,Approaching rider person visible in green box with head box; real person,PASS2_VISUAL_SHEET
+pair_002,front,148,front_moto_0001,FRONT,,CORRECT,Approaching motorcycle in orange box with rider visible; box correct,PASS2_VISUAL_SHEET
+pair_002,front,311,front_orphan_0004,ORPHAN,,CORRECT,Two pedestrians at left in green boxes; real people,PASS2_VISUAL_SHEET
+pair_003,back,23,back_orphan_0001,ORPHAN,,CORRECT,Distant riders and persons down the road inside green boxes; real though small,PASS2_VISUAL_SHEET
+pair_003,back,85,back_orphan_0004,ORPHAN,,CORRECT,Distant persons down the road inside green boxes; real though small,PASS2_VISUAL_SHEET
+pair_003,back,109,back_orphan_0007,ORPHAN,,CORRECT,Distant rider and pedestrian figures inside green boxes; real,PASS2_VISUAL_SHEET
+pair_003,back,287,back_orphan_0010,ORPHAN,,CORRECT,Distant rider and pedestrian figures inside green boxes; real,PASS2_VISUAL_SHEET
+pair_003,back,386,back_moto_0001,BACK,,CORRECT,Rear-view motorcycle with rider on right; orange box on bike,PASS2_VISUAL_SHEET
+pair_003,back,404,back_moto_0002,BACK,,CORRECT,Rear-view motorcycle with rider; orange box on bike,PASS2_VISUAL_SHEET
+pair_003,front,85,front_moto_0001,FRONT,,CORRECT,Approaching motorcycle centre-left; orange box correct,PASS2_VISUAL_SHEET
+pair_003,front,141,front_moto_0002,FRONT,,CORRECT,Large motorcycle right side real; detection box loose but white track box tight on bike,PASS2_VISUAL_SHEET
+pair_004,back,147,back_moto_0001,BACK,,CORRECT,Rear-view motorcycle centre; orange box correct with rider above,PASS2_VISUAL_SHEET
+pair_004,front,12,front_orphan_0001,ORPHAN,,CORRECT,Distant rider and pedestrians on right inside green boxes; real people,PASS2_VISUAL_SHEET
+pair_004,front,27,front_moto_0003,FRONT,,CORRECT,Distant motorcycles on road inside orange boxes; real bikes,PASS2_VISUAL_SHEET
+pair_004,front,36,front_orphan_0004,ORPHAN,,CORRECT,Pedestrians on right inside green boxes; real people,PASS2_VISUAL_SHEET
+pair_004,front,83,front_moto_0001,FRONT,,CORRECT,Approaching motorcycle centre; orange box correct,PASS2_VISUAL_SHEET
+pair_004,front,90,front_moto_0002,FRONT,,CORRECT,Approaching motorcycle centre; orange box correct,PASS2_VISUAL_SHEET
+pair_004,front,124,front_orphan_0007,ORPHAN,,CORRECT,Passing rider at left and distant persons at right in green boxes; real people,PASS2_VISUAL_SHEET
+pair_005,back,284,back_moto_0001,BACK,,CORRECT,Rear-view motorcycle with helmeted rider; orange box correct,PASS2_VISUAL_SHEET
+pair_005,front,88,front_moto_0001,FRONT,,CORRECT,Approaching motorcycle on right; orange and white boxes on bike,PASS2_VISUAL_SHEET
+pair_005,front,135,front_orphan_0001,ORPHAN,,CORRECT,Helmeted rider large in green box plus pedestrian at right; real people,PASS2_VISUAL_SHEET
+pair_006,back,32,back_orphan_0001,ORPHAN,,UNCERTAIN,Only a tiny distant motorcycle at vanishing point; no person can be confirmed at this size,PASS2_VISUAL_SHEET
+pair_006,back,93,back_orphan_0004,ORPHAN,,UNCERTAIN,No box drawn and only a tiny distant motorcycle visible; person cannot be confirmed,PASS2_VISUAL_SHEET
+pair_006,back,116,back_moto_0001,FRAG,,CORRECT,Partial motorcycle wheel at bottom-left frame edge in orange box; real bike entering frame edge,PASS2_VISUAL_SHEET
+pair_006,back,116,back_moto_0001,BACK,,CORRECT,Same partial motorcycle wheel at bottom-left edge in orange box; real bike partially in frame,PASS2_VISUAL_SHEET
+pair_006,back,173,back_moto_0003,FRAG,,CORRECT,Rear-view motorcycle with rider centre-right; orange box on bike; real brief track,PASS2_VISUAL_SHEET
+pair_006,back,173,back_moto_0003,BACK,,CORRECT,Rear-view motorcycle with rider; orange box on bike,PASS2_VISUAL_SHEET
+pair_006,back,177,back_moto_0004,FRAG,,CORRECT,Rear-view motorcycle with rider; orange box on bike; real brief track,PASS2_VISUAL_SHEET
+pair_006,back,177,back_moto_0004,BACK,,CORRECT,Rear-view motorcycle with rider; orange box on bike,PASS2_VISUAL_SHEET
+pair_006,back,186,back_moto_0002,BACK,,CORRECT,Rear-view motorcycle with rider; orange box on bike,PASS2_VISUAL_SHEET
+pair_006,front,67,front_moto_0001,FRONT,,CORRECT,Motorcycle at junction centre; orange box correct,PASS2_VISUAL_SHEET
+pair_007,back,142,back_orphan_0001,ORPHAN,,CORRECT,Large rider close at right in green box with head box; real person,PASS2_VISUAL_SHEET
+pair_007,back,181,back_moto_0001,BACK,,CORRECT,Rear-view motorcycle with rider; orange box correct,PASS2_VISUAL_SHEET
+pair_007,back,225,back_moto_0002,BACK,,CORRECT,Distant rear-view motorcycle centre in orange box; real bike,PASS2_VISUAL_SHEET
+pair_007,front,21,front_moto_0002,FRAG,,CORRECT,Approaching motorcycle on right in orange box; real brief track,PASS2_VISUAL_SHEET
+pair_007,front,21,front_moto_0002,FRONT,,CORRECT,Approaching motorcycle on right in orange box; real bike,PASS2_VISUAL_SHEET
+pair_007,front,25,front_moto_0003,FRAG,,CORRECT,Approaching motorcycle in orange box; real brief track,PASS2_VISUAL_SHEET
+pair_007,front,25,front_moto_0003,FRONT,,CORRECT,Approaching motorcycle in orange box; real bike,PASS2_VISUAL_SHEET
+pair_007,front,58,front_moto_0001,FRONT,,CORRECT,Approaching motorcycle centre; orange box correct,PASS2_VISUAL_SHEET
+pair_007,front,65,front_moto_0004,FRONT,,CORRECT,Approaching motorcycle centre; orange box correct,PASS2_VISUAL_SHEET
+pair_007,front,111,front_orphan_0001,ORPHAN,,CORRECT,Partial rider close at left frame edge in green box; real person,PASS2_VISUAL_SHEET
+pair_007,front,129,front_moto_0005,FRAG,,UNCERTAIN,Only a tiny distant speck inside orange box far down road; cannot confirm it is a motorcycle,PASS2_VISUAL_SHEET
+pair_007,front,129,front_moto_0005,FRONT,,UNCERTAIN,Same tiny distant speck in orange box; cannot confirm it is a motorcycle,PASS2_VISUAL_SHEET
+pair_008,back,166,back_orphan_0001,ORPHAN,,CORRECT,Large rear-view rider in green box; real person (small magenta box sits on shoulder area),PASS2_VISUAL_SHEET
+pair_008,back,205,back_moto_0001,BACK,,CORRECT,Rear-view motorcycle with rider; orange box correct,PASS2_VISUAL_SHEET
+pair_008,front,5,front_orphan_0001,ORPHAN,,CORRECT,Partial rider at left edge and pedestrian in red in green boxes; real people,PASS2_VISUAL_SHEET
+pair_008,front,64,front_moto_0001,FRONT,,CORRECT,Motorcycle with rider at left; orange box correct,PASS2_VISUAL_SHEET
+pair_008,front,123,front_orphan_0004,ORPHAN,,CORRECT,Large rider in profile at bottom right in green and magenta boxes; real person,PASS2_VISUAL_SHEET
+pair_009,back,105,back_moto_0001,BACK,,ERROR,FP_DETECTION: No motorcycle visible in frame; only rickshaws and pedestrians near the boxes,PASS2_VISUAL_SHEET
+pair_009,back,184,back_moto_0002,FRAG,,ERROR,FP_DETECTION: Orange box is on a rickshaw cart; no motorcycle visible in frame,PASS2_VISUAL_SHEET
+pair_009,back,184,back_moto_0002,BACK,,ERROR,FP_DETECTION: Orange boxes are on a rickshaw cart; no motorcycle visible in frame,PASS2_VISUAL_SHEET
+pair_009,back,196,back_moto_0003,FRAG,,ERROR,FP_DETECTION: Orange box is on an auto-rickshaw front; no motorcycle visible in frame,PASS2_VISUAL_SHEET
+pair_009,back,196,back_moto_0003,BACK,,ERROR,FP_DETECTION: Orange box is on an auto-rickshaw front; no motorcycle visible in frame,PASS2_VISUAL_SHEET
+pair_009,back,241,back_orphan_0001,ORPHAN,,CORRECT,Large rear-view rider in green box with head box; real person,PASS2_VISUAL_SHEET
+pair_009,back,286,back_moto_0006,FRAG,,CORRECT,Real rear-view motorcycle with rider at centre in orange box; separate orange box on rickshaw at right is an FP detection in same frame,PASS2_VISUAL_SHEET
+pair_009,back,286,back_moto_0006,BACK,,CORRECT,Real rear-view motorcycle with rider at centre in orange box; rickshaw FP detection also present at right,PASS2_VISUAL_SHEET
+pair_009,back,302,back_moto_0005,BACK,,CORRECT,Real rear-view motorcycle with rider at centre in orange box; auto-rickshaw also present at right,PASS2_VISUAL_SHEET
+pair_009,back,315,back_moto_0004,BACK,,CORRECT,Real rear-view motorcycle with rider at centre in orange and green boxes; auto-rickshaw also present at right,PASS2_VISUAL_SHEET
+pair_009,back,360,back_moto_0007,FRAG,,CORRECT,Real rear-view motorcycle with rider at centre in orange box; brief track is a real bike,PASS2_VISUAL_SHEET
+pair_009,back,360,back_moto_0007,BACK,,CORRECT,Real rear-view motorcycle with rider at centre in orange box,PASS2_VISUAL_SHEET
+pair_009,back,388,back_moto_0008,BACK,,UNCERTAIN,Frame contains both a real distant motorcycle at centre and a large orange box on a rickshaw at right; cannot tell which object the referenced track follows,PASS2_VISUAL_SHEET
+pair_009,back,390,back_moto_0009,FRAG,,UNCERTAIN,Frame contains both a real distant motorcycle at centre and an orange box on a rickshaw at right; cannot tell which object the fragment track follows,PASS2_VISUAL_SHEET
+pair_009,back,390,back_moto_0009,BACK,,UNCERTAIN,Frame contains both a real distant motorcycle at centre and an orange box on a rickshaw at right; cannot tell which object the track follows,PASS2_VISUAL_SHEET
+pair_009,back,392,back_moto_0010,FRAG,,UNCERTAIN,Frame contains both a real distant motorcycle at centre and an orange box on a rickshaw at right; cannot tell which object the fragment track follows,PASS2_VISUAL_SHEET
+pair_009,back,392,back_moto_0010,BACK,,UNCERTAIN,Frame contains both a real distant motorcycle at centre and an orange box on a rickshaw at right; cannot tell which object the track follows,PASS2_VISUAL_SHEET
+pair_009,back,404,back_moto_0011,FRAG,,UNCERTAIN,Frame contains both a real distant motorcycle at centre and an orange box on a rickshaw at right; cannot tell which object the fragment track follows,PASS2_VISUAL_SHEET
+pair_009,back,404,back_moto_0011,BACK,,UNCERTAIN,Frame contains both a real distant motorcycle at centre and an orange box on a rickshaw at right; cannot tell which object the track follows,PASS2_VISUAL_SHEET
+pair_009,front,100,front_orphan_0001,ORPHAN,,CORRECT,Approaching rider in green box with head box; real person,PASS2_VISUAL_SHEET
+pair_009,front,106,front_moto_0001,FRONT,,CORRECT,Approaching motorcycle in orange box; real bike,PASS2_VISUAL_SHEET
+pair_010,back,4,back_orphan_0001,ORPHAN,,CORRECT,Distant standing figure and rider in green boxes down the road; real though small,PASS2_VISUAL_SHEET
+pair_010,back,12,back_moto_0001_rider_s0,FLIP,,UNCERTAIN,Rider is small and distant; helmet state cannot be judged at this size,PASS2_VISUAL_SHEET
+pair_010,back,25,back_moto_0001_rider_s0,FLIP,,UNCERTAIN,Rider still small and distant; helmet state cannot be judged at this size,PASS2_VISUAL_SHEET
+pair_010,back,32,back_moto_0001_rider_s0,FLIP,,UNCERTAIN,Rider still small and distant; helmet state cannot be judged at this size,PASS2_VISUAL_SHEET
+pair_010,back,33,back_moto_0001_rider_s0,FLIP,,UNCERTAIN,Rider still small and distant; helmet state cannot be judged at this size,PASS2_VISUAL_SHEET
+pair_010,back,66,back_moto_0001_rider_s0,FLIP,,UNCERTAIN,Rider still small and distant; helmet state cannot be judged at this size,PASS2_VISUAL_SHEET
+pair_010,back,69,back_moto_0001_rider_s0,FLIP,,UNCERTAIN,Rider still small and distant; helmet state cannot be judged at this size,PASS2_VISUAL_SHEET
+pair_010,back,76,back_moto_0001_rider_s0,FLIP,,UNCERTAIN,Rider still small and distant; helmet state cannot be judged at this size,PASS2_VISUAL_SHEET
+pair_010,back,80,back_moto_0001_rider_s0,FLIP,,UNCERTAIN,Rider still small and distant; helmet state cannot be judged at this size,PASS2_VISUAL_SHEET
+pair_010,back,94,back_moto_0001,BACK,,CORRECT,Distant rear-view motorcycle at centre in orange box; real bike,PASS2_VISUAL_SHEET
+pair_010,back,145,back_moto_0003,BACK,,CORRECT,Large close rear-view motorcycle at right with clearly helmeted rider; orange box on bike,PASS2_VISUAL_SHEET
+pair_010,back,190,back_moto_0002,BACK,,CORRECT,Rear-view motorcycle with rider at centre; orange box correct,PASS2_VISUAL_SHEET
+pair_010,back,218,back_moto_0005,FRAG,,CORRECT,Two real motorcycles side by side with orange boxes; brief track is a real bike,PASS2_VISUAL_SHEET
+pair_010,back,218,back_moto_0005,BACK,,CORRECT,Two real motorcycles side by side with orange boxes,PASS2_VISUAL_SHEET
+pair_010,back,227,back_moto_0004,BACK,,CORRECT,Two real motorcycles with riders in orange and green boxes,PASS2_VISUAL_SHEET
+pair_010,front,45,front_moto_0001,FRONT,,CORRECT,Front-view motorcycle with helmeted rider in yellow shirt; boxes correct,PASS2_VISUAL_SHEET
+pair_010,front,85,front_orphan_0001,ORPHAN,,CORRECT,Partial rider and motorcycle close at bottom-left frame edge; real person partially in frame,PASS2_VISUAL_SHEET
+pair_011,back,54,back_moto_0001,FRAG,,UNCERTAIN,Only a tiny distant figure inside a small green box far down the road; cannot confirm a motorcycle,PASS2_VISUAL_SHEET
+pair_011,back,54,back_moto_0001,BACK,,UNCERTAIN,Only a tiny distant figure inside a small green box far down the road; cannot confirm a motorcycle,PASS2_VISUAL_SHEET
+pair_011,back,215,back_moto_0002,BACK,,CORRECT,Rear-view motorcycle with rider centre-right; orange box on bike,PASS2_VISUAL_SHEET
+pair_011,back,261,back_moto_0003,BACK,,CORRECT,Rear-view motorcycle with rider at centre; orange and green boxes on bike and rider,PASS2_VISUAL_SHEET
+pair_011,front,18,front_moto_0001_rider_s0,FLIP,,UNCERTAIN,Rider small and distant on right side of road; helmet state cannot be judged at this size,PASS2_VISUAL_SHEET
+pair_011,front,37,front_moto_0001_rider_s0,FLIP,,UNCERTAIN,Rider still small and distant; helmet state cannot be judged at this size,PASS2_VISUAL_SHEET
+pair_011,front,40,front_moto_0001_rider_s0,FLIP,,UNCERTAIN,Rider still small and distant; helmet state cannot be judged at this size,PASS2_VISUAL_SHEET
+pair_011,front,41,front_moto_0001_rider_s0,FLIP,,UNCERTAIN,Rider still small and distant; helmet state cannot be judged at this size,PASS2_VISUAL_SHEET
+pair_011,front,42,front_moto_0001_rider_s0,FLIP,,UNCERTAIN,Rider still small and distant; helmet state cannot be judged at this size,PASS2_VISUAL_SHEET
+pair_011,front,69,front_moto_0001_rider_s0,FLIP,,UNCERTAIN,Rider closer but head still too small to distinguish helmet from hair at sheet resolution,PASS2_VISUAL_SHEET
+pair_011,front,78,front_moto_0001_rider_s0,FLIP,,UNCERTAIN,Head region dark but too small to distinguish helmet from hair at sheet resolution,PASS2_VISUAL_SHEET
+pair_011,front,106,front_moto_0001,FRONT,,CORRECT,Approaching motorcycle with rider; orange box correct,PASS2_VISUAL_SHEET
+pair_011,front,143,front_moto_0002,FRONT,,CORRECT,Approaching motorcycle with helmeted rider; orange box correct,PASS2_VISUAL_SHEET
+pair_011,front,201,front_orphan_0001,ORPHAN,,CORRECT,Partial rider and motorcycle close at left frame edge in green and orange boxes; real person,PASS2_VISUAL_SHEET
+pair_011,front,203,front_moto_0003,FRAG,,CORRECT,Partial motorcycle at bottom-left frame edge in orange box; real bike partially in frame,PASS2_VISUAL_SHEET
+pair_011,front,203,front_moto_0003,FRONT,,CORRECT,Partial motorcycle at bottom-left frame edge in orange box; real bike partially in frame,PASS2_VISUAL_SHEET
+pair_012,back,83,back_moto_0001,FRAG,,ERROR,FP_DETECTION: Orange box is on the front wheel assembly of a large auto-rickshaw; the vehicle is a three-wheeler not a motorcycle,PASS2_VISUAL_SHEET
+pair_012,back,83,back_moto_0001,BACK,,ERROR,FP_DETECTION: Orange box is on the front wheel assembly of a large auto-rickshaw; the vehicle is a three-wheeler not a motorcycle,PASS2_VISUAL_SHEET
+pair_012,back,354,back_moto_0002,BACK,,CORRECT,Distant rear-view motorcycle with rider at centre; orange box on bike,PASS2_VISUAL_SHEET
+pair_012,front,0,front_moto_0001,FRAG,,CORRECT,Distant motorcycles with riders at junction inside orange and green boxes; small but discernible as bikes,PASS2_VISUAL_SHEET
+pair_012,front,0,front_moto_0001,FRONT,,CORRECT,Distant motorcycles with riders at junction inside boxes; small but discernible as bikes,PASS2_VISUAL_SHEET
+pair_012,front,2,front_moto_0003,FRAG,,CORRECT,Distant motorcycle with rider at junction in green and orange boxes; discernible as a bike,PASS2_VISUAL_SHEET
+pair_012,front,2,front_moto_0003,FRONT,,CORRECT,Distant motorcycle with rider at junction in green and orange boxes; discernible as a bike,PASS2_VISUAL_SHEET
+pair_012,front,6,front_orphan_0001,ORPHAN,,CORRECT,Distant riders at junction inside green boxes with head box; real people though small,PASS2_VISUAL_SHEET
+pair_012,front,28,front_moto_0005,FRAG,,CORRECT,Distant motorcycle with rider at centre in green box; discernible bike (rickshaw FP detection also present at right),PASS2_VISUAL_SHEET
+pair_012,front,28,front_moto_0005,FRONT,,CORRECT,Distant motorcycle with rider at centre in green box; discernible bike,PASS2_VISUAL_SHEET
+pair_012,front,39,front_moto_0004_rider_s0,FLIP,,UNCERTAIN,Rider small at centre; helmet state cannot be judged at this size,PASS2_VISUAL_SHEET
+pair_012,front,65,front_moto_0006,FRONT,,CORRECT,Approaching motorcycle with rider at centre in orange and green boxes; real bike,PASS2_VISUAL_SHEET
+pair_012,front,95,front_moto_0002,FRONT,,CORRECT,Approaching motorcycle with rider at centre in orange box; real bike,PASS2_VISUAL_SHEET
+pair_012,front,97,front_moto_0004_rider_s0,FLIP,,UNCERTAIN,Rider closer but head too small to distinguish helmet from hair at sheet resolution,PASS2_VISUAL_SHEET
+pair_012,front,102,front_moto_0004_rider_s0,FLIP,,UNCERTAIN,Head inside magenta box is dark but too small to confirm helmet versus hair,PASS2_VISUAL_SHEET
+pair_012,front,121,front_moto_0004,FRONT,,CORRECT,Approaching motorcycle with rider at centre in orange box; real bike,PASS2_VISUAL_SHEET
+pair_012,front,138,front_orphan_0004,ORPHAN,,CORRECT,Rider at centre in green boxes with head box; real person,PASS2_VISUAL_SHEET
+pair_012,front,152,front_moto_0007,FRAG,,CORRECT,Motorcycle with rider centre-left in orange box; real bike (rickshaw also boxed at right),PASS2_VISUAL_SHEET
+pair_012,front,152,front_moto_0007,FRONT,,CORRECT,Motorcycle with rider centre-left in orange box; real bike,PASS2_VISUAL_SHEET
+pair_012,front,159,front_moto_0008,FRAG,,CORRECT,Motorcycle with rider centre-left in orange box; real brief track,PASS2_VISUAL_SHEET
+pair_012,front,159,front_moto_0008,FRONT,,CORRECT,Motorcycle with rider centre-left in orange box; real bike,PASS2_VISUAL_SHEET
+pair_012,front,193,front_moto_0009,FRAG,,CORRECT,Motorcycle with helmeted rider at right in orange box; real brief track,PASS2_VISUAL_SHEET
+pair_012,front,193,front_moto_0009,FRONT,,CORRECT,Motorcycle with helmeted rider at right in orange box; real bike,PASS2_VISUAL_SHEET
+pair_013,back,565,back_moto_0001,BACK,,CORRECT,Rear-view motorcycle with rider in orange and green boxes; real bike,PASS2_VISUAL_SHEET
+pair_013,front,140,front_moto_0002,FRONT,,CORRECT,Distant motorcycle at centre in orange box; discernible bike,PASS2_VISUAL_SHEET
+pair_013,front,194,front_moto_0001,FRONT,,CORRECT,Distant motorcycle at centre in orange box; discernible bike,PASS2_VISUAL_SHEET
+pair_013,front,400,front_moto_0003,FRONT,,UNCERTAIN,Only a tiny speck inside an orange box at the far left edge; cannot confirm a motorcycle,PASS2_VISUAL_SHEET
+pair_014,back,190,back_moto_0002,FRAG,,CORRECT,Very close rider on motorcycle at right edge; bike real though boxes overlap and bike is partly out of frame,PASS2_VISUAL_SHEET
+pair_014,back,190,back_moto_0002,BACK,,CORRECT,Very close rider on motorcycle at right edge; bike real though boxes overlap and bike is partly out of frame,PASS2_VISUAL_SHEET
+pair_014,back,225,back_moto_0001,BACK,,CORRECT,Rear-view motorcycle with rider centre-left; orange box correct,PASS2_VISUAL_SHEET
+pair_014,back,258,back_moto_0003,BACK,,CORRECT,Distant rear-view motorcycle at centre in orange box; real bike,PASS2_VISUAL_SHEET
+pair_014,front,132,front_moto_0001,FRONT,,CORRECT,Approaching motorcycle with rider at right in orange box; real bike,PASS2_VISUAL_SHEET
+pair_014,front,135,front_orphan_0001,ORPHAN,,CORRECT,Pedestrian and rider in green boxes; real people,PASS2_VISUAL_SHEET
+pair_015,back,154,back_moto_0001,BACK,,CORRECT,Motorcycle with rider at centre-left in orange box; real bike,PASS2_VISUAL_SHEET
+pair_015,front,3,front_moto_0001,FRAG,,CORRECT,Distant motorcycle with rider at right in green box; discernible bike,PASS2_VISUAL_SHEET
+pair_015,front,3,front_moto_0001,FRONT,,CORRECT,Distant motorcycle with rider at right in green box; discernible bike,PASS2_VISUAL_SHEET
+pair_015,front,7,front_orphan_0001,ORPHAN,,CORRECT,Distant rider in green box; real person though small,PASS2_VISUAL_SHEET
+pair_015,front,43,front_moto_0002_rider_s0,FLIP,,UNCERTAIN,Rider small and distant; helmet state cannot be judged at this size,PASS2_VISUAL_SHEET
+pair_015,front,95,front_moto_0002_rider_s0,FLIP,,UNCERTAIN,Rider still small; helmet state cannot be judged at this size,PASS2_VISUAL_SHEET
+pair_015,front,96,front_moto_0002_rider_s0,FLIP,,UNCERTAIN,Rider still small; helmet state cannot be judged at this size,PASS2_VISUAL_SHEET
+pair_015,front,98,front_moto_0002_rider_s0,FLIP,,UNCERTAIN,Rider still small; helmet state cannot be judged at this size,PASS2_VISUAL_SHEET
+pair_015,front,104,front_moto_0002_rider_s0,FLIP,,UNCERTAIN,Rider still small; helmet state cannot be judged at this size,PASS2_VISUAL_SHEET
+pair_015,front,141,front_moto_0002_rider_s0,FLIP,,UNCERTAIN,Rider closer but head too small to distinguish helmet from hair at sheet resolution,PASS2_VISUAL_SHEET
+pair_015,front,153,front_moto_0002_rider_s0,FLIP,,UNCERTAIN,Head inside magenta box too small to distinguish helmet from hair at sheet resolution,PASS2_VISUAL_SHEET
+pair_015,front,154,front_moto_0002,FRONT,,CORRECT,Approaching motorcycle at centre-right in orange box; real bike,PASS2_VISUAL_SHEET
+pair_015,front,157,front_moto_0002_rider_s0,FLIP,,UNCERTAIN,Rider small; helmet state cannot be judged at this size,PASS2_VISUAL_SHEET
+pair_015,front,163,front_moto_0002_rider_s0,FLIP,,UNCERTAIN,Rider small; helmet state cannot be judged at this size,PASS2_VISUAL_SHEET
+pair_015,front,170,front_moto_0002_rider_s0,FLIP,,UNCERTAIN,Rider small; helmet state cannot be judged at this size,PASS2_VISUAL_SHEET
+pair_015,front,174,front_moto_0002_rider_s0,FLIP,,UNCERTAIN,Rider small; helmet state cannot be judged at this size,PASS2_VISUAL_SHEET
+pair_015,front,179,front_moto_0003,FRONT,,CORRECT,Approaching motorcycle at centre-right in orange box; real bike,PASS2_VISUAL_SHEET
+pair_016,back,248,back_orphan_0001,ORPHAN,,CORRECT,Large rider with clearly visible black helmet in green and magenta boxes; real person,PASS2_VISUAL_SHEET
+pair_016,back,269,back_moto_0001,BACK,,CORRECT,Rear-view motorcycle with helmeted rider; orange box correct,PASS2_VISUAL_SHEET
+pair_016,front,8,front_moto_0001_rider_s0,FLIP,,UNCERTAIN,Rider tiny and distant at right; helmet state cannot be judged at this size,PASS2_VISUAL_SHEET
+pair_016,front,13,front_orphan_0001,ORPHAN,,CORRECT,Distant rider in green box at right; real person though small,PASS2_VISUAL_SHEET
+pair_016,front,14,front_moto_0001_rider_s0,FLIP,,UNCERTAIN,Rider tiny and distant; helmet state cannot be judged at this size,PASS2_VISUAL_SHEET
+pair_016,front,15,front_moto_0001_rider_s0,FLIP,,UNCERTAIN,Rider tiny and distant; helmet state cannot be judged at this size,PASS2_VISUAL_SHEET
+pair_016,front,19,front_moto_0001_rider_s0,FLIP,,UNCERTAIN,Rider remains a tiny distant figure on the far side of the road; helmet state cannot be judged at this size,PASS2_VISUAL_SHEET
+pair_016,front,27,front_moto_0001_rider_s0,FLIP,,UNCERTAIN,Rider remains a tiny distant figure on the far side of the road; helmet state cannot be judged at this size,PASS2_VISUAL_SHEET
+pair_016,front,28,front_moto_0001_rider_s0,FLIP,,UNCERTAIN,Rider remains a tiny distant figure on the far side of the road; helmet state cannot be judged at this size,PASS2_VISUAL_SHEET
+pair_016,front,29,front_moto_0001_rider_s0,FLIP,,UNCERTAIN,Rider remains a tiny distant figure on the far side of the road; helmet state cannot be judged at this size,PASS2_VISUAL_SHEET
+pair_016,front,45,front_moto_0001_rider_s0,FLIP,,UNCERTAIN,Rider remains a tiny distant figure on the far side of the road; helmet state cannot be judged at this size,PASS2_VISUAL_SHEET
+pair_016,front,49,front_moto_0001_rider_s0,FLIP,,UNCERTAIN,Rider remains a tiny distant figure on the far side of the road; helmet state cannot be judged at this size,PASS2_VISUAL_SHEET
+pair_016,front,50,front_moto_0001_rider_s0,FLIP,,UNCERTAIN,Rider remains a tiny distant figure on the far side of the road; helmet state cannot be judged at this size,PASS2_VISUAL_SHEET
+pair_016,front,59,front_moto_0001_rider_s0,FLIP,,UNCERTAIN,Rider remains a tiny distant figure on the far side of the road; helmet state cannot be judged at this size,PASS2_VISUAL_SHEET
+pair_016,front,117,front_moto_0001_rider_s0,FLIP,,UNCERTAIN,Rider remains a tiny distant figure on the far side of the road; helmet state cannot be judged at this size,PASS2_VISUAL_SHEET
+pair_016,front,134,front_moto_0001_rider_s0,FLIP,,UNCERTAIN,Rider remains a tiny distant figure on the far side of the road; helmet state cannot be judged at this size,PASS2_VISUAL_SHEET
+pair_016,front,139,front_moto_0001_rider_s0,FLIP,,UNCERTAIN,Rider remains a tiny distant figure on the far side of the road; helmet state cannot be judged at this size,PASS2_VISUAL_SHEET
+pair_016,front,145,front_moto_0001_rider_s0,FLIP,,UNCERTAIN,Rider remains a tiny distant figure on the far side of the road; helmet state cannot be judged at this size,PASS2_VISUAL_SHEET
+pair_016,front,148,front_moto_0001_rider_s0,FLIP,,UNCERTAIN,Rider remains small and distant on the far side of the road; helmet state cannot be judged at this size,PASS2_VISUAL_SHEET
+pair_016,front,169,front_moto_0001_rider_s0,FLIP,,UNCERTAIN,Rider remains small and distant on the far side of the road; helmet state cannot be judged at this size,PASS2_VISUAL_SHEET
+pair_016,front,170,front_moto_0001_rider_s0,FLIP,,UNCERTAIN,Rider remains small and distant on the far side of the road; helmet state cannot be judged at this size,PASS2_VISUAL_SHEET
+pair_016,front,175,front_moto_0001_rider_s0,FLIP,,UNCERTAIN,Rider remains small and distant on the far side of the road; helmet state cannot be judged at this size,PASS2_VISUAL_SHEET
+pair_016,front,181,front_moto_0001_rider_s0,FLIP,,UNCERTAIN,Rider remains small and distant on the far side of the road; helmet state cannot be judged at this size,PASS2_VISUAL_SHEET
+pair_016,front,207,front_moto_0001_rider_s0,FLIP,,UNCERTAIN,Rider remains small and distant on the far side of the road; helmet state cannot be judged at this size,PASS2_VISUAL_SHEET
+pair_016,front,218,front_moto_0001_rider_s0,FLIP,,UNCERTAIN,Rider remains small and distant on the far side of the road; helmet state cannot be judged at this size,PASS2_VISUAL_SHEET
+pair_016,front,232,front_moto_0001_rider_s0,FLIP,,UNCERTAIN,Rider remains small and distant on the far side of the road; helmet state cannot be judged at this size,PASS2_VISUAL_SHEET
+pair_016,front,237,front_moto_0001_rider_s0,FLIP,,UNCERTAIN,Rider remains small and distant on the far side of the road; helmet state cannot be judged at this size,PASS2_VISUAL_SHEET
+pair_016,front,249,front_moto_0001,FRONT,,CORRECT,Distant motorcycle with rider in orange box; discernible bike,PASS2_VISUAL_SHEET
+pair_016,front,251,front_moto_0001_rider_s0,FLIP,,UNCERTAIN,Rider remains small and distant on the far side of the road; helmet state cannot be judged at this size,PASS2_VISUAL_SHEET
+pair_016,front,260,front_moto_0001_rider_s0,FLIP,,UNCERTAIN,Rider remains small and distant on the far side of the road; helmet state cannot be judged at this size,PASS2_VISUAL_SHEET
+pair_016,front,261,front_moto_0001_rider_s0,FLIP,,UNCERTAIN,Rider still too small in front view to distinguish helmet from hair at sheet resolution,PASS2_VISUAL_SHEET
+pair_016,front,265,front_moto_0001_rider_s0,FLIP,,UNCERTAIN,Rider still too small in front view to distinguish helmet from hair at sheet resolution,PASS2_VISUAL_SHEET
+pair_016,front,276,front_moto_0001_rider_s0,FLIP,,UNCERTAIN,Rider still too small in front view to distinguish helmet from hair at sheet resolution,PASS2_VISUAL_SHEET
+pair_016,front,283,front_moto_0001_rider_s0,FLIP,,UNCERTAIN,Rider still too small in front view to distinguish helmet from hair at sheet resolution,PASS2_VISUAL_SHEET
+pair_016,front,299,front_moto_0001_rider_s0,FLIP,,UNCERTAIN,Rider still too small in front view to distinguish helmet from hair at sheet resolution,PASS2_VISUAL_SHEET
+pair_016,front,301,front_moto_0001_rider_s0,FLIP,,UNCERTAIN,Rider still too small in front view to distinguish helmet from hair at sheet resolution,PASS2_VISUAL_SHEET
+pair_016,front,303,front_moto_0001_rider_s0,FLIP,,UNCERTAIN,Rider still too small in front view to distinguish helmet from hair at sheet resolution,PASS2_VISUAL_SHEET
+pair_016,front,310,front_moto_0001_rider_s0,FLIP,,UNCERTAIN,Rider still too small in front view to distinguish helmet from hair at sheet resolution,PASS2_VISUAL_SHEET
+pair_016,front,357,front_moto_0001_rider_s0,FLIP,,UNCERTAIN,Rider still too small in front view to distinguish helmet from hair at sheet resolution,PASS2_VISUAL_SHEET
+pair_016,front,358,front_moto_0001_rider_s0,FLIP,,UNCERTAIN,Rider still too small in front view to distinguish helmet from hair at sheet resolution,PASS2_VISUAL_SHEET
+pair_017,back,154,back_moto_0001,BACK,,CORRECT,Motorcycle turning at junction with rider in red shirt; orange box on bike,PASS2_VISUAL_SHEET
+pair_017,front,51,front_orphan_0001,ORPHAN,,CORRECT,Rider on motorcycle at right in green box with head box; real person,PASS2_VISUAL_SHEET
+pair_017,front,97,front_moto_0001,FRONT,,CORRECT,Approaching motorcycle with rider; orange box correct,PASS2_VISUAL_SHEET
+pair_018,back,153,back_moto_0001,BACK,,CORRECT,Rear-view motorcycle with rider at top centre; orange box on bike,PASS2_VISUAL_SHEET
+pair_018,back,180,back_orphan_0001,ORPHAN,,CORRECT,Pedestrian carrying a load at right and distant rider in green boxes; real people,PASS2_VISUAL_SHEET
+pair_018,front,75,front_moto_0001,FRONT,,CORRECT,Large side-view motorcycle with rider in red shirt; orange and white boxes on bike,PASS2_VISUAL_SHEET
+pair_019,back,5,back_orphan_0001,ORPHAN,,CORRECT,Group of pedestrians at right in green boxes; real people,PASS2_VISUAL_SHEET
+pair_019,back,26,back_orphan_0004,ORPHAN,,CORRECT,Group of pedestrians at right in green boxes; real people,PASS2_VISUAL_SHEET
+pair_019,back,50,back_orphan_0007,ORPHAN,,CORRECT,Pedestrians walking at right in green boxes; real people,PASS2_VISUAL_SHEET
+pair_019,back,67,back_orphan_0010,ORPHAN,,CORRECT,Pedestrians walking at right in green boxes; real people,PASS2_VISUAL_SHEET
+pair_019,back,118,back_moto_0001,FRAG,,CORRECT,Partial motorcycle wheel at bottom-left frame edge in orange box; real bike entering frame edge,PASS2_VISUAL_SHEET
+pair_019,back,118,back_moto_0001,BACK,,CORRECT,Partial motorcycle wheel at bottom-left frame edge in orange box; real bike partially in frame,PASS2_VISUAL_SHEET
+pair_019,back,131,back_orphan_0013,ORPHAN,,CORRECT,Close rider at left on motorcycle and pedestrians at right in green boxes; real people,PASS2_VISUAL_SHEET
+pair_019,back,175,back_moto_0002,BACK,,CORRECT,Rear-view motorcycle with rider centre-left; orange box on bike (duplicate magenta head boxes noted),PASS2_VISUAL_SHEET
+pair_019,front,73,front_moto_0001,FRONT,,CORRECT,Distant motorcycle with two riders in orange and green boxes; real bike,PASS2_VISUAL_SHEET
+pair_019,front,95,front_orphan_0001,ORPHAN,,CORRECT,Distant riders and a partial rider at bottom-right edge in green boxes; real people,PASS2_VISUAL_SHEET
+pair_019,front,97,front_orphan_0004,ORPHAN,,CORRECT,Distant riders and a partial rider at right edge in green boxes; real people,PASS2_VISUAL_SHEET
+pair_019,front,111,front_orphan_0007,ORPHAN,,CORRECT,Large rider in red shirt at right in green and magenta boxes; real person,PASS2_VISUAL_SHEET
+pair_019,front,161,front_orphan_0010,ORPHAN,,CORRECT,Two riders on two motorcycles at centre in green boxes; real people,PASS2_VISUAL_SHEET
+pair_019,front,181,front_moto_0003,FRONT,,CORRECT,Motorcycles with riders at centre and right in orange boxes; real bikes,PASS2_VISUAL_SHEET
+pair_019,front,235,front_moto_0002,FRONT,,CORRECT,Rear-view motorcycle with rider centre-left; orange box on bike,PASS2_VISUAL_SHEET
+pair_020,back,324,back_moto_0001,FRAG,,CORRECT,Partial motorcycle at bottom-right frame edge in orange box; real bike partially in frame,PASS2_VISUAL_SHEET
+pair_020,back,324,back_moto_0001,BACK,,CORRECT,Partial motorcycle at bottom-right frame edge in orange box; real bike partially in frame,PASS2_VISUAL_SHEET
+pair_020,back,344,back_orphan_0001,ORPHAN,,CORRECT,Large rider in green box; real person (small magenta box sits on shoulder area),PASS2_VISUAL_SHEET
+pair_020,back,371,back_moto_0003,BACK,,CORRECT,Rear-view motorcycle with rider at centre; orange box correct,PASS2_VISUAL_SHEET
+pair_020,back,408,back_moto_0002,BACK,,CORRECT,Distant rear-view motorcycle with rider at centre; orange box on bike,PASS2_VISUAL_SHEET
+pair_020,front,65,front_moto_0001,FRONT,,CORRECT,Approaching motorcycle centre and pedestrian at right; boxes correct,PASS2_VISUAL_SHEET
+pair_020,front,80,front_orphan_0001,ORPHAN,,CORRECT,Rider and pedestrian in green boxes; real people,PASS2_VISUAL_SHEET
+pair_021,back,249,back_orphan_0001,ORPHAN,,CORRECT,Large rider at right in green box with head box; real person,PASS2_VISUAL_SHEET
+pair_021,back,304,back_moto_0001,BACK,,CORRECT,Distant rear-view motorcycle with rider; orange box on bike,PASS2_VISUAL_SHEET
+pair_021,back,381,back_orphan_0004,ORPHAN,,CORRECT,Very distant rider at centre in green box with head box; real though small,PASS2_VISUAL_SHEET
+pair_021,front,157,front_moto_0001,FRONT,,CORRECT,Distant motorcycle with rider at right in orange box; real bike,PASS2_VISUAL_SHEET
+pair_021,front,261,front_orphan_0001,ORPHAN,,CORRECT,Approaching rider in green box with head box; real person,PASS2_VISUAL_SHEET
+pair_022,back,203,back_orphan_0001,ORPHAN,,CORRECT,Very close rider in green box at right; real person,PASS2_VISUAL_SHEET
+pair_022,back,262,back_moto_0001,BACK,,CORRECT,Rear-view motorcycle with rider; orange box correct,PASS2_VISUAL_SHEET
+pair_022,front,137,front_moto_0001,FRONT,,CORRECT,Distant motorcycle with rider left of centre in orange box; real bike,PASS2_VISUAL_SHEET
+pair_022,front,141,front_orphan_0001,ORPHAN,,CORRECT,Distant rider in green box; real person though small,PASS2_VISUAL_SHEET
+pair_023,back,94,back_orphan_0001,ORPHAN,,ERROR,FP_DETECTION: No person visible anywhere in frame and no box drawn; only distant cars at the far end of the road,PASS2_VISUAL_SHEET
+pair_023,back,345,back_moto_0001,BACK,,CORRECT,Motorcycle with rider at centre in orange and green boxes; real bike,PASS2_VISUAL_SHEET
+pair_023,front,7,front_moto_0001_rider_s0,FLIP,,UNCERTAIN,Rider at mid-distance but head too small to judge helmet state,PASS2_VISUAL_SHEET
+pair_023,front,10,front_moto_0001_rider_s0,FLIP,,UNCERTAIN,Rider at mid-distance but head too small to judge helmet state,PASS2_VISUAL_SHEET
+pair_023,front,16,front_moto_0001_rider_s0,FLIP,,UNCERTAIN,Rider at mid-distance but head too small to judge helmet state,PASS2_VISUAL_SHEET
+pair_023,front,20,front_moto_0001_rider_s0,FLIP,,UNCERTAIN,Rider at mid-distance but head too small to judge helmet state,PASS2_VISUAL_SHEET
+pair_023,front,123,front_moto_0001,FRONT,,CORRECT,Approaching motorcycle with rider; orange box correct and rider face visible,PASS2_VISUAL_SHEET
+pair_023,front,241,front_orphan_0001,ORPHAN,,CORRECT,Partial rider in profile close at right frame edge in green box; real person,PASS2_VISUAL_SHEET
+pair_024,back,397,back_orphan_0001,ORPHAN,,UNCERTAIN,Only a tiny distant figure inside a small green box far down the road; cannot confirm a person,PASS2_VISUAL_SHEET
+pair_024,back,641,back_moto_0001,BACK,,CORRECT,Motorcycle with rider on the left verge; orange box on bike,PASS2_VISUAL_SHEET
+pair_024,back,691,back_orphan_0004,ORPHAN,,CORRECT,Distant rider in green box with head box; real person though small,PASS2_VISUAL_SHEET
+pair_024,back,713,back_moto_0001_rider_s0,FLIP,,UNCERTAIN,Rider small and distant; helmet state cannot be judged at this size,PASS2_VISUAL_SHEET
+pair_024,back,718,back_moto_0001_rider_s0,FLIP,,UNCERTAIN,Rider small and distant; helmet state cannot be judged at this size,PASS2_VISUAL_SHEET
+pair_024,front,78,front_orphan_0001,ORPHAN,,CORRECT,Several standing pedestrians at junction in green boxes; real people,PASS2_VISUAL_SHEET
+pair_024,front,240,front_moto_0001,FRONT,,CORRECT,Motorcycle with two riders at junction in orange box; real bike,PASS2_VISUAL_SHEET
+pair_024,front,336,front_orphan_0004,ORPHAN,,CORRECT,Pedestrians at left and rider on motorcycle at right in green boxes; real people,PASS2_VISUAL_SHEET
+pair_025,back,10,back_orphan_0001,ORPHAN,,CORRECT,Single distant pedestrian at junction in green box; discernible person,PASS2_VISUAL_SHEET
+pair_025,back,267,back_moto_0001,BACK,,CORRECT,Rear-view motorcycle with rider in red shirt; orange box correct,PASS2_VISUAL_SHEET
+pair_025,front,110,front_moto_0001,FRONT,,CORRECT,Distant motorcycle with rider at right in orange box; real bike,PASS2_VISUAL_SHEET
+pair_006,back,32,back_orphan_0001,ORPHAN,,ERROR,"FP_DETECTION: Full-res crop + annotated frame: orphan box [2171,12,2267,102] sits on treetop foliage at top of frame; no person in or near box. The distant motorcycle on the road is a separate detection.",PASS2_FULLRES_RESOLUTION
+pair_006,back,93,back_orphan_0004,ORPHAN,,ERROR,"FP_DETECTION: Full-res crop + annotated frame: orphan box [2274,19,2359,96] sits on treetop foliage at top of frame; no person in box. Only road vehicle is a distant rickshaw.",PASS2_FULLRES_RESOLUTION
+pair_007,front,129,front_moto_0005,FRAG,,ERROR,FP_DETECTION: Full-res crop: box region contains a cycle-rickshaw cart and two standing pedestrians at the roadside; no motorcycle present.,PASS2_FULLRES_RESOLUTION
+pair_007,front,129,front_moto_0005,FRONT,,ERROR,FP_DETECTION: Same frame/track as idx51: box region contains a cycle-rickshaw cart and standing pedestrians; no motorcycle present.,PASS2_FULLRES_RESOLUTION
+pair_009,back,388,back_moto_0008,BACK,,ERROR,"FP_DETECTION: Full-res crop: box [1007,526,1097,637] covers a squatting pedestrian at the roadside. It is NOT the real distant motorcycle (centre, separately tracked as back_moto_0004) and NOT the auto-rickshaw at right.",PASS2_FULLRES_RESOLUTION
+pair_009,back,390,back_moto_0009,FRAG,,ERROR,"FP_DETECTION: Full-res crop: large box [2690,336,3242,764] covers the colourful auto-rickshaw (three-wheeler) at right of frame; no motorcycle.",PASS2_FULLRES_RESOLUTION
+pair_009,back,390,back_moto_0009,BACK,,ERROR,"FP_DETECTION: Same frame/track as idx71: box covers the auto-rickshaw, not a motorcycle.",PASS2_FULLRES_RESOLUTION
+pair_009,back,392,back_moto_0010,FRAG,,ERROR,"FP_DETECTION: Full-res crop: box [2719,341,3259,741] covers the same auto-rickshaw; no motorcycle.",PASS2_FULLRES_RESOLUTION
+pair_009,back,392,back_moto_0010,BACK,,ERROR,"FP_DETECTION: Same frame/track as idx73: box covers the auto-rickshaw, not a motorcycle.",PASS2_FULLRES_RESOLUTION
+pair_009,back,404,back_moto_0011,FRAG,,ERROR,"FP_DETECTION: Full-res crop: box [2857,337,3385,799] covers the auto-rickshaw (driver visible inside); no motorcycle.",PASS2_FULLRES_RESOLUTION
+pair_009,back,404,back_moto_0011,BACK,,ERROR,"FP_DETECTION: Same frame/track as idx75: box covers the auto-rickshaw, not a motorcycle.",PASS2_FULLRES_RESOLUTION
+pair_011,back,54,back_moto_0001,FRAG,,ERROR,"FP_DETECTION: Full-res crop: box [1024,520,1110,640] covers a squatting pedestrian with backpack at the roadside; no motorcycle.",PASS2_FULLRES_RESOLUTION
+pair_011,back,54,back_moto_0001,BACK,,ERROR,"FP_DETECTION: Same frame/track as idx96: box covers a squatting pedestrian, not a motorcycle.",PASS2_FULLRES_RESOLUTION
+pair_013,front,400,front_moto_0003,FRONT,,ERROR,"FP_DETECTION: Full-res crop: box [246,1159,374,1312] covers a squatting pedestrian with backpack at the left roadside; no motorcycle.",PASS2_FULLRES_RESOLUTION
+pair_024,back,397,back_orphan_0001,ORPHAN,,ERROR,"FP_DETECTION: Full-res crop + annotated frame: orphan box [1821,0,1929,85] sits on a building facade/balcony at top of frame; no person in box. The pedestrian on the road below is a separate detection.",PASS2_FULLRES_RESOLUTION
+pair_002,front,2,front_moto_0001_rider_s0,FLIP,,FLIP_NOISE,"Full-res crop: rider (red shirt, sunglasses) shows bare dark hair with visible hairline; no helmet shell or visor. Same bare-headed appearance in f0 context crop. State constant NO_HELMET; the detector 'helmet' calls are spurious.",PASS2_FULLRES_RESOLUTION
+pair_002,front,4,front_moto_0001_rider_s0,FLIP,,FLIP_NOISE,"Full-res crop: rider (red shirt, sunglasses) shows bare dark hair with visible hairline; no helmet shell or visor. Same bare-headed appearance in f0 context crop. State constant NO_HELMET; the detector 'helmet' calls are spurious.",PASS2_FULLRES_RESOLUTION
+pair_010,back,12,back_moto_0001_rider_s0,FLIP,,FLIP_NOISE,Full-res crop: dark helmet shell and visor clearly visible on the rider at this frame. State constant HELMET (confirmed at f172 context crop). Detector flip is noise.,PASS2_FULLRES_RESOLUTION
+pair_010,back,25,back_moto_0001_rider_s0,FLIP,,FLIP_NOISE,Full-res crop: dark helmet shell and visor clearly visible on the rider at this frame. State constant HELMET (confirmed at f172 context crop). Detector flip is noise.,PASS2_FULLRES_RESOLUTION
+pair_010,back,32,back_moto_0001_rider_s0,FLIP,,FLIP_NOISE,Full-res crop: dark helmet shell and visor clearly visible on the rider at this frame. State constant HELMET (confirmed at f172 context crop). Detector flip is noise.,PASS2_FULLRES_RESOLUTION
+pair_010,back,33,back_moto_0001_rider_s0,FLIP,,FLIP_NOISE,Full-res crop: dark helmet shell and visor clearly visible on the rider at this frame. State constant HELMET (confirmed at f172 context crop). Detector flip is noise.,PASS2_FULLRES_RESOLUTION
+pair_010,back,66,back_moto_0001_rider_s0,FLIP,,FLIP_NOISE,Full-res crop: dark helmet shell and visor clearly visible on the rider at this frame. State constant HELMET (confirmed at f172 context crop). Detector flip is noise.,PASS2_FULLRES_RESOLUTION
+pair_010,back,69,back_moto_0001_rider_s0,FLIP,,FLIP_NOISE,Full-res crop: dark helmet shell and visor clearly visible on the rider at this frame. State constant HELMET (confirmed at f172 context crop). Detector flip is noise.,PASS2_FULLRES_RESOLUTION
+pair_010,back,76,back_moto_0001_rider_s0,FLIP,,FLIP_NOISE,Full-res crop: dark helmet shell and visor clearly visible on the rider at this frame. State constant HELMET (confirmed at f172 context crop). Detector flip is noise.,PASS2_FULLRES_RESOLUTION
+pair_010,back,80,back_moto_0001_rider_s0,FLIP,,FLIP_NOISE,Full-res crop: dark helmet shell and visor clearly visible on the rider at this frame. State constant HELMET (confirmed at f172 context crop). Detector flip is noise.,PASS2_FULLRES_RESOLUTION
+pair_011,front,18,front_moto_0001_rider_s0,FLIP,,FLIP_NOISE,"Full-res crop: dark helmet shell and visor clearly visible on the rider at this frame. State constant HELMET (confirmed at f196 context crop, 322x344px head). Detector flip is noise.",PASS2_FULLRES_RESOLUTION
+pair_011,front,37,front_moto_0001_rider_s0,FLIP,,FLIP_NOISE,"Full-res crop: dark helmet shell and visor clearly visible on the rider at this frame. State constant HELMET (confirmed at f196 context crop, 322x344px head). Detector flip is noise.",PASS2_FULLRES_RESOLUTION
+pair_011,front,40,front_moto_0001_rider_s0,FLIP,,FLIP_NOISE,"Full-res crop: dark helmet shell and visor clearly visible on the rider at this frame. State constant HELMET (confirmed at f196 context crop, 322x344px head). Detector flip is noise.",PASS2_FULLRES_RESOLUTION
+pair_011,front,41,front_moto_0001_rider_s0,FLIP,,FLIP_NOISE,"Full-res crop: dark helmet shell and visor clearly visible on the rider at this frame. State constant HELMET (confirmed at f196 context crop, 322x344px head). Detector flip is noise.",PASS2_FULLRES_RESOLUTION
+pair_011,front,42,front_moto_0001_rider_s0,FLIP,,FLIP_NOISE,"Full-res crop: dark helmet shell and visor clearly visible on the rider at this frame. State constant HELMET (confirmed at f196 context crop, 322x344px head). Detector flip is noise.",PASS2_FULLRES_RESOLUTION
+pair_011,front,69,front_moto_0001_rider_s0,FLIP,,FLIP_NOISE,"Full-res crop: dark helmet shell and visor clearly visible on the rider at this frame. State constant HELMET (confirmed at f196 context crop, 322x344px head). Detector flip is noise.",PASS2_FULLRES_RESOLUTION
+pair_011,front,78,front_moto_0001_rider_s0,FLIP,,FLIP_NOISE,"Full-res crop: dark helmet shell and visor clearly visible on the rider at this frame. State constant HELMET (confirmed at f196 context crop, 322x344px head). Detector flip is noise.",PASS2_FULLRES_RESOLUTION
+pair_012,front,39,front_moto_0004_rider_s0,FLIP,,FLIP_NOISE,Full-res crop: dark helmet shell and visor clearly visible on the rider at this frame. State constant HELMET (confirmed at f237 context crop). Detector flip is noise.,PASS2_FULLRES_RESOLUTION
+pair_012,front,97,front_moto_0004_rider_s0,FLIP,,FLIP_NOISE,Full-res crop: dark helmet shell and visor clearly visible on the rider at this frame. State constant HELMET (confirmed at f237 context crop). Detector flip is noise.,PASS2_FULLRES_RESOLUTION
+pair_012,front,102,front_moto_0004_rider_s0,FLIP,,FLIP_NOISE,Full-res crop: dark helmet shell and visor clearly visible on the rider at this frame. State constant HELMET (confirmed at f237 context crop). Detector flip is noise.,PASS2_FULLRES_RESOLUTION
+pair_015,front,43,front_moto_0002_rider_s0,FLIP,,FLIP_NOISE,Full-res crop: dark helmet shell and visor clearly visible on the rider at this frame. State constant HELMET (confirmed at f285 context crop). Detector flip is noise.,PASS2_FULLRES_RESOLUTION
+pair_015,front,95,front_moto_0002_rider_s0,FLIP,,FLIP_NOISE,Full-res crop: dark helmet shell and visor clearly visible on the rider at this frame. State constant HELMET (confirmed at f285 context crop). Detector flip is noise.,PASS2_FULLRES_RESOLUTION
+pair_015,front,96,front_moto_0002_rider_s0,FLIP,,FLIP_NOISE,Full-res crop: dark helmet shell and visor clearly visible on the rider at this frame. State constant HELMET (confirmed at f285 context crop). Detector flip is noise.,PASS2_FULLRES_RESOLUTION
+pair_015,front,98,front_moto_0002_rider_s0,FLIP,,FLIP_NOISE,Full-res crop: dark helmet shell and visor clearly visible on the rider at this frame. State constant HELMET (confirmed at f285 context crop). Detector flip is noise.,PASS2_FULLRES_RESOLUTION
+pair_015,front,104,front_moto_0002_rider_s0,FLIP,,FLIP_NOISE,Full-res crop: dark helmet shell and visor clearly visible on the rider at this frame. State constant HELMET (confirmed at f285 context crop). Detector flip is noise.,PASS2_FULLRES_RESOLUTION
+pair_015,front,141,front_moto_0002_rider_s0,FLIP,,FLIP_NOISE,Full-res crop: dark helmet shell and visor clearly visible on the rider at this frame. State constant HELMET (confirmed at f285 context crop). Detector flip is noise.,PASS2_FULLRES_RESOLUTION
+pair_015,front,153,front_moto_0002_rider_s0,FLIP,,FLIP_NOISE,Full-res crop: dark helmet shell and visor clearly visible on the rider at this frame. State constant HELMET (confirmed at f285 context crop). Detector flip is noise.,PASS2_FULLRES_RESOLUTION
+pair_015,front,157,front_moto_0002_rider_s0,FLIP,,FLIP_NOISE,Full-res crop: dark helmet shell and visor clearly visible on the rider at this frame. State constant HELMET (confirmed at f285 context crop). Detector flip is noise.,PASS2_FULLRES_RESOLUTION
+pair_015,front,163,front_moto_0002_rider_s0,FLIP,,FLIP_NOISE,Full-res crop: dark helmet shell and visor clearly visible on the rider at this frame. State constant HELMET (confirmed at f285 context crop). Detector flip is noise.,PASS2_FULLRES_RESOLUTION
+pair_015,front,170,front_moto_0002_rider_s0,FLIP,,FLIP_NOISE,Full-res crop: dark helmet shell and visor clearly visible on the rider at this frame. State constant HELMET (confirmed at f285 context crop). Detector flip is noise.,PASS2_FULLRES_RESOLUTION
+pair_015,front,174,front_moto_0002_rider_s0,FLIP,,FLIP_NOISE,Full-res crop: dark helmet shell and visor clearly visible on the rider at this frame. State constant HELMET (confirmed at f285 context crop). Detector flip is noise.,PASS2_FULLRES_RESOLUTION
+pair_016,front,8,front_moto_0001_rider_s0,FLIP,,FLIP_NOISE,Full-res crop: helmet shell and raised visor clearly visible on the rider at this frame. State constant HELMET (confirmed unambiguously at f475 context crop). Detector flip is noise.,PASS2_FULLRES_RESOLUTION
+pair_016,front,14,front_moto_0001_rider_s0,FLIP,,FLIP_NOISE,Full-res crop: helmet shell and raised visor clearly visible on the rider at this frame. State constant HELMET (confirmed unambiguously at f475 context crop). Detector flip is noise.,PASS2_FULLRES_RESOLUTION
+pair_016,front,15,front_moto_0001_rider_s0,FLIP,,FLIP_NOISE,Full-res crop: helmet shell and raised visor clearly visible on the rider at this frame. State constant HELMET (confirmed unambiguously at f475 context crop). Detector flip is noise.,PASS2_FULLRES_RESOLUTION
+pair_016,front,19,front_moto_0001_rider_s0,FLIP,,FLIP_NOISE,Full-res crop: helmet shell and raised visor clearly visible on the rider at this frame. State constant HELMET (confirmed unambiguously at f475 context crop). Detector flip is noise.,PASS2_FULLRES_RESOLUTION
+pair_016,front,27,front_moto_0001_rider_s0,FLIP,,FLIP_NOISE,Full-res crop: helmet shell and raised visor clearly visible on the rider at this frame. State constant HELMET (confirmed unambiguously at f475 context crop). Detector flip is noise.,PASS2_FULLRES_RESOLUTION
+pair_016,front,28,front_moto_0001_rider_s0,FLIP,,FLIP_NOISE,Full-res crop: helmet shell and raised visor clearly visible on the rider at this frame. State constant HELMET (confirmed unambiguously at f475 context crop). Detector flip is noise.,PASS2_FULLRES_RESOLUTION
+pair_016,front,29,front_moto_0001_rider_s0,FLIP,,FLIP_NOISE,Full-res crop: helmet shell and raised visor clearly visible on the rider at this frame. State constant HELMET (confirmed unambiguously at f475 context crop). Detector flip is noise.,PASS2_FULLRES_RESOLUTION
+pair_016,front,45,front_moto_0001_rider_s0,FLIP,,FLIP_NOISE,Full-res crop: helmet shell and raised visor clearly visible on the rider at this frame. State constant HELMET (confirmed unambiguously at f475 context crop). Detector flip is noise.,PASS2_FULLRES_RESOLUTION
+pair_016,front,49,front_moto_0001_rider_s0,FLIP,,FLIP_NOISE,Full-res crop: helmet shell and raised visor clearly visible on the rider at this frame. State constant HELMET (confirmed unambiguously at f475 context crop). Detector flip is noise.,PASS2_FULLRES_RESOLUTION
+pair_016,front,50,front_moto_0001_rider_s0,FLIP,,FLIP_NOISE,Full-res crop: helmet shell and raised visor clearly visible on the rider at this frame. State constant HELMET (confirmed unambiguously at f475 context crop). Detector flip is noise.,PASS2_FULLRES_RESOLUTION
+pair_016,front,59,front_moto_0001_rider_s0,FLIP,,FLIP_NOISE,Full-res crop: helmet shell and raised visor clearly visible on the rider at this frame. State constant HELMET (confirmed unambiguously at f475 context crop). Detector flip is noise.,PASS2_FULLRES_RESOLUTION
+pair_016,front,117,front_moto_0001_rider_s0,FLIP,,FLIP_NOISE,Full-res crop: helmet shell and raised visor clearly visible on the rider at this frame. State constant HELMET (confirmed unambiguously at f475 context crop). Detector flip is noise.,PASS2_FULLRES_RESOLUTION
+pair_016,front,134,front_moto_0001_rider_s0,FLIP,,FLIP_NOISE,Full-res crop: helmet shell and raised visor clearly visible on the rider at this frame. State constant HELMET (confirmed unambiguously at f475 context crop). Detector flip is noise.,PASS2_FULLRES_RESOLUTION
+pair_016,front,139,front_moto_0001_rider_s0,FLIP,,FLIP_NOISE,Full-res crop: helmet shell and raised visor clearly visible on the rider at this frame. State constant HELMET (confirmed unambiguously at f475 context crop). Detector flip is noise.,PASS2_FULLRES_RESOLUTION
+pair_016,front,145,front_moto_0001_rider_s0,FLIP,,FLIP_NOISE,Full-res crop: helmet shell and raised visor clearly visible on the rider at this frame. State constant HELMET (confirmed unambiguously at f475 context crop). Detector flip is noise.,PASS2_FULLRES_RESOLUTION
+pair_016,front,148,front_moto_0001_rider_s0,FLIP,,FLIP_NOISE,Full-res crop: helmet shell and raised visor clearly visible on the rider at this frame. State constant HELMET (confirmed unambiguously at f475 context crop). Detector flip is noise.,PASS2_FULLRES_RESOLUTION
+pair_016,front,169,front_moto_0001_rider_s0,FLIP,,FLIP_NOISE,Full-res crop: helmet shell and raised visor clearly visible on the rider at this frame. State constant HELMET (confirmed unambiguously at f475 context crop). Detector flip is noise.,PASS2_FULLRES_RESOLUTION
+pair_016,front,170,front_moto_0001_rider_s0,FLIP,,FLIP_NOISE,Full-res crop: helmet shell and raised visor clearly visible on the rider at this frame. State constant HELMET (confirmed unambiguously at f475 context crop). Detector flip is noise.,PASS2_FULLRES_RESOLUTION
+pair_016,front,175,front_moto_0001_rider_s0,FLIP,,FLIP_NOISE,Full-res crop: helmet shell and raised visor clearly visible on the rider at this frame. State constant HELMET (confirmed unambiguously at f475 context crop). Detector flip is noise.,PASS2_FULLRES_RESOLUTION
+pair_016,front,181,front_moto_0001_rider_s0,FLIP,,FLIP_NOISE,Full-res crop: helmet shell and raised visor clearly visible on the rider at this frame. State constant HELMET (confirmed unambiguously at f475 context crop). Detector flip is noise.,PASS2_FULLRES_RESOLUTION
+pair_016,front,207,front_moto_0001_rider_s0,FLIP,,FLIP_NOISE,Full-res crop: helmet shell and raised visor clearly visible on the rider at this frame. State constant HELMET (confirmed unambiguously at f475 context crop). Detector flip is noise.,PASS2_FULLRES_RESOLUTION
+pair_016,front,218,front_moto_0001_rider_s0,FLIP,,FLIP_NOISE,Full-res crop: helmet shell and raised visor clearly visible on the rider at this frame. State constant HELMET (confirmed unambiguously at f475 context crop). Detector flip is noise.,PASS2_FULLRES_RESOLUTION
+pair_016,front,232,front_moto_0001_rider_s0,FLIP,,FLIP_NOISE,Full-res crop: helmet shell and raised visor clearly visible on the rider at this frame. State constant HELMET (confirmed unambiguously at f475 context crop). Detector flip is noise.,PASS2_FULLRES_RESOLUTION
+pair_016,front,237,front_moto_0001_rider_s0,FLIP,,FLIP_NOISE,Full-res crop: helmet shell and raised visor clearly visible on the rider at this frame. State constant HELMET (confirmed unambiguously at f475 context crop). Detector flip is noise.,PASS2_FULLRES_RESOLUTION
+pair_016,front,251,front_moto_0001_rider_s0,FLIP,,FLIP_NOISE,Full-res crop: helmet shell and raised visor clearly visible on the rider at this frame. State constant HELMET (confirmed unambiguously at f475 context crop). Detector flip is noise.,PASS2_FULLRES_RESOLUTION
+pair_016,front,260,front_moto_0001_rider_s0,FLIP,,FLIP_NOISE,Full-res crop: helmet shell and raised visor clearly visible on the rider at this frame. State constant HELMET (confirmed unambiguously at f475 context crop). Detector flip is noise.,PASS2_FULLRES_RESOLUTION
+pair_016,front,261,front_moto_0001_rider_s0,FLIP,,FLIP_NOISE,Full-res crop: helmet shell and raised visor clearly visible on the rider at this frame. State constant HELMET (confirmed unambiguously at f475 context crop). Detector flip is noise.,PASS2_FULLRES_RESOLUTION
+pair_016,front,265,front_moto_0001_rider_s0,FLIP,,FLIP_NOISE,Full-res crop: helmet shell and raised visor clearly visible on the rider at this frame. State constant HELMET (confirmed unambiguously at f475 context crop). Detector flip is noise.,PASS2_FULLRES_RESOLUTION
+pair_016,front,276,front_moto_0001_rider_s0,FLIP,,FLIP_NOISE,Full-res crop: helmet shell and raised visor clearly visible on the rider at this frame. State constant HELMET (confirmed unambiguously at f475 context crop). Detector flip is noise.,PASS2_FULLRES_RESOLUTION
+pair_016,front,283,front_moto_0001_rider_s0,FLIP,,FLIP_NOISE,Full-res crop: helmet shell and raised visor clearly visible on the rider at this frame. State constant HELMET (confirmed unambiguously at f475 context crop). Detector flip is noise.,PASS2_FULLRES_RESOLUTION
+pair_016,front,299,front_moto_0001_rider_s0,FLIP,,FLIP_NOISE,Full-res crop: helmet shell and raised visor clearly visible on the rider at this frame. State constant HELMET (confirmed unambiguously at f475 context crop). Detector flip is noise.,PASS2_FULLRES_RESOLUTION
+pair_016,front,301,front_moto_0001_rider_s0,FLIP,,FLIP_NOISE,Full-res crop: helmet shell and raised visor clearly visible on the rider at this frame. State constant HELMET (confirmed unambiguously at f475 context crop). Detector flip is noise.,PASS2_FULLRES_RESOLUTION
+pair_016,front,303,front_moto_0001_rider_s0,FLIP,,FLIP_NOISE,Full-res crop: helmet shell and raised visor clearly visible on the rider at this frame. State constant HELMET (confirmed unambiguously at f475 context crop). Detector flip is noise.,PASS2_FULLRES_RESOLUTION
+pair_016,front,310,front_moto_0001_rider_s0,FLIP,,FLIP_NOISE,Full-res crop: helmet shell and raised visor clearly visible on the rider at this frame. State constant HELMET (confirmed unambiguously at f475 context crop). Detector flip is noise.,PASS2_FULLRES_RESOLUTION
+pair_016,front,357,front_moto_0001_rider_s0,FLIP,,FLIP_NOISE,Full-res crop: helmet shell and raised visor clearly visible on the rider at this frame. State constant HELMET (confirmed unambiguously at f475 context crop). Detector flip is noise.,PASS2_FULLRES_RESOLUTION
+pair_016,front,358,front_moto_0001_rider_s0,FLIP,,FLIP_NOISE,Full-res crop: helmet shell and raised visor clearly visible on the rider at this frame. State constant HELMET (confirmed unambiguously at f475 context crop). Detector flip is noise.,PASS2_FULLRES_RESOLUTION
+pair_023,front,7,front_moto_0001_rider_s0,FLIP,,FLIP_NOISE,"Full-res crop: rider's bare curly black hair clearly visible, head bowed; no helmet worn (a spare helmet hangs on the handlebar). State constant NO_HELMET (confirmed at f232 context crop). Detector flip is noise.",PASS2_FULLRES_RESOLUTION
+pair_023,front,10,front_moto_0001_rider_s0,FLIP,,FLIP_NOISE,"Full-res crop: rider's bare curly black hair clearly visible, head bowed; no helmet worn (a spare helmet hangs on the handlebar). State constant NO_HELMET (confirmed at f232 context crop). Detector flip is noise.",PASS2_FULLRES_RESOLUTION
+pair_023,front,16,front_moto_0001_rider_s0,FLIP,,FLIP_NOISE,"Full-res crop: rider's bare curly black hair clearly visible, head bowed; no helmet worn (a spare helmet hangs on the handlebar). State constant NO_HELMET (confirmed at f232 context crop). Detector flip is noise.",PASS2_FULLRES_RESOLUTION
+pair_023,front,20,front_moto_0001_rider_s0,FLIP,,FLIP_NOISE,"Full-res crop: rider's bare curly black hair clearly visible, head bowed; no helmet worn (a spare helmet hangs on the handlebar). State constant NO_HELMET (confirmed at f232 context crop). Detector flip is noise.",PASS2_FULLRES_RESOLUTION
+pair_024,back,713,back_moto_0001_rider_s0,FLIP,,FLIP_NOISE,Full-res crop: back of rider's head shows thick black hair and sunglasses arm; no helmet. State constant NO_HELMET (confirmed at f566 context crop). Detector flip is noise.,PASS2_FULLRES_RESOLUTION
+pair_024,back,718,back_moto_0001_rider_s0,FLIP,,FLIP_NOISE,Full-res crop: back of rider's head shows thick black hair and sunglasses arm; no helmet. State constant NO_HELMET (confirmed at f566 context crop). Detector flip is noise.,PASS2_FULLRES_RESOLUTION
+pair_002,back,f177,back_orphan_0001,EXCLUDE_FP_TRACK,,CONFIRMED,Full frame + crop: red box sits on a distant tree branch / building facade at top of frame; no person in or near the box; road empty.,PASS3_CORRECTION_SPOT_VERIFICATION
+pair_009,back,f105;f95,back_moto_0001,EXCLUDE_FP_TRACK,,CONFIRMED,Both crops: box covers the rear/lower half of an enclosed motor auto-rickshaw (3-wheeler with cabin); no motorcycle present.,PASS3_CORRECTION_SPOT_VERIFICATION
+pair_009,back,f184,back_moto_0002,EXCLUDE_FP_TRACK,,CONFIRMED,Crop: box on the rear of the same enclosed auto-rickshaw; no motorcycle.,PASS3_CORRECTION_SPOT_VERIFICATION
+pair_009,back,f196,back_moto_0003,EXCLUDE_FP_TRACK,,CONFIRMED,Crop: box on the rear of the same enclosed auto-rickshaw; no motorcycle.,PASS3_CORRECTION_SPOT_VERIFICATION
+pair_012,back,f83,back_moto_0001,EXCLUDE_FP_TRACK,,CONFIRMED,"Crop: box is on the front wheel/fork of a large enclosed auto-rickshaw; the vehicle is a 3-wheeler, not a motorcycle.",PASS3_CORRECTION_SPOT_VERIFICATION
+pair_023,back,f94,back_orphan_0001,EXCLUDE_FP_TRACK,,CONFIRMED,Crop: box on a building rooftop railing/facade at the very top of frame; no person.,PASS3_CORRECTION_SPOT_VERIFICATION
+pair_006,back,f32,back_orphan_0001,EXCLUDE_FP_TRACK,,CONFIRMED,"Crop: box on treetop foliage against power lines; no person. Full frame's only road users are a distant rickshaw, separately detected.",PASS3_CORRECTION_SPOT_VERIFICATION
+pair_006,back,f93,back_orphan_0004,EXCLUDE_FP_TRACK,,CONFIRMED,Crop: box on treetop foliage / power lines; no person.,PASS3_CORRECTION_SPOT_VERIFICATION
+pair_007,front,f129,front_moto_0005,EXCLUDE_FP_TRACK,,CONFIRMED,Crop: box covers a pedal rickshaw cart with two men standing beside it; no motorcycle.,PASS3_CORRECTION_SPOT_VERIFICATION
+pair_009,back,f388;f375,back_moto_0008,EXCLUDE_FP_TRACK,,CONFIRMED,"Both crops: box tightly on a squatting pedestrian at the left roadside; the real motorcycle in frame is a different, separately boxed object. Not a motorcycle.",PASS3_CORRECTION_SPOT_VERIFICATION
+pair_009,back,f390,back_moto_0009,EXCLUDE_FP_TRACK,,CONFIRMED,Crop: box covers the side of a colorful enclosed auto-rickshaw (easy-bike); not a motorcycle.,PASS3_CORRECTION_SPOT_VERIFICATION
+pair_009,back,f392,back_moto_0010,EXCLUDE_FP_TRACK,,CONFIRMED,Crop: same enclosed auto-rickshaw as C011; not a motorcycle.,PASS3_CORRECTION_SPOT_VERIFICATION
+pair_009,back,f404,back_moto_0011,EXCLUDE_FP_TRACK,,CONFIRMED,"Crop: same enclosed auto-rickshaw, driver visible inside the cabin; not a motorcycle.",PASS3_CORRECTION_SPOT_VERIFICATION
+pair_011,back,f54,back_moto_0001,EXCLUDE_FP_TRACK,,CONFIRMED,Crop: box on a squatting pedestrian at the roadside; no motorcycle.,PASS3_CORRECTION_SPOT_VERIFICATION
+pair_013,front,f400,front_moto_0003,EXCLUDE_FP_TRACK,,CONFIRMED,Full frame + crop: box tightly on a squatting pedestrian at the left roadside; no motorcycle.,PASS3_CORRECTION_SPOT_VERIFICATION
+pair_024,back,f397,back_orphan_0001,EXCLUDE_FP_TRACK,,CONFIRMED,Crop: box on upper-floor building windows/facade behind wires; the only pedestrian in the frame is far down the road and separately detected. No rider at the box.,PASS3_CORRECTION_SPOT_VERIFICATION
+pair_002,front,f0;f1;f2,front_moto_0001_rider_s0,SET_CONSTANT_HELMET_STATE,,CONFIRMED,"Target NO_HELMET. Crops at f0/f1 (raw derived HELMET) and f2 (raw NO_HELMET): driver is bare-headed in all three - hair and sunglasses clearly visible, no helmet shell. Raw HELMET readings contradicted by direct evidence.",PASS3_CORRECTION_SPOT_VERIFICATION
+pair_010,back,f1;f12;f107,back_moto_0001_rider_s0,SET_CONSTANT_HELMET_STATE,,CONFIRMED,"Target HELMET. Crops at f12 (raw NO_HELMET), f1 and f107 (raw HELMET): rider wears a black full-face helmet in all three, unambiguous at f107. Raw NO_HELMET readings are detector noise.",PASS3_CORRECTION_SPOT_VERIFICATION
+pair_011,front,f0;f18;f115,front_moto_0001_rider_s0,SET_CONSTANT_HELMET_STATE,,CONFIRMED,"Target HELMET. Crops at f0 (raw NO_HELMET), f18, f115: dark helmet worn in all three, unambiguous at f115 (branded full-face helmet).",PASS3_CORRECTION_SPOT_VERIFICATION
+pair_012,front,f4;f39;f144,front_moto_0004_rider_s0,SET_CONSTANT_HELMET_STATE,,CONFIRMED,"Target HELMET. Crops at f4 (raw NO_HELMET), f39, f144: helmet worn in all three, unambiguous at f144.",PASS3_CORRECTION_SPOT_VERIFICATION
+pair_015,front,f6;f43;f185,front_moto_0002_rider_s0,SET_CONSTANT_HELMET_STATE,,CONFIRMED,"Target HELMET. Crops at f6 (raw NO_HELMET), f43, f185: black helmet worn in all three, unambiguous at f185.",PASS3_CORRECTION_SPOT_VERIFICATION
+pair_016,front,f0;f8;f324,front_moto_0001_rider_s0,SET_CONSTANT_HELMET_STATE,,CONFIRMED,"Target HELMET. Crops at f8 (raw NO_HELMET), f0, f324: helmet worn in all three (light-coloured shell at f8, black at f324).",PASS3_CORRECTION_SPOT_VERIFICATION
+pair_023,front,f0;f7;f124,front_moto_0001_rider_s0,SET_CONSTANT_HELMET_STATE,,CONFIRMED,"Target NO_HELMET. Crops at f7 (raw HELMET), f0, f124: rider bare-headed in all three (hair clearly visible at f124). A green helmet hangs UNWORN on the bike's front in all frames - plausible source of the raw HELMET blips. Note: subtrack bbox is offset right of the rider's head at f0/f7.",PASS3_CORRECTION_SPOT_VERIFICATION
+pair_024,back,f562;f644;f713,back_moto_0001_rider_s0,SET_CONSTANT_HELMET_STATE,,CONFIRMED,"Target NO_HELMET. Crops at f713 (raw HELMET), f562, f644: rider bare-headed in all three (hair/sunglasses visible, rear and profile views). A green/black helmet hangs on the handlebar, not worn - plausible source of raw HELMET blips.",PASS3_CORRECTION_SPOT_VERIFICATION

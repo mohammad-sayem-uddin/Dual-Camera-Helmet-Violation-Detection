@@ -1,0 +1,18 @@
+family,metric,value,ci95_lo,ci95_hi,basis
+detection_head,precision_pooled,0.6893,0.5941,0.7796,"6,759 GT head observations (direct, coupled)"
+detection_head,recall_pooled,1.0,1.0,1.0,"6,759 GT head observations"
+detection_head,f1_pooled,0.8161,0.7454,0.8762,"6,759 GT head observations"
+detection_head,AP50_pooled,0.7314,,,"6,759 GT head observations"
+detection_head,AP50_95_pooled,0.7314,,,"6,759 GT head observations"
+rider,f1_primary,1.0,1.0,1.0,"6,727 spatially-valid coupled observations"
+rider,mean_iou_primary,1.0,1.0,1.0,"6,727 spatially-valid coupled observations"
+helmet_obs,f1_helmet,1.0,1.0,1.0,"6,753 decided GT head observations"
+helmet_obs,f1_no_helmet,1.0,1.0,1.0,"6,753 decided GT head observations"
+helmet_track,agreement_rate,0.6411,,,209 decided GT rider tracks
+tracking,idf1_head_basis,0.9987,0.997,0.9998,"6,759 GT / 6,776 pred coupled head-observation units"
+tracking,id_switches,0,,,head-observation basis
+association_moto,f1_linked,0.9091,0.7368,1.0,70 GT / 85 pred decision units (SB-006 bases differ)
+association_moto,pred_abstain_rate,0.3882,,,85 pred decision units
+events,f1_overall,0.8258,0.7286,0.9268,"70 GT / 85 pred events, strict pre-registered matching"
+events,precision,0.7529,,,85 pred events
+events,recall,0.9143,,,70 GT events

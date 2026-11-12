@@ -1,0 +1,137 @@
+{
+ "duplicate_ticks_skipped": 0,
+ "frames_updated": 310,
+ "moto_tracks": [
+  {
+   "age": 82,
+   "bbox": [
+    1003.73,
+    626.52,
+    1245.44,
+    1009.8
+   ],
+   "camera_id": "back",
+   "confidence": 0.5815,
+   "first_pts_sec": 7.608333,
+   "hits": 82,
+   "last_pts_sec": 10.311667,
+   "lifecycle_state": "CONFIRMED",
+   "moto_track_id": "back_moto_0001",
+   "recovery_count": 0,
+   "rider_abstained_updates": 81,
+   "rider_pts_history": {
+    "0": [
+     [
+      229,
+      7.641667,
+      [
+       3362.83,
+       1271.54,
+       3594.94,
+       1429.55
+      ],
+      "no_helmet",
+      0.2516
+     ]
+    ]
+   },
+   "rider_subtracks": {
+    "0": {
+     "abstained_updates_count": 71,
+     "age": 81,
+     "aggregated_confidence": {
+      "helmet": 0.0,
+      "no_helmet": 0.0
+     },
+     "alerts_emitted": 0,
+     "bbox": [
+      3362.83,
+      1271.54,
+      3594.94,
+      1429.55
+     ],
+     "camera_id": "back",
+     "consecutive_helmet_frames": 0,
+     "consecutive_no_helmet_frames": 1,
+     "hits": 1,
+     "last_coupling_score": 0.9619,
+     "ordering_confident": true,
+     "parent_moto_id": "back_moto_0001",
+     "slot_index": 0,
+     "slot_role": "driver",
+     "subtrack_id": "back_moto_0001_rider_s0",
+     "temporal_state": "TRACK_LOST",
+     "time_since_update": 80
+    }
+   },
+   "slot_spatial_conflicts_detected": 81,
+   "spatial_identity_overrides": 0,
+   "stage2_low_conf_matches": 0,
+   "time_since_update": 0,
+   "velocity_xy": [
+    -4.29,
+    -5.347
+   ]
+  }
+ ],
+ "orphan_tracks": [
+  {
+   "aggregated_confidence": {
+    "helmet": 0.8644,
+    "no_helmet": 0.1356
+   },
+   "alerts_emitted": 0,
+   "bbox": [
+    1606.37,
+    360.71,
+    1793.06,
+    575.23
+   ],
+   "camera_id": "back",
+   "hits": 3,
+   "last_rejection_reason": "LOW_CONF_UNMATCHED_PARENT_MOTO",
+   "lifecycle_state": "TERMINATED",
+   "orphan_track_id": "back_orphan_0001",
+   "pts_history": [
+    [
+     243,
+     8.11,
+     [
+      1892.94,
+      241.05,
+      2258.06,
+      660.98
+     ],
+     "helmet",
+     0.7957
+    ],
+    [
+     244,
+     8.143333,
+     [
+      1839.82,
+      252.92,
+      2190.03,
+      656.7
+     ],
+     "helmet",
+     0.7065
+    ],
+    [
+     245,
+     8.176667,
+     [
+      1795.94,
+      276.2,
+      2120.32,
+      637.06
+     ],
+     "helmet",
+     0.6624
+    ]
+   ],
+   "temporal_state": "TEMPORARILY_OCCLUDED",
+   "time_since_update": 9
+  }
+ ]
+}

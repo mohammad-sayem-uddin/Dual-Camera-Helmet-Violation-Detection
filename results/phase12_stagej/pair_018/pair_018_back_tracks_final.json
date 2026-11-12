@@ -1,0 +1,478 @@
+{
+ "duplicate_ticks_skipped": 0,
+ "frames_updated": 198,
+ "moto_tracks": [
+  {
+   "age": 90,
+   "bbox": [
+    2087.33,
+    379.34,
+    2308.13,
+    724.73
+   ],
+   "camera_id": "back",
+   "confidence": 0.5911,
+   "first_pts_sec": 3.605,
+   "hits": 90,
+   "last_pts_sec": 6.575,
+   "lifecycle_state": "CONFIRMED",
+   "moto_track_id": "back_moto_0001",
+   "recovery_count": 0,
+   "rider_abstained_updates": 91,
+   "rider_pts_history": {
+    "0": [
+     [
+      111,
+      3.705,
+      [
+       7.99,
+       679.72,
+       387.4,
+       1005.09
+      ],
+      "no_helmet",
+      0.4531
+     ],
+     [
+      112,
+      3.738333,
+      [
+       177.98,
+       654.48,
+       505.79,
+       892.65
+      ],
+      "no_helmet",
+      0.4498
+     ],
+     [
+      113,
+      3.771667,
+      [
+       314.36,
+       637.65,
+       607.67,
+       848.09
+      ],
+      "no_helmet",
+      0.6139
+     ]
+    ],
+    "1": [
+     [
+      113,
+      3.771667,
+      [
+       305.65,
+       644.86,
+       730.36,
+       1047.0
+      ],
+      "helmet",
+      0.3913
+     ]
+    ]
+   },
+   "rider_subtracks": {
+    "0": {
+     "abstained_updates_count": 85,
+     "age": 87,
+     "aggregated_confidence": {
+      "helmet": 0.0,
+      "no_helmet": 0.0
+     },
+     "alerts_emitted": 0,
+     "bbox": [
+      6612.14,
+      -1313.93,
+      6614.49,
+      -1311.93
+     ],
+     "camera_id": "back",
+     "consecutive_helmet_frames": 0,
+     "consecutive_no_helmet_frames": 3,
+     "hits": 3,
+     "last_coupling_score": 0.993,
+     "ordering_confident": true,
+     "parent_moto_id": "back_moto_0001",
+     "slot_index": 0,
+     "slot_role": "driver",
+     "subtrack_id": "back_moto_0001_rider_s0",
+     "temporal_state": "TRACK_LOST",
+     "time_since_update": 84
+    },
+    "1": {
+     "abstained_updates_count": 9,
+     "age": 85,
+     "aggregated_confidence": {
+      "helmet": 0.0,
+      "no_helmet": 0.0
+     },
+     "alerts_emitted": 0,
+     "bbox": [
+      305.65,
+      644.86,
+      730.36,
+      1047.0
+     ],
+     "camera_id": "back",
+     "consecutive_helmet_frames": 1,
+     "consecutive_no_helmet_frames": 0,
+     "hits": 1,
+     "last_coupling_score": 0.9976,
+     "ordering_confident": true,
+     "parent_moto_id": "back_moto_0001",
+     "slot_index": 1,
+     "slot_role": "pillion_1",
+     "subtrack_id": "back_moto_0001_rider_s1",
+     "temporal_state": "TRACK_LOST",
+     "time_since_update": 84
+    }
+   },
+   "slot_spatial_conflicts_detected": 88,
+   "spatial_identity_overrides": 0,
+   "stage2_low_conf_matches": 0,
+   "time_since_update": 0,
+   "velocity_xy": [
+    4.69,
+    -7.94
+   ]
+  }
+ ],
+ "orphan_tracks": [
+  {
+   "aggregated_confidence": {
+    "helmet": 0.3155,
+    "no_helmet": 0.6845
+   },
+   "alerts_emitted": 1,
+   "bbox": [
+    3246.44,
+    301.03,
+    3411.15,
+    472.8
+   ],
+   "camera_id": "back",
+   "hits": 26,
+   "last_rejection_reason": "LATERAL_OUT_OF_BOUNDS",
+   "lifecycle_state": "RECOVERED",
+   "orphan_track_id": "back_orphan_0001",
+   "pts_history": [
+    [
+     162,
+     5.406667,
+     [
+      3275.99,
+      362.31,
+      3405.6,
+      516.65
+     ],
+     "no_helmet",
+     0.2788
+    ],
+    [
+     163,
+     5.44,
+     [
+      3268.47,
+      377.0,
+      3403.78,
+      514.11
+     ],
+     "no_helmet",
+     0.3891
+    ],
+    [
+     164,
+     5.473333,
+     [
+      3270.89,
+      368.8,
+      3401.23,
+      510.9
+     ],
+     "no_helmet",
+     0.3543
+    ],
+    [
+     165,
+     5.506667,
+     [
+      3265.04,
+      373.33,
+      3401.45,
+      513.66
+     ],
+     "no_helmet",
+     0.4027
+    ],
+    [
+     166,
+     5.54,
+     [
+      3264.94,
+      359.9,
+      3401.22,
+      516.04
+     ],
+     "no_helmet",
+     0.289
+    ],
+    [
+     167,
+     5.573333,
+     [
+      3259.35,
+      372.9,
+      3405.26,
+      518.01
+     ],
+     "no_helmet",
+     0.4625
+    ],
+    [
+     168,
+     5.606667,
+     [
+      3260.86,
+      377.49,
+      3400.34,
+      521.5
+     ],
+     "no_helmet",
+     0.2787
+    ],
+    [
+     169,
+     5.64,
+     [
+      3258.69,
+      389.49,
+      3396.82,
+      523.9
+     ],
+     "no_helmet",
+     0.5201
+    ],
+    [
+     170,
+     5.673333,
+     [
+      3254.7,
+      386.15,
+      3397.11,
+      522.2
+     ],
+     "no_helmet",
+     0.5409
+    ],
+    [
+     171,
+     5.706667,
+     [
+      3249.01,
+      386.61,
+      3393.41,
+      525.55
+     ],
+     "no_helmet",
+     0.4635
+    ],
+    [
+     172,
+     5.74,
+     [
+      3243.9,
+      385.86,
+      3388.22,
+      525.52
+     ],
+     "no_helmet",
+     0.3638
+    ],
+    [
+     173,
+     5.773333,
+     [
+      3242.6,
+      374.24,
+      3384.91,
+      528.37
+     ],
+     "no_helmet",
+     0.4018
+    ],
+    [
+     174,
+     5.806667,
+     [
+      3235.73,
+      363.81,
+      3387.12,
+      523.68
+     ],
+     "no_helmet",
+     0.3129
+    ],
+    [
+     176,
+     5.873333,
+     [
+      3240.01,
+      366.01,
+      3380.73,
+      520.29
+     ],
+     "no_helmet",
+     0.3778
+    ],
+    [
+     177,
+     5.906667,
+     [
+      3241.9,
+      357.15,
+      3379.74,
+      514.18
+     ],
+     "no_helmet",
+     0.2529
+    ],
+    [
+     178,
+     5.94,
+     [
+      3245.34,
+      366.47,
+      3381.64,
+      512.31
+     ],
+     "no_helmet",
+     0.2611
+    ],
+    [
+     185,
+     6.173333,
+     [
+      3243.7,
+      359.68,
+      3394.83,
+      514.37
+     ],
+     "no_helmet",
+     0.4719
+    ],
+    [
+     186,
+     6.206667,
+     [
+      3245.12,
+      355.38,
+      3401.8,
+      516.34
+     ],
+     "no_helmet",
+     0.5783
+    ],
+    [
+     187,
+     6.24,
+     [
+      3246.26,
+      349.65,
+      3404.24,
+      514.88
+     ],
+     "no_helmet",
+     0.3348
+    ],
+    [
+     188,
+     6.273333,
+     [
+      3247.37,
+      342.1,
+      3404.69,
+      515.21
+     ],
+     "no_helmet",
+     0.3944
+    ],
+    [
+     189,
+     6.306667,
+     [
+      3241.89,
+      348.3,
+      3405.19,
+      503.09
+     ],
+     "no_helmet",
+     0.2652
+    ],
+    [
+     190,
+     6.34,
+     [
+      3235.38,
+      336.52,
+      3408.64,
+      491.71
+     ],
+     "no_helmet",
+     0.2945
+    ],
+    [
+     192,
+     6.406667,
+     [
+      3253.02,
+      311.31,
+      3408.55,
+      478.02
+     ],
+     "no_helmet",
+     0.3019
+    ],
+    [
+     193,
+     6.44,
+     [
+      3254.32,
+      305.49,
+      3410.95,
+      477.86
+     ],
+     "no_helmet",
+     0.3999
+    ],
+    [
+     195,
+     6.508333,
+     [
+      3242.93,
+      298.73,
+      3415.37,
+      477.39
+     ],
+     "no_helmet",
+     0.2869
+    ],
+    [
+     197,
+     6.575,
+     [
+      3244.3,
+      304.43,
+      3411.67,
+      473.42
+     ],
+     "no_helmet",
+     0.4461
+    ]
+   ],
+   "temporal_state": "NO_HELMET_SUSPECTED",
+   "time_since_update": 0
+  }
+ ]
+}
