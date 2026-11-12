@@ -44,4 +44,4 @@ Accumulator: ~10 scalars/track, no history retained (existing `pts_history` unto
 - Majority can still be wrong on low-confidence or manually-corrected tracks (2 of 209); the historical majority differs from the latest state on transition tracks, both exported.
 
 ## 10. Commit / push
-See final response (filled after verifying the remote).
+Implementation commit `81bc3e60f9c82770190e192b1d252b042129d4c9` pushed to `origin/main`; remote HEAD verified equal to local HEAD at that time.
