@@ -72,6 +72,7 @@ PYTHONPATH=. /opt/homebrew/opt/python@3.11/bin/python3.11 src/pipeline/dual_came
 
 | Document | Scope |
 |---|---|
+| [`docs/phase12/FINAL_RESEARCH_PROJECT_COMPLETION_REPORT.md`](docs/phase12/FINAL_RESEARCH_PROJECT_COMPLETION_REPORT.md) | Master end-to-end engineering, audit, statistical, and reproducibility completion report |
 | [`docs/phase12/FINAL_SYSTEM_ARCHITECTURE.md`](docs/phase12/FINAL_SYSTEM_ARCHITECTURE.md) | Integrated multi-layer architecture, equations, Mermaid workflows, and module bindings |
 | [`docs/phase12/FINAL_EXPERIMENTAL_METHODOLOGY.md`](docs/phase12/FINAL_EXPERIMENTAL_METHODOLOGY.md) | Dataset partitioning, multi-seed protocol, synchronization forensics, and ablation designs |
 | [`docs/phase12/FINAL_EXPERIMENTAL_RESULTS.md`](docs/phase12/FINAL_EXPERIMENTAL_RESULTS.md) | Reconciled tables, 95% Wilson/bootstrap CIs, exact McNemar tests, and forensic case studies |
