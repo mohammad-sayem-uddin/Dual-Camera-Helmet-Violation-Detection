@@ -377,13 +377,16 @@ class OrphanAssociationEngine:
                 ok, sc, brk, r_list = self._score_pair(
                     fi, bj, epsilon_sync_ms, delta_pts_front_ms, delta_pts_back_ms
                 )
-                # Without appearance similarity, prevent brief orphan fragments from
-                # matching or creating false ambiguity against sustained coupled riders
-                # of rejected/unmatched motorcycles via temporal-centroid shift.
+                # Without strong positive appearance similarity (>= 0.85), prevent brief
+                # orphan fragments from matching or creating false ambiguity against sustained
+                # coupled riders of rejected/unmatched motorcycles via temporal-centroid shift.
+                # Uncalibrated opposing-view HSV overlap (negative mean ~0.664 in TASK-10)
+                # is insufficient to overturn extreme cross-kind duration asymmetry.
+                app_val = brk.get("appearance_score", brk.get("appearance_hsv_score"))
                 if (
                     ok
                     and fi.track_kind != bj.track_kind
-                    and "appearance_hsv_score" not in brk
+                    and (app_val is None or float(app_val) < 0.85)
                 ):
                     obs_f = int(fi.tracklet.observed_frame_count)
                     obs_b = int(bj.tracklet.observed_frame_count)
@@ -393,8 +396,9 @@ class OrphanAssociationEngine:
                         ok = False
                         sc = 0.0
                         brk = {"temporal_transit_score": float(brk.get("temporal_transit_score", 0.0))}
+                        suffix = "WITHOUT_APPEARANCE" if app_val is None else "WEAK_APPEARANCE"
                         r_list = [
-                            f"UNMATCHED_MOTO_RIDER_DURATION_ASYMMETRY_{obs_f}vs{obs_b}_WITHOUT_APPEARANCE"
+                            f"UNMATCHED_MOTO_RIDER_DURATION_ASYMMETRY_{obs_f}vs{obs_b}_{suffix}"
                         ]
                 score_mat[i, j] = sc
                 gated_mat[i, j] = ok

@@ -187,6 +187,7 @@ class RiderTracker:
         aggregator_method: str = "confidence_weighted",
         window_size: int = 10,
         sm_config: StateMachineConfig | None = None,
+        ema_alpha: float = 0.35,
     ) -> None:
         self.iou_threshold = iou_threshold
         self.max_age = max_age
@@ -194,10 +195,26 @@ class RiderTracker:
         self.aggregator_method = aggregator_method
         self.window_size = window_size
         self.sm_config = sm_config or StateMachineConfig()
+        self.ema_alpha = ema_alpha
 
         self.next_track_id = 1
         self.active_tracks: dict[int, Track] = {}
         self.dead_tracks: list[Track] = []
+
+    def _create_track(self, bbox: BoundingBox, frame_index: int) -> Track:
+        """Create and register a new Track using configured temporal parameters."""
+        track = Track(
+            track_id=self.next_track_id,
+            initial_bbox=bbox,
+            frame_index=frame_index,
+            aggregator_method=self.aggregator_method,
+            window_size=self.window_size,
+            sm_config=self.sm_config,
+            ema_alpha=self.ema_alpha,
+        )
+        self.active_tracks[self.next_track_id] = track
+        self.next_track_id += 1
+        return track
 
     def update(self, frame_index: int, detections: list[BoundingBox]) -> list[Track]:
         """
@@ -213,16 +230,7 @@ class RiderTracker:
         # If no active tracks, initiate all detections
         if not self.active_tracks:
             for det in detections:
-                t = Track(
-                    track_id=self.next_track_id,
-                    initial_bbox=det,
-                    frame_index=frame_index,
-                    aggregator_method=self.aggregator_method,
-                    window_size=self.window_size,
-                    sm_config=self.sm_config,
-                )
-                self.active_tracks[self.next_track_id] = t
-                self.next_track_id += 1
+                self._create_track(det, frame_index)
             return list(self.active_tracks.values())
 
         track_ids = list(self.active_tracks.keys())
@@ -264,16 +272,7 @@ class RiderTracker:
         # Create new tracks for unmatched detections
         for d_idx, det in enumerate(detections):
             if d_idx not in matched_detections:
-                new_track = Track(
-                    track_id=self.next_track_id,
-                    initial_bbox=det,
-                    frame_index=frame_index,
-                    aggregator_method=self.aggregator_method,
-                    window_size=self.window_size,
-                    sm_config=self.sm_config,
-                )
-                self.active_tracks[self.next_track_id] = new_track
-                self.next_track_id += 1
+                self._create_track(det, frame_index)
 
         # Purge dead tracks that exceed max_age or reached TRACK_LOST
         surviving_tracks: dict[int, Track] = {}

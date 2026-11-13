@@ -36,6 +36,7 @@ class TemporalVerificationEngine:
             aggregator_method=self.config.aggregator_method,
             window_size=self.config.sliding_window_size,
             sm_config=self.config.state_machine_config,
+            ema_alpha=self.config.ema_alpha,
         )
         self.decision_engine = ViolationDecisionEngine(config=self.config.decision_config)
         self.total_frames_processed = 0

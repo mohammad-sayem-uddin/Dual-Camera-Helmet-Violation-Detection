@@ -75,7 +75,7 @@ import time
 import traceback
 from collections import Counter
 from collections.abc import Callable, Collection, Mapping
-from dataclasses import dataclass
+from dataclasses import asdict, dataclass, is_dataclass
 from datetime import datetime, timezone
 from enum import Enum
 from pathlib import Path
@@ -1096,6 +1096,7 @@ def _track_records(cam_out: CameraRunOutput) -> dict[str, dict[str, Any]]:
             subs[int(slot)] = {
                 "subtrack_id": sub.subtrack_id,
                 "slot_role": sub.slot_role,
+                "consensus_slot_role": getattr(sub, "consensus_slot_role", sub.slot_role),
                 # Canonical strict majority over genuine coupled observations
                 # (RiderSubTrack.helmet_evidence); see TASK-03/TASK-04 design.
                 "track_helmet_state": sub.track_helmet_state,
@@ -1752,14 +1753,37 @@ def run_pair(pair_id: str, config: PipelineConfig) -> PairRunResult:
         )
         _dump_json(out_dir / f"{pair_id}_association.json", batch.to_dict())
 
-        events = derive_pair_events(
-            pair_id,
-            cam_outs["front"],
-            cam_outs["back"],
-            batch,
-            fusion_mode=config.fusion_mode,
-            fusion_config=config.fusion_config,
-        )
+        if config.fusion_mode != "legacy":
+            from src.fusion.dual_camera_fusion import DualCameraFusionEngine
+
+            fusion_engine = DualCameraFusionEngine(config=config.fusion_config)
+            fusion_out = fusion_engine.fuse_pair(
+                pair_id,
+                cam_outs["front"],
+                cam_outs["back"],
+                batch,
+                mode=config.fusion_mode,
+            )
+            events = fusion_out.events
+            _dump_json(
+                out_dir / f"{pair_id}_fusion_summary.json",
+                {
+                    "pair_id": fusion_out.pair_id,
+                    "fusion_mode": fusion_out.mode,
+                    "sync_reliability": round(float(fusion_out.sync_reliability), 6),
+                    "stats": dict(fusion_out.stats),
+                    "orphan_results": [o.to_dict() for o in fusion_out.orphan_results],
+                },
+            )
+        else:
+            events = derive_pair_events(
+                pair_id,
+                cam_outs["front"],
+                cam_outs["back"],
+                batch,
+                fusion_mode=config.fusion_mode,
+                fusion_config=config.fusion_config,
+            )
         _dump_json(out_dir / f"{pair_id}_events.json", events)
 
         diagnostics = build_sync_diagnostics(ctx, q5, engine)
@@ -1978,6 +2002,26 @@ def run_pair_tick_mode(pair_id: str, config: PipelineConfig) -> dict[str, Any]:
 # --------------------------------------------------------------------------
 
 
+def _serialize_fusion_config(fusion_config: Any) -> dict[str, Any] | None:
+    if fusion_config is None:
+        return None
+    if is_dataclass(fusion_config) and not isinstance(fusion_config, type):
+        return asdict(fusion_config)
+    if isinstance(fusion_config, Mapping):
+        return dict(fusion_config)
+    raise TypeError(f"Unsupported fusion_config type: {type(fusion_config).__name__}")
+
+
+def _deserialize_fusion_config(raw: Any) -> Any:
+    if raw is None:
+        return None
+    if isinstance(raw, Mapping):
+        from src.fusion.evidence_fusion import FusionConfig
+
+        return FusionConfig(**dict(raw))
+    return raw
+
+
 def _serialize_config(config: PipelineConfig) -> dict[str, Any]:
     return {
         "data_root": str(config.data_root),
@@ -1993,6 +2037,8 @@ def _serialize_config(config: PipelineConfig) -> dict[str, Any]:
         "keyframe_max_width": config.keyframe_max_width,
         "tick_hz": config.tick_hz,
         "resume": config.resume,
+        "fusion_mode": config.fusion_mode,
+        "fusion_config": _serialize_fusion_config(config.fusion_config),
     }
 
 
@@ -2011,6 +2057,8 @@ def _config_from_dict(d: dict[str, Any]) -> PipelineConfig:
         keyframe_max_width=int(d.get("keyframe_max_width", 1280)),
         tick_hz=float(d.get("tick_hz", 60.0)),
         resume=bool(d.get("resume", True)),
+        fusion_mode=str(d.get("fusion_mode", "legacy")),
+        fusion_config=_deserialize_fusion_config(d.get("fusion_config")),
     )
 
 
@@ -2176,7 +2224,12 @@ def run_all(pair_ids: list[str], config: PipelineConfig) -> list[PairRunResult]:
 # --------------------------------------------------------------------------
 
 
-def _default_config(output_root: Path, device: str | None, resume: bool) -> PipelineConfig:
+def _default_config(
+    output_root: Path,
+    device: str | None,
+    resume: bool,
+    fusion_mode: str = "legacy",
+) -> PipelineConfig:
     repo_root = _repo_root()
     data_root = repo_root / "data" / "dual_camera_test_v1"
     return PipelineConfig(
@@ -2189,6 +2242,7 @@ def _default_config(output_root: Path, device: str | None, resume: bool) -> Pipe
         output_root=output_root,
         device=device,
         resume=resume,
+        fusion_mode=fusion_mode,
     )
 
 
@@ -2211,6 +2265,11 @@ def main(argv: list[str] | None = None) -> int:
     parser.add_argument("--association-config", default=None)
     parser.add_argument("--output-root", default=None)
     parser.add_argument("--device", default=None)
+    parser.add_argument(
+        "--fusion-mode",
+        choices=("legacy", "dual_fused", "front_only", "back_only"),
+        default="legacy",
+    )
     parser.add_argument("--no-resume", action="store_true")
     args = parser.parse_args(argv)
 
@@ -2245,7 +2304,12 @@ def main(argv: list[str] | None = None) -> int:
         if args.output_root
         else repo_root / "results" / "phase12_integrated"
     )
-    config = _default_config(output_root, args.device, resume=not args.no_resume)
+    config = _default_config(
+        output_root,
+        args.device,
+        resume=not args.no_resume,
+        fusion_mode=args.fusion_mode,
+    )
     if args.data_root or args.metadata or args.tracking_config or args.association_config:
         config = PipelineConfig(
             data_root=Path(args.data_root) if args.data_root else config.data_root,
@@ -2265,6 +2329,8 @@ def main(argv: list[str] | None = None) -> int:
             keyframe_max_width=config.keyframe_max_width,
             tick_hz=config.tick_hz,
             resume=config.resume,
+            fusion_mode=config.fusion_mode,
+            fusion_config=config.fusion_config,
         )
     pair_ids = args.pairs if args.pairs else _all_pair_ids(config)
     results = run_all(pair_ids, config)

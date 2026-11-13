@@ -6,7 +6,7 @@ Updates smoke test notebook to dynamically discover mounted dataset locations in
 import json
 from pathlib import Path
 
-PROJECT_ROOT = Path("/Users/sayemuddin/Desktop/research_helmet")
+PROJECT_ROOT = Path(__file__).resolve().parents[1]
 NOTEBOOK_DIR = PROJECT_ROOT / "notebooks"
 NOTEBOOK_DIR.mkdir(parents=True, exist_ok=True)
 

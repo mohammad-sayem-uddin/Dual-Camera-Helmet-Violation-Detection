@@ -19,7 +19,7 @@ from collections import Counter, defaultdict
 import numpy as np
 from PIL import Image
 
-PROJECT_ROOT = Path("/Users/sayemuddin/Desktop/research_helmet")
+PROJECT_ROOT = Path(__file__).resolve().parents[1]
 OLD_SRC_DIR = PROJECT_ROOT / "data/annotated/kawke_dibona_v1"
 OLD_SPLIT_CSV = PROJECT_ROOT / "data/splits/v1_group_split_fixed.csv"
 OLD_FIXED_DIR = PROJECT_ROOT / "data/processed/old_dataset_v1_fixed"

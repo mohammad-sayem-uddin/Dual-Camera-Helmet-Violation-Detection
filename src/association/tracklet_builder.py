@@ -83,21 +83,6 @@ def _compute_occlusion_intervals(observed_frame_indices: list[int]) -> list[tupl
     return intervals
 
 
-def _is_bbox_near_border(
-    bbox_xyxy: tuple[float, float, float, float],
-    frame_width: int,
-    frame_height: int,
-    margin_px: float,
-) -> bool:
-    x1, y1, x2, y2 = bbox_xyxy
-    return bool(
-        x1 <= margin_px
-        or y1 <= margin_px
-        or x2 >= (frame_width - margin_px)
-        or y2 >= (frame_height - margin_px)
-    )
-
-
 BORDER_UNKNOWN_REASON = "BORDER_GEOMETRY_UNKNOWN_NO_FRAME_DIMENSIONS"
 BORDER_MISMATCH_REASON = "BORDER_COORDINATE_SPACE_MISMATCH"
 

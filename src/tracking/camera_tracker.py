@@ -2070,11 +2070,11 @@ class CameraTrackingPipeline:
             max_total_subtracks_per_moto=int(bt_raw.get("max_total_subtracks_per_moto", 6)),
             role_consensus_enabled=bool(bt_raw.get("role_consensus_enabled", True)),
             min_role_consensus_frames=int(bt_raw.get("min_role_consensus_frames", 3)),
-            role_min_moto_speed_px=float(bt_raw.get("role_min_moto_speed_px", 2.0)),
+            role_min_moto_speed_px=float(bt_raw.get("role_min_moto_speed_px", 8.0)),
             role_min_proj_sep_px=float(bt_raw.get("role_min_proj_sep_px", 8.0)),
             orphan_lifecycle_gating_enabled=bool(bt_raw.get("orphan_lifecycle_gating_enabled", True)),
             orphan_min_confirm_hits=int(bt_raw.get("orphan_min_confirm_hits", 2)),
-            orphan_tentative_max_lost_frames=int(bt_raw.get("orphan_tentative_max_lost_frames", 3)),
+            orphan_tentative_max_lost_frames=int(bt_raw.get("orphan_tentative_max_lost_frames", 4)),
             orphan_tentative_min_conf=float(bt_raw.get("orphan_tentative_min_conf", 0.18)),
             export_confirmed_orphans_only=bool(bt_raw.get("export_confirmed_orphans_only", True)),
             frame_width=(

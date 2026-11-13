@@ -36,6 +36,7 @@ _HERE = Path(__file__).resolve().parent
 if str(_HERE) not in sys.path:
     sys.path.insert(0, str(_HERE))
 
+import evaluate as stagek_eval  # noqa: E402
 import evaluate_gapc_tracking as gct  # noqa: E402
 import extract as ex  # noqa: E402
 from src.association.cross_camera_association import CrossCameraAssociationEngine  # noqa: E402
@@ -66,23 +67,11 @@ class _CamOutProxy:
 
 
 def _tiou_legacy(a: tuple[float | None, float | None], b: tuple[float | None, float | None]) -> float | None:
-    if a[0] is None or b[0] is None:
-        return None
-    assert a[1] is not None and b[1] is not None
-    inter = max(0.0, min(a[1], b[1]) - max(a[0], b[0]))
-    union = max(a[1], b[1]) - min(a[0], b[0])
-    return inter / union if union > 0.0 else 0.0
+    return stagek_eval.compute_tiou(a, b, mode="legacy")
 
 
 def _tiou_fixed(a: tuple[float | None, float | None], b: tuple[float | None, float | None]) -> float | None:
-    if a[0] is None or b[0] is None:
-        return None
-    assert a[1] is not None and b[1] is not None
-    inter = max(0.0, min(a[1], b[1]) - max(a[0], b[0]))
-    union = max(a[1], b[1]) - min(a[0], b[0])
-    if union == 0.0:
-        return 1.0 if (abs(a[0] - b[0]) <= 1e-9 and abs(a[1] - b[1]) <= 1e-9) else 0.0
-    return inter / union
+    return stagek_eval.compute_tiou(a, b, mode="fixed")
 
 
 def _prf(tp: int, fp: int, fn: int) -> dict[str, Any]:

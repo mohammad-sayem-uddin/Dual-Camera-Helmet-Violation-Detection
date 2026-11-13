@@ -32,6 +32,8 @@ def prf(tp, fp, fn):
 
 def compute_tiou(a, b, *, mode: str = 'fixed', tol: float = 1e-9):
     """Temporal IoU between [w0, w1] intervals; handles 1-frame point intervals [t, t]."""
+    if mode not in ('fixed', 'legacy'):
+        raise ValueError(f"Unsupported tIoU mode: {mode!r}; expected 'fixed' or 'legacy'.")
     if a[0] is None or a[1] is None or b[0] is None or b[1] is None:
         return None
     inter = max(0.0, min(a[1], b[1]) - max(a[0], b[0]))

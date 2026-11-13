@@ -146,7 +146,7 @@ class SharedDetectorRegistry:
         device: str | None = None,
         conf_threshold: float = 0.18,
     ) -> VehiclePersonDetectorAdapter:
-        key = f"{device or 'auto'}"
+        key = f"{device or 'auto'}:{float(conf_threshold):.4f}"
         if key not in cls._vehicle_detectors:
             cls._vehicle_detectors[key] = VehiclePersonDetectorAdapter(
                 device=device,
@@ -160,7 +160,7 @@ class SharedDetectorRegistry:
         device: str | None = None,
         conf_threshold: float = 0.25,
     ) -> HelmetDetectorAdapter:
-        key = f"{device or 'auto'}"
+        key = f"{device or 'auto'}:{float(conf_threshold):.4f}"
         if key not in cls._helmet_detectors:
             cls._helmet_detectors[key] = HelmetDetectorAdapter(
                 device=device,

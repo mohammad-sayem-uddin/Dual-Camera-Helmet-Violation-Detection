@@ -11,7 +11,7 @@ import csv
 from pathlib import Path
 from collections import defaultdict
 
-PROJECT_ROOT = Path("/Users/sayemuddin/Desktop/research_helmet")
+PROJECT_ROOT = Path(__file__).resolve().parents[1]
 OLD_DIR = PROJECT_ROOT / "data/processed/old_dataset_v1_fixed"
 NEW_DIR = PROJECT_ROOT / "data/helmet_dataset_expansion/training_ready_v2"
 COMBINED_DIR = PROJECT_ROOT / "data/processed/combined_dataset_v2"
