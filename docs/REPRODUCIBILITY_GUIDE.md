@@ -27,7 +27,7 @@ The unified reproduction runner executes all non-destructive CPU verification st
 bash scripts/reproducibility/run_full_research_reproduction.sh /tmp/research_repro_run
 ```
 
-What [`run_full_research_reproduction.sh`](file:///Users/sayemuddin/Desktop/research_helmet/scripts/reproducibility/run_full_research_reproduction.sh) verifies end-to-end:
+What [`run_full_research_reproduction.sh`](../scripts/reproducibility/run_full_research_reproduction.sh) verifies end-to-end:
 1. Environment & package imports (`torch`, `ultralytics`, `cv2`, `numpy`, `pandas`, `scipy`, `yaml`, `pytest`).
 2. Cryptographic SHA-256 verification:
    - `39 / 39` base annotation files (`data/dual_camera_test_v1/annotations/checksums/annotation_checksums.sha256`).
@@ -56,10 +56,10 @@ What [`run_full_research_reproduction.sh`](file:///Users/sayemuddin/Desktop/rese
 ### 3.1 Single Pair End-to-End Dual-Camera Pipeline
 ```bash
 PYTHONPATH=. /opt/homebrew/opt/python@3.11/bin/python3.11 src/pipeline/dual_camera_pipeline.py \
-  --pair-id pair_019 \
+  --pairs pair_019 \
   --fusion-mode dual_fused \
   --device mps \
-  --output-dir /tmp/pair_019_dual_fused
+  --output-root /tmp/pair_019_dual_fused
 ```
 Supported `--fusion-mode` values: `legacy` *(default)*, `dual_fused`, `front_only`, `back_only`.
 

@@ -2,7 +2,7 @@
 
 **Project:** Dual-Camera Context-Aware Motorcycle Helmet Violation Detection  
 **Audit Date:** 2026-11-13  
-**Repository Commit Reviewed:** `e68b742` (`main`)  
+**Acceptance Audit Basis:** `e68b742` (`main`, prior to final engineering/documentation completion commits)  
 **Decision Authority:** Principal Investigator / Project Owner Priority Directive  
 
 ---
@@ -14,11 +14,11 @@ Per project owner directive, blind multi-annotator human review (`TASK-12` human
 Accordingly, the project adopts the following canonical release policy:
 
 1. **Accepted Active Evaluation Reference:**
-   - **Release:** [`data/dual_camera_test_v1/releases/dual_camera_gt_v1.0_ai_assisted_audited/`](file:///Users/sayemuddin/Desktop/research_helmet/data/dual_camera_test_v1/releases/dual_camera_gt_v1.0_ai_assisted_audited/README.md) (`schema_version: 1.0.0`)
+   - **Release:** [`data/dual_camera_test_v1/releases/dual_camera_gt_v1.0_ai_assisted_audited/`](../../data/dual_camera_test_v1/releases/dual_camera_gt_v1.0_ai_assisted_audited/README.md) (`schema_version: 1.0.0`)
    - **Provenance Label:** `AI_ASSISTED_AUDITED` (`human_verified: false`)
    - **Status:** Frozen, SHA-256 verified (`43/43` release files, `39/39` base annotation files), and accepted as the project's **sole active evaluation reference** for Stage K, `TASK-04`, `TASK-06/06A`, `TASK-09A/09B`, `TASK-10`, `TASK-11`, and `TASK-12` offline benchmarking.
 2. **Retained Unexecuted Future Protocol & Workqueue Template:**
-   - **Release:** [`data/dual_camera_test_v1/releases/dual_camera_gt_v1.1_blind_human/`](file:///Users/sayemuddin/Desktop/research_helmet/data/dual_camera_test_v1/releases/dual_camera_gt_v1.1_blind_human/README.md) (`schema_version: 1.1.0-pending-review`)
+   - **Release:** [`data/dual_camera_test_v1/releases/dual_camera_gt_v1.1_blind_human/`](../../data/dual_camera_test_v1/releases/dual_camera_gt_v1.1_blind_human/README.md) (`schema_version: 1.1.0-pending-review`)
    - **Provenance Label:** `PENDING_HUMAN_REVIEW` (`human_verified: false`, `executed_human_units: 0`, `fabricated_labels_present: false`)
    - **Status:** Preserved intact and unmodified as a non-destructive schema, stratification specification, and blind review infrastructure template for any future human-labeling continuation. It must **never** be cited as completed human ground truth.
 
@@ -32,14 +32,14 @@ All checksum manifests verified with exit code `0` on `2026-11-13`:
 
 | Artifact Scope | Manifest Path | Verified Count | Status |
 |---|---|---|---|
-| Base Corrected Annotations | [`annotation_checksums.sha256`](file:///Users/sayemuddin/Desktop/research_helmet/data/dual_camera_test_v1/annotations/checksums/annotation_checksums.sha256) | `39 / 39` | `OK` |
-| Stage E Frozen Release `v1.0` | [`release_checksums.sha256`](file:///Users/sayemuddin/Desktop/research_helmet/data/dual_camera_test_v1/releases/dual_camera_gt_v1.0_ai_assisted_audited/checksums/release_checksums.sha256) | `43 / 43` | `OK` |
-| Frozen Stage K Reference Outputs | [`checksums.sha256`](file:///Users/sayemuddin/Desktop/research_helmet/results/phase12_integrated/checksums.sha256) | `8 / 8` | `OK` |
+| Base Corrected Annotations | [`annotation_checksums.sha256`](../../data/dual_camera_test_v1/annotations/checksums/annotation_checksums.sha256) | `39 / 39` | `OK` |
+| Stage E Frozen Release `v1.0` | [`release_checksums.sha256`](../../data/dual_camera_test_v1/releases/dual_camera_gt_v1.0_ai_assisted_audited/checksums/release_checksums.sha256) | `43 / 43` | `OK` |
+| Frozen Stage K Reference Outputs | [`checksums.sha256`](../../results/phase12_integrated/checksums.sha256) | `8 / 8` | `OK` |
 
 Verified metadata and record counts inside `dual_camera_gt_v1.0_ai_assisted_audited`:
 
 - **Corpus Scale:** `25` dual-camera video pairs (`pair_001`..`pair_025`), `50` synchronized MP4 streams, `15,241` total decoded frames (`6,557` Front / `8,684` Back in `frame_coverage_manifest.csv`).
-- **Models Recorded in [`dual_camera_gt_v1.json`](file:///Users/sayemuddin/Desktop/research_helmet/data/dual_camera_test_v1/releases/dual_camera_gt_v1.0_ai_assisted_audited/dual_camera_gt_v1.json):**
+- **Models Recorded in [`dual_camera_gt_v1.json`](../../data/dual_camera_test_v1/releases/dual_camera_gt_v1.0_ai_assisted_audited/dual_camera_gt_v1.json):**
   - `vehicle_person`: `yolov8n.pt` (`sha256: f59b3d833e2ff32e194b5bb8e08d211dc7c5bdf144b90d2c8412c47ccfc83b36`, classes `{0: "person", 3: "motorcycle"}`)
   - `helmet`: `results/phase9_multiseed/exp_combined/seed_42/weights/best.pt` (`sha256: 0929a882667e0f7e2b631071ab218a2415cc1b816cdede7fb6812543d840b0e5`, classes `{0: "no_helmet", 1: "helmet"}`)
   - Both live repository model files (`yolov8n.pt`, `results/phase9_multiseed/exp_combined/seed_42/weights/best.pt`, and `results/exp_combined/weights/best.pt`) match these exact SHA-256 digests.
@@ -64,11 +64,11 @@ Directly audited file inventory and SHA-256 hashes:
 
 | File | Size (B) | SHA-256 | Verified State |
 |---|---|---|---|
-| [`README.md`](file:///Users/sayemuddin/Desktop/research_helmet/data/dual_camera_test_v1/releases/dual_camera_gt_v1.1_blind_human/README.md) | `2488` | `5ba00de48c38f384b388df2bda0154e37fef60fade1b15a14151c4f8260b8f1a` | Protocol overview (`PENDING_HUMAN_REVIEW`) |
-| [`blind_annotation_workqueue.csv`](file:///Users/sayemuddin/Desktop/research_helmet/data/dual_camera_test_v1/releases/dual_camera_gt_v1.1_blind_human/blind_annotation_workqueue.csv) | `22078` | `27c18280b3cf781bc043a07cc29c095b198240c131b3c931833d1888ea4b4911` | `92` rows, `17` blind response cols, `0 / 1,564` filled cells, `92/92 PENDING_HUMAN_REVIEW` |
-| [`release_metadata.json`](file:///Users/sayemuddin/Desktop/research_helmet/data/dual_camera_test_v1/releases/dual_camera_gt_v1.1_blind_human/release_metadata.json) | `1280` | `3e270c9ae8901a0d7da1c73e2d7761cbbf19a6258e3f9f14ac35947717ecb45d` | `human_verified: false`, `executed_human_units: 0`, `pending_human_units: 92` |
-| [`schema.json`](file:///Users/sayemuddin/Desktop/research_helmet/data/dual_camera_test_v1/releases/dual_camera_gt_v1.1_blind_human/schema.json) | `2569` | `be2d59c6854156abe2d38f925804063f7b2ecc14eb9de36bc79412f89d5f342d` | JSON Schema `dual_camera_gt_v1_1_blind_human.schema.json` |
-| [`review_workspace/README.md`](file:///Users/sayemuddin/Desktop/research_helmet/data/dual_camera_test_v1/releases/dual_camera_gt_v1.1_blind_human/review_workspace/README.md) | `1543` | `142c6f06e167fb1e293b1f11f82aac04e250c9a1eea24d953830852547e6e344` | Sole file in `review_workspace/` (no SQLite DB or reviewer JSONs written) |
+| [`README.md`](../../data/dual_camera_test_v1/releases/dual_camera_gt_v1.1_blind_human/README.md) | `2488` | `5ba00de48c38f384b388df2bda0154e37fef60fade1b15a14151c4f8260b8f1a` | Protocol overview (`PENDING_HUMAN_REVIEW`) |
+| [`blind_annotation_workqueue.csv`](../../data/dual_camera_test_v1/releases/dual_camera_gt_v1.1_blind_human/blind_annotation_workqueue.csv) | `22078` | `27c18280b3cf781bc043a07cc29c095b198240c131b3c931833d1888ea4b4911` | `92` rows, `17` blind response cols, `0 / 1,564` filled cells, `92/92 PENDING_HUMAN_REVIEW` |
+| [`release_metadata.json`](../../data/dual_camera_test_v1/releases/dual_camera_gt_v1.1_blind_human/release_metadata.json) | `1280` | `3e270c9ae8901a0d7da1c73e2d7761cbbf19a6258e3f9f14ac35947717ecb45d` | `human_verified: false`, `executed_human_units: 0`, `pending_human_units: 92` |
+| [`schema.json`](../../data/dual_camera_test_v1/releases/dual_camera_gt_v1.1_blind_human/schema.json) | `2569` | `be2d59c6854156abe2d38f925804063f7b2ecc14eb9de36bc79412f89d5f342d` | JSON Schema `dual_camera_gt_v1_1_blind_human.schema.json` |
+| [`review_workspace/README.md`](../../data/dual_camera_test_v1/releases/dual_camera_gt_v1.1_blind_human/review_workspace/README.md) | `1543` | `142c6f06e167fb1e293b1f11f82aac04e250c9a1eea24d953830852547e6e344` | Sole file in `review_workspace/` (no SQLite DB or reviewer JSONs written) |
 
 Workqueue stratification in `blind_annotation_workqueue.csv` (`92` items across `25` pairs):
 - **By `source_origin`:** `PHYSICAL_TRANSIT_CORPUS` (`70`), `GAPC_UNLINKED_OR_SPLIT_CANDIDATE` (`22`).
@@ -78,7 +78,7 @@ Workqueue stratification in `blind_annotation_workqueue.csv` (`92` items across 
 
 ## 3. Temporary Review Dashboard Disposition
 
-The local blind-review web server ([`src/review_dashboard/`](file:///Users/sayemuddin/Desktop/research_helmet/src/review_dashboard/server.py), launched via [`scripts/start_gt_review_dashboard.sh`](file:///Users/sayemuddin/Desktop/research_helmet/scripts/start_gt_review_dashboard.sh) with automated test coverage in [`tests/test_phase12_review_dashboard.py`](file:///Users/sayemuddin/Desktop/research_helmet/tests/test_phase12_review_dashboard.py)) is retained as clean, non-destructive tooling:
+The local blind-review web server ([`src/review_dashboard/`](../../src/review_dashboard/server.py), launched via [`scripts/start_gt_review_dashboard.sh`](../../scripts/start_gt_review_dashboard.sh) with automated test coverage in [`tests/test_phase12_review_dashboard.py`](../../tests/test_phase12_review_dashboard.py)) is retained as clean, non-destructive tooling:
 
 - Zero runtime writes have been committed into `review_workspace/` (only `README.md` is present).
 - All checked-in `v1.0` and `v1.1` hashes remain undisturbed.

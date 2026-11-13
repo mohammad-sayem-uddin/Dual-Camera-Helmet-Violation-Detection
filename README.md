@@ -45,7 +45,7 @@ For mathematical formulations, subsystem APIs, and YAML configuration bindings, 
 - **PTS Container Synchronization (`Phase 12C`):** Eliminates up to `2,870.00 ms` `CAP_PROP_POS_FRAMES` random-seek VFR error (`pair_013_back.mp4`); sequential `CAP_PROP_POS_MSEC` matches `ffprobe` rational PTS within `0.000000 ms` across all `50 / 50` videos.
 - **Protected Keyframes & Coordinate Scaling (`TASK-06/06A`, `TASK-10`):** Within a hard `24`-frame memory cap, keyframe descriptor availability across real-video tracks increases from `6 / 75` (`8.0%`) in pre-GAP-B Stage J to **`55 / 55` (`100.0%`)** in both `720p` and `4K`, with `0.9971` mean `720p vs 4K` self-similarity (`9 / 9` PNG examples recovered). However, raw HSV histograms exhibit overlapping opposing-view discrimination (`0.7223` positive vs. `0.6641` negative), causing one `+0.0003` borderline false link (`pair_005` in 4K).
 - **Hierarchical Rider Tracking (`GAP-C`):** Motorcycle-anchored kinematics, conflict unlocking, longitudinal role consensus, and orphan lifecycle gating raise back-camera coupled head retention from **`28.69%` to `91.66%`** (`28.69% -> 91.66%`; combined `66.61% -> 94.50%`), cut abstained updates by `92.2%` (`2,943 -> 230`), eliminate `660` out-of-bounds boxes, keep role mismatches at `0`, and remove all `56` 1-hit orphan clutter exports.
-- **Dual-Camera Fusion vs. Single Camera (`TASK-11`):** On `70` physical motorcycle passes (`40` violations, `46` decided passes), `A4_DUAL_FUSED_SPLIT` achieves **`97.14%` (`68/70`)** physical pass coverage (vs. `60.00%` front-only, $p = 5.77 \times 10^{-8}$ back / $2.16 \times 10^{-7}$ front exact McNemar) and **`82.50%` (`33/40`)** binary violation recall (vs. `60.00%` front-only, $p = 0.0117$, and `45.00%` back-only, $p = 6.10 \times 10^{-5}$), resolving all `3/3` Stage J $K=1$ vetos and quarantining cross-view contradictions (`K >= 0.35`, e.g., `pair_015`). Under strict `v1.0` schema (`N=70`), fixed point-interval `tIoU` (`TASK-12`) recovers Stage K event F1 from **`0.8258` (`64 TP`)** to **`0.8516` (`66 TP`)**.
+- **Dual-Camera Fusion vs. Single Camera (`TASK-11`):** On `70` physical motorcycle passes (`40` violations, `46` decided passes), `A4_DUAL_FUSED_SPLIT` achieves **`97.14%` (`68/70`)** physical pass coverage (vs. `60.00%` front-only, $p = 2.16 \times 10^{-7}$, and `57.14%` back-only, $p = 5.77 \times 10^{-8}$ exact McNemar) and **`82.50%` (`33/40`)** binary violation recall (vs. `60.00%` front-only, $p = 0.0117$, and `45.00%` back-only, $p = 6.10 \times 10^{-5}$), resolving all `3/3` Stage J $K=1$ vetos and quarantining cross-view contradictions (`K >= 0.35`, e.g., `pair_015`). Under strict `v1.0` schema (`N=70`), fixed point-interval `tIoU` (`TASK-12`) recovers Stage K event F1 from **`0.8258` (`64 TP`)** to **`0.8516` (`66 TP`)**.
 
 ---
 
@@ -63,7 +63,7 @@ bash scripts/reproducibility/run_full_research_reproduction.sh /tmp/research_rep
 
 # Run single dual-camera pair in Bayesian dual-fusion mode
 PYTHONPATH=. /opt/homebrew/opt/python@3.11/bin/python3.11 src/pipeline/dual_camera_pipeline.py \
-  --pair-id pair_019 --fusion-mode dual_fused --device mps --output-dir /tmp/pair_019_dual
+  --pairs pair_019 --fusion-mode dual_fused --device mps --output-root /tmp/pair_019_dual
 ```
 
 ---

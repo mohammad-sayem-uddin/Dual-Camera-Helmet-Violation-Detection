@@ -41,7 +41,7 @@
 ## 3. Methodological Rigor & Dataset Integrity
 - **The Data Leakage Hazard in Video Datasets:** Analysis of consecutive-frame video splitting in historical literature.
 - **Sequence-Isolated CCTV Benchmark (5,547 images):** Strict non-overlapping video clip partitioning ensuring 0.0% sequence overlap across train (3,866), val (852), and test (829) splits.
-- **Audited Mobile Street Dataset (`expansion-v2`, 1,841 images):** Tri-fold audit methodology, eliminating 392 erroneous bounding boxes, 28 label inversions, and background false positives.
+- **Audited Mobile Street Dataset (`expansion-v2`, 1,841 images):** Tri-fold audit methodology, refining 392 torso-bleeding bounding boxes across 318 images (3,733 total annotations; 0 class inversions).
 - **Combined Cross-Domain Corpus (7,388 images):** Leak-free train (5,151), val (1,128), and held-out test (1,109) composition.
 
 ---

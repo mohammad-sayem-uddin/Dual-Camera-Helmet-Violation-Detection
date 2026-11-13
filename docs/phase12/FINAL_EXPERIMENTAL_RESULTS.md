@@ -1,14 +1,14 @@
 # Final Experimental Results & Statistical Synthesis
 
 **Project:** An Integrated Dual-Camera Framework for Context-Aware Motorcycle Helmet Violation Detection with Confidence-Aware Temporal Verification  
-**Accepted Active Dual-Camera Reference:** [`dual_camera_gt_v1.0_ai_assisted_audited`](file:///Users/sayemuddin/Desktop/research_helmet/data/dual_camera_test_v1/releases/dual_camera_gt_v1.0_ai_assisted_audited/README.md) (`AI_ASSISTED_AUDITED`, `human_verified = false`; `v1.1` preserved untouched as `PENDING_HUMAN_REVIEW`, `0 / 92` completed)
+**Accepted Active Dual-Camera Reference:** [`dual_camera_gt_v1.0_ai_assisted_audited`](../../data/dual_camera_test_v1/releases/dual_camera_gt_v1.0_ai_assisted_audited/README.md) (`AI_ASSISTED_AUDITED`, `human_verified = false`; `v1.1` preserved untouched as `PENDING_HUMAN_REVIEW`, `0 / 92` completed)
 
 ---
 
 ## 1. Phase 8 & Phase 9: Cross-Domain Detector Performance & Multi-Seed Reproducibility
 
 ### 1.1 Independent Single-Seed Reconciliation (Phase 8, Seed 42)
-Verified from [`results/phase8_independent_audit/reconciled_metrics.csv`](file:///Users/sayemuddin/Desktop/research_helmet/results/phase8_independent_audit/reconciled_metrics.csv) and Stage 8 seed summaries:
+Verified from [`results/phase8_independent_audit/reconciled_metrics.csv`](../../results/phase8_independent_audit/reconciled_metrics.csv) and Stage 8 seed summaries:
 
 | Model (Training Set) | Held-Out Test Set | Images | Instances | Precision | Recall | F1-Score | mAP@0.50 | mAP@0.50:0.95 |
 |---|---|---:|---:|---:|---:|---:|---:|---:|
@@ -21,7 +21,7 @@ Verified from [`results/phase8_independent_audit/reconciled_metrics.csv`](file:/
 | **EXP-COMBINED** *(Union)* | Combined Union | `1,109` | `1,722` | **`0.8357`** | **`0.7856`** | **`0.8099`** | **`0.8437`** | **`0.4710`** |
 
 ### 1.2 Three-Seed Reproducibility Study (Phase 9: Seeds `42, 123, 2026`)
-Verified from [`results/phase9_multiseed/mean_std_summary.csv`](file:///Users/sayemuddin/Desktop/research_helmet/results/phase9_multiseed/mean_std_summary.csv) (`18` total held-out evaluations across `6` Tesla T4 runs):
+Verified from [`results/phase9_multiseed/mean_std_summary.csv`](../../results/phase9_multiseed/mean_std_summary.csv) (`18` total held-out evaluations across `6` Tesla T4 runs):
 
 | Population | Metric | EXP-NEW Mean ± SD | EXP-COMBINED Mean ± SD | Mean Diff (`COMB - NEW`) | Cohen's $d$ |
 |---|---|---:|---:|---:|---:|
@@ -43,10 +43,10 @@ Verified from [`results/phase9_multiseed/mean_std_summary.csv`](file:///Users/sa
 ## 2. Phase 10 & TASK-04: Temporal Verification & Genuine Observation Track Redesign
 
 ### 2.1 Synthetic Benchmark (Phase 10: 21 Experiments)
-Verified from [`results/phase10_temporal/benchmark_comparison_table.csv`](file:///Users/sayemuddin/Desktop/research_helmet/results/phase10_temporal/benchmark_comparison_table.csv): across all 3 aggregators (`simple_voting`, `confidence_weighted`, `ema`) and all 7 scenarios, Precision = `1.00`, Recall = `1.00`, False Alerts = `0`, Stability = `1.000`, Confirmation Delay = `5.0` frames (`0.167 s` at 30 fps) on violation/occlusion/crossing scenarios (`0.0 s` on helmet/compliant/marginal scenarios), with abstention rates `0.097`–`0.115`.
+Verified from [`results/phase10_temporal/benchmark_comparison_table.csv`](../../results/phase10_temporal/benchmark_comparison_table.csv): across all 3 aggregators (`simple_voting`, `confidence_weighted`, `ema`) and all 7 scenarios, Precision = `1.00`, Recall = `1.00`, False Alerts = `0`, Stability = `1.000`, Confirmation Delay = `5.0` frames (`0.167 s` at 30 fps) on violation/occlusion/crossing scenarios (`0.0 s` on helmet/compliant/marginal scenarios), with abstention rates `0.097`–`0.115`.
 
 ### 2.2 Track-Level Evidence Recovery (`TASK-04`)
-Verified from [`helmet_track_level_redesign.json`](file:///Users/sayemuddin/Desktop/research_helmet/results/phase12_track_state_redesign/helmet_track_level_redesign.json) & [`event_regression.json`](file:///Users/sayemuddin/Desktop/research_helmet/results/phase12_track_state_redesign/event_regression.json) across `209` decided eligible GT tracks (including `85` $K=1$ tracks):
+Verified from [`helmet_track_level_redesign.json`](../../results/phase12_track_state_redesign/helmet_track_level_redesign.json) & [`event_regression.json`](../../results/phase12_track_state_redesign/event_regression.json) across `209` decided eligible GT tracks (including `85` $K=1$ tracks):
 
 | Aggregator / Redesign Mode | Decided / `209` | Abstentions (`UNCERTAIN`) | Coverage | Cond. Accuracy | End-to-End Agreement | `K=1` Subgroup Agreement (`n=85`) |
 |---|---:|---:|---:|---:|---:|---:|
@@ -61,7 +61,7 @@ Zero online regression across all `85` Stage J events (`events_changed = 0`).
 
 ## 3. Stage K Unified Audit & TASK-12 Temporal IoU Boundary Recovery
 
-Verified from [`stagek_results.json`](file:///Users/sayemuddin/Desktop/research_helmet/results/phase12_integrated/stagek_results.json), [`bootstrap_cis.json`](file:///Users/sayemuddin/Desktop/research_helmet/results/phase12_integrated/bootstrap_cis.json), and [`task12_tiou_comparison.json`](file:///Users/sayemuddin/Desktop/research_helmet/results/phase12_task12/task12_tiou_comparison.json) (`B = 2,000` pair-cluster bootstrap replicates, `seed = 20261109`):
+Verified from [`stagek_results.json`](../../results/phase12_integrated/stagek_results.json), [`bootstrap_cis.json`](../../results/phase12_integrated/bootstrap_cis.json), and [`task12_tiou_comparison.json`](../../results/phase12_task12/task12_tiou_comparison.json) (`B = 2,000` pair-cluster bootstrap replicates, `seed = 20261109`):
 
 | Evaluation Family *(Bounded by `v1.0` Construction Circularity Where Noted)* | Point Estimate | Bootstrap / Wilson 95% CI | Details |
 |---|---|---|---|
@@ -74,19 +74,19 @@ Verified from [`stagek_results.json`](file:///Users/sayemuddin/Desktop/research_
 | Event level (**Legacy Stage K `tIoU`**) | P=`0.7529`, R=`0.9143`, F1=`0.8258` | Pair CI `[0.7286, 0.9268]` | `TP=64, FP=21, FN=6` (`driver_no_helmet` F1=`0.8519`, `23/23`) |
 | Event level (**Fixed `TASK-12` `tIoU`**) | P=`0.7765`, R=`0.9429`, F1=`0.8516` | Wilson P `[0.677, 0.852]`, R `[0.862, 0.978]` | **`TP=66 (+2), FP=19 (-2), FN=4 (-2)`**; `driver_no_helmet` F1=`0.9259`; `timing_d_mean_abs=0.0 s` |
 
-The `+2 TP / +0.0258 F1` recovery stems deterministically from fixing degenerate zero-duration point intervals `[t, t] == [t, t]` on `pair_012` and `pair_015` inside [`compute_tiou`](file:///Users/sayemuddin/Desktop/research_helmet/scripts/reproducibility/evaluate.py#L33).
+The `+2 TP / +0.0258 F1` recovery stems deterministically from fixing degenerate zero-duration point intervals `[t, t] == [t, t]` on `pair_012` and `pair_015` inside [`compute_tiou`](../../scripts/reproducibility/evaluate.py#L33).
 
 ---
 
 ## 4. GAP-B & TASK-10: Keyframe Retention, Coordinate Scaling & Real-Video Cue C
 
-### 4.1 GAP-B Offline Replay (`TASK-06/06A`, [`gapb_evaluation_results.json`](file:///Users/sayemuddin/Desktop/research_helmet/results/phase12_gapb_redesign/gapb_evaluation_results.json))
-- **Keyframe Retention (`cap <= 24/stream`):** Stage J stored descriptors for only `7 / 100` (`7%`) motorcycle tracklets (`56 EMPTY_CROP`, `37 NO_MATCHING_FRAME_INDEX`), and naive stride-based retention reached `49 / 100` (`63 / 100` after `TASK-06A` simulator fix). Protected-anchor retention achieved **`98 / 100`** initially (`100 / 100` in the `TASK-06A` synchronized simulator, `0` stale refs, `<= 24` keyframes on all `50/50` streams) and recovered **`9 / 9`** real PNG failure crops under explicit `4K -> 720p` coordinate scaling (`9 / 9` rejected when `native_wh=None`).
+### 4.1 GAP-B Offline Replay (`TASK-06/06A`, [`gapb_evaluation_results.json`](../../results/phase12_gapb_redesign/gapb_evaluation_results.json))
+- **Keyframe Retention (`cap <= 24/stream`):** Stage J stored descriptors for only `7 / 100` (`7%`) motorcycle tracklets (`56 EMPTY_CROP`, `37 NO_MATCHING_FRAME_INDEX`). On frozen pre-GAP-C tracklets (`results/phase12_gapb_redesign/gapb_evaluation_results.json`), naive stride retention reached `49 / 100` and protected-anchor retention achieved **`98 / 100`** (`2` `NO_MATCHING_FRAME_INDEX` simulator desyncs resolved by `TASK-06A`); under live `evaluate_gapb_redesign.py` replay with current `GAP-C`/`TASK-06A` code, naive stride reaches `63 / 100` and protected-anchor retention reaches **`100 / 100`** (`0` stale refs, `<= 24` keyframes on all `50/50` streams), recovering **`9 / 9`** real PNG failure crops under explicit `4K -> 720p` coordinate scaling (`9 / 9` rejected when `native_wh=None`).
 - **Border Classification (`GAP-B2`):** Replaced legacy `1920x1080` assumptions with true stream dimensions (`3840x2160`), eliminating **`51` entry FP** and **`42` exit FP** (`86 -> 35` entry, `75 -> 33` exit).
-- **Evidence Preservation (`GAP-B3`):** Recovered `74 / 74` rider subtracks (`11 -> 66 NO_HELMET`, `1 -> 20 HELMET`) and `29 / 29` orphan tracks from legacy `UNCERTAIN`, with `0` violations of the `min_active_cues_required = 2` gate.
+- **Evidence Preservation (`GAP-B3`):** In the frozen pre-GAP-C artifact (`86` rider subtracks, `130` orphans), recovered **`74 / 74`** (`100%`) `UNCERTAIN` rider subtracks (`11 -> 66 NO_HELMET`, `1 -> 20 HELMET`) and **`29 / 29`** (`100%`) `UNCERTAIN` orphan tracks. In live post-GAP-C `evaluate_gapb_redesign.py` replay (`95` rider subtracks, `68` orphans), recovered **`81 / 83`** `UNCERTAIN` rider subtracks (`11 -> 70 NO_HELMET`, `1 -> 23 HELMET`, `2` `UNCERTAIN`) and **`14 / 14`** `UNCERTAIN` orphans (`15 -> 16 HELMET`, `39 -> 51 NO_HELMET`, `1` pre-existing `UNCERTAIN`), with `0` violations of the `min_active_cues_required = 2` gate.
 
-### 4.2 TASK-10 Bounded Real-Video Cue C Verification ([`task10_cue_c_results.json`](file:///Users/sayemuddin/Desktop/research_helmet/results/phase12_task10/task10_cue_c_results.json))
-Executed in `17.279 s` (`1,806.03 MB` peak RSS) on decoded `720p` (`pair_001, 013, 014, 015, 019`) and `4K` (`pair_005`) streams (`55` comparable entities):
+### 4.2 TASK-10 Bounded Real-Video Cue C Verification ([`task10_cue_c_results.json`](../../results/phase12_task10/task10_cue_c_results.json))
+Executed in `17.279 s` (`1,806.03 MB` peak RSS) across all 4 bounded opposing-view/convoy pairs (`pair_005, pair_008, pair_009, pair_019`) decoded at both `720p` (`C1`, `C2`, `C4`) and native `4K` (`C3`) (`55` comparable `A4` tracklets):
 - **Descriptor Availability:** Rose from `6 / 75` (`8.0%`) in pre-GAP-B Stage J to **`55 / 55` (`100.0%`)** in both `C2_A4_720p_kf` and `C3_A4_4k_native` (and `75 / 75` in `C1_A0_720p_kf`), while unknown-dimensions probing (`C4`) caught `COORDINATE_SPACE_MISMATCH_UNKNOWN_NATIVE_DIMENSIONS` cleanly (`14.29%` moto availability).
 - **Resolution Invariance:** Mean `720p vs 4K` composite self-similarity = **`0.9971`** (min `0.9857`); mean `|Cue C_720p - Cue C_4K|` = **`0.0083`** (max `0.0278`).
 - **Opposing-View Discrimination & Knife-Edge Finding:** Positive pairs (`n=5`) averaged `Cue C = 0.7223` (median `0.7426`) vs. negative pairs (`n=20`) at `0.6641` (median `0.7306`). This overlap pushed borderline `pair_005` from `0.6192` (`UNMATCHED`) to `0.6197` (`C2` `720p`, `UNMATCHED`) and **`0.6203` (`C3` `4K`, false `LINKED`, `+0.0003` over `0.62`)** — proving raw histograms are invariant across resolutions but weakly discriminative alone.
@@ -95,7 +95,7 @@ Executed in `17.279 s` (`1,806.03 MB` peak RSS) on decoded `720p` (`pair_001, 01
 
 ## 5. GAP-C (`TASK-09/09A/09B`): Motorcycle-Anchored Kinematics, Consensus & Orphan Lifecycle
 
-Verified from [`gapc_ablation_summary.csv`](file:///Users/sayemuddin/Desktop/research_helmet/results/phase12_gapc/gapc_ablation_summary.csv) across all `25` video pairs (`100` motorcycle tracks, `9,244` coupled heads):
+Verified from [`gapc_ablation_summary.csv`](../../results/phase12_gapc/gapc_ablation_summary.csv) across all `25` video pairs (`100` motorcycle tracks, `9,244` coupled heads):
 
 | Mode | Front Coupled Ret. | Back Coupled Ret. | Combined Ret. | Abstained Updates | Subtracks $K=1$ Multi-Frame Elig. | Out-of-Bounds Boxes | Role Mismatches (`multi_driver_motos`) | Exported Orphans (`1-hit` `<0.45`) |
 |---|---:|---:|---:|---:|---:|---:|---:|---:|
@@ -109,7 +109,7 @@ Verified from [`gapc_ablation_summary.csv`](file:///Users/sayemuddin/Desktop/res
 
 ## 6. TASK-11: Dual-Camera Bayesian Log-Odds Fusion & Single-vs-Dual Ablation
 
-Executed in `5.304 s` (`458.92 MB` peak RSS) across `50` streams and `70` physical passes (`40` violation passes, `46` decided passes), with **Wilson 95% score CIs** verified over [`task11_ablation_summary.csv`](file:///Users/sayemuddin/Desktop/research_helmet/results/phase12_task11/task11_ablation_summary.csv):
+Executed in `5.304 s` (`458.92 MB` peak RSS) across `50` streams and `70` physical passes (`40` violation passes, `46` decided passes), with **Wilson 95% score CIs** verified over [`task11_ablation_summary.csv`](../../results/phase12_task11/task11_ablation_summary.csv):
 
 | Arm (`Tracker` + `Fusion`) | Strict F1 *(Fixed tIoU)* | Strict Precision `[95% CI]` | Strict Recall `[95% CI]` | Phys. Pass Coverage `[95% CI]` | Viol. Binary Recall (`k/40`) `[95% CI]` | Decided Pass Acc. (`k/46`) `[95% CI]` | Abstain / Quar. |
 |---|---:|---|---|---|---|---|---|
