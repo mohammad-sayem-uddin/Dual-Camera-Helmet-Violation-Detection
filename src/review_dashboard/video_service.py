@@ -62,6 +62,7 @@ class BoundedVideoService:
         self._proxy_cache: OrderedDict[tuple[str, str], Path] = OrderedDict()
         self._active_pair_id: str | None = None
         self._active_caps: dict[str, tuple[cv2.VideoCapture, int]] = {}
+        self._last_decoded_frames: dict[str, tuple[str, int, Any]] = {}
         self._release_count: int = 0
 
     def release_active_captures(self) -> int:
@@ -75,10 +76,23 @@ class BoundedVideoService:
                     pass
                 released += 1
             self._active_caps.clear()
+            self._last_decoded_frames.clear()
             self._active_pair_id = None
             if released:
                 self._release_count += released
             return released
+
+    @staticmethod
+    def _grab_to_frame(cap: cv2.VideoCapture, cursor: int, target_idx: int) -> tuple[bool, Any, int]:
+        """Advance capture sequentially via grab() until target_idx and retrieve the decoded frame."""
+        while cursor < target_idx:
+            if not cap.grab():
+                return False, None, -1
+            cursor += 1
+        ret, frame = cap.retrieve()
+        if not ret or frame is None:
+            return False, None, -1
+        return True, frame, target_idx
 
     def close(self) -> None:
         """Clean up active decoders and PTS caches on shutdown."""
@@ -286,38 +300,45 @@ class BoundedVideoService:
             pts_norm = lookup.actual_pts_norm_sec
             delta_ms = abs((pts_norm - req_norm) * 1000.0)
 
+        ret = False
+        frame = None
         with self._lock:
-            cap, cursor = self._get_pair_capture(pair_id, camera)
-            if cursor == target_idx - 1:
-                ok = cap.grab()
-                ret, frame = cap.retrieve() if ok else (False, None)
-                cursor = target_idx if ok else -1
-            elif target_idx == 0 or cursor < 0 or target_idx < cursor or (target_idx - cursor) > 24:
-                # Keyframe / timestamp seek near target frame for snappy random frame inspection
-                cap.set(cv2.CAP_PROP_POS_FRAMES, target_idx)
-                ret, frame = cap.read()
-                cursor = target_idx if ret else -1
+            cached = self._last_decoded_frames.get(camera)
+            if cached is not None and cached[0] == pair_id and cached[1] == target_idx:
+                ret, frame = True, cached[2]
             else:
-                ok = True
-                while cursor < target_idx:
-                    ok = cap.grab()
-                    if not ok:
-                        break
-                    cursor += 1
-                ret, frame = cap.retrieve() if ok else (False, None)
-
-            if not ret or frame is None:
-                # Safe sequential reset fallback
-                cap.release()
-                self._release_count += 1
-                self._active_caps.pop(camera, None)
                 cap, cursor = self._get_pair_capture(pair_id, camera)
-                for _ in range(target_idx + 1):
-                    if not cap.grab():
-                        break
-                    cursor += 1
-                ret, frame = cap.retrieve()
-            self._active_caps[camera] = (cap, cursor)
+                # Never use cv2.CAP_PROP_POS_FRAMES: VFR H.264 and B-frame HEVC streams seek
+                # inaccurately (landing on wrong frames or failing near EOF). Reset and grab sequentially.
+                if cursor >= 0 and target_idx < cursor:
+                    try:
+                        cap.release()
+                    except Exception:
+                        pass
+                    self._release_count += 1
+                    self._active_caps.pop(camera, None)
+                    self._last_decoded_frames.pop(camera, None)
+                    cap, cursor = self._get_pair_capture(pair_id, camera)
+
+                started_fresh = cursor < 0
+                ret, frame, new_cursor = self._grab_to_frame(cap, cursor, target_idx)
+                if (not ret or frame is None) and not started_fresh:
+                    # Single clean reopen fallback if advancing an existing capture failed
+                    try:
+                        cap.release()
+                    except Exception:
+                        pass
+                    self._release_count += 1
+                    self._active_caps.pop(camera, None)
+                    self._last_decoded_frames.pop(camera, None)
+                    cap, cursor = self._get_pair_capture(pair_id, camera)
+                    ret, frame, new_cursor = self._grab_to_frame(cap, cursor, target_idx)
+
+                self._active_caps[camera] = (cap, new_cursor)
+                if ret and frame is not None:
+                    self._last_decoded_frames[camera] = (pair_id, target_idx, frame)
+                else:
+                    self._last_decoded_frames.pop(camera, None)
 
         if not ret or frame is None:
             raise RuntimeError(f"Could not decode frame {target_idx} for {pair_id}/{camera}")

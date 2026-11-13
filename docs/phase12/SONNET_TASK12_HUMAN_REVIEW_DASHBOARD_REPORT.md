@@ -99,9 +99,13 @@ Observed browser playback & synchronization behavior:
 
 Verified against the final code state before commit:
 - **Full Repository Pytest Suite**: `/opt/homebrew/opt/python@3.11/bin/python3.11 -m pytest -q` -> **228 passed** (0 failures, 0 skipped; includes all `tests/test_phase12_review_dashboard.py` tests plus all existing repository tests).
-- **Dashboard & API Test Suite**: `tests/test_phase12_review_dashboard.py` -> **6 passed** (covering reviewer separation, zero AI/peer leakage, negative-offset & `[t, t]` point-event validation, reload persistence, submission locks & duplicate rejection, `HTTP 409` adjudication gating, Cohen's $\kappa$ + export schema validation, `UNRESOLVED` flow, HTTP `206` Range video streaming, bounded OpenCV capture cleanup, and `720p` H.264 proxy fallback).
+- **Dashboard & API Test Suite**: `tests/test_phase12_review_dashboard.py` -> **6 passed** (covering reviewer separation, zero AI/peer leakage, negative-offset & `[t, t]` point-event validation, reload persistence, submission locks & duplicate rejection, `HTTP 409` adjudication gating, Cohen's $\kappa$ + export schema validation, `UNRESOLVED` flow, HTTP `206` Range video streaming, bounded OpenCV capture cleanup, VFR H.264 / B-frame HEVC frame-exact pixel regression checks, and `720p` H.264 proxy fallback).
+- **Exhaustive 50-Video / 92-Workqueue-Item Technical Readiness Verification**:
+  - Verified all `50/50` MP4 files (`25` front, `25` back) against `pair_manifest.csv` SHA-256 checksums (`0` mismatches) and decoded all `15,241/15,241` physical frames sequentially at `3840x2160` with monotonic container PTS indices (`0` read failures).
+  - Replaced OpenCV `CAP_PROP_POS_FRAMES` random seeks (which drifted or failed near EOF on VFR H.264 `pair_001/front` and B-frame HEVC `pair_013/back`, `pair_014/back`) with cursor-tracked sequential `cap.grab()` plus a bounded 1-frame-per-camera decode cache in `BoundedVideoService.extract_frame_data()`, achieving `100/100` mid/final frame checks at `0.0000` mean pixel diff (`0` mismatches) across all 50 videos.
+  - Verified all `92/92` blind workqueue items (`154` hint frames decoded cleanly) and timeline bounds across all `25` pairs (`0` under-bounded clips).
 - **Frontend JS Syntax Check**: `node --check src/review_dashboard/static/app.js` -> exited `0`.
-- **Headless Chrome CDP End-to-End Verification**:
+- **Headless Chrome CDP End-to-End Verification** (validated on baseline commit `e1d817c`; `index.html`, `styles.css`, `app.js`, and Range streaming endpoints unchanged since):
   - Hardware-accelerated run: 0 JS runtime exceptions, `92` workqueue items / `25` pairs loaded, `3840x2160` simultaneous Front (`avc1`) & Back (`hvc1`) decode (`readyState: 4`), PTS step `+1f`, entity addition, and `Saved Draft v1` persistence.
   - `--disable-gpu` auto-fallback run: 0 JS runtime exceptions, detected `videoWidth === 0` on back stream and automatically switched to `1280x720` H.264 proxy playback (`readyState: 4`, `vfW: 1280, vbW: 1280`, `proxyChecked: true`).
 - **Frozen Research Artifact & Regression Integrity**:
@@ -116,5 +120,5 @@ Verified against the final code state before commit:
 ## 7. Known Limitations
 
 1. **Local Workstation Session Selector**: Role isolation separates local SQLite records and API responses cleanly via cookie/header session state (`reviewer_a` / `reviewer_b` / `adjudicator`) for single-workstation lab use; it does not implement password login or multi-user remote TLS authentication.
-2. **4K Random Seeking Speed on HEVC**: Browser playback uses macOS GPU hardware decoding (or bounded 720p H.264 proxy when fallback activates), whereas OpenCV single-frame extraction (`4K Inspect` / `Snap`) runs on CPU and takes ~0.5–0.9s on cold HEVC random seeks.
+2. **4K Frame-Exact Seeking Speed on Long Clips**: Browser playback uses macOS GPU hardware decoding (or bounded 720p H.264 proxy when fallback activates), whereas OpenCV single-frame extraction (`4K Inspect` / `Snap`) uses cursor-tracked sequential `cap.grab()` instead of `CAP_PROP_POS_FRAMES` to guarantee exact VFR H.264 / B-frame HEVC alignment; forward stepping and repeated inspect/crop/snapshot on the current frame are near-instant, while cold jumps or backward steps near the end of long 4K clips take up to ~3–6s on CPU.
 3. **Human Review Pending**: Per research integrity rules, zero human labels have been pre-filled; `dual_camera_gt_v1.1_blind_human` awaits real annotation execution by Reviewer A, Reviewer B, and the Adjudicator.

@@ -9,8 +9,10 @@ import sqlite3
 import threading
 from typing import Any
 
+import cv2
 import httpx
 import jsonschema
+import numpy as np
 import pytest
 
 from src.review_dashboard.config import DashboardConfig
@@ -415,6 +417,47 @@ def test_video_range_streaming_sync_math_and_bounded_cleanup(dashboard_server) -
         # Explicit capture release
         rel = client.post("/api/video/release", headers=hdr).json()
         assert rel["diagnostics"]["open_captures"] == 0
+
+    # VFR H.264 & B-frame HEVC frame-exact extraction regression check (no CAP_PROP_POS_FRAMES drift)
+    from src.review_dashboard.blind_api import resolve_video_path_safe
+
+    video_svc = srv.app_context.video
+    seek_cases = [
+        ("pair_001", "front", [103, 102]),
+        ("pair_013", "back", [304, 607, 607]),
+        ("pair_014", "back", [138, 275]),
+    ]
+    for pair_id, camera, target_indices in seek_cases:
+        video_path = resolve_video_path_safe(cfg, srv.app_context.catalog, pair_id, camera)
+        gt_frames: dict[int, np.ndarray] = {}
+        needed = set(target_indices)
+        max_idx = max(needed)
+        gt_cap = cv2.VideoCapture(str(video_path))
+        assert gt_cap.isOpened()
+        try:
+            for idx in range(max_idx + 1):
+                assert gt_cap.grab(), f"GT sequential grab failed at {pair_id}/{camera}@{idx}"
+                if idx in needed:
+                    ok, gt_img = gt_cap.retrieve()
+                    assert ok and gt_img is not None
+                    gt_frames[idx] = gt_img
+        finally:
+            gt_cap.release()
+
+        for target_idx in target_indices:
+            res = video_svc.extract_frame_data(pair_id, camera, frame_index=target_idx, fmt="png")
+            assert res["frame_index"] == target_idx
+            assert res["width"] == 3840
+            assert res["height"] == 2160
+            decoded = cv2.imdecode(np.frombuffer(res["bytes"], np.uint8), cv2.IMREAD_COLOR)
+            assert decoded is not None
+            assert np.array_equal(decoded, gt_frames[target_idx]), (
+                f"Exact frame mismatch on {pair_id}/{camera}@{target_idx}"
+            )
+
+    assert video_svc.diagnostics()["open_captures"] <= 2
+    video_svc.release_active_captures()
+    assert video_svc.diagnostics()["open_captures"] == 0
 
     # Verify checked-in root v1.1 manifest files were never modified or populated with synthetic labels
     root_meta = json.loads(cfg.release_metadata_json.read_text(encoding="utf-8"))
