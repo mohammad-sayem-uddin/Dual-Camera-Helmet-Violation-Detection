@@ -113,3 +113,30 @@ Motorcyle dataset/
 data/helmet_dataset_expansion/
 notebooks/**/combined_test_dataset/
 *.cache
+
+# Packaging, Tooling & Notebook Artifacts
+build/
+dist/
+*.egg-info/
+.eggs/
+.ipynb_checkpoints/
+.cache/
+node_modules/
+
+# Local Reproduction, Scratch & Temporary Artifacts
+tmp/
+temp/
+outputs/
+reproduction_output/
+repro_output/
+reproduction.log
+*.tmp
+*.bak
+*.orig
+*.sqlite3
+*.sqlite3-wal
+*.sqlite3-shm
+*.sqlite3-journal
+
+# Pre-existing local superseded validation draft (preserved untouched on disk)
+docs/phase12/GEMINI_FLASH_TASK09_VALIDATION_REPORT.md
