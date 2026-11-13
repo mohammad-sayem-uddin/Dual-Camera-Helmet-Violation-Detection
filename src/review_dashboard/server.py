@@ -6,6 +6,7 @@ from http import HTTPStatus
 from http.cookies import SimpleCookie
 from http.server import BaseHTTPRequestHandler, ThreadingHTTPServer
 import json
+import math
 import mimetypes
 from pathlib import Path
 from typing import Any
@@ -75,7 +76,7 @@ class _ReviewRequestHandler(BaseHTTPRequestHandler):
         *,
         extra_headers: dict[str, str] | None = None,
     ) -> None:
-        body = json.dumps(payload, indent=2).encode("utf-8")
+        body = json.dumps(payload, indent=2, allow_nan=False).encode("utf-8")
         try:
             self.send_response(status)
             self.send_header("Content-Type", "application/json; charset=utf-8")
@@ -92,10 +93,12 @@ class _ReviewRequestHandler(BaseHTTPRequestHandler):
             pass
 
     def _send_error_json(self, status: int, error: str, details: Any = None) -> None:
+        # Close keep-alive sockets after errors so unconsumed POST/PUT bodies never corrupt the next request
+        self.close_connection = True
         payload: dict[str, Any] = {"error": error}
         if details is not None:
             payload["details"] = details
-        self._send_json(status, payload)
+        self._send_json(status, payload, extra_headers={"Connection": "close"})
 
     def _read_json_body(self) -> dict[str, Any]:
         length_str = self.headers.get("Content-Length", "0")
@@ -108,7 +111,11 @@ class _ReviewRequestHandler(BaseHTTPRequestHandler):
         if length > 8 * 1024 * 1024:
             raise ValueError("Request body exceeds 8 MiB limit.")
         raw = self.rfile.read(length)
-        data = json.loads(raw.decode("utf-8"))
+
+        def _reject_constant(token: str) -> Any:
+            raise ValueError(f"Non-standard JSON token not allowed: {token!r}")
+
+        data = json.loads(raw.decode("utf-8"), parse_constant=_reject_constant)
         if not isinstance(data, dict):
             raise ValueError("JSON body must be an object.")
         return data
@@ -413,9 +420,12 @@ class _ReviewRequestHandler(BaseHTTPRequestHandler):
 
         if path.startswith("/api/reviewer/items/"):
             sub = path[len("/api/reviewer/items/") :].strip("/")
-            parts = sub.split("/")
+            parts = sub.split("/") if sub else []
+            if not parts or len(parts) > 2:
+                self._send_error_json(HTTPStatus.NOT_FOUND, f"Invalid reviewer item route: {path}")
+                return
             workqueue_id = parts[0]
-            action = parts[1] if len(parts) > 1 else ""
+            action = parts[1] if len(parts) == 2 else ""
             actor = self._require_reviewer(query)
             raw_item = self.app.catalog.get_raw_item(workqueue_id)
 
@@ -570,8 +580,9 @@ class _ReviewRequestHandler(BaseHTTPRequestHandler):
             crop = None
             if crop_q:
                 nums = [int(x) for x in crop_q.split(",")]
-                if len(nums) == 4:
-                    crop = (nums[0], nums[1], nums[2], nums[3])
+                if len(nums) != 4:
+                    raise ValueError(f"crop must have 4 comma-separated integers (x,y,w,h), got {crop_q!r}")
+                crop = (nums[0], nums[1], nums[2], nums[3])
 
             res = self.app.video.extract_frame_data(
                 pair_id,
@@ -600,9 +611,15 @@ class _ReviewRequestHandler(BaseHTTPRequestHandler):
         if method == "GET" and path.startswith("/api/frame_info/"):
             _ = self._require_any_actor()
             pair_id = path[len("/api/frame_info/") :].strip("/")
+            if not pair_id or "/" in pair_id:
+                raise ValueError(f"Invalid pair_id: {pair_id!r}")
             t_ref = float((query.get("t_ref") or ["0.0"])[0])
+            if not math.isfinite(t_ref):
+                raise ValueError(f"t_ref must be finite, got {t_ref!r}")
             step_q = (query.get("step_frames") or [None])[0]
             anchor = (query.get("anchor") or ["back"])[0]
+            if anchor not in ("front", "back"):
+                raise ValueError(f"Invalid anchor camera: {anchor!r}")
             if step_q is not None and int(step_q) != 0:
                 t_ref = self.app.video.step_reference_time(pair_id, t_ref, int(step_q), anchor_camera=anchor)
             info = self.app.video.lookup_sync_state(pair_id, t_ref)
@@ -712,6 +729,15 @@ class ReviewDashboardHTTPServer(ThreadingHTTPServer):
         self.app_context = app_context
         self.quiet_logs = quiet_logs
         super().__init__(server_address, _ReviewRequestHandler)
+
+    def handle_error(self, request: Any, client_address: Any) -> None:
+        # Suppress expected client socket aborts when browsers seek/switch HTTP Range video streams
+        import sys
+
+        _, exc, _ = sys.exc_info()
+        if isinstance(exc, (BrokenPipeError, ConnectionResetError)):
+            return
+        super().handle_error(request, client_address)
 
     def server_close(self) -> None:
         try:

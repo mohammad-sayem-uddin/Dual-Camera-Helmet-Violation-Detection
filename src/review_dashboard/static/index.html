@@ -278,7 +278,9 @@
                     <div class="track-band track-front" id="vis-front-band" title="Front camera active time range"></div>
                     <div class="track-band track-back" id="vis-back-band" title="Back camera active time range"></div>
                     <div class="track-band track-overlap" id="vis-overlap-band" title="Common dual-camera overlap"></div>
-                    <div class="track-band track-hint hidden" id="vis-hint-band" title="Workqueue item transit hint window"></div>
+                    <div class="track-band track-hint hidden" id="vis-hint-band" title="Workqueue item combined transit hint window"></div>
+                    <div class="track-band track-hint-front hidden" id="vis-front-hint-band" title="Front camera transit hint window"></div>
+                    <div class="track-band track-hint-back hidden" id="vis-back-hint-band" title="Back camera transit hint window"></div>
                     <div id="vis-event-markers"></div>
                   </div>
 
@@ -563,6 +565,7 @@
                   </label>
                   <label>Final Link Status
                     <select id="adj-link">
+                      <option value="">-- Choose --</option>
                       <option value="LINKED_BOTH_VIEWS">LINKED_BOTH_VIEWS</option>
                       <option value="FRONT_VIEW_ONLY">FRONT_VIEW_ONLY</option>
                       <option value="BACK_VIEW_ONLY">BACK_VIEW_ONLY</option>
@@ -572,6 +575,7 @@
                   </label>
                   <label>Final Event Type
                     <select id="adj-event">
+                      <option value="">-- Choose --</option>
                       <option value="DRIVER_NO_HELMET">DRIVER_NO_HELMET</option>
                       <option value="PILLION_NO_HELMET">PILLION_NO_HELMET</option>
                       <option value="BOTH_NO_HELMET">BOTH_NO_HELMET</option>
@@ -584,7 +588,7 @@
                   <label>Final Rider Count <input type="number" id="adj-rider-count" min="0" max="5" /></label>
                   <label>Final Driver Helmet (v1.1)
                     <select id="adj-driver-helmet">
-                      <option value="">--</option>
+                      <option value="">-- Choose --</option>
                       <option value="helmet">helmet</option>
                       <option value="no_helmet">no_helmet</option>
                       <option value="occluded_unknown">occluded_unknown</option>
@@ -602,6 +606,7 @@
                 <div class="field-row">
                   <label>Plate Tier
                     <select id="adj-plate-tier">
+                      <option value="">-- Choose --</option>
                       <option value="PLATE_CLEAR">PLATE_CLEAR</option>
                       <option value="PLATE_PARTIAL">PLATE_PARTIAL</option>
                       <option value="PLATE_UNREADABLE_MOTION_BLUR">PLATE_UNREADABLE_MOTION_BLUR</option>

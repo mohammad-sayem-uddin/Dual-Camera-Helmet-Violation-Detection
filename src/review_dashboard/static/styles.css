@@ -527,7 +527,9 @@ body {
 .track-front { top: 2px; height: 6px; background: #2563eb; opacity: 0.75; }
 .track-back { bottom: 2px; height: 6px; background: #0f766e; opacity: 0.75; }
 .track-overlap { top: 0; bottom: 0; background: rgba(22, 163, 74, 0.16); border-left: 1px dashed #16a34a; border-right: 1px dashed #16a34a; }
-.track-hint { top: 6px; bottom: 6px; background: rgba(245, 158, 11, 0.55); border: 1px solid #b45309; }
+.track-hint { top: 6px; bottom: 6px; background: rgba(245, 158, 11, 0.35); border: 1px dashed #b45309; }
+.track-hint-front { top: 2px; height: 6px; background: rgba(245, 158, 11, 0.85); border: 1px solid #b45309; }
+.track-hint-back { bottom: 2px; height: 6px; background: rgba(245, 158, 11, 0.85); border: 1px solid #047857; }
 .track-ev-mark { position: absolute; top: 1px; bottom: 1px; min-width: 4px; background: #dc2626; opacity: 0.85; cursor: pointer; }
 
 #timeline-scrubber { width: 100%; margin: 4px 0 10px 0; cursor: pointer; }
@@ -750,4 +752,9 @@ kbd {
   border-radius: 4px;
   padding: 2px 6px;
   font-size: 11.5px;
+}
+
+.field-disagree {
+  border: 2px solid #f59e0b !important;
+  background: #fffbeb !important;
 }

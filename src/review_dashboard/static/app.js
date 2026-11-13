@@ -90,31 +90,42 @@
     return `gt_v1_1_draft:${actor}:${wqId}`;
   }
 
+  function cameraEvidenceForLink(linkStatus) {
+    if (linkStatus === "LINKED_BOTH_VIEWS") return "BOTH_CAMERAS";
+    if (linkStatus === "FRONT_VIEW_ONLY") return "FRONT_ONLY";
+    if (linkStatus === "BACK_VIEW_ONLY") return "BACK_ONLY";
+    return "UNCERTAIN";
+  }
+
   function defaultDraftFromItem(item) {
     const isDual = item.camera_scope === "DUAL_VIEW_WINDOW";
     const isFront = item.camera_scope === "FRONT_WINDOW";
     const isBack = item.camera_scope === "BACK_WINDOW";
-    const hint = item.back_hint_interval || item.front_hint_interval || [
-      item.overlap_start_ref_sec ?? 0,
-      item.overlap_end_ref_sec ?? 1,
-    ];
+    const linkStatus = isDual
+      ? "LINKED_BOTH_VIEWS"
+      : isFront
+      ? "FRONT_VIEW_ONLY"
+      : isBack
+      ? "BACK_VIEW_ONLY"
+      : "AMBIGUOUS_HUMAN_UNCERTAIN";
+    const hint = getHintInterval(item);
     return {
       workqueue_id: item.workqueue_id,
       pair_id: item.pair_id,
-      item_link_status: isDual ? "LINKED_BOTH_VIEWS" : isFront ? "FRONT_VIEW_ONLY" : isBack ? "BACK_VIEW_ONLY" : "AMBIGUOUS_HUMAN_UNCERTAIN",
+      item_link_status: linkStatus,
       is_non_motorcycle_transit: false,
       uncertainty: { is_uncertain: false, reasons: [] },
       reviewer_notes: "",
       motorcycles: [
         {
           moto_id: "M1",
-          cross_camera_link_status: isDual ? "LINKED_BOTH_VIEWS" : isFront ? "FRONT_VIEW_ONLY" : "BACK_VIEW_ONLY",
+          cross_camera_link_status: linkStatus,
           visible_front: isDual || isFront,
           visible_back: isDual || isBack,
           start_t_ref_sec: hint ? Number(hint[0]) : null,
           end_t_ref_sec: hint ? Number(hint[1]) : null,
           rear_plate: {
-            visibility_tier: isFront ? "PLATE_NOT_VISIBLE_FRONT_ONLY" : "PLATE_UNREADABLE_MOTION_BLUR",
+            visibility_tier: isFront ? "PLATE_NOT_VISIBLE_FRONT_ONLY" : "",
             plate_text_normalized: "",
             notes: "",
           },
@@ -126,9 +137,9 @@
           rider_id: "R1",
           moto_id: "M1",
           role: "DRIVER",
-          helmet_state: "HELMET",
-          front_helmet_evidence: isFront || isDual ? "HELMET" : "NOT_VISIBLE",
-          back_helmet_evidence: isBack || isDual ? "HELMET" : "NOT_VISIBLE",
+          helmet_state: "",
+          front_helmet_evidence: "NOT_VISIBLE",
+          back_helmet_evidence: "NOT_VISIBLE",
           is_uncertain: false,
           start_t_ref_sec: null,
           end_t_ref_sec: null,
@@ -140,10 +151,10 @@
           event_id: "E1",
           moto_id: "M1",
           rider_ids: ["R1"],
-          event_type: "NO_VIOLATION",
+          event_type: "",
           start_t_ref_sec: hint ? Number(hint[0]) : Number((item.min_t_ref_sec || 0).toFixed(3)),
           end_t_ref_sec: hint ? Number(hint[1]) : Number((item.min_t_ref_sec || 0).toFixed(3)),
-          camera_evidence: isDual ? "BOTH_CAMERAS" : isFront ? "FRONT_ONLY" : "BACK_ONLY",
+          camera_evidence: cameraEvidenceForLink(linkStatus),
           keyframe_ref_t_sec: null,
           is_uncertain: false,
           notes: "",
@@ -342,15 +353,24 @@
   // ------------------------------------------------------------------
   // Video Review Workbench + Dual-Camera Sync Engine
   // ------------------------------------------------------------------
-  function unloadVideos() {
-    ["front", "back"].forEach((cam) => {
-      const vid = $(`#video-${cam}`);
+  function unloadVideoElements(ids) {
+    ids.forEach((sel) => {
+      const vid = $(sel);
       if (vid) {
         vid.pause();
+        vid.onerror = null;
+        vid.onloadeddata = null;
+        vid.onloadedmetadata = null;
         vid.removeAttribute("src");
         vid.load();
       }
     });
+  }
+
+  function unloadVideos() {
+    unloadVideoElements(["#video-front", "#video-back", "#adj-video-front", "#adj-video-back"]);
+    const adjStrip = $("#adj-video-strip");
+    if (adjStrip) adjStrip.classList.add("hidden");
   }
 
   function applyZoomTransform(cam) {
@@ -369,6 +389,7 @@
 
   async function openWorkqueueItem(wqId) {
     if (!wqId) return;
+    clearTimeout(state.autosaveTimer);
     if (state.dirty && state.currentItem && !state.locked) {
       await saveDraftNow({ silent: true });
     }
@@ -447,6 +468,11 @@
         loadPairVideos(pairId);
         setTimeout(() => seekToRefTime(state.currentRefTime, { fetchFrameInfo: true }), 250);
       };
+      vid.onloadedmetadata = () => {
+        if (state.pairTiming && state.pairTiming.pair_id === pairId) {
+          syncVideosToRefTime(state.currentRefTime, false);
+        }
+      };
       vid.onerror = () => triggerFallback(`Codec error on ${cam}`);
       vid.onloadeddata = () => {
         if (vid.videoWidth === 0 || vid.videoHeight === 0) {
@@ -459,8 +485,13 @@
   }
 
   function getHintInterval(item) {
-    if (item.back_hint_interval) return item.back_hint_interval;
-    if (item.front_hint_interval) return item.front_hint_interval;
+    const f = item.front_hint_interval;
+    const b = item.back_hint_interval;
+    if (f && b) {
+      return [Math.min(Number(f[0]), Number(b[0])), Math.max(Number(f[1]), Number(b[1]))];
+    }
+    if (b) return b;
+    if (f) return f;
     if (item.overlap_end_ref_sec > item.overlap_start_ref_sec) {
       return [item.overlap_start_ref_sec, item.overlap_end_ref_sec];
     }
@@ -500,6 +531,24 @@
       hintEl.classList.add("hidden");
     }
 
+    const fhEl = $("#vis-front-hint-band");
+    if (item.front_hint_interval) {
+      fhEl.classList.remove("hidden");
+      fhEl.style.left = pct(item.front_hint_interval[0]);
+      fhEl.style.width = widthPct(item.front_hint_interval[0], item.front_hint_interval[1]);
+    } else {
+      fhEl.classList.add("hidden");
+    }
+
+    const bhEl = $("#vis-back-hint-band");
+    if (item.back_hint_interval) {
+      bhEl.classList.remove("hidden");
+      bhEl.style.left = pct(item.back_hint_interval[0]);
+      bhEl.style.width = widthPct(item.back_hint_interval[0], item.back_hint_interval[1]);
+    } else {
+      bhEl.classList.add("hidden");
+    }
+
     $("#tel-offset").textContent = `${timing.global_offset_sec.toFixed(3)}s`;
     $("#tel-eps").textContent = `${timing.residual_error_ms.toFixed(1)}`;
     $("#tel-sync-quality").textContent = `Quality: ${timing.sync_quality}`;
@@ -533,14 +582,39 @@
     });
   }
 
+  function getEffectiveCameraDurations() {
+    const vidB = $("#video-back");
+    const vidF = $("#video-front");
+    const backDur = Math.max(
+      state.pairTiming?.back_duration_sec || 0,
+      vidB && Number.isFinite(vidB.duration) ? vidB.duration : 0
+    );
+    const frontDur = Math.max(
+      state.pairTiming?.front_duration_sec || 0,
+      vidF && Number.isFinite(vidF.duration) ? vidF.duration : 0
+    );
+    return { backDur, frontDur, vidB, vidF };
+  }
+
+  function isCameraInRange(cam, tRef = state.currentRefTime) {
+    if (!state.pairTiming) return false;
+    const { backDur, frontDur } = getEffectiveCameraDurations();
+    if (cam === "back") {
+      return tRef >= -0.02 && tRef <= backDur + 0.02;
+    }
+    const tFront = tRef - state.pairTiming.global_offset_sec;
+    return tFront >= -0.02 && tFront <= frontDur + 0.02;
+  }
+
   function syncVideosToRefTime(tRef, isPlayingTick = false) {
     if (!state.pairTiming) return;
     const t = Math.max(state.pairTiming.min_t_ref_sec, Math.min(state.pairTiming.max_t_ref_sec, Number(tRef)));
     state.currentRefTime = t;
     const tFront = t - state.pairTiming.global_offset_sec;
 
-    const backIn = t >= -0.02 && t <= state.pairTiming.back_duration_sec + 0.02;
-    const frontIn = tFront >= -0.02 && tFront <= state.pairTiming.front_duration_sec + 0.02;
+    const { backDur, frontDur, vidB, vidF } = getEffectiveCameraDurations();
+    const backIn = t >= -0.02 && t <= backDur + 0.02;
+    const frontIn = tFront >= -0.02 && tFront <= frontDur + 0.02;
     const inOverlap = t >= state.pairTiming.overlap_start_ref_sec - 1e-4 && t <= state.pairTiming.overlap_end_ref_sec + 1e-4;
 
     $("#tel-tref").textContent = `${t.toFixed(3)}s`;
@@ -555,20 +629,17 @@
     if (!backIn) {
       $("#oob-back").textContent = t < 0
         ? `BACK STARTS AT t_ref = 0.000s (in ${(-t).toFixed(2)}s)`
-        : `BACK ENDED AT ${state.pairTiming.back_duration_sec.toFixed(2)}s`;
+        : `BACK ENDED AT ${backDur.toFixed(2)}s`;
     }
 
     $("#oob-front").classList.toggle("hidden", frontIn);
     if (!frontIn) {
       const fStartRef = state.pairTiming.global_offset_sec;
-      const fEndRef = fStartRef + state.pairTiming.front_duration_sec;
+      const fEndRef = fStartRef + frontDur;
       $("#oob-front").textContent = tFront < 0
         ? `FRONT STARTS AT t_ref = ${fStartRef.toFixed(3)}s`
         : `FRONT ENDED AT t_ref = ${fEndRef.toFixed(3)}s`;
     }
-
-    const vidB = $("#video-back");
-    const vidF = $("#video-front");
     const rate = Number($("#playback-rate").value || 0.5);
 
     const applyTarget = (vid, targetSec, inRange) => {
@@ -675,8 +746,7 @@
   async function stepFrames(deltaFrames) {
     if (!state.pairTiming) return;
     stopPlayback();
-    const backIn = state.currentRefTime >= -0.02 && state.currentRefTime <= state.pairTiming.back_duration_sec + 0.02;
-    const anchor = backIn ? "back" : "front";
+    const anchor = isCameraInRange("back") ? "back" : "front";
     try {
       const info = await api(
         `/api/frame_info/${encodeURIComponent(state.pairTiming.pair_id)}?t_ref=${state.currentRefTime.toFixed(6)}&step_frames=${deltaFrames}&anchor=${anchor}`
@@ -781,6 +851,57 @@
     renderSnapshotsList();
   }
 
+  function syncMotorcycleConsistency(d, idx, source) {
+    const m = d.motorcycles[idx];
+    if (!m) return;
+    if (source === "link") {
+      if (m.cross_camera_link_status === "LINKED_BOTH_VIEWS") {
+        m.visible_front = true;
+        m.visible_back = true;
+      } else if (m.cross_camera_link_status === "FRONT_VIEW_ONLY") {
+        m.visible_front = true;
+        m.visible_back = false;
+      } else if (m.cross_camera_link_status === "BACK_VIEW_ONLY") {
+        m.visible_front = false;
+        m.visible_back = true;
+      }
+    } else if (source === "visibility") {
+      if (m.visible_front && !m.visible_back) {
+        m.cross_camera_link_status = "FRONT_VIEW_ONLY";
+      } else if (!m.visible_front && m.visible_back) {
+        m.cross_camera_link_status = "BACK_VIEW_ONLY";
+      } else if (
+        m.visible_front &&
+        m.visible_back &&
+        (m.cross_camera_link_status === "FRONT_VIEW_ONLY" || m.cross_camera_link_status === "BACK_VIEW_ONLY")
+      ) {
+        m.cross_camera_link_status = "LINKED_BOTH_VIEWS";
+      }
+    }
+    m.rear_plate = m.rear_plate || { visibility_tier: "", plate_text_normalized: "", notes: "" };
+    if (!m.visible_back) {
+      m.rear_plate.visibility_tier = "PLATE_NOT_VISIBLE_FRONT_ONLY";
+      m.rear_plate.plate_text_normalized = "";
+    } else if (m.rear_plate.visibility_tier === "PLATE_NOT_VISIBLE_FRONT_ONLY") {
+      m.rear_plate.visibility_tier = "";
+    }
+    if (d.motorcycles.length === 1 && !d.is_non_motorcycle_transit) {
+      d.item_link_status = m.cross_camera_link_status;
+    }
+    d.riders
+      .filter((r) => r.moto_id === m.moto_id)
+      .forEach((r) => {
+        if (!m.visible_front) r.front_helmet_evidence = "NOT_VISIBLE";
+        if (!m.visible_back) r.back_helmet_evidence = "NOT_VISIBLE";
+      });
+    d.violation_events
+      .filter((ev) => ev.moto_id === m.moto_id)
+      .forEach((ev) => {
+        if (!m.visible_back && m.visible_front) ev.camera_evidence = "FRONT_ONLY";
+        else if (!m.visible_front && m.visible_back) ev.camera_evidence = "BACK_ONLY";
+      });
+  }
+
   function renderMotorcyclesList() {
     const d = state.draft;
     const host = $("#motos-container");
@@ -825,6 +946,7 @@
         <div class="field-row">
           <label>Rear Plate Tier
             <select data-m-plate="${idx}:visibility_tier" ${dis}>
+              <option value="" ${!(m.rear_plate?.visibility_tier) ? "selected" : ""}>-- Select Plate Tier --</option>
               ${["PLATE_CLEAR", "PLATE_PARTIAL", "PLATE_UNREADABLE_MOTION_BLUR", "PLATE_NOT_VISIBLE_FRONT_ONLY"]
                 .map((v) => `<option value="${v}" ${(m.rear_plate?.visibility_tier) === v ? "selected" : ""}>${v}</option>`)
                 .join("")}
@@ -832,6 +954,11 @@
           </label>
           <label>Normalized Plate Text
             <input type="text" data-m-plate="${idx}:plate_text_normalized" value="${esc(m.rear_plate?.plate_text_normalized || "")}" placeholder="e.g. DHA-1234" ${dis}/>
+          </label>
+        </div>
+        <div class="field-row">
+          <label>Motorcycle Notes
+            <input type="text" data-m-note="${idx}" value="${esc(m.notes || "")}" placeholder="Optional transit notes..." ${dis}/>
           </label>
         </div>
       </div>`
@@ -852,15 +979,23 @@
     host.querySelectorAll("[data-m-field]").forEach((s) =>
       s.addEventListener("change", () => {
         const [i, k] = s.dataset.mField.split(":");
-        d.motorcycles[Number(i)][k] = s.value;
+        const idx = Number(i);
+        d.motorcycles[idx][k] = s.value;
+        if (k === "cross_camera_link_status") {
+          syncMotorcycleConsistency(d, idx, "link");
+        }
         markDirty();
+        renderAnnotationForm();
       })
     );
     host.querySelectorAll("[data-m-chk]").forEach((c) =>
       c.addEventListener("change", () => {
         const [i, k] = c.dataset.mChk.split(":");
-        d.motorcycles[Number(i)][k] = c.checked;
+        const idx = Number(i);
+        d.motorcycles[idx][k] = c.checked;
+        syncMotorcycleConsistency(d, idx, "visibility");
         markDirty();
+        renderAnnotationForm();
       })
     );
     host.querySelectorAll("[data-m-num]").forEach((inp) =>
@@ -881,8 +1016,18 @@
     host.querySelectorAll("[data-m-plate]").forEach((inp) =>
       inp.addEventListener(inp.tagName === "SELECT" ? "change" : "input", () => {
         const [i, k] = inp.dataset.mPlate.split(":");
-        d.motorcycles[Number(i)].rear_plate = d.motorcycles[Number(i)].rear_plate || {};
-        d.motorcycles[Number(i)].rear_plate[k] = inp.value;
+        const idx = Number(i);
+        d.motorcycles[idx].rear_plate = d.motorcycles[idx].rear_plate || {};
+        d.motorcycles[idx].rear_plate[k] = inp.value;
+        if (k === "visibility_tier" && inp.value === "PLATE_NOT_VISIBLE_FRONT_ONLY") {
+          d.motorcycles[idx].rear_plate.plate_text_normalized = "";
+        }
+        markDirty();
+      })
+    );
+    host.querySelectorAll("[data-m-note]").forEach((inp) =>
+      inp.addEventListener("input", () => {
+        d.motorcycles[Number(inp.dataset.mNote)].notes = inp.value;
         markDirty();
       })
     );
@@ -913,11 +1058,13 @@
           </label>
           <label>Role
             <select data-r-field="${idx}:role" ${dis}>
+              <option value="" ${!r.role ? "selected" : ""}>-- Select --</option>
               ${["DRIVER", "PILLION", "UNCERTAIN"].map((v) => `<option value="${v}" ${r.role === v ? "selected" : ""}>${v}</option>`).join("")}
             </select>
           </label>
           <label>Helmet State
             <select data-r-field="${idx}:helmet_state" ${dis}>
+              <option value="" ${!r.helmet_state ? "selected" : ""}>-- Select --</option>
               ${["HELMET", "NO_HELMET", "UNCERTAIN", "NOT_VISIBLE"].map((v) => `<option value="${v}" ${r.helmet_state === v ? "selected" : ""}>${v}</option>`).join("")}
             </select>
           </label>
@@ -925,13 +1072,20 @@
         <div class="field-row">
           <label>Front View Evidence
             <select data-r-field="${idx}:front_helmet_evidence" ${dis}>
+              <option value="" ${!r.front_helmet_evidence ? "selected" : ""}>-- Select --</option>
               ${["HELMET", "NO_HELMET", "UNCERTAIN", "NOT_VISIBLE"].map((v) => `<option value="${v}" ${r.front_helmet_evidence === v ? "selected" : ""}>${v}</option>`).join("")}
             </select>
           </label>
           <label>Back View Evidence
             <select data-r-field="${idx}:back_helmet_evidence" ${dis}>
+              <option value="" ${!r.back_helmet_evidence ? "selected" : ""}>-- Select --</option>
               ${["HELMET", "NO_HELMET", "UNCERTAIN", "NOT_VISIBLE"].map((v) => `<option value="${v}" ${r.back_helmet_evidence === v ? "selected" : ""}>${v}</option>`).join("")}
             </select>
+          </label>
+        </div>
+        <div class="field-row">
+          <label>Rider Notes
+            <input type="text" data-r-note="${idx}" value="${esc(r.notes || "")}" placeholder="Optional rider / occlusion notes..." ${dis}/>
           </label>
         </div>
       </div>`
@@ -956,6 +1110,12 @@
         d.riders[Number(i)][k] = s.value;
         markDirty();
         renderEventsList();
+      })
+    );
+    host.querySelectorAll("[data-r-note]").forEach((inp) =>
+      inp.addEventListener("input", () => {
+        d.riders[Number(inp.dataset.rNote)].notes = inp.value;
+        markDirty();
       })
     );
   }
@@ -991,6 +1151,7 @@
             </label>
             <label>Event Type
               <select data-e-field="${idx}:event_type" ${dis}>
+                <option value="" ${!ev.event_type ? "selected" : ""}>-- Select Event --</option>
                 ${["DRIVER_NO_HELMET", "PILLION_NO_HELMET", "BOTH_NO_HELMET", "NO_VIOLATION", "INSUFFICIENT_VISUAL_EVIDENCE"]
                   .map((v) => `<option value="${v}" ${ev.event_type === v ? "selected" : ""}>${v}</option>`)
                   .join("")}
@@ -998,6 +1159,7 @@
             </label>
             <label>Camera Evidence
               <select data-e-field="${idx}:camera_evidence" ${dis}>
+                <option value="" ${!ev.camera_evidence ? "selected" : ""}>-- Select --</option>
                 ${["BOTH_CAMERAS", "FRONT_ONLY", "BACK_ONLY", "UNCERTAIN"]
                   .map((v) => `<option value="${v}" ${ev.camera_evidence === v ? "selected" : ""}>${v}</option>`)
                   .join("")}
@@ -1017,9 +1179,20 @@
                 <button type="button" class="btn btn-xs btn-secondary" data-e-cap="${idx}:end_t_ref_sec" ${dis}>Now</button>
               </div>
             </label>
+            <label>Keyframe t_ref (s)
+              <div class="inline-input-btn">
+                <input type="number" step="0.001" data-e-num="${idx}:keyframe_ref_t_sec" value="${ev.keyframe_ref_t_sec ?? ""}" placeholder="Optional" ${dis}/>
+                <button type="button" class="btn btn-xs btn-secondary" data-e-cap="${idx}:keyframe_ref_t_sec" ${dis}>Now</button>
+              </div>
+            </label>
+          </div>
+          <div class="field-row">
             <div style="display:flex;align-items:flex-end;">
-              <button type="button" class="btn btn-xs btn-secondary" data-e-point="${idx}" ${dis} title="Set both start and end to current playhead for a 1-frame point event">1-Frame Point [t, t]</button>
+              <button type="button" class="btn btn-xs btn-secondary" data-e-point="${idx}" ${dis} title="Set start, end, and keyframe to current playhead for a 1-frame point event">1-Frame Point [t, t]</button>
             </div>
+            <label>Event Notes
+              <input type="text" data-e-note="${idx}" value="${esc(ev.notes || "")}" placeholder="Optional violation window notes..." ${dis}/>
+            </label>
           </div>
           <div class="field-block">
             <span class="field-label small">Linked Riders on ${esc(ev.moto_id)}:</span>
@@ -1028,7 +1201,7 @@
                 ? validRiders
                     .map(
                       (r) =>
-                        `<button type="button" class="chip-toggle ${selRids.has(r.rider_id) ? "selected" : ""}" data-e-rider="${idx}:${esc(r.rider_id)}" ${dis}>${esc(r.rider_id)} (${esc(r.role)}: ${esc(r.helmet_state)})</button>`
+                        `<button type="button" class="chip-toggle ${selRids.has(r.rider_id) ? "selected" : ""}" data-e-rider="${idx}:${esc(r.rider_id)}" ${dis}>${esc(r.rider_id)} (${esc(r.role || "?")}: ${esc(r.helmet_state || "?")})</button>`
                     )
                     .join("")
                 : `<span class="small muted">No riders attached to ${esc(ev.moto_id)}</span>`}
@@ -1087,8 +1260,15 @@
         const ev = d.violation_events[Number(b.dataset.ePoint)];
         ev.start_t_ref_sec = t;
         ev.end_t_ref_sec = t;
+        ev.keyframe_ref_t_sec = t;
         markDirty();
         renderEventsList();
+      })
+    );
+    host.querySelectorAll("[data-e-note]").forEach((inp) =>
+      inp.addEventListener("input", () => {
+        d.violation_events[Number(inp.dataset.eNote)].notes = inp.value;
+        markDirty();
       })
     );
     host.querySelectorAll("[data-e-rider]").forEach((b) =>
@@ -1170,6 +1350,7 @@
 
   function openSubmitConfirmation() {
     if (!state.currentItem || !state.draft || state.locked) return;
+    clearTimeout(state.autosaveTimer);
     $("#confirm-wq-id").textContent = state.currentItem.workqueue_id;
     const summaryText = `Link: ${state.draft.item_link_status} | Motorcycles: ${state.draft.motorcycles.length} | Riders: ${state.draft.riders.length} | Events: ${state.draft.violation_events.length}`;
     $("#confirm-summary-preview").textContent = summaryText;
@@ -1179,6 +1360,7 @@
   async function executeSubmitNow() {
     $("#confirm-modal").classList.add("hidden");
     if (!state.currentItem || !state.draft || state.locked) return;
+    clearTimeout(state.autosaveTimer);
     showValidationErrors([]);
     try {
       const res = await api(
@@ -1207,16 +1389,53 @@
   async function inspectFrameModal(cam) {
     if (!state.pairTiming) return;
     stopPlayback();
-    const url = `/api/frame/${encodeURIComponent(state.pairTiming.pair_id)}/${cam}?t_ref=${state.currentRefTime.toFixed(6)}&fmt=png`;
+    const url = `/api/frame/${encodeURIComponent(state.pairTiming.pair_id)}/${cam}?t_ref=${state.currentRefTime.toFixed(6)}&fmt=png&_=${Date.now()}`;
+    const imgEl = $("#frame-modal-img");
     $("#frame-modal-title").textContent = `${state.pairTiming.pair_id} · ${cam.toUpperCase()} PTS-Exact Frame`;
-    $("#frame-modal-meta").textContent = `Requested t_ref = ${state.currentRefTime.toFixed(3)}s`;
-    $("#frame-modal-img").src = `${url}&_=${Date.now()}`;
+    $("#frame-modal-meta").textContent = `Decoding requested t_ref = ${state.currentRefTime.toFixed(3)}s...`;
     $("#frame-modal").classList.remove("hidden");
+    try {
+      const headers = state.actor ? { "X-Reviewer-Id": state.actor } : {};
+      const resp = await fetch(url, { headers, credentials: "same-origin" });
+      if (!resp.ok) {
+        let msg = `HTTP ${resp.status}`;
+        try {
+          const j = await resp.json();
+          if (j && j.error) msg = j.error;
+        } catch (_e) {}
+        throw new Error(msg);
+      }
+      const blob = await resp.blob();
+      if (imgEl.dataset.objUrl) {
+        URL.revokeObjectURL(imgEl.dataset.objUrl);
+      }
+      const objUrl = URL.createObjectURL(blob);
+      imgEl.dataset.objUrl = objUrl;
+      imgEl.src = objUrl;
+      const fIdx = resp.headers.get("X-Frame-Index") || "?";
+      const tRef = resp.headers.get("X-T-Ref-Sec") || state.currentRefTime.toFixed(3);
+      const pts = resp.headers.get("X-Pts-Norm-Sec") || "?";
+      const dMs = resp.headers.get("X-Delta-Pts-Ms") || "?";
+      const w = resp.headers.get("X-Frame-Width") || "?";
+      const h = resp.headers.get("X-Frame-Height") || "?";
+      $("#frame-modal-meta").textContent =
+        `Frame F${fIdx} · t_ref=${Number(tRef).toFixed(3)}s · PTS=${Number(pts).toFixed(3)}s · Δ=${dMs}ms · ${w}x${h}`;
+    } catch (err) {
+      $("#frame-modal-meta").textContent = `Frame decode failed: ${err.message}`;
+      showToast(`Inspect failed: ${err.message}`, "error");
+    }
   }
 
   async function captureSnapshot(cam) {
     if (!state.currentItem || state.locked) return;
     stopPlayback();
+    if (!isCameraInRange(cam)) {
+      showToast(
+        `Cannot capture ${cam.toUpperCase()} snapshot: playhead is outside ${cam} camera range.`,
+        "error"
+      );
+      return;
+    }
     try {
       const res = await api("/api/reviewer/snapshots", {
         method: "POST",
@@ -1329,6 +1548,7 @@
 
   async function openAdjudicationItem(wqId) {
     try {
+      unloadVideoElements(["#adj-video-front", "#adj-video-back"]);
       const detail = await api(`/api/adjudication/items/${encodeURIComponent(wqId)}`);
       state.adjDetail = detail;
       $("#adj-detail-panel").classList.remove("hidden");
@@ -1337,6 +1557,7 @@
       $("#adj-pair-id").textContent = detail.item.pair_id;
 
       const diffs = detail.disagreements || [];
+      const diffSet = new Set(diffs.map((d) => d.field));
       $("#adj-diff-pills").className = diffs.length ? "validation-box warn" : "validation-box";
       $("#adj-diff-pills").innerHTML = diffs.length
         ? `<strong>Disagreements Detected (${diffs.length}):</strong> ` +
@@ -1346,18 +1567,56 @@
       $("#adj-sub-a").textContent = JSON.stringify(detail.submission_a.payload, null, 2);
       $("#adj-sub-b").textContent = JSON.stringify(detail.submission_b.payload, null, 2);
 
+      // Clear and apply disagreement highlights visually
+      const fieldEls = {
+        link_status: ["#adj-link"],
+        rider_count: ["#adj-rider-count"],
+        driver_helmet: ["#adj-driver-helmet"],
+        pillion_helmet: ["#adj-pillion-helmet"],
+        violation_event_type: ["#adj-event"],
+        binary_violation: ["#adj-event"],
+        violation_window_ref_sec: ["#adj-win-start", "#adj-win-end"],
+        plate_visibility_tier: ["#adj-plate-tier"],
+        plate_text_normalized: ["#adj-plate-text"],
+      };
+      Object.values(fieldEls).flat().forEach((sel) => $(sel)?.classList.remove("field-disagree"));
+      diffSet.forEach((f) => (fieldEls[f] || []).forEach((sel) => $(sel)?.classList.add("field-disagree")));
+
       const dec = (detail.adjudication && detail.adjudication.decision) || null;
       const base = detail.submission_a.summary;
-      $("#adj-status").value = (dec && dec.status) || "ADJUDICATED";
-      $("#adj-link").value = (dec && dec.final_link_status) || base.link_status || "LINKED_BOTH_VIEWS";
-      $("#adj-event").value = (dec && dec.final_event_type) || base.violation_event_type || "NO_VIOLATION";
-      $("#adj-rider-count").value = dec && dec.final_rider_count != null ? dec.final_rider_count : base.rider_count;
-      $("#adj-driver-helmet").value = (dec && dec.final_driver_helmet) || base.driver_helmet || "";
-      $("#adj-pillion-helmet").value = (dec && dec.final_pillion_helmet) || base.pillion_helmet || "";
-      $("#adj-plate-tier").value = (dec && dec.final_plate_visibility_tier) || base.plate_visibility_tier || "PLATE_NOT_VISIBLE_FRONT_ONLY";
-      $("#adj-plate-text").value = (dec && dec.final_plate_text_normalized) || base.plate_text_normalized || "";
-      $("#adj-win-start").value = dec && dec.final_violation_start_t_ref_sec != null ? dec.final_violation_start_t_ref_sec : "";
-      $("#adj-win-end").value = dec && dec.final_violation_end_t_ref_sec != null ? dec.final_violation_end_t_ref_sec : "";
+      const parseWin = (s) => {
+        if (!s || !String(s).includes("..")) return ["", ""];
+        const parts = String(s).split("..");
+        return [parts[0] || "", parts[1] || ""];
+      };
+      const agreedWin = diffSet.has("violation_window_ref_sec") ? ["", ""] : parseWin(base.violation_window_ref_sec);
+
+      $("#adj-status").value = (dec && dec.status) || (diffs.length ? "DRAFT" : "ADJUDICATED");
+      $("#adj-link").value = dec ? (dec.final_link_status || "") : (diffSet.has("link_status") ? "" : (base.link_status || ""));
+      $("#adj-event").value = dec
+        ? (dec.final_event_type || "")
+        : (diffSet.has("violation_event_type") || diffSet.has("binary_violation") ? "" : (base.violation_event_type || ""));
+      $("#adj-rider-count").value = dec && dec.final_rider_count != null
+        ? dec.final_rider_count
+        : (diffSet.has("rider_count") ? "" : (base.rider_count ?? ""));
+      $("#adj-driver-helmet").value = dec
+        ? (dec.final_driver_helmet || "")
+        : (diffSet.has("driver_helmet") ? "" : (base.driver_helmet || ""));
+      $("#adj-pillion-helmet").value = dec
+        ? (dec.final_pillion_helmet || "")
+        : (diffSet.has("pillion_helmet") ? "" : (base.pillion_helmet || ""));
+      $("#adj-plate-tier").value = dec
+        ? (dec.final_plate_visibility_tier || "")
+        : (diffSet.has("plate_visibility_tier") ? "" : (base.plate_visibility_tier || ""));
+      $("#adj-plate-text").value = dec
+        ? (dec.final_plate_text_normalized || "")
+        : (diffSet.has("plate_text_normalized") ? "" : (base.plate_text_normalized || ""));
+      $("#adj-win-start").value = dec && dec.final_violation_start_t_ref_sec != null
+        ? dec.final_violation_start_t_ref_sec
+        : agreedWin[0];
+      $("#adj-win-end").value = dec && dec.final_violation_end_t_ref_sec != null
+        ? dec.final_violation_end_t_ref_sec
+        : agreedWin[1];
       $("#adj-reason").value = (dec && dec.disagreement_resolution_reason) || "";
       $("#adj-notes").value = (dec && dec.adjudicator_notes) || "";
     } catch (err) {
@@ -1391,7 +1650,8 @@
       await loadAdjudicationView();
       showToast(`Saved adjudication for ${wqId} (${updated.adjudication.status})`, "ok");
     } catch (err) {
-      showToast(`Adjudication error: ${err.message}`, "error");
+      const detailMsg = err.details && err.details.errors ? err.details.errors.join(" | ") : err.message;
+      showToast(`Adjudication error: ${detailMsg}`, "error");
     }
   }
 
@@ -1546,6 +1806,10 @@
         state.draft.violation_events = [];
       } else {
         state.draft.is_non_motorcycle_transit = false;
+        if (state.draft.motorcycles.length === 1) {
+          state.draft.motorcycles[0].cross_camera_link_status = e.target.value;
+          syncMotorcycleConsistency(state.draft, 0, "link");
+        }
       }
       markDirty();
       renderAnnotationForm();
@@ -1575,7 +1839,7 @@
         visible_back: true,
         start_t_ref_sec: Number(state.currentRefTime.toFixed(3)),
         end_t_ref_sec: Number(state.currentRefTime.toFixed(3)),
-        rear_plate: { visibility_tier: "PLATE_UNREADABLE_MOTION_BLUR", plate_text_normalized: "", notes: "" },
+        rear_plate: { visibility_tier: "", plate_text_normalized: "", notes: "" },
         notes: "",
       });
       markDirty();
@@ -1586,13 +1850,14 @@
       const existing = new Set(state.draft.riders.map((r) => r.rider_id));
       let c = state.draft.riders.length + 1;
       while (existing.has(`R${c}`)) c += 1;
-      const defaultMoto = state.draft.motorcycles[0].moto_id;
+      const defaultMotoObj = state.draft.motorcycles[0];
+      const defaultMoto = defaultMotoObj.moto_id;
       const sameMoto = state.draft.riders.filter((r) => r.moto_id === defaultMoto);
       state.draft.riders.push({
         rider_id: `R${c}`,
         moto_id: defaultMoto,
         role: sameMoto.some((r) => r.role === "DRIVER") ? "PILLION" : "DRIVER",
-        helmet_state: "HELMET",
+        helmet_state: "",
         front_helmet_evidence: "NOT_VISIBLE",
         back_helmet_evidence: "NOT_VISIBLE",
         is_uncertain: false,
@@ -1608,17 +1873,18 @@
       const existing = new Set(state.draft.violation_events.map((ev) => ev.event_id));
       let c = state.draft.violation_events.length + 1;
       while (existing.has(`E${c}`)) c += 1;
-      const defaultMoto = state.draft.motorcycles[0].moto_id;
+      const defaultMotoObj = state.draft.motorcycles[0];
+      const defaultMoto = defaultMotoObj.moto_id;
       const riderIds = state.draft.riders.filter((r) => r.moto_id === defaultMoto).map((r) => r.rider_id);
       const t = Number(state.currentRefTime.toFixed(3));
       state.draft.violation_events.push({
         event_id: `E${c}`,
         moto_id: defaultMoto,
         rider_ids: riderIds,
-        event_type: "NO_VIOLATION",
+        event_type: "",
         start_t_ref_sec: t,
         end_t_ref_sec: t,
-        camera_evidence: "BOTH_CAMERAS",
+        camera_evidence: cameraEvidenceForLink(defaultMotoObj.cross_camera_link_status),
         keyframe_ref_t_sec: t,
         is_uncertain: false,
         notes: "",
@@ -1671,8 +1937,25 @@
       const pid = state.adjDetail.item.pair_id;
       const strip = $("#adj-video-strip");
       strip.classList.remove("hidden");
-      $("#adj-video-front").src = `/api/video/${encodeURIComponent(pid)}/front`;
-      $("#adj-video-back").src = `/api/video/${encodeURIComponent(pid)}/back`;
+      let adjProxy = state.proxyMode;
+      const loadAdjStreams = () => {
+        const modeParam = adjProxy ? "?mode=proxy_h264" : "";
+        ["front", "back"].forEach((cam) => {
+          const vid = $(`#adj-video-${cam}`);
+          const fallback = () => {
+            if (adjProxy) return;
+            adjProxy = true;
+            showToast("Switching adjudication preview to Smooth 720p H.264 Proxy...", "");
+            loadAdjStreams();
+          };
+          vid.onerror = fallback;
+          vid.onloadeddata = () => {
+            if (vid.videoWidth === 0 || vid.videoHeight === 0) fallback();
+          };
+          vid.src = `/api/video/${encodeURIComponent(pid)}/${cam}${modeParam}`;
+        });
+      };
+      loadAdjStreams();
     });
     $("#btn-save-adjudication").addEventListener("click", saveAdjudicationNow);
 

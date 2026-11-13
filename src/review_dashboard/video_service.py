@@ -2,6 +2,7 @@
 from __future__ import annotations
 
 from collections import OrderedDict
+import math
 from pathlib import Path
 import re
 import subprocess
@@ -228,20 +229,77 @@ class BoundedVideoService:
             },
         }
 
+    @staticmethod
+    def _ref_time_of(frame_idx: int, idx: FramePTSIndex, camera: str, offset_sec: float) -> float:
+        norm = float(idx.pts_norm_sec[frame_idx])
+        return norm if camera == "back" else t_ref_from_front(norm, offset_sec)
+
     def step_reference_time(self, pair_id: str, t_ref_sec: float, delta_frames: int, anchor_camera: str = "back") -> float:
-        """Compute exact next/previous physical frame timestamp on `anchor_camera` converted to t_ref_sec."""
+        """Compute exact next/previous physical frame timestamp with cross-camera boundary handoff."""
+        cur_ref = float(t_ref_sec)
+        if not math.isfinite(cur_ref):
+            raise ValueError(f"t_ref_sec must be finite, got {t_ref_sec!r}")
+        if anchor_camera not in ("back", "front"):
+            raise ValueError(f"Invalid camera: {anchor_camera!r}")
+        step = int(delta_frames)
         timing = self.catalog.get_pair_timing(pair_id)
-        idx = self.get_pts_index(pair_id, anchor_camera)
-        if anchor_camera == "back":
-            target_norm = float(t_ref_sec)
-        else:
-            target_norm = t_front_from_ref(float(t_ref_sec), timing.global_offset_sec)
-        cur = idx.nearest_frame(min(max(0.0, target_norm), idx.duration_norm_sec))
-        next_idx = min(max(0, cur.frame_index + int(delta_frames)), idx.frame_count - 1)
-        next_norm = float(idx.pts_norm_sec[next_idx])
-        if anchor_camera == "back":
-            return round(next_norm, 6)
-        return round(t_ref_from_front(next_norm, timing.global_offset_sec), 6)
+        offset_sec = float(timing.global_offset_sec)
+        anchor_idx = self.get_pts_index(pair_id, anchor_camera)
+        other_camera = "front" if anchor_camera == "back" else "back"
+        other_idx = self.get_pts_index(pair_id, other_camera)
+
+        if step == 0:
+            return round(cur_ref, 6)
+
+        anchor_norm = cur_ref if anchor_camera == "back" else t_front_from_ref(cur_ref, offset_sec)
+        anchor_min_ref = self._ref_time_of(0, anchor_idx, anchor_camera, offset_sec)
+        anchor_max_ref = self._ref_time_of(anchor_idx.frame_count - 1, anchor_idx, anchor_camera, offset_sec)
+
+        # If currently outside anchor_camera's physical span (e.g., t_ref < 0 on negative-offset Front),
+        # step along other_camera and hand back seamlessly upon re-entering anchor's span.
+        if anchor_norm < -1e-4 or anchor_norm > anchor_idx.duration_norm_sec + 1e-4:
+            other_norm = cur_ref if other_camera == "back" else t_front_from_ref(cur_ref, offset_sec)
+            clamped_other = min(max(0.0, other_norm), other_idx.duration_norm_sec)
+            cur_other = other_idx.nearest_frame(clamped_other).frame_index
+            cand_other = min(max(0, cur_other + step), other_idx.frame_count - 1)
+            cand_ref = self._ref_time_of(cand_other, other_idx, other_camera, offset_sec)
+            if anchor_norm < -1e-4 and step > 0 and cand_ref >= anchor_min_ref - 1e-4:
+                return round(anchor_min_ref, 6)
+            if anchor_norm > anchor_idx.duration_norm_sec + 1e-4 and step < 0 and cand_ref <= anchor_max_ref + 1e-4:
+                return round(anchor_max_ref, 6)
+            return round(cand_ref, 6)
+
+        cur = anchor_idx.nearest_frame(min(max(0.0, anchor_norm), anchor_idx.duration_norm_sec))
+        raw_next = cur.frame_index + step
+
+        if raw_next < 0:
+            # Cross below anchor frame 0 into earlier frames of other_camera if available
+            other_refs = [
+                (k, self._ref_time_of(k, other_idx, other_camera, offset_sec))
+                for k in range(other_idx.frame_count)
+            ]
+            earlier = [k for k, r in other_refs if r < anchor_min_ref - 1e-4]
+            if earlier:
+                last_earlier = earlier[-1]
+                target_other = max(0, last_earlier + 1 + raw_next)
+                return round(other_refs[target_other][1], 6)
+            return round(anchor_min_ref, 6)
+
+        if raw_next >= anchor_idx.frame_count:
+            # Cross past anchor EOF into later frames of other_camera if available
+            other_refs = [
+                (k, self._ref_time_of(k, other_idx, other_camera, offset_sec))
+                for k in range(other_idx.frame_count)
+            ]
+            later = [k for k, r in other_refs if r > anchor_max_ref + 1e-4]
+            if later:
+                first_later = later[0]
+                overshoot = raw_next - (anchor_idx.frame_count - 1) - 1
+                target_other = min(other_idx.frame_count - 1, first_later + overshoot)
+                return round(other_refs[target_other][1], 6)
+            return round(anchor_max_ref, 6)
+
+        return round(self._ref_time_of(raw_next, anchor_idx, anchor_camera, offset_sec), 6)
 
     def _get_pair_capture(self, pair_id: str, camera: str) -> tuple[cv2.VideoCapture, int]:
         """Return bounded active VideoCapture for `(pair_id, camera)`; closes previous pair first."""
@@ -282,6 +340,13 @@ class BoundedVideoService:
         """Extract one PTS-verified frame (and optional zoom crop) without keeping clips in RAM."""
         timing = self.catalog.get_pair_timing(pair_id)
         pts_index = self.get_pts_index(pair_id, camera)
+        fmt_low = fmt.lower().strip()
+        if fmt_low not in ("jpg", "jpeg", "png"):
+            raise ValueError(f"Unsupported image format: {fmt!r}")
+        if max_width is not None and int(max_width) <= 0:
+            raise ValueError(f"max_width must be positive, got {max_width!r}")
+        if crop is not None and (crop[2] <= 0 or crop[3] <= 0):
+            raise ValueError(f"crop width and height must be positive, got {crop!r}")
 
         if frame_index is not None:
             target_idx = min(max(0, int(frame_index)), pts_index.frame_count - 1)
@@ -290,8 +355,13 @@ class BoundedVideoService:
         else:
             if t_norm_sec is not None:
                 req_norm = float(t_norm_sec)
+                if not math.isfinite(req_norm):
+                    raise ValueError(f"t_norm_sec must be finite, got {t_norm_sec!r}")
             elif t_ref_sec is not None:
-                req_norm = float(t_ref_sec) if camera == "back" else t_front_from_ref(float(t_ref_sec), timing.global_offset_sec)
+                req_ref = float(t_ref_sec)
+                if not math.isfinite(req_ref):
+                    raise ValueError(f"t_ref_sec must be finite, got {t_ref_sec!r}")
+                req_norm = req_ref if camera == "back" else t_front_from_ref(req_ref, timing.global_offset_sec)
             else:
                 req_norm = 0.0
             clamped = min(max(0.0, req_norm), pts_index.duration_norm_sec)
@@ -357,7 +427,7 @@ class BoundedVideoService:
             new_h = max(1, int(round(frame.shape[0] * scale)))
             frame = cv2.resize(frame, (int(max_width), new_h), interpolation=cv2.INTER_AREA)
 
-        is_png = fmt.lower() == "png"
+        is_png = fmt_low == "png"
         ext = ".png" if is_png else ".jpg"
         encode_params = [int(cv2.IMWRITE_PNG_COMPRESSION), 3] if is_png else [int(cv2.IMWRITE_JPEG_QUALITY), 92]
         ok, buf = cv2.imencode(ext, frame, encode_params)

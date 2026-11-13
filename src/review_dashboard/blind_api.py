@@ -175,6 +175,49 @@ def assert_adjudicator_actor(actor: str) -> str:
     return actor
 
 
+def _parse_window_ref(value: Any) -> tuple[float, float] | None:
+    """Parse canonical 'start..end' timestamp string into finite bounds."""
+    import math
+
+    text = str(value or "").strip()
+    if ".." not in text:
+        return None
+    left, right = text.split("..", 1)
+    try:
+        start = float(left.strip())
+        end = float(right.strip())
+    except ValueError:
+        return None
+    if not (math.isfinite(start) and math.isfinite(end)) or end < start:
+        return None
+    return (start, end)
+
+
+def _violation_windows_disagree(win_a_raw: Any, win_b_raw: Any, *, point_tol_sec: float = 0.15, min_tiou: float = 0.5) -> bool:
+    """Return True when two positive violation temporal windows conflict beyond tolerance."""
+    win_a = _parse_window_ref(win_a_raw)
+    win_b = _parse_window_ref(win_b_raw)
+    if win_a is None and win_b is None:
+        return False
+    if win_a is None or win_b is None:
+        return True
+    sa, ea = win_a
+    sb, eb = win_b
+    len_a = ea - sa
+    len_b = eb - sb
+    if len_a <= 1e-6 or len_b <= 1e-6:
+        # Handle single-frame or point-vs-interval annotations using temporal gap tolerance
+        gap = max(0.0, sb - ea, sa - eb)
+        return gap > point_tol_sec
+    if max(abs(sa - sb), abs(ea - eb)) <= point_tol_sec:
+        return False
+    inter = max(0.0, min(ea, eb) - max(sa, sb))
+    union = (len_a + len_b) - inter
+    if union <= 0.0:
+        return False
+    return (inter / union) < min_tiou
+
+
 def compute_reviewer_disagreements(
     summary_a: dict[str, Any],
     summary_b: dict[str, Any],
@@ -200,6 +243,17 @@ def compute_reviewer_disagreements(
                     "field": field,
                     "reviewer_a": val_a,
                     "reviewer_b": val_b,
+                }
+            )
+    if summary_a.get("binary_violation") is True and summary_b.get("binary_violation") is True:
+        win_a = summary_a.get("violation_window_ref_sec") or ""
+        win_b = summary_b.get("violation_window_ref_sec") or ""
+        if _violation_windows_disagree(win_a, win_b):
+            diffs.append(
+                {
+                    "field": "violation_window_ref_sec",
+                    "reviewer_a": win_a,
+                    "reviewer_b": win_b,
                 }
             )
     return diffs

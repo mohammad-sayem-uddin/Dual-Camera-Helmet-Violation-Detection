@@ -485,12 +485,26 @@ class ReviewStorage:
                 sum_a = rec_a["summary"]
                 sum_b = rec_b["summary"]
                 disagreements = compute_reviewer_disagreements(sum_a, sum_b)
-                if sum_a.get("binary_violation") is not None and sum_b.get("binary_violation") is not None:
-                    a_viol.append(str(sum_a["binary_violation"]))
-                    b_viol.append(str(sum_b["binary_violation"]))
-                if sum_a.get("driver_helmet") and sum_b.get("driver_helmet"):
-                    a_helmet.append(str(sum_a["driver_helmet"]))
-                    b_helmet.append(str(sum_b["driver_helmet"]))
+                if "binary_violation" in sum_a and "binary_violation" in sum_b:
+                    def _bin_viol_label(val: Any) -> str:
+                        if val is True:
+                            return "VIOLATION"
+                        if val is False:
+                            return "NON_VIOLATION"
+                        return "INSUFFICIENT_EVIDENCE"
+
+                    a_viol.append(_bin_viol_label(sum_a.get("binary_violation")))
+                    b_viol.append(_bin_viol_label(sum_b.get("binary_violation")))
+                dh_a = str(sum_a.get("driver_helmet") or "")
+                dh_b = str(sum_b.get("driver_helmet") or "")
+                if dh_a or dh_b:
+                    a_helmet.append(dh_a or "NONE_REPORTED")
+                    b_helmet.append(dh_b or "NONE_REPORTED")
+                ph_a = str(sum_a.get("pillion_helmet") or "")
+                ph_b = str(sum_b.get("pillion_helmet") or "")
+                if ph_a or ph_b:
+                    a_helmet.append(ph_a or "NO_PILLION")
+                    b_helmet.append(ph_b or "NO_PILLION")
                 if sum_a.get("link_status") and sum_b.get("link_status"):
                     a_link.append(str(sum_a["link_status"]))
                     b_link.append(str(sum_b["link_status"]))
@@ -595,7 +609,12 @@ class ReviewStorage:
     ) -> dict[str, Any]:
         """Save or finalize an adjudication decision after both reviewers have submitted."""
         detail = self.get_adjudication_item(workqueue_id)
-        ok, errors, norm = validate_adjudication_payload(decision_payload)
+        raw_item = detail["item"]
+        ok, errors, norm = validate_adjudication_payload(
+            decision_payload,
+            min_t_ref_sec=raw_item["min_t_ref_sec"],
+            max_t_ref_sec=raw_item["max_t_ref_sec"],
+        )
         if not ok:
             raise ValidationFailedError(errors)
 
@@ -703,20 +722,21 @@ class ReviewStorage:
         exports_dir = self.config.exports_dir
         exports_dir.mkdir(parents=True, exist_ok=True)
 
-        # 1. Per-reviewer JSONL
+        # 1. Per-reviewer JSONL (export SUBMITTED records only; never leak unsubmitted drafts)
         for rev in ("reviewer_a", "reviewer_b"):
             lines = [
                 json.dumps(by_key[(raw["workqueue_id"], rev)], sort_keys=True)
                 for raw in self.catalog.raw_items
                 if (raw["workqueue_id"], rev) in by_key
+                and by_key[(raw["workqueue_id"], rev)]["status"] == "SUBMITTED"
             ]
             atomic_write_text(exports_dir / f"annotations_{rev}.jsonl", ("\n".join(lines) + "\n") if lines else "")
 
-        # 2. Adjudicated JSONL
+        # 2. Adjudicated JSONL (export finalized ADJUDICATED rows only)
         adj_lines = []
         for raw in self.catalog.raw_items:
             wid = raw["workqueue_id"]
-            if wid in adj_by_id:
+            if wid in adj_by_id and adj_by_id[wid]["status"] == "ADJUDICATED":
                 row = adj_by_id[wid]
                 adj_lines.append(
                     json.dumps(
@@ -744,6 +764,7 @@ class ReviewStorage:
             base_rows = list(reader)
 
         executed_units = 0
+        adjudicated_disagreement_count = 0
         for row in base_rows:
             wid = row["workqueue_id"]
             rec_a = by_key.get((wid, "reviewer_a"))
@@ -779,6 +800,16 @@ class ReviewStorage:
                 row["adjudicator_plate_text_normalized"] = str(dec["final_plate_text_normalized"])
                 row["review_status"] = "ADJUDICATED_COMPLETE"
                 executed_units += 1
+                diffs_here = (
+                    compute_reviewer_disagreements(rec_a["summary"], rec_b["summary"])  # type: ignore[index]
+                    if (a_sub and b_sub)
+                    else []
+                )
+                stored_diffs = json.loads(adj_raw["disagreements_json"])
+                if diffs_here or stored_diffs:
+                    adjudicated_disagreement_count += 1
+            elif adj_raw and adj_raw["status"] == "UNRESOLVED":
+                row["review_status"] = "PENDING_HUMAN_REVIEW"
             elif a_sub and b_sub:
                 diffs = compute_reviewer_disagreements(rec_a["summary"], rec_b["summary"])  # type: ignore[index]
                 row["review_status"] = "AB_AGREED" if not diffs else "PENDING_HUMAN_REVIEW"
@@ -812,12 +843,22 @@ class ReviewStorage:
 
         total_items = len(self.catalog.raw_items)
         pending_units = max(0, total_items - executed_units)
-        all_adjudicated = (
-            overview["counts"]["adjudicated"] == total_items and overview["counts"]["unresolved"] == 0
+        counts = overview["counts"]
+        has_any_submission_or_adj = any(
+            counts[k] > 0
+            for k in ("a_only", "b_only", "ready_agreed", "ready_disagreed", "adjudicated", "unresolved")
         )
-        if executed_units == 0 and overview["counts"]["a_only"] == 0 and overview["counts"]["b_only"] == 0:
+        all_complete = (
+            executed_units == total_items
+            and counts["ready_disagreed"] == 0
+            and counts["unresolved"] == 0
+            and counts["a_only"] == 0
+            and counts["b_only"] == 0
+            and counts["pending"] == 0
+        )
+        if not has_any_submission_or_adj:
             hv_status = "PENDING_HUMAN_REVIEW"
-        elif all_adjudicated:
+        elif all_complete:
             hv_status = "COMPLETE_ADJUDICATED"
         else:
             hv_status = "IN_PROGRESS"
@@ -825,7 +866,7 @@ class ReviewStorage:
         iaa = overview["inter_annotator_agreement"]
         meta_snapshot = dict(base_meta)
         meta_snapshot["human_verification_status"] = hv_status
-        meta_snapshot["human_verified"] = bool(all_adjudicated)
+        meta_snapshot["human_verified"] = bool(all_complete)
         meta_snapshot["executed_human_units"] = executed_units
         meta_snapshot["pending_human_units"] = pending_units
         meta_snapshot["fabricated_labels_present"] = False
@@ -835,7 +876,7 @@ class ReviewStorage:
                 "cohens_kappa_binary_violation": iaa["binary_violation"]["kappa"],
                 "cohens_kappa_rider_helmet": iaa["rider_helmet"]["kappa"],
                 "cohens_kappa_cross_camera_link": iaa["cross_camera_link"]["kappa"],
-                "adjudicated_disagreement_count": overview["counts"]["adjudicated"],
+                "adjudicated_disagreement_count": adjudicated_disagreement_count,
             }.items() if v is not None
         } or None
 
@@ -884,7 +925,9 @@ class ReviewStorage:
         ext: str = "jpg",
     ) -> dict[str, Any]:
         """Store a reviewer-captured frame snapshot exclusively inside that reviewer's directory."""
-        stamp = datetime.now(timezone.utc).strftime("%Y%m%dT%H%M%SZ")
+        import uuid
+
+        stamp = f"{datetime.now(timezone.utc).strftime('%Y%m%dT%H%M%S_%f')}_{uuid.uuid4().hex[:4]}Z"
         safe_ext = "png" if ext.lower() == "png" else "jpg"
         snap_id = f"{workqueue_id}_{camera}_f{frame_index}_{stamp}"
         filename = f"{snap_id}.{safe_ext}"
