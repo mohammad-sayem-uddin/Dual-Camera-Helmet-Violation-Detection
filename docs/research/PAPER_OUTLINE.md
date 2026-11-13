@@ -4,6 +4,8 @@
 **Target Venue:** IEEE Transactions on Intelligent Transportation Systems (T-ITS) / Pattern Recognition / IEEE Access  
 **Working Draft Outline:** November 2026  
 
+> **Historical Note:** This Phase 10 outline predates Phases 11–12 (`TASK-04`..`TASK-12`). For the complete, verified end-to-end manuscript covering the final dual-camera framework, statistical synthesis, and final ablations, see [`docs/paper/RESEARCH_MANUSCRIPT_DRAFT.md`](../paper/RESEARCH_MANUSCRIPT_DRAFT.md).
+
 ---
 
 ## Abstract Outline

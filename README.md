@@ -1,143 +1,97 @@
-# Dual-Camera Helmet Violation Detection
+# Dual-Camera Context-Aware Motorcycle Helmet Violation Detection
 
-[![Python 3.10+](https://img.shields.io/badge/Python-3.10%2B-blue.svg)](https://www.python.org/)
-[![PyTorch](https://img.shields.io/badge/PyTorch-2.0%2B-red.svg)](https://pytorch.org/)
+[![Python 3.11](https://img.shields.io/badge/Python-3.11-blue.svg)](https://www.python.org/)
+[![PyTorch](https://img.shields.io/badge/PyTorch-2.14%2B-red.svg)](https://pytorch.org/)
 [![Ultralytics YOLOv8](https://img.shields.io/badge/Ultralytics-YOLOv8-blueviolet.svg)](https://ultralytics.com/)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
-[![Reproducibility: Deterministic](https://img.shields.io/badge/Reproducibility-Multi--Seed%20(42,%20123,%202026)-green.svg)]()
+[![Checksums Verified](https://img.shields.io/badge/Checksums-SHA--256%20Verified-green.svg)](docs/phase12/ANNOTATION_RELEASE_ACCEPTANCE_AND_PROVENANCE.md)
 
-An integrated, context-aware computer vision framework investigating **motorcycle helmet violation detection across heterogeneous camera domains** (fixed-angle overhead CCTV vs. mobile street-level views) with **downstream confidence-aware temporal verification**.
+An integrated, engineering-audited **dual-camera computer vision framework** for roadside motorcycle helmet violation detection, combining cross-domain sequence-isolated YOLOv8 detection, PTS-accurate container synchronization, hierarchical motorcycle–rider tracking (`GAP-C`), protected-anchor keyframe retention and coordinate-scaled appearance association (`GAP-B` / `TASK-10`), and Beta-smoothed Bayesian log-odds belief fusion with explicit conflict abstention (`TASK-11` / `TASK-12`).
 
----
-
-## 1. Research Motivation & Core Problems
-
-Automated vision-based motorcycle helmet violation enforcement is a critical Intelligent Transportation System (ITS) intervention for reducing urban traffic fatalities. However, deploying computer vision models in real roadside surveillance reveals two fundamental scientific bottlenecks:
-
-### 1.1 Catastrophic Cross-Domain Collapse
-Detectors trained exclusively on high-resolution, multi-angle mobile street photography experience catastrophic failure when evaluated on low-resolution, overhead CCTV surveillance ($\text{mAP}@0.50$ plummets from $96.15\%$ down to $8.08\%$, an $88\text{ pp}$ drop). Conversely, models trained solely on fixed-angle CCTV fail to generalize across diverse viewing angles and complex urban lighting.
-
-### 1.2 Temporal Classification Jitter & False Alert Cascades
-Single-frame object detectors evaluate each video frame independently. A single misclassified frame—caused by temporary motion blur, visor reflections, or severe head angles—triggers immediate false roadside violation citations in naïve systems. Falsely penalizing compliant citizens destroys public trust and creates severe administrative liabilities.
+> **Canonical Ground Truth Policy (`v1.0` Accepted Reference vs. `v1.1` Preserved Protocol):**
+> Dual-camera real-video experiments are evaluated against the cryptographically frozen release [`dual_camera_gt_v1.0_ai_assisted_audited`](data/dual_camera_test_v1/releases/dual_camera_gt_v1.0_ai_assisted_audited/README.md) (`AI_ASSISTED_AUDITED`, `human_verified = false`, `70` global physical passes across `25` video pairs). Per Principal Investigator directive, the blind human review queue [`dual_camera_gt_v1.1_blind_human`](data/dual_camera_test_v1/releases/dual_camera_gt_v1.1_blind_human/README.md) (`PENDING_HUMAN_REVIEW`, `0 / 92` completed human units) is preserved untouched without fabrication. See [`ANNOTATION_RELEASE_ACCEPTANCE_AND_PROVENANCE.md`](docs/phase12/ANNOTATION_RELEASE_ACCEPTANCE_AND_PROVENANCE.md) and [`FINAL_RESEARCH_LIMITATIONS.md`](docs/phase12/FINAL_RESEARCH_LIMITATIONS.md).
 
 ---
 
-## 2. System Architecture & Methodology
+## 1. End-to-End Architecture
 
 ```mermaid
-flowchart TD
-    subgraph Data["1. Multi-Domain Sequence-Isolated Corpus"]
-        D1["Fixed-Angle CCTV (5,547 imgs / 169 seqs)"]
-        D2["Audited Mobile Street (1,841 imgs / 3 audit passes)"]
-        D1 & D2 --> D3["Unified Combined Corpus (5,151 train / 1,128 val / 1,109 test)"]
-    end
-
-    subgraph Detector["2. Deep Object Detector (YOLOv8n)"]
-        D3 --> Y["YOLOv8n (AdamW, imgsz=640, lr=0.001667)"]
-        Y --> CK["Frozen Checkpoints (Seeds 42, 123, 2026)"]
-    end
-
-    subgraph Temporal["3. Downstream Temporal Verification Framework"]
-        CK --> TR["Spatial IoU RiderTracker"]
-        TR --> AG["Confidence Aggregator (Voting / Weighted / EMA)"]
-        AG --> SM["6-State Finite State Machine (UNKNOWN, SUSPECTED, CONFIRMED)"]
-        SM --> HY["Dual-Threshold Hysteresis (tau_confirm=0.70, tau_clear=0.40)"]
-        HY --> AL["Authoritative Violation Alert Dispatcher"]
-    end
+flowchart LR
+    V["Front + Back Videos (25 Pairs, 50 Streams)"] --> S["Phase 12C PTS Indexer (FramePTSIndex)"]
+    S --> D["Dual YOLOv8n + Seed-42 EXP-COMBINED"]
+    D --> T["MotoRiderCoupler + GAP-C Kinematics & Role Consensus"]
+    T --> P10["Phase 10 EMA + 6-State FSM + HelmetEvidenceAccumulator"]
+    D --> KF["TASK-06A Protected-Anchor Keyframe Cache (<= 24 frames)"]
+    P10 --> ASSOC["Phase 12E 4/5-Cue Bipartite Assoc (Cues A,B,C,E)"]
+    KF --> ASSOC
+    ASSOC --> FUS["TASK-11 Bayesian Log-Odds Fusion & Conflict Gate"]
+    FUS --> EV["Violation Events & Quarantine Diagnostics"]
 ```
 
----
-
-## 3. Dataset Integrity & Zero-Leakage Protocol
-
-To ensure publication-grade scientific validity, the framework utilizes two strictly partitioned datasets:
-
-| Population | Source Domain | Total Images | Train | Validation | Test | Quality Audit & Isolation Protocol |
-| :--- | :--- | :---: | :---: | :---: | :---: | :--- |
-| **Old CCTV** | Overhead Infrastructure CCTV | 5,547 | 3,866 | 852 | 829 | 169 atomic video sequences isolated; **0.0% sequence leakage** |
-| **New Mobile** | Handheld & Street Photography | 1,841 | 1,285 | 276 | 280 | 3-pass forensic audit; 392 box corrections, 28 label inversions fixed |
-| **Combined** | Multi-Domain Union | 7,388 | 5,151 | 1,128 | 1,109 | Unified leak-free cross-domain benchmark |
+For mathematical formulations, subsystem APIs, and YAML configuration bindings, see [`docs/phase12/FINAL_SYSTEM_ARCHITECTURE.md`](docs/phase12/FINAL_SYSTEM_ARCHITECTURE.md).
 
 ---
 
-## 4. Benchmark Performance & Evaluation
+## 2. Core Quantitative Results (All Verified Offline & Real-Video Replay)
 
-All models are independently evaluated across three separate held-out test populations (audited values from Phase 8):
+### 2.1 Cross-Domain Detector Generalization & 3-Seed Stability (Phases 8–9)
+- **Catastrophic Domain Collapse Avoided:** Mobile-only training (`EXP-NEW`, 3 seeds `42, 123, 2026`) collapses on held-out overhead CCTV (`mAP@0.50 = 0.1164 ± 0.0419`, recall `0.1386 ± 0.0336`). Multi-domain union training (`EXP-COMBINED`, `5,151` train / `1,128` val / `1,109` test) recovers overhead CCTV to **`mAP@0.50 = 0.7595 ± 0.0090`** (`+64.31 pp`, Cohen's $d = +19.55$), exceeds CCTV-only baseline `EXP-002-FIXED` (`0.6694 -> 0.7517` on seed 42), and preserves mobile test performance (`0.9601 ± 0.0015` vs. `0.9609 ± 0.0029`, $\Delta = -0.0008$).
 
-| Experiment | Training Population | New Mobile Test (280) mAP@0.50 | Old CCTV Test (829) mAP@0.50 | Combined Test (1,109) mAP@0.50 | Overall F1-Score | Status |
-| :--- | :--- | :---: | :---: | :---: | :---: | :---: |
-| **EXP-002-FIXED** | CCTV Only | — | 66.94% | — | 73.28% | Sequence-Isolated Baseline |
-| **EXP-NEW** | Mobile Only | **96.15%** | 8.08% *(Collapse)* | 39.47% | 48.56% | Severe Domain Collapse |
-| **EXP-COMBINED** | Multi-Domain Union | **96.02%** | **75.17%** | **84.37%** | **80.99%** | **Superior Across All Domains** |
+### 2.2 Temporal Verification & Track Evidence Redesign (Phase 10 & TASK-04)
+- **Zero False-Positive Burst Citations:** On `21` synthetic benchmark runs (`simple_voting`, `confidence_weighted`, `ema` across `7` scenarios), all aggregators achieve `Precision = 1.00, Recall = 1.00, False Alerts = 0` with `5`-frame (`0.167 s` at 30 fps) confirmation latency.
+- **Resolving `WINDOW_FLUSH_ZERO_MASS` Track Abstentions (`TASK-04`):** `HelmetEvidenceAccumulator` (`conf_weighted`) raises agreement on all `209` decided eligible GT rider tracks from **`0.6411` (`134/209`, `73` `UNCERTAIN`)** to **`0.9904` (`207/209`, `0` abstentions)** and **`1.0000` (`85/85`)** on single-observation $K=1$ tracks without changing any online alerts (`0 / 85` regressions).
 
-### Key Research Insights:
-1. **Domain Collapse Resolution:** EXP-COMBINED recovers cross-domain CCTV performance from $8.08\%$ to **$75.17\%$** ($+67.09\text{ pp}$), while strictly outperforming the CCTV-only baseline by **$+8.23\text{ pp}$** ($75.17\%$ vs $66.94\%$).
-2. **Zero In-Domain Degradation:** EXP-COMBINED preserves mobile street accuracy at **$96.02\%$** (within $0.13\text{ pp}$ of the specialized model).
-
----
-
-## 5. Confidence-Aware Temporal Verification Framework
-
-The Phase 10 temporal verification pipeline resolves single-frame classification jitter:
-- **6-State FSM:** `UNKNOWN` $\to$ `HELMET_CONFIRMED` $\to$ `NO_HELMET_SUSPECTED` $\to$ `NO_HELMET_CONFIRMED` $\to$ `TEMPORARILY_OCCLUDED` $\to$ `TRACK_LOST`.
-- **Hysteresis Thresholds:** Confirmation requires $\ge 0.70$ confidence sustained across $N_{confirm} \ge 5$ frames ($167\text{ ms}$). De-escalation strictly requires confidence $< 0.40$.
-- **Aggregators:** Evaluates Simple Voting, Confidence-Weighted Aggregation, and Exponential Moving Average (EMA).
-- **False Alert Suppression:** Demonstrated **100% suppression** of spurious 2-frame false positive violation bursts on compliant helmeted riders.
+### 2.3 Dual-Camera Tracking (`GAP-C`), Keyframes (`GAP-B`/`TASK-10`), Fusion (`TASK-11`) & `tIoU` (`TASK-12`)
+- **PTS Container Synchronization (`Phase 12C`):** Eliminates up to `2,870.00 ms` `CAP_PROP_POS_FRAMES` random-seek VFR error (`pair_013_back.mp4`); sequential `CAP_PROP_POS_MSEC` matches `ffprobe` rational PTS within `0.000000 ms` across all `50 / 50` videos.
+- **Protected Keyframes & Coordinate Scaling (`TASK-06/06A`, `TASK-10`):** Within a hard `24`-frame memory cap, keyframe descriptor availability across real-video tracks increases from `6 / 75` (`8.0%`) in pre-GAP-B Stage J to **`55 / 55` (`100.0%`)** in both `720p` and `4K`, with `0.9971` mean `720p vs 4K` self-similarity (`9 / 9` PNG examples recovered). However, raw HSV histograms exhibit overlapping opposing-view discrimination (`0.7223` positive vs. `0.6641` negative), causing one `+0.0003` borderline false link (`pair_005` in 4K).
+- **Hierarchical Rider Tracking (`GAP-C`):** Motorcycle-anchored kinematics, conflict unlocking, longitudinal role consensus, and orphan lifecycle gating raise back-camera coupled head retention from **`28.69%` to `91.66%`** (`28.69% -> 91.66%`; combined `66.61% -> 94.50%`), cut abstained updates by `92.2%` (`2,943 -> 230`), eliminate `660` out-of-bounds boxes, keep role mismatches at `0`, and remove all `56` 1-hit orphan clutter exports.
+- **Dual-Camera Fusion vs. Single Camera (`TASK-11`):** On `70` physical motorcycle passes (`40` violations, `46` decided passes), `A4_DUAL_FUSED_SPLIT` achieves **`97.14%` (`68/70`)** physical pass coverage (vs. `60.00%` front-only, $p = 5.77 \times 10^{-8}$ back / $2.16 \times 10^{-7}$ front exact McNemar) and **`82.50%` (`33/40`)** binary violation recall (vs. `60.00%` front-only, $p = 0.0117$, and `45.00%` back-only, $p = 6.10 \times 10^{-5}$), resolving all `3/3` Stage J $K=1$ vetos and quarantining cross-view contradictions (`K >= 0.35`, e.g., `pair_015`). Under strict `v1.0` schema (`N=70`), fixed point-interval `tIoU` (`TASK-12`) recovers Stage K event F1 from **`0.8258` (`64 TP`)** to **`0.8516` (`66 TP`)**.
 
 ---
 
-## 6. Installation & Reproduction
+## 3. Quick Start & Full Reproduction
 
-### 6.1 Setup Local Environment
+> [!IMPORTANT]
+> On Apple Silicon local setups, any legacy `.venv/` missing `torch.torch_version` should not be used; verified reproduction uses `/opt/homebrew/opt/python@3.11/bin/python3.11` (Python `3.11.15`) and `node v26.9.0`. See [`docs/REPRODUCIBILITY_GUIDE.md`](docs/REPRODUCIBILITY_GUIDE.md).
+
 ```bash
-git clone https://github.com/mohammad-sayem-uddin/Dual-Camera-Helmet-Violation-Detection.git
-cd Dual-Camera-Helmet-Violation-Detection
+# Run complete non-destructive CPU verification suite (checksums, Stage K, GAP-B, GAP-C, TASK-10..12, JS check, full pytest)
+bash scripts/reproducibility/run_full_research_reproduction.sh /tmp/research_repro_run
 
-python3 -m venv .venv
-source .venv/bin/activate
-pip install ultralytics torch torchvision pyyaml pandas numpy pillow matplotlib seaborn
-```
+# Run full pytest regression suite directly
+/opt/homebrew/opt/python@3.11/bin/python3.11 -m pytest -q tests/
 
-### 6.2 Run Automated Test Suite
-```bash
-# Execute all temporal verification unit tests
-python3 -m unittest discover -s tests/temporal -p "test_*.py" -v
-```
-
-### 6.3 Run Interactive Demonstration
-```bash
-# Demonstrate violation detection and hysteresis gating
-python3 scripts/demo_temporal_verification.py --scenario stable_violation
-
-# Demonstrate false positive noise burst suppression
-python3 scripts/demo_temporal_verification.py --scenario fp_burst_on_compliant
-
-# Run full 21-experiment benchmark across all aggregators
-python3 scripts/demo_temporal_verification.py --export-benchmark
+# Run single dual-camera pair in Bayesian dual-fusion mode
+PYTHONPATH=. /opt/homebrew/opt/python@3.11/bin/python3.11 src/pipeline/dual_camera_pipeline.py \
+  --pair-id pair_019 --fusion-mode dual_fused --device mps --output-dir /tmp/pair_019_dual
 ```
 
 ---
 
-## 7. Project Documentation Index
+## 4. Complete Documentation & Artifact Index
 
-- [`docs/phase10/PHASE10_SYSTEM_DESIGN.md`](docs/phase10/PHASE10_SYSTEM_DESIGN.md): Architectural specification of the temporal state machine, aggregators, and tracker.
-- [`docs/phase10/NEXT_EXPERIMENTS_AND_ABLATIONS.md`](docs/phase10/NEXT_EXPERIMENTS_AND_ABLATIONS.md): Future controlled ablation studies and sensitivity protocols.
-- [`docs/REPRODUCIBILITY_GUIDE.md`](docs/REPRODUCIBILITY_GUIDE.md): End-to-end instructions for dataset preparation, Kaggle execution, and evaluation.
-- [`docs/research/PAPER_OUTLINE.md`](docs/research/PAPER_OUTLINE.md): Preliminary research manuscript outline for IEEE submission.
-- [`results/phase8_independent_audit/PHASE8_INDEPENDENT_EVALUATION_AUDIT.md`](results/phase8_independent_audit/PHASE8_INDEPENDENT_EVALUATION_AUDIT.md): Bit-exact independent evaluation and metric reconciliation report.
-- [`results/phase10_temporal/PHASE10_TEMPORAL_VERIFICATION_REPORT.md`](results/phase10_temporal/PHASE10_TEMPORAL_VERIFICATION_REPORT.md): Comprehensive validation report for temporal verification.
+| Document | Scope |
+|---|---|
+| [`docs/phase12/FINAL_SYSTEM_ARCHITECTURE.md`](docs/phase12/FINAL_SYSTEM_ARCHITECTURE.md) | Integrated multi-layer architecture, equations, Mermaid workflows, and module bindings |
+| [`docs/phase12/FINAL_EXPERIMENTAL_METHODOLOGY.md`](docs/phase12/FINAL_EXPERIMENTAL_METHODOLOGY.md) | Dataset partitioning, multi-seed protocol, synchronization forensics, and ablation designs |
+| [`docs/phase12/FINAL_EXPERIMENTAL_RESULTS.md`](docs/phase12/FINAL_EXPERIMENTAL_RESULTS.md) | Reconciled tables, 95% Wilson/bootstrap CIs, exact McNemar tests, and forensic case studies |
+| [`docs/phase12/FINAL_RESEARCH_LIMITATIONS.md`](docs/phase12/FINAL_RESEARCH_LIMITATIONS.md) | Exhaustive validity boundaries, `v1.0` circularity, `0/92` `v1.1` status, and failure modes |
+| [`docs/phase12/ANNOTATION_RELEASE_ACCEPTANCE_AND_PROVENANCE.md`](docs/phase12/ANNOTATION_RELEASE_ACCEPTANCE_AND_PROVENANCE.md) | SHA-256 verification and formal `v1.0` acceptance / `v1.1` preservation audit |
+| [`docs/phase12/FINAL_PROJECT_COMPLETION_AUDIT.md`](docs/phase12/FINAL_PROJECT_COMPLETION_AUDIT.md) | Engineering audit and Defect `D1–D6` remediation register |
+| [`docs/REPRODUCIBILITY_GUIDE.md`](docs/REPRODUCIBILITY_GUIDE.md) | Environment setup, CLI flags, reproduction runner, and excluded heavy GPU stages |
+| [`docs/paper/RESEARCH_MANUSCRIPT_DRAFT.md`](docs/paper/RESEARCH_MANUSCRIPT_DRAFT.md) | Complete publication-ready academic manuscript draft |
 
 ---
 
-## 8. License & Research Attribution
+## 5. License & Citation
 
-This project is licensed under the MIT License. If you utilize this dataset, splitting methodology, or temporal verification framework in your research, please cite:
+Released under the [MIT License](LICENSE). If you use this codebase, audit methodology, or dual-camera synchronization/fusion design, cite:
 
 ```bibtex
 @article{uddin2026dualcamera,
   title={An Integrated Dual-Camera Framework for Context-Aware Motorcycle Helmet Violation Detection with Confidence-Aware Temporal Verification},
   author={Uddin, Mohammad Sayem and collaborators},
-  journal={Working Paper},
+  journal={Working Manuscript (Repository Technical Release)},
   year={2026}
 }
 ```
