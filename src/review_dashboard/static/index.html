@@ -1,0 +1,694 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Blind Human GT v1.1 Review Dashboard</title>
+  <link rel="stylesheet" href="/styles.css" />
+</head>
+<body>
+  <div id="app-shell" class="app-shell">
+    <!-- Top Header -->
+    <header class="topbar">
+      <div class="topbar-left">
+        <div class="brand">
+          <span class="brand-badge">v1.1 BLIND HUMAN GT</span>
+          <h1>Dual-Camera Helmet Violation Review</h1>
+        </div>
+        <span class="blind-pill" id="blind-pill" title="No AI predictions, v1.0 GT, or peer annotations exposed">
+          BLIND MODE ACTIVE · ZERO AI/PEER LEAK
+        </span>
+      </div>
+
+      <div class="topbar-right">
+        <div class="save-indicator" id="save-indicator">Idle</div>
+        <div class="actor-control" title="Local workstation role selector (not cryptographic auth)">
+          <label for="actor-select">Session Profile:</label>
+          <select id="actor-select" aria-label="Active session role">
+            <option value="">-- Select Role --</option>
+            <option value="reviewer_a">Reviewer A (Blind)</option>
+            <option value="reviewer_b">Reviewer B (Blind)</option>
+            <option value="adjudicator">Adjudicator (Restricted)</option>
+          </select>
+        </div>
+        <button id="btn-backup" class="btn btn-secondary btn-sm" title="Create timestamped SQLite backup snapshot">
+          Backup DB
+        </button>
+      </div>
+    </header>
+
+    <!-- Local-only Auth Disclaimer Bar -->
+    <div class="session-banner">
+      <span>
+        <strong>Local Research Session Mode:</strong> Profile selector isolates Reviewer A and Reviewer B workspaces locally on this workstation (no external/cryptographic login). Source videos and frozen v1.0 GT remain untouched.
+      </span>
+      <span id="health-meta" class="mono small">Checking server...</span>
+    </div>
+
+    <div class="workspace-body">
+      <!-- Left Navigation -->
+      <aside class="sidebar">
+        <nav class="nav-list" aria-label="Primary Navigation">
+          <button class="nav-btn active" data-view="overview">Overview</button>
+          <button class="nav-btn" data-view="queue">Annotation Queue</button>
+          <button class="nav-btn" data-view="review">Video Review</button>
+          <button class="nav-btn" data-view="history">My Annotations & History</button>
+          <button class="nav-btn" data-view="adjudication" id="nav-adjudication">
+            Adjudication <span class="badge-lock" id="adj-lock-tag">Restricted</span>
+          </button>
+          <button class="nav-btn" data-view="help">Help & Shortcuts</button>
+        </nav>
+
+        <div class="sidebar-card" id="sidebar-progress-card">
+          <h3>My Progress</h3>
+          <div class="progress-bar-track"><div class="progress-bar-fill" id="sidebar-progress-fill"></div></div>
+          <div class="stat-grid" id="sidebar-stats">
+            <div><span class="stat-label">Submitted</span><strong id="stat-submitted">0</strong></div>
+            <div><span class="stat-label">Drafts</span><strong id="stat-draft">0</strong></div>
+            <div><span class="stat-label">Pending</span><strong id="stat-pending">92</strong></div>
+            <div><span class="stat-label">Total</span><strong id="stat-total">92</strong></div>
+          </div>
+          <button id="btn-resume-sidebar" class="btn btn-primary btn-block btn-sm">Resume Work</button>
+        </div>
+      </aside>
+
+      <!-- Main Content Container -->
+      <main class="main-content" id="main-content">
+        <!-- Empty / Select Role Prompt -->
+        <section id="view-no-actor" class="view-panel">
+          <div class="card hero-card">
+            <h2>Select Your Independent Workspace Profile</h2>
+            <p>
+              To guarantee strict blinding between independent reviewers, please select your workstation role before viewing items or annotating:
+            </p>
+            <div class="role-cards">
+              <button class="role-choice-card" data-choose-actor="reviewer_a">
+                <h3>Reviewer A</h3>
+                <p>Independent blind dual-camera annotator workspace (92 queued items, 25 video pairs).</p>
+              </button>
+              <button class="role-choice-card" data-choose-actor="reviewer_b">
+                <h3>Reviewer B</h3>
+                <p>Completely isolated blind annotator workspace. Cannot view Reviewer A drafts or submissions.</p>
+              </button>
+              <button class="role-choice-card restricted" data-choose-actor="adjudicator">
+                <h3>Adjudication Coordinator</h3>
+                <p>Post-submission disagreement resolution & agreement audit. Items unlock only after both A and B submit.</p>
+              </button>
+            </div>
+          </div>
+        </section>
+
+        <!-- OVERVIEW VIEW -->
+        <section id="view-overview" class="view-panel hidden">
+          <div class="section-header">
+            <div>
+              <h2>Reviewer Overview</h2>
+              <p class="muted" id="overview-subtitle">Independent blind dual-camera annotation workbench</p>
+            </div>
+            <div class="header-actions">
+              <button id="btn-overview-resume" class="btn btn-primary">Resume Last / Next Item</button>
+              <button id="btn-export-mine" class="btn btn-secondary">Export My Annotations (JSON)</button>
+            </div>
+          </div>
+
+          <div class="kpi-row">
+            <div class="card kpi-card"><div class="kpi-label">Queue Items</div><div class="kpi-val" id="ov-total">92</div></div>
+            <div class="card kpi-card"><div class="kpi-label">Submitted (Locked)</div><div class="kpi-val green" id="ov-sub">0</div></div>
+            <div class="card kpi-card"><div class="kpi-label">Saved Drafts</div><div class="kpi-val amber" id="ov-draft">0</div></div>
+            <div class="card kpi-card"><div class="kpi-label">Not Started</div><div class="kpi-val" id="ov-pend">92</div></div>
+          </div>
+
+          <div class="two-col">
+            <div class="card">
+              <h3>Blindness & Protocol Guarantees</h3>
+              <ul class="clean-list">
+                <li><strong>No AI Leakage:</strong> YOLO, ResNet, OCR, association scores, tracking IDs, and v1.0 annotations are never loaded or exposed.</li>
+                <li><strong>Peer Isolation:</strong> Reviewer A and Reviewer B records live in strict role-scoped storage and APIs.</li>
+                <li><strong>Synchronized Reference Clock:</strong> <code class="mono">t_ref = front_pts_norm + global_offset_sec</code> with Back camera as reference timeline.</li>
+                <li><strong>1-Frame Point Events Supported:</strong> Both temporal windows <code class="mono">[t1, t2]</code> and point events <code class="mono">[t, t]</code> are valid.</li>
+                <li><strong>Resumable Drafts & Atomic Saves:</strong> Draft changes autosave locally and to SQLite WAL; submissions are immutable with SHA-256 checksums.</li>
+              </ul>
+            </div>
+
+            <div class="card">
+              <h3>25 Dual-Camera Video Pairs</h3>
+              <div id="pairs-summary-list" class="pair-chips-grid"></div>
+            </div>
+          </div>
+        </section>
+
+        <!-- QUEUE VIEW -->
+        <section id="view-queue" class="view-panel hidden">
+          <div class="section-header">
+            <div>
+              <h2>Blind Annotation Workqueue (92 Items / 25 Pairs)</h2>
+              <p class="muted">Filter by video pair, review progress, camera scope, or sampling bucket.</p>
+            </div>
+          </div>
+
+          <div class="card filters-bar">
+            <input type="text" id="q-search" placeholder="Search WQ_001 or pair_012..." />
+            <select id="q-pair-filter"><option value="">All 25 Pairs</option></select>
+            <select id="q-status-filter">
+              <option value="ALL">All My Statuses</option>
+              <option value="NOT_STARTED">Not Started</option>
+              <option value="DRAFT">Draft In Progress</option>
+              <option value="SUBMITTED">Submitted (Locked)</option>
+            </select>
+            <select id="q-scope-filter">
+              <option value="ALL">All Camera Scopes</option>
+              <option value="DUAL_VIEW_WINDOW">Dual-View Window</option>
+              <option value="FRONT_WINDOW">Front Window</option>
+              <option value="BACK_WINDOW">Back Window</option>
+            </select>
+            <select id="q-bucket-filter">
+              <option value="ALL">All Sampling Buckets</option>
+              <option value="STRATUM_1">Stratum 1</option>
+              <option value="STRATUM_2">Stratum 2</option>
+              <option value="STRATUM_3">Stratum 3</option>
+            </select>
+          </div>
+
+          <div class="card table-wrap">
+            <table class="data-table">
+              <thead>
+                <tr>
+                  <th>Item ID</th>
+                  <th>Pair</th>
+                  <th>Transit #</th>
+                  <th>Scope</th>
+                  <th>Sync Offset</th>
+                  <th>Front / Back Transit Hint (s)</th>
+                  <th>My Status</th>
+                  <th>Updated</th>
+                  <th>Action</th>
+                </tr>
+              </thead>
+              <tbody id="queue-table-body"></tbody>
+            </table>
+          </div>
+        </section>
+
+        <!-- VIDEO REVIEW WORKBENCH -->
+        <section id="view-review" class="view-panel hidden">
+          <div id="review-empty-notice" class="card">
+            <p>Select an item from the <strong>Annotation Queue</strong> or click <strong>Resume Work</strong> to start annotating.</p>
+          </div>
+
+          <div id="review-workbench" class="review-workbench hidden">
+            <!-- Item Header Strip -->
+            <div class="card item-strip">
+              <div class="item-strip-left">
+                <button id="btn-prev-item" class="btn btn-secondary btn-sm" title="Previous workqueue item">← Prev</button>
+                <span class="item-id-badge mono" id="rv-wq-id">WQ_001</span>
+                <span class="pair-badge mono" id="rv-pair-id">pair_001</span>
+                <span class="scope-badge" id="rv-scope">FRONT_WINDOW</span>
+                <span class="status-pill" id="rv-status-pill">NOT_STARTED</span>
+                <span class="hint-pill mono" id="rv-hints-pill" title="Target temporal window within pair">Hint: --</span>
+              </div>
+              <div class="item-strip-right">
+                <label class="toggle-inline" title="Switch to lightweight 720p H.264 browser proxy if 4K/HEVC decoding is sluggish">
+                  <input type="checkbox" id="chk-proxy-mode" />
+                  <span>Smooth Proxy (720p H.264)</span>
+                </label>
+                <select id="layout-select" aria-label="Camera layout mode" class="select-sm">
+                  <option value="side">Side-by-Side (Front + Back)</option>
+                  <option value="front">Focus Front</option>
+                  <option value="back">Focus Back</option>
+                </select>
+                <button id="btn-next-item" class="btn btn-secondary btn-sm" title="Next workqueue item">Next →</button>
+              </div>
+            </div>
+
+            <!-- Dual Video Stage + Sync Timeline -->
+            <div class="review-grid">
+              <div class="video-column">
+                <div class="dual-video-grid layout-side" id="dual-video-grid">
+                  <!-- FRONT CAMERA -->
+                  <div class="cam-panel" id="panel-front">
+                    <div class="cam-header">
+                      <span><strong>FRONT CAMERA</strong> <small class="mono" id="meta-front-pts">PTS: -- | F: --</small></span>
+                      <div class="zoom-toolbar">
+                        <span class="zoom-label mono" id="zoom-front-label">1.0x</span>
+                        <button class="btn btn-xs btn-secondary" data-zoom-cam="front" data-zoom-delta="0.5">+</button>
+                        <button class="btn btn-xs btn-secondary" data-zoom-cam="front" data-zoom-delta="-0.5">-</button>
+                        <button class="btn btn-xs btn-secondary" data-zoom-reset="front">Reset</button>
+                        <button class="btn btn-xs btn-secondary" data-inspect-cam="front" title="Open PTS-exact full resolution inspection frame">4K Inspect</button>
+                        <button class="btn btn-xs btn-secondary" data-snap-cam="front" title="Save keyframe snapshot image">Snap</button>
+                      </div>
+                    </div>
+                    <div class="video-viewport" id="viewport-front" data-cam="front">
+                      <video id="video-front" preload="metadata" playsinline muted></video>
+                      <div class="out-of-range-overlay hidden" id="oob-front">FRONT CAMERA OUTSIDE RANGE</div>
+                    </div>
+                  </div>
+
+                  <!-- BACK CAMERA -->
+                  <div class="cam-panel" id="panel-back">
+                    <div class="cam-header">
+                      <span><strong>BACK CAMERA (Reference)</strong> <small class="mono" id="meta-back-pts">PTS: -- | F: --</small></span>
+                      <div class="zoom-toolbar">
+                        <span class="zoom-label mono" id="zoom-back-label">1.0x</span>
+                        <button class="btn btn-xs btn-secondary" data-zoom-cam="back" data-zoom-delta="0.5">+</button>
+                        <button class="btn btn-xs btn-secondary" data-zoom-cam="back" data-zoom-delta="-0.5">-</button>
+                        <button class="btn btn-xs btn-secondary" data-zoom-reset="back">Reset</button>
+                        <button class="btn btn-xs btn-secondary" data-inspect-cam="back" title="Open PTS-exact full resolution inspection frame">4K Inspect</button>
+                        <button class="btn btn-xs btn-secondary" data-snap-cam="back" title="Save keyframe snapshot image">Snap</button>
+                      </div>
+                    </div>
+                    <div class="video-viewport" id="viewport-back" data-cam="back">
+                      <video id="video-back" preload="metadata" playsinline muted></video>
+                      <div class="out-of-range-overlay hidden" id="oob-back">BACK CAMERA OUTSIDE RANGE</div>
+                    </div>
+                  </div>
+                </div>
+
+                <!-- Unified Synchronized Timeline & Transport -->
+                <div class="card timeline-card">
+                  <div class="telemetry-row mono">
+                    <span>t_ref (Back): <strong id="tel-tref">0.000s</strong></span>
+                    <span>t_front = t_ref - offset: <strong id="tel-tfront">0.000s</strong></span>
+                    <span>Offset: <strong id="tel-offset">0.000s</strong> (±<span id="tel-eps">3.0</span>ms)</span>
+                    <span id="tel-overlap-badge" class="overlap-pill">OUTSIDE OVERLAP</span>
+                    <span id="tel-sync-quality">Quality: HIGH</span>
+                  </div>
+
+                  <!-- Visual Track Legend -->
+                  <div class="timeline-track-visual" id="timeline-track-visual">
+                    <div class="track-band track-front" id="vis-front-band" title="Front camera active time range"></div>
+                    <div class="track-band track-back" id="vis-back-band" title="Back camera active time range"></div>
+                    <div class="track-band track-overlap" id="vis-overlap-band" title="Common dual-camera overlap"></div>
+                    <div class="track-band track-hint hidden" id="vis-hint-band" title="Workqueue item transit hint window"></div>
+                    <div id="vis-event-markers"></div>
+                  </div>
+
+                  <input type="range" id="timeline-scrubber" min="0" max="10" step="0.005" value="0" aria-label="Synchronized timeline scrubber" />
+
+                  <div class="transport-bar">
+                    <div class="transport-group">
+                      <button id="btn-play-pause" class="btn btn-primary btn-sm" title="Space">▶ Play</button>
+                      <button id="btn-step-back" class="btn btn-secondary btn-sm" title="[ or Left Arrow">◀ -1f</button>
+                      <button id="btn-step-fwd" class="btn btn-secondary btn-sm" title="] or Right Arrow">+1f ▶</button>
+                      <button id="btn-jump-back" class="btn btn-secondary btn-sm" title="Shift+Left">-0.5s</button>
+                      <button id="btn-jump-fwd" class="btn btn-secondary btn-sm" title="Shift+Right">+0.5s</button>
+                    </div>
+                    <div class="transport-group">
+                      <label class="small">Speed:</label>
+                      <select id="playback-rate" class="select-sm">
+                        <option value="0.25">0.25x</option>
+                        <option value="0.5" selected>0.50x</option>
+                        <option value="1">1.00x</option>
+                        <option value="1.5">1.50x</option>
+                        <option value="2">2.00x</option>
+                      </select>
+                      <button id="btn-jump-hint" class="btn btn-secondary btn-sm">Jump to Hint</button>
+                      <button id="btn-jump-overlap" class="btn btn-secondary btn-sm">Jump Overlap</button>
+                      <label class="toggle-inline">
+                        <input type="checkbox" id="chk-loop-hint" />
+                        <span>Loop Hint (L)</span>
+                      </label>
+                    </div>
+                  </div>
+                </div>
+
+                <!-- Saved Draft Recovery / Offline Warning Banner -->
+                <div id="recovery-banner" class="card warning-banner hidden">
+                  <span>A newer unsaved local browser backup exists for this item from an interrupted session.</span>
+                  <div>
+                    <button id="btn-restore-local" class="btn btn-sm btn-primary">Restore Local Backup</button>
+                    <button id="btn-discard-local" class="btn btn-sm btn-secondary">Discard Local Backup</button>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Structured Annotation Pane -->
+              <div class="form-column">
+                <form id="annotation-form" class="card annotation-card" onsubmit="return false;">
+                  <div class="form-locked-banner hidden" id="form-locked-banner">
+                    <strong>LOCKED SUBMISSION:</strong> Submitted items are immutable to preserve blind review integrity.
+                  </div>
+
+                  <!-- Item Transit Level -->
+                  <div class="form-section">
+                    <div class="section-title-row">
+                      <h3>1. Item Transit & Uncertainty</h3>
+                      <label class="toggle-inline">
+                        <input type="checkbox" id="fld-non-moto" />
+                        <span>Not a Motorcycle Transit</span>
+                      </label>
+                    </div>
+
+                    <div class="field-row">
+                      <label>Cross-Camera Link Status
+                        <select id="fld-item-link">
+                          <option value="LINKED_BOTH_VIEWS">LINKED_BOTH_VIEWS</option>
+                          <option value="FRONT_VIEW_ONLY">FRONT_VIEW_ONLY</option>
+                          <option value="BACK_VIEW_ONLY">BACK_VIEW_ONLY</option>
+                          <option value="AMBIGUOUS_HUMAN_UNCERTAIN">AMBIGUOUS_HUMAN_UNCERTAIN</option>
+                          <option value="NOT_A_MOTORCYCLE_TRANSIT">NOT_A_MOTORCYCLE_TRANSIT</option>
+                        </select>
+                      </label>
+                      <label class="checkbox-box">
+                        <input type="checkbox" id="fld-is-uncertain" />
+                        <span>Mark Item Uncertain / Ambiguous</span>
+                      </label>
+                    </div>
+
+                    <div class="field-block">
+                      <span class="field-label">Uncertainty / Occlusion Tags</span>
+                      <div id="uncertainty-chips" class="chips-wrap"></div>
+                    </div>
+
+                    <label>Reviewer Notes (required if Not a Motorcycle Transit)
+                      <textarea id="fld-reviewer-notes" rows="2" placeholder="Scene observations, occlusion explanation, bicycle/pedestrian notes..."></textarea>
+                    </label>
+                  </div>
+
+                  <!-- Motorcycles -->
+                  <div class="form-section">
+                    <div class="section-title-row">
+                      <h3>2. Motorcycles & Rear Plates</h3>
+                      <button type="button" id="btn-add-moto" class="btn btn-xs btn-primary">+ Add Motorcycle</button>
+                    </div>
+                    <div id="motos-container" class="entity-list"></div>
+                  </div>
+
+                  <!-- Riders -->
+                  <div class="form-section">
+                    <div class="section-title-row">
+                      <h3>3. Riders & Helmet States</h3>
+                      <button type="button" id="btn-add-rider" class="btn btn-xs btn-primary">+ Add Rider</button>
+                    </div>
+                    <div id="riders-container" class="entity-list"></div>
+                  </div>
+
+                  <!-- Violation / Assessment Events -->
+                  <div class="form-section">
+                    <div class="section-title-row">
+                      <h3>4. Temporal Violation / Assessment Events</h3>
+                      <button type="button" id="btn-add-event" class="btn btn-xs btn-primary">+ Add Event</button>
+                    </div>
+                    <div id="events-container" class="entity-list"></div>
+                  </div>
+
+                  <!-- Snapshots -->
+                  <div class="form-section">
+                    <div class="section-title-row">
+                      <h3>5. Captured Keyframe Snapshots</h3>
+                    </div>
+                    <div id="snapshots-container" class="snapshots-list muted small">No frame snapshots captured yet.</div>
+                  </div>
+
+                  <!-- Validation Messages -->
+                  <div id="validation-box" class="validation-box hidden"></div>
+
+                  <!-- Actions Footer -->
+                  <div class="form-actions">
+                    <button type="button" id="btn-save-draft" class="btn btn-secondary">Save Draft (Ctrl+S)</button>
+                    <button type="button" id="btn-reset-draft" class="btn btn-secondary">Revert Unsaved</button>
+                    <button type="button" id="btn-submit-item" class="btn btn-success">Validate & Submit Final</button>
+                  </div>
+                </form>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <!-- MY ANNOTATIONS & HISTORY -->
+        <section id="view-history" class="view-panel hidden">
+          <div class="section-header">
+            <div>
+              <h2>My Annotations & Submission History</h2>
+              <p class="muted">Contains exclusively your own drafts and immutable submitted items.</p>
+            </div>
+            <div class="header-actions">
+              <button id="btn-download-my-export" class="btn btn-primary">Download My Annotations JSON</button>
+            </div>
+          </div>
+
+          <div class="two-col">
+            <div class="card">
+              <h3>Saved Records</h3>
+              <div class="table-wrap">
+                <table class="data-table">
+                  <thead>
+                    <tr>
+                      <th>Item</th>
+                      <th>Pair</th>
+                      <th>Status</th>
+                      <th>Ver</th>
+                      <th>Link</th>
+                      <th>Riders</th>
+                      <th>Event</th>
+                      <th>Open</th>
+                    </tr>
+                  </thead>
+                  <tbody id="history-records-body"></tbody>
+                </table>
+              </div>
+            </div>
+
+            <div class="card">
+              <h3>Recent Save & Submit Timeline</h3>
+              <div class="table-wrap">
+                <table class="data-table">
+                  <thead>
+                    <tr>
+                      <th>Time (UTC)</th>
+                      <th>Item</th>
+                      <th>Action</th>
+                      <th>Ver</th>
+                      <th>SHA-256 Prefix</th>
+                    </tr>
+                  </thead>
+                  <tbody id="history-timeline-body"></tbody>
+                </table>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <!-- ADJUDICATION (RESTRICTED) -->
+        <section id="view-adjudication" class="view-panel hidden">
+          <div id="adj-restricted-banner" class="card warning-banner">
+            <div>
+              <h3>Adjudication Workspace Restricted</h3>
+              <p>
+                Reviewers A and B cannot view adjudication statuses, peer answers, or agreement rates while performing blind review. Switch to the <strong>Adjudicator</strong> role after independent annotation submissions exist.
+              </p>
+            </div>
+          </div>
+
+          <div id="adj-workspace" class="hidden">
+            <div class="section-header">
+              <div>
+                <h2>Post-Submission Adjudication & Agreement Audit</h2>
+                <p class="muted">Compare independent Reviewer A vs Reviewer B submissions only when both have submitted.</p>
+              </div>
+              <div class="header-actions">
+                <button id="btn-adj-export" class="btn btn-primary">Export Complete v1.1 Bundle</button>
+              </div>
+            </div>
+
+            <div class="kpi-row">
+              <div class="card kpi-card"><div class="kpi-label">Pending / Partial</div><div class="kpi-val" id="adj-cnt-partial">0</div></div>
+              <div class="card kpi-card"><div class="kpi-label">AB Agreed</div><div class="kpi-val green" id="adj-cnt-agreed">0</div></div>
+              <div class="card kpi-card"><div class="kpi-label">Needs Adjudication</div><div class="kpi-val amber" id="adj-cnt-disagree">0</div></div>
+              <div class="card kpi-card"><div class="kpi-label">Adjudicated</div><div class="kpi-val green" id="adj-cnt-done">0</div></div>
+            </div>
+
+            <div class="card kappa-card">
+              <h3>Inter-Annotator Agreement (Cohen's κ on Both-Submitted Items)</h3>
+              <div id="adj-kappa-grid" class="kpi-row"></div>
+            </div>
+
+            <div class="card table-wrap">
+              <table class="data-table">
+                <thead>
+                  <tr>
+                    <th>Item</th>
+                    <th>Pair</th>
+                    <th>Stratum / Origin</th>
+                    <th>Rev A</th>
+                    <th>Rev B</th>
+                    <th>Disagreements</th>
+                    <th>Stage</th>
+                    <th>Action</th>
+                  </tr>
+                </thead>
+                <tbody id="adj-table-body"></tbody>
+              </table>
+            </div>
+
+            <!-- Selected Adjudication Detail -->
+            <div id="adj-detail-panel" class="card adj-detail hidden">
+              <div class="section-title-row">
+                <h3>Adjudicating <span id="adj-item-id" class="mono"></span> (<span id="adj-pair-id" class="mono"></span>)</h3>
+                <button id="btn-adj-open-video" class="btn btn-secondary btn-sm">Load Pair Video Above / Inspect Frames</button>
+              </div>
+
+              <div id="adj-video-strip" class="dual-video-grid layout-side hidden">
+                <div class="cam-panel">
+                  <div class="cam-header"><strong>FRONT CAMERA (Adjudication)</strong></div>
+                  <div class="video-viewport"><video id="adj-video-front" controls playsinline muted></video></div>
+                </div>
+                <div class="cam-panel">
+                  <div class="cam-header"><strong>BACK CAMERA (Adjudication)</strong></div>
+                  <div class="video-viewport"><video id="adj-video-back" controls playsinline muted></video></div>
+                </div>
+              </div>
+
+              <div id="adj-diff-pills" class="validation-box"></div>
+
+              <div class="two-col">
+                <div class="card sub-compare-card">
+                  <h4>Reviewer A Submission</h4>
+                  <pre id="adj-sub-a" class="json-pre"></pre>
+                </div>
+                <div class="card sub-compare-card">
+                  <h4>Reviewer B Submission</h4>
+                  <pre id="adj-sub-b" class="json-pre"></pre>
+                </div>
+              </div>
+
+              <div class="card adj-form-card">
+                <h4>Final Adjudicated Resolution</h4>
+                <div class="field-row">
+                  <label>Status
+                    <select id="adj-status">
+                      <option value="DRAFT">DRAFT</option>
+                      <option value="ADJUDICATED">ADJUDICATED</option>
+                      <option value="UNRESOLVED">UNRESOLVED</option>
+                    </select>
+                  </label>
+                  <label>Final Link Status
+                    <select id="adj-link">
+                      <option value="LINKED_BOTH_VIEWS">LINKED_BOTH_VIEWS</option>
+                      <option value="FRONT_VIEW_ONLY">FRONT_VIEW_ONLY</option>
+                      <option value="BACK_VIEW_ONLY">BACK_VIEW_ONLY</option>
+                      <option value="AMBIGUOUS_HUMAN_UNCERTAIN">AMBIGUOUS_HUMAN_UNCERTAIN</option>
+                      <option value="NOT_A_MOTORCYCLE_TRANSIT">NOT_A_MOTORCYCLE_TRANSIT</option>
+                    </select>
+                  </label>
+                  <label>Final Event Type
+                    <select id="adj-event">
+                      <option value="DRIVER_NO_HELMET">DRIVER_NO_HELMET</option>
+                      <option value="PILLION_NO_HELMET">PILLION_NO_HELMET</option>
+                      <option value="BOTH_NO_HELMET">BOTH_NO_HELMET</option>
+                      <option value="NO_VIOLATION">NO_VIOLATION</option>
+                      <option value="INSUFFICIENT_VISUAL_EVIDENCE">INSUFFICIENT_VISUAL_EVIDENCE</option>
+                    </select>
+                  </label>
+                </div>
+                <div class="field-row">
+                  <label>Final Rider Count <input type="number" id="adj-rider-count" min="0" max="5" /></label>
+                  <label>Final Driver Helmet (v1.1)
+                    <select id="adj-driver-helmet">
+                      <option value="">--</option>
+                      <option value="helmet">helmet</option>
+                      <option value="no_helmet">no_helmet</option>
+                      <option value="occluded_unknown">occluded_unknown</option>
+                    </select>
+                  </label>
+                  <label>Final Pillion Helmet (v1.1)
+                    <select id="adj-pillion-helmet">
+                      <option value="">(None / N/A)</option>
+                      <option value="helmet">helmet</option>
+                      <option value="no_helmet">no_helmet</option>
+                      <option value="occluded_unknown">occluded_unknown</option>
+                    </select>
+                  </label>
+                </div>
+                <div class="field-row">
+                  <label>Plate Tier
+                    <select id="adj-plate-tier">
+                      <option value="PLATE_CLEAR">PLATE_CLEAR</option>
+                      <option value="PLATE_PARTIAL">PLATE_PARTIAL</option>
+                      <option value="PLATE_UNREADABLE_MOTION_BLUR">PLATE_UNREADABLE_MOTION_BLUR</option>
+                      <option value="PLATE_NOT_VISIBLE_FRONT_ONLY">PLATE_NOT_VISIBLE_FRONT_ONLY</option>
+                    </select>
+                  </label>
+                  <label>Normalized Plate Text <input type="text" id="adj-plate-text" placeholder="e.g. DHA-1234" /></label>
+                  <label>Window Start (s) <input type="number" id="adj-win-start" step="0.001" /></label>
+                  <label>Window End (s) <input type="number" id="adj-win-end" step="0.001" /></label>
+                </div>
+                <label>Disagreement Resolution Reason
+                  <input type="text" id="adj-reason" placeholder="Why Reviewer A or Reviewer B label was selected or merged..." />
+                </label>
+                <label>Adjudicator Notes
+                  <textarea id="adj-notes" rows="2"></textarea>
+                </label>
+                <div class="form-actions">
+                  <button type="button" id="btn-save-adjudication" class="btn btn-success">Save Adjudication Decision</button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <!-- HELP & SHORTCUTS -->
+        <section id="view-help" class="view-panel hidden">
+          <div class="two-col">
+            <div class="card">
+              <h2>Annotation Protocol Guide</h2>
+              <ol class="clean-list">
+                <li><strong>Synchronized Timeline:</strong> Reference timeline <code class="mono">t_ref</code> equals Back camera PTS. Front camera time is <code class="mono">t_front = t_ref - global_offset_sec</code>.</li>
+                <li><strong>Watch Within Transit Hints:</strong> When a workqueue item specifies <code class="mono">front_transit_ref_sec_hint</code> or <code class="mono">back_transit_ref_sec_hint</code>, annotate that specific motorcycle transit.</li>
+                <li><strong>Schema Mapping:</strong> Dashboard helmet choices <code class="mono">UNCERTAIN</code> and <code class="mono">NOT_VISIBLE</code> map deterministically to <code class="mono">v1.1</code> schema <code class="mono">occluded_unknown</code>, while preserving exact distinction in JSON.</li>
+                <li><strong>Point Events:</strong> Fast transits visible cleanly in a single frame may use <code class="mono">[t, t]</code> (<code class="mono">start == end</code>).</li>
+                <li><strong>Non-Motorcycle Transits:</strong> If a queued window tracks a bicycle, pedestrian, or false orphan fragment, check <em>Not a Motorcycle Transit</em> and document it in notes.</li>
+              </ol>
+            </div>
+            <div class="card">
+              <h2>Keyboard Shortcuts</h2>
+              <table class="data-table">
+                <tbody>
+                  <tr><td><kbd>Space</kbd></td><td>Play / Pause synchronized dual cameras</td></tr>
+                  <tr><td><kbd>Left</kbd> / <kbd>[</kbd></td><td>Step backward 1 physical frame</td></tr>
+                  <tr><td><kbd>Right</kbd> / <kbd>]</kbd></td><td>Step forward 1 physical frame</td></tr>
+                  <tr><td><kbd>Shift + Left / Right</kbd></td><td>Jump backward / forward 0.5 seconds</td></tr>
+                  <tr><td><kbd>L</kbd></td><td>Toggle loop around item transit hint window</td></tr>
+                  <tr><td><kbd>Ctrl+S</kbd> / <kbd>Cmd+S</kbd></td><td>Save annotation draft immediately</td></tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </section>
+      </main>
+    </div>
+
+    <!-- PTS-Exact 4K Frame Inspection Modal -->
+    <div id="frame-modal" class="modal hidden" role="dialog" aria-modal="true">
+      <div class="modal-card modal-wide">
+        <div class="section-title-row">
+          <h3 id="frame-modal-title">PTS-Exact Frame Inspector</h3>
+          <button id="btn-close-frame-modal" class="btn btn-secondary btn-sm">Close</button>
+        </div>
+        <div id="frame-modal-meta" class="mono small muted"></div>
+        <div class="modal-img-wrap">
+          <img id="frame-modal-img" alt="Exact extracted video frame" />
+        </div>
+      </div>
+    </div>
+
+    <!-- Confirmation Modal -->
+    <div id="confirm-modal" class="modal hidden" role="dialog" aria-modal="true">
+      <div class="modal-card">
+        <h3>Confirm Immutable Submission</h3>
+        <p>
+          Once submitted, your annotation for <strong id="confirm-wq-id" class="mono"></strong> becomes <strong>locked and immutable</strong> so Reviewer A and Reviewer B remain strictly independent until adjudication.
+        </p>
+        <div id="confirm-summary-preview" class="mono small"></div>
+        <div class="form-actions">
+          <button id="btn-cancel-submit" class="btn btn-secondary">Cancel</button>
+          <button id="btn-confirm-submit" class="btn btn-success">Confirm Immutable Submit</button>
+        </div>
+      </div>
+    </div>
+
+    <div id="toast" class="toast hidden"></div>
+  </div>
+
+  <script src="/app.js"></script>
+</body>
+</html>
